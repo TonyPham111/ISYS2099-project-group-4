@@ -182,7 +182,3 @@ CREATE TABLE Doctor_Schedule (
     end_time TIME NOT NULL,
     FOREIGN KEY (doctor_id) REFERENCES Staff(id)
 );
-
-ALTER TABLE Billings DROP COLUMN total_amount;
-ALTER TABLE Billings ADD COLUMN total_amount DECIMAL(8,2) NOT NULL;
-ALTER TABLE Test_Details ADD COLUMN price DECIMAL (8,2);
