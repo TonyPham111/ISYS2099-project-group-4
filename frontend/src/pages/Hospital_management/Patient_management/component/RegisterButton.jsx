@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Button } from "../../../../components/ui/button";
+import { Button } from "@/components/ui/button";
 import { PopupContext } from "../../../../contexts/popupContext";
 import Popup from "../../../../component/Popup";
 import RegisterPatientForm from "./RegisterPatientForm";

@@ -1,4 +1,4 @@
-import { Button } from "../../components/ui/button";
+import { Button } from "@/components/ui/button";
 import { IoHome } from "react-icons/io5";
 import { FaUserNurse } from "react-icons/fa6";
 import { MdPeopleAlt } from "react-icons/md";
