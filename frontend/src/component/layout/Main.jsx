@@ -8,7 +8,7 @@ import { Router, Routes, Route } from "react-router-dom";
 const Main = () => {
   const [text, setText] = useState("");
   return (
-    <section className="mt-[50px] w-full h-main flex items-center justify-center">
+    <section className="mt-[50px] w-main h-main flex items-center justify-center">
       <Routes>
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/patient" element={<Patient />} />

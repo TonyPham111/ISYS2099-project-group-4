@@ -22,6 +22,9 @@ module.exports = {
     },
     extend: {
       colors: colorConfig,
+      width:{
+        main: 'calc(100vw - 70px)'
+      },
       height:{
           main: 'calc(100vh - 50px)'
       },

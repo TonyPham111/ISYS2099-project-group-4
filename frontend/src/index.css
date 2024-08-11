@@ -113,3 +113,27 @@
     font-size: 1rem;
     font-weight: 400;
   }
+  td{
+    height: 8px;
+    padding-left: 10px;
+    padding-right: 50px !important;
+    min-width: 200px;
+  }
+  .tr--hover:hover{
+    cursor: pointer;
+    background-color: rgba(7, 162, 165, 0.3);
+  }
+  .tr--hover{
+    border-bottom: 1px solid #F4F4F4;
+  }
+  input{
+    border: 1px solid #b2b2b2;
+    border-radius: 5px;
+  }
+  input:focus{
+    border-color: rgba(7, 162, 165, 1) ;
+  }
+  button{
+    padding: 5px 10px;
+    border-radius: 10px;
+  }

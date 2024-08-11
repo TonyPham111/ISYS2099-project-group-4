@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { button } from "primereact/button";
 import { IoHome } from "react-icons/io5";
 import { FaUserNurse } from "react-icons/fa6";
 import { MdPeopleAlt } from "react-icons/md";
@@ -22,23 +22,23 @@ const Sidebar = ({}) => {
     console.log(activeItem);
   },[location]);
   return (
-    <section className="w-[70px] h-full bg-white ">
+    <section className="min-w-[70px] h-full bg-white ">
       <section className="w-full mt-[80px] flex items-center flex-col gap-[50px]">
-        <Button onClick={()=>{ handleOnClick('dashboard') }} className={`border-0 ${activeItem=="dashboard"?"bg-custom-blue":""}`} variant="outline" size="icon">
+        <button onClick={()=>{ handleOnClick('dashboard') }} className={`flex justify-center items-center p-3 ${activeItem=="dashboard"?"bg-custom-blue":""}`} variant="outline" size="icon">
           <IoHome className={`h-6 w-6 ${activeItem=="dashboard"?"text-white":"text-custom-blue"}`} />
-        </Button>
-        <Button onClick={()=>{ handleOnClick('staff') }} className={`border-0 ${activeItem=="staff"?"bg-custom-blue":""}`}  variant="outline" size="icon">
+        </button>
+        <button onClick={()=>{ handleOnClick('staff') }} className={`flex justify-center items-center p-3 ${activeItem=="staff"?"bg-custom-blue":""}`}  variant="outline" size="icon">
           <FaUserNurse className={`h-6 w-6 ${activeItem=="staff"?"text-white":"text-custom-blue"}`} />
-        </Button>
-        <Button onClick={()=>{ handleOnClick('patient') }} className={`border-0 ${activeItem=="patient"?"bg-custom-blue":""}`}  variant="outline" size="icon">
+        </button>
+        <button onClick={()=>{ handleOnClick('patient') }} className={`flex justify-center items-center p-3 ${activeItem=="patient"?"bg-custom-blue":""}`}  variant="outline" size="icon">
           <MdPeopleAlt className={`h-6 w-6 ${activeItem=="patient"?"text-white":"text-custom-blue"}`} />
-        </Button>
-        <Button onClick={()=>{ handleOnClick('appointment') }} className={`border-0 ${activeItem=="appointment"?"bg-custom-blue":""}`}  variant="outline" size="icon">
+        </button>
+        <button onClick={()=>{ handleOnClick('appointment') }} className={`flex justify-center items-center p-3 ${activeItem=="appointment"?"bg-custom-blue":""}`}  variant="outline" size="icon">
           <FaCalendarAlt className={`h-6 w-6 ${activeItem=="appointment"?"text-white":"text-custom-blue"}`} />
-        </Button>
-        <Button onClick={()=>{ handleOnClick('report') }} className={`border-0 ${activeItem=="report"?"bg-custom-blue":""}`}  variant="outline" size="icon">
+        </button>
+        <button onClick={()=>{ handleOnClick('report') }} className={`flex justify-center items-center p-3 ${activeItem=="report"?"bg-custom-blue":""}`}  variant="outline" size="icon">
           <LuClipboardList className={`h-6 w-6 ${activeItem=="report"?"text-white":"text-custom-blue"}`} />
-        </Button>
+        </button>
       </section>
     </section>
   );
