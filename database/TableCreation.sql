@@ -58,10 +58,11 @@ CREATE TABLE Staff(
     home_address VARCHAR(255) NOT NULL,
     phone_number VARCHAR(15) NOT NULL,
     email VARCHAR(50) NOT NULL,
+    staff_password VARCHAR(12) NOT NULL,
     wage DECIMAL(6,2),
     hire_date DATE NOT NULL,
-    employment_type ENUM ('Full_Time', 'Shift_Based'),
-    employment_status ENUM ('Active', 'Terminated'),
+    employment_type ENUM ('Full_Time', 'Shift_Based') NOT NULL,
+    employment_status ENUM ('Active', 'Terminated') NOT NULL,
     job_change_history_document_id VARCHAR(24) NOT NULL,
     employment_document_id VARCHAR(24) NOT NULL,
     FOREIGN KEY (manager_id) REFERENCES Staff(id) ON DELETE SET NULL,
@@ -76,11 +77,12 @@ CREATE TABLE Appointments (
     patient_id INT,
     doctor_id INT,
     document_id VARCHAR(24),
-    appointment_purpose TEXT,
+    appointment_purpose TEXT NOT NULL,
     appointment_date DATE NOT NULL,
     start_time TIME NOT NULL,
     end_time TIME NOT NULL,
     appointment_charge DECIMAL(6,2) NOT NULL,
+    status ENUM('Active', "Finished", 'Cancelled') NOT NULL,
     appointment_notes_document_id VARCHAR(24) NOT NULL,
     FOREIGN KEY (patient_id) REFERENCES Patients (id),
     FOREIGN KEY (doctor_id) REFERENCES Staff (id)    
@@ -93,6 +95,7 @@ CREATE TABLE TreatmentHistory (
     doctor_id INT,
     treatment_start_date DATE NOT NULL,
     treatment_end_date DATE NOT NULL,
+    diagnosis_note TEXT,
     FOREIGN KEY (patient_id) REFERENCES Patients (id),
     FOREIGN KEY (doctor_id) REFERENCES Staff (id)
 );
@@ -116,8 +119,8 @@ CREATE TABLE Prescriptions(
 	id INT PRIMARY KEY,
     treatment_id INT,
     prescription_date DATE NOT NULL,
-    FOREIGN KEY (treatment_id) REFERENCES TreatmentHistory (id),
-    prescription_note_document_id VARCHAR(24) NOT NULL
+    prescription_note TEXT,
+    FOREIGN KEY (treatment_id) REFERENCES TreatmentHistory (id)
 );
 
 CREATE TABLE Prescription_Details (
@@ -181,4 +184,24 @@ CREATE TABLE Doctor_Schedule (
     start_time TIME NOT NULL,
     end_time TIME NOT NULL,
     FOREIGN KEY (doctor_id) REFERENCES Staff(id)
+);
+
+CREATE TABLE Salary_Change(
+    staff_id INT,
+    wage_change_from DECIMAL(6,2),
+    wage_change_to DECIMAL(6,2),
+    date_change DATE,
+    PRIMARY KEY (staff_id, wage_change_from, wage_change_to, date_change),
+    FOREIGN KEY (staff_id) REFERENCES Staff (id)
+);
+
+CREATE TABLE Job_Movement(
+	staff_id INT,
+    job_id_from INT,
+    job_id_to INT,
+    date_change DATE,
+    PRIMARY KEY (staff_id, job_id_from, job_id_to, date_change),
+    FOREIGN KEY (staff_id) REFERENCES Staff (id),
+    FOREIGN KEY (job_id_from) REFERENCES Jobs (id),
+    FOREIGN KEY (job_id_to) REFERENCES Jobs (id)
 );
