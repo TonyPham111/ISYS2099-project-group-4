@@ -1,122 +1,22 @@
+import * as data from "./sampleData";
 export function getPatients() {
   //sample data, waiting for real api
-  return [
-    {
-      id: 1,
-      first_name: "Tony",
-      last_name: "Pham",
-      gender: "Male",
-      birth_date: "10/9/2024",
-      home_address: "RMIT school is my home",
-      contact_phone_number: "028-3776-1300",
-    },
-    {
-      id: 2,
-      first_name: "Khoi",
-      last_name: "Ly",
-      gender: "Male",
-      birth_date: "01/01/1010",
-      home_address: "RMIT school is my home",
-      contact_phone_number: "028-3776-1300",
-    },
-    {
-        id: 2,
-        first_name: "Khoi",
-        last_name: "Ly",
-        gender: "Male",
-        birth_date: "01/01/1010",
-        home_address: "RMIT school is my home",
-        contact_phone_number: "028-3776-1300",
-      },
-      {
-        id: 2,
-        first_name: "Khoi",
-        last_name: "Ly",
-        gender: "Male",
-        birth_date: "01/01/1010",
-        home_address: "RMIT school is my home",
-        contact_phone_number: "028-3776-1300",
-      },
-      {
-        id: 2,
-        first_name: "Khoi",
-        last_name: "Ly",
-        gender: "Male",
-        birth_date: "01/01/1010",
-        home_address: "RMIT school is my home",
-        contact_phone_number: "028-3776-1300",
-      },
-      {
-        id: 2,
-        first_name: "Khoi",
-        last_name: "Ly",
-        gender: "Male",
-        birth_date: "01/01/1010",
-        home_address: "RMIT school is my home",
-        contact_phone_number: "028-3776-1300",
-      },
-      {
-        id: 2,
-        first_name: "Khoi",
-        last_name: "Ly",
-        gender: "Male",
-        birth_date: "01/01/1010",
-        home_address: "RMIT school is my home",
-        contact_phone_number: "028-3776-1300",
-      },
-      {
-        id: 2,
-        first_name: "Khoi",
-        last_name: "Ly",
-        gender: "Male",
-        birth_date: "01/01/1010",
-        home_address: "RMIT school is my home",
-        contact_phone_number: "028-3776-1300",
-      },
-      {
-        id: 2,
-        first_name: "Khoi",
-        last_name: "Ly",
-        gender: "Male",
-        birth_date: "01/01/1010",
-        home_address: "RMIT school is my home",
-        contact_phone_number: "028-3776-1300",
-      },
-      {
-        id: 2,
-        first_name: "Khoi",
-        last_name: "Ly",
-        gender: "Male",
-        birth_date: "01/01/1010",
-        home_address: "RMIT school is my home",
-        contact_phone_number: "028-3776-1300",
-      },
-      {
-        id: 2,
-        first_name: "Khoi",
-        last_name: "Ly",
-        gender: "Male",
-        birth_date: "01/01/1010",
-        home_address: "RMIT school is my home",
-        contact_phone_number: "028-3776-1300",
-      },
-      {
-        id: 2,
-        first_name: "Khoi",
-        last_name: "Ly",
-        gender: "Male",
-        birth_date: "01/01/1010",
-        home_address: "RMIT school is my home",
-        contact_phone_number: "028-3776-1300",
-      },
-      {
-        id: 2,
-        first_name: "Khoi",
-        last_name: "Ly",
-        gender: "Male",
-        birth_date: "01/01/1010",
-        home_address: "RMIT school is my home",
-        contact_phone_number: "028-3776-1300",
-      },
-  ];
+  return data.patient;
+}
+
+export function getPatient(id) {
+  const result = data.patient.filter((item) => {
+    return item.id == id;
+  });
+  return result[0];
+}
+
+export function getPatientTreatmentHistories() {
+  return data.treatmentHistory;
+}
+export function getPatientTreatmentHistory(id) {
+  const result = data.treatmentHistory.filter((item) => {
+    return item.treatment_id == id;
+  });
+  return result[0];
 }

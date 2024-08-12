@@ -19,7 +19,6 @@ const Sidebar = ({}) => {
     if(activeItem!==location.pathname.split("/")){
       setActiveItem(location.pathname.split("/")[1]);
     }
-    console.log(activeItem);
   },[location]);
   return (
     <section className="min-w-[70px] h-full bg-white ">

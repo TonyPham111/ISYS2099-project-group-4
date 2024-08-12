@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { PopupContext } from "../contexts/popupContext";
+import { PopupContext } from "../../contexts/popupContext";
 import { MdClose } from "react-icons/md";
 
 const Popup = ({ children }) => {

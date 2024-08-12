@@ -1,15 +1,8 @@
 import React from "react";
-import {
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-  getKeyValue,
-} from "@nextui-org/react";
+import { useNavigate } from "react-router-dom";
 
 export default function DataTable({ headerData, data }) {
+  const navigate = useNavigate();
   return (
     <section className="w-full overflow-scroll rounded-xl">
       <table className=" w-full">
@@ -22,9 +15,9 @@ export default function DataTable({ headerData, data }) {
         </thead>
         <tbody>
           {data.map((item) => (
-            <tr className="tr--hover" key={item.id}>
+            <tr className="tr--hover" onClick={()=>{navigate(`${item.id}/personal-information`)}} key={item.id}>
               {headerData.map((keyItem) => (
-                <td>{getKeyValue(item, keyItem)}</td>
+                <td>{item[keyItem]}</td>
               ))}
             </tr>
           ))}
