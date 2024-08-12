@@ -24,4 +24,6 @@ BEGIN
     WHERE non_manager.id = staff_id
 END $$
 
+CRETE PROCEDURE GetOwnTimetable(IN staff_id INT)
+
 DELIMITER ;
