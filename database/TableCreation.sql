@@ -58,10 +58,11 @@ CREATE TABLE Staff(
     home_address VARCHAR(255) NOT NULL,
     phone_number VARCHAR(15) NOT NULL,
     email VARCHAR(50) NOT NULL,
+    staff_password VARCHAR(12) NOT NULL,
     wage DECIMAL(6,2),
     hire_date DATE NOT NULL,
-    employment_type ENUM ('Full_Time', 'Shift_Based'),
-    employment_status ENUM ('Active', 'Terminated'),
+    employment_type ENUM ('Full_Time', 'Shift_Based') NOT NULL,
+    employment_status ENUM ('Active', 'Terminated') NOT NULL,
     job_change_history_document_id VARCHAR(24) NOT NULL,
     employment_document_id VARCHAR(24) NOT NULL,
     FOREIGN KEY (manager_id) REFERENCES Staff(id) ON DELETE SET NULL,
@@ -76,11 +77,12 @@ CREATE TABLE Appointments (
     patient_id INT,
     doctor_id INT,
     document_id VARCHAR(24),
-    appointment_purpose TEXT,
+    appointment_purpose TEXT NOT NULL,
     appointment_date DATE NOT NULL,
     start_time TIME NOT NULL,
     end_time TIME NOT NULL,
     appointment_charge DECIMAL(6,2) NOT NULL,
+    status ENUM('Active', "Finished", 'Cancelled') NOT NULL,
     appointment_notes_document_id VARCHAR(24) NOT NULL,
     FOREIGN KEY (patient_id) REFERENCES Patients (id),
     FOREIGN KEY (doctor_id) REFERENCES Staff (id)    
@@ -189,7 +191,7 @@ CREATE TABLE Salary_Change(
     wage_change_from DECIMAL(6,2),
     wage_change_to DECIMAL(6,2),
     date_change DATE,
-    PRIMARY KEY (staff_id, wage_change_from, wage_change_to, date_chage),
+    PRIMARY KEY (staff_id, wage_change_from, wage_change_to, date_change),
     FOREIGN KEY (staff_id) REFERENCES Staff (id)
 );
 
