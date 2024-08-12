@@ -93,6 +93,7 @@ CREATE TABLE TreatmentHistory (
     doctor_id INT,
     treatment_start_date DATE NOT NULL,
     treatment_end_date DATE NOT NULL,
+    diagnosis_note TEXT,
     FOREIGN KEY (patient_id) REFERENCES Patients (id),
     FOREIGN KEY (doctor_id) REFERENCES Staff (id)
 );
@@ -116,8 +117,8 @@ CREATE TABLE Prescriptions(
 	id INT PRIMARY KEY,
     treatment_id INT,
     prescription_date DATE NOT NULL,
-    FOREIGN KEY (treatment_id) REFERENCES TreatmentHistory (id),
-    prescription_note_document_id VARCHAR(24) NOT NULL
+    prescription_note TEXT,
+    FOREIGN KEY (treatment_id) REFERENCES TreatmentHistory (id)
 );
 
 CREATE TABLE Prescription_Details (
@@ -181,4 +182,24 @@ CREATE TABLE Doctor_Schedule (
     start_time TIME NOT NULL,
     end_time TIME NOT NULL,
     FOREIGN KEY (doctor_id) REFERENCES Staff(id)
+);
+
+CREATE TABLE Salary_Change(
+    staff_id INT,
+    wage_change_from DECIMAL(6,2),
+    wage_change_to DECIMAL(6,2),
+    date_change DATE,
+    PRIMARY KEY (staff_id, wage_change_from, wage_change_to, date_chage),
+    FOREIGN KEY (staff_id) REFERENCES Staff (id)
+);
+
+CREATE TABLE Job_Movement(
+	staff_id INT,
+    job_id_from INT,
+    job_id_to INT,
+    date_change DATE,
+    PRIMARY KEY (staff_id, job_id_from, job_id_to, date_change),
+    FOREIGN KEY (staff_id) REFERENCES Staff (id),
+    FOREIGN KEY (job_id_from) REFERENCES Jobs (id),
+    FOREIGN KEY (job_id_to) REFERENCES Jobs (id)
 );
