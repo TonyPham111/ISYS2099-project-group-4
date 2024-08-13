@@ -1,11 +1,16 @@
-import CustomDatePicker from "@/component/ui/CustomDateTimePicker";
-import DataTreatmentTable from "@/component/patient/treatment/DataTreamentTable";
 import dayjs from "dayjs";
 import { useState } from "react";
+import CustomDatePicker from "@/component/ui/CustomDateTimePicker";
 import * as patientService from "@/services/patientService";
-import { PopupContextProvider } from "@/contexts/popupContext";
+import { PopupContext, PopupContextProvider } from "@/contexts/popupContext";
 import CreateTreatmentButton from "@/component/patient/treatment/CreateTreatmentButton";
+import DataTable from "@/component/DataTable";
+import Popup from "@/component/ui/Popup";
+import TreatmentHistoryForm from "@/component/patient/treatment/TreatmentHistoryForm";
+
 export default function PatientTreatmentHistory() {
+  const [isPopup, setIsPopup] = useState(false);
+  const [treatmentId, setTreatmentId] = useState(null);
   const [startTime, setStartTime] = useState(dayjs(Date.now()));
   const [endTime, setEndTime] = useState(dayjs(Date.now()));
   const headerData = [
@@ -17,6 +22,10 @@ export default function PatientTreatmentHistory() {
   ];
   const patientTreatmentHistoriesData =
     patientService.getPatientTreatmentHistories();
+    function handleOnClickRowData(item, rowIndex) {
+      setIsPopup(true);
+      setTreatmentId(item.treatment_id);
+    }
   return (
     <section className="w-full h-full flex flex-col gap-[15px]">
       {/*searching treatmentHistory and trigger new treatment*/}
@@ -30,12 +39,17 @@ export default function PatientTreatmentHistory() {
           <CreateTreatmentButton />
         </PopupContextProvider>
       </div>
-      <PopupContextProvider>
-        <DataTreatmentTable
+      <PopupContext.Provider value={{ isPopup, setIsPopup }}>
+        <DataTable
           headerData={headerData}
           data={patientTreatmentHistoriesData}
+          hoverOnRow={true}
+          handleOnClick={handleOnClickRowData}
         />
-      </PopupContextProvider>
+        <Popup>
+          <TreatmentHistoryForm treatmentId={treatmentId} />
+        </Popup>
+      </PopupContext.Provider>
     </section>
   );
 }

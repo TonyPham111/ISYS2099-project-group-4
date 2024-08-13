@@ -50,16 +50,17 @@ export const treatmentHistory = [
         drug_name: "Caffeine",
         quantity: 10,
         unit: "100gam",
-        price_per_unit: 10.000,
+        price_per_unit: 10000,
       },
       {
         drug_name: "Vitamin E",
         quantity: 10,
         unit: "tablet",
-        price_per_unit: 5.000,
+        price_per_unit: 5000,
       },
     ],
     total_price: 150.000,
+    doctor_note:null
   },
   {
     treatment_id: 2,
@@ -73,28 +74,28 @@ export const treatmentHistory = [
         drug_name: "Caffeine",
         quantity: 10,
         unit: "100gam",
-        price_per_unit: 10.000,
+        price_per_unit: 10000,
       },
       {
         drug_name: "Vitamin E",
         quantity: 10,
         unit: "tablet",
-        price_per_unit: 5.000,
+        price_per_unit: 5000,
       },
       {
         drug_name: "Vitamin C",
         quantity: 5,
         unit: "tablet",
-        price_per_unit: 5.000,
+        price_per_unit: 5000,
       },
       {
         drug_name: "Vitamin D",
         quantity: 3,
         unit: "tablet",
-        price_per_unit: 5.000,
-      },
+        price_per_unit: 5000,
+      }
     ],
-    total_price: 190.000,
-    doctor_note: ""
+    total_price: 190000,
+    doctor_note: {"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"please drink this 3 day a time"}]}]}
   },
 ];

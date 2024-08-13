@@ -1,9 +1,10 @@
 import { PopupContextProvider } from "@/contexts/popupContext";
-import DataTable from "@/component/patient/general/DataTable";
+import DataTable from "@/component/DataTable";
 import RegisterPatientButton from "../../../component/patient/general/RegisterPatientButton";
 import * as patientService from "@/services/patientService.js";
 import MiniSearch from "minisearch";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Patient() {
   const patientData = patientService.getPatients();
@@ -16,7 +17,7 @@ export default function Patient() {
     "birth_date",
     "contact_phone_number",
   ];
-
+const navigate = useNavigate();
   let miniSearch = new MiniSearch({
     fields: ["id", "first_name", "last_name"], // fields to index for full-text search
     storeFields: ["id"], // fields to return with search results
@@ -35,6 +36,9 @@ export default function Patient() {
       setFilterData(result);
     }
   };
+  function handleNavigateOnDataRow(item, rowIndex){
+    navigate(`${item.id}/personal-information`);
+  }
   return (
     <>
       {/*-------- headline and register patient button --------*/}
@@ -53,7 +57,7 @@ export default function Patient() {
         />
       </div>
       {/*-------- show data table -------------*/}
-      <DataTable headerData={headerData} data={filterData} />
+      <DataTable headerData={headerData} data={filterData} hoverOnRow={true} handleOnClick={handleNavigateOnDataRow}/>
     </>
   );
 }
