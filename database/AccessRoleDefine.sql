@@ -5,10 +5,6 @@ CREATE USER 'HR'@'host' IDENTIFIED BY '22245629444ACCD542';
 CREATE USER 'BusinessOfficers' IDENTIFIED BY '22245629444ABDAKKK'
 
 
-/*
-    Merging the front desk and the business officer
-*/
-
 
 /*BusinessOfficers are allowed to view, insert, and update Billings table*/
 GRANT SELECT, INSERT, UPDATE ON hospital_management_system.Billings TO 'BusinessOfficers'@'host';
@@ -60,7 +56,7 @@ GRANT SELECT  ON hospital_management_system.TreatmentDiagnoses TO 'Nurses'@'host
 /*Only Doctors are allowed to view, insert, and update the Prescription Table*/
 /*Nurses are only allowed to view the prescriptions*/
 GRANT SELECT, INSERT, UPDATE ON hospital_management_system.Prescription TO 'Doctors'@'host';
-GRANT SELECT ON hospital_management_system.Prescription TO 'Doctors'@'host';
+GRANT SELECT ON hospital_management_system.Prescription TO 'Nurses'@'host';
 
 /*Only Doctors are allowed to view, insert, and update the PrescriptionDetail Table*/
 /*Nurss are allowed to view the PrescriptionDetail Table*/
@@ -103,6 +99,10 @@ GRANT SELECT ON hospital_management_system.Test_Details TO 'Doctors'@'host';
 /*Nurses could only view the Tests Table*/
 GRANT SELECT, INSERT, UPDATE ON hospital_management_system.Tests TO 'Nurses'@'host';
 GRANT SELECT ON hospital_management_system.Tests TO 'Nurses'@'host';
+
+
+GRANT EXECUTE ON hospital_management_system.GetBillingDetails TO 'BusinessOfficers'@'host'
+GRANT EXECUTE ON hospital_management_system.InsertNewBilling TO 'BusinessOfficers'@'host'
 
 
 

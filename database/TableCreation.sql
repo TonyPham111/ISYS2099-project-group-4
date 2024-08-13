@@ -110,7 +110,8 @@ CREATE TABLE TreatmentDiagnoses (
 
 CREATE TABLE Drugs (
 	code CHAR(7) PRIMARY KEY,
-    name VARCHAR(50),
+    name VARCHAR(50) NOT NULL,
+    inventory INT NOT NULL,
     unit ENUM('capsule', 'tablet', 'patch', 'bottle', 'injection', 'mg', 'ml', 'tube'),
     price_per_unit DECIMAL(6,2)
 );

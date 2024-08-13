@@ -66,7 +66,21 @@ BEGIN
 
     SELECT appointment_charge INTO appointment_fee
     FROM Appointments
-    WHERE Appointments.id = appointmentID
+    WHERE Appointments.id = appointmentID;
+
+    SELECT SUM(price) INTO total_prescription_fee
+    FROM Prescription_Details 
+    GROUP BY prescription_id
+    WHERE prescription_id = prescriptionID;
+
+    SELECT SUM(price) INTO total_test_fee
+    FROM Test_Details
+    GROUP BY test_id
+    WHERE test_id = testID;
+
+    INSERT INTO Billings (patient_id, billing_date, total_amount, appointment_id, prescription_id, test_id) 
+    VALUES (patientID, CURDATE(), appointment_fee + total_prescription_fee + total_test_fee, appointmentID, prescriptionID, testID);
+
 END $$
 
 
