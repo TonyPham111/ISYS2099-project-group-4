@@ -1,6 +1,10 @@
 DELIMITER $$
+/*
+This procedure allows a staff to see their own row in the staff table without exposing the other staff's info
 
+*/
 CREATE PROCEDURE GetStaffInfo(IN staff_id INT)
+SQL SECURITY DEFINER
 BEGIN
     SELECT  non_manager.id,  
             non_manager.ssn, 
@@ -21,7 +25,67 @@ BEGIN
     ON non_manager.manager_id = manager.id
     JOIN Departments 
     ON non_manager.department_id = Departments.id
-    WHERE non_manager.id = staff_id
+    WHERE non_manager.id = staff_id;
 END $$
+
+CREATE PROCEDURE GetBillingDetails(IN presID , IN testID INT, IN appointmentID)
+SQl SECURITY DEFINER
+BEGIN
+
+    SELECT appointment_id, 
+    appointment_date, 
+    end_time,
+    start_time
+    FROM Appointments
+    WHERE id = appointmentID
+
+    SELECT Prescription_Details.drug_code, 
+    Drugs.name,
+    Prescription_Details.price, 
+    Prescription_Details.quantity
+    FROM Prescription_Details 
+    INNER JOIN Drugs
+    ON Prescription_Details.drug_code = Drugs.code 
+    WHERE Prescription_Details.prescription_id = presID;
+    
+    SELECT Test_Details.test_type_id,
+    Test_Types.test_name,
+    Test_Details.price
+    FROM Test_Details 
+    INNER JOIN Test_Types
+    ON Test_Details.test_type_id = Test_Types.id
+    WHERE Test_Details.test_id = testID;
+END $$
+
+CREATE PROCEDURE InsertNewBilling(IN patientID INT, IN appointmentID INT, IN testID INT, IN prescriptionID)
+SQL SECURITY DEFINER
+BEGIN
+    DEClARE appointment_fee DECIMAL(6,2);
+    DECLARE total_prescription_fee DECIMAL(8,2);
+    DECLARE total_test_fee DECIMAL (8,2);
+
+    SELECT appointment_charge INTO appointment_fee
+    FROM Appointments
+    WHERE Appointments.id = appointmentID;
+
+    SELECT SUM(price) INTO total_prescription_fee
+    FROM Prescription_Details 
+    GROUP BY prescription_id
+    WHERE prescription_id = prescriptionID;
+
+    SELECT SUM(price) INTO total_test_fee
+    FROM Test_Details
+    GROUP BY test_id
+    WHERE test_id = testID;
+
+    INSERT INTO Billings (patient_id, billing_date, total_amount, appointment_id, prescription_id, test_id) 
+    VALUES (patientID, CURDATE(), appointment_fee + total_prescription_fee + total_test_fee, appointmentID, prescriptionID, testID);
+
+END $$
+
+
+
+
+
 
 DELIMITER ;
