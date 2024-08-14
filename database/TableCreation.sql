@@ -12,20 +12,24 @@ CREATE TABLE Patients (
     home_address VARCHAR(255) NOT NULL);
 
 CREATE TABLE Allergies (
-	code CHAR(7) PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
+	icd9_code CHAR(7),
     name VARCHAR(50),
-    description TEXT);
+    group VARCHAR(20)
+    allergent VARCHAR(20),
+    type VARCHAR(20)
+);
 
 CREATE TABLE PatientAllergy (
-	allergy_code CHAR(7),
+	allergy_id INT,
     patient_id INT,
     record_date DATE NOT NULL,
-	PRIMARY KEY (allergy_code, patient_id),
-    FOREIGN KEY (allergy_code) REFERENCES Allergies (code),
+	PRIMARY KEY (allergy_id, patient_id),
+    FOREIGN KEY (allergy_id) REFERENCES Allergies (id),
     FOREIGN KEY (patient_id) REFERENCES Patients (id) ON DELETE CASCADE    
 );
 
-CREATE TABLE Diagnoses (
+CREATE TABLE Conditions (
 	code CHAR(7) PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
     description TEXT
@@ -63,7 +67,6 @@ CREATE TABLE Staff(
     hire_date DATE NOT NULL,
     employment_type ENUM ('Full_Time', 'Shift_Based') NOT NULL,
     employment_status ENUM ('Active', 'Terminated') NOT NULL,
-    job_change_history_document_id VARCHAR(24) NOT NULL,
     employment_document_id VARCHAR(24) NOT NULL,
     FOREIGN KEY (manager_id) REFERENCES Staff(id) ON DELETE SET NULL,
     FOREIGN KEY (department_id) REFERENCES Departments (id) ON DELETE SET NULL,
@@ -88,25 +91,38 @@ CREATE TABLE Appointments (
     FOREIGN KEY (doctor_id) REFERENCES Staff (id)    
 );
 
+CREATE TABLE Diagnoses (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+    doctor_id INT NOT NULL,
+    diagnosis_date DATE NOT NULL,
+    diagnosis_note TEXT,
+    FOREIGN KEY (condition_code) REFERENCES Conditions (code),
+    FOREIGN KEY (doctor_id) REFERENCES Staff (id)
+);
+
+CREATE TABLE DiagnosesDetails (
+    diagnosis_id INT,
+    condition_code CHAR(7),
+    PRIMARY KEY (diagnosis_id, condition_code),
+    FOREIGN KEY (diagnosis_id) REFERENCES Diagnoses (id)
+);
+
 
 CREATE TABLE TreatmentHistory (
 	id INT AUTO_INCREMENT PRIMARY KEY,
     patient_id INT,
     doctor_id INT,
+    diagnosis_id INT,
     treatment_start_date DATETIME NOT NULL,
+    treatment_start_time TIME NOT NULL,
     treatment_end_date DATETIME NOT NULL,
+    treatment_end_time TIME NOT NULL,
     diagnosis_note TEXT,
+    FOREIGN kEY (diagnosis_id) REFERENCES Diagnoses (id),
     FOREIGN KEY (patient_id) REFERENCES Patients (id),
     FOREIGN KEY (doctor_id) REFERENCES Staff (id)
 );
 
-CREATE TABLE TreatmentDiagnoses (
-	treatment_id INT,
-    diagnosis_code CHAR(7),
-    PRIMARY KEY (treatment_id, diagnosis_code),
-    FOREIGN KEY (treatment_id) REFERENCES TreatmentHistory(id),
-    FOREIGN KEY (diagnosis_code) REFERENCES Diagnoses (code)
-);
 
 CREATE TABLE Drugs (
 	code CHAR(7) PRIMARY KEY,
@@ -116,13 +132,6 @@ CREATE TABLE Drugs (
     price_per_unit DECIMAL(6,2)
 );
 
-CREATE TABLE Prescriptions(
-	id INT AUTO_INCREMENT PRIMARY KEY,
-    treatment_id INT,
-    prescription_date DATE NOT NULL,
-    prescription_note TEXT,
-    FOREIGN KEY (treatment_id) REFERENCES TreatmentHistory (id)
-);
 
 CREATE TABLE Prescription_Details (
 	drug_code CHAR(7),
@@ -131,7 +140,7 @@ CREATE TABLE Prescription_Details (
     unit ENUM('capsule', 'tablet', 'patch', 'bottle', 'injection', 'mg', 'ml', 'tube'), 
     price DECIMAL(6,2) NOT NULL,
     PRIMARY KEY (prescription_id, drug_code),
-    FOREIGN KEY (prescription_id) REFERENCES Prescriptions(id),
+    FOREIGN KEY (prescription_id) REFERENCES TreatmentHistory(id),
     FOREIGN KEY (drug_code) REFERENCES Drugs (code)
     
 );
@@ -174,7 +183,7 @@ CREATE TABLE Billings (
     test_id INT,
     prescription_id INT,
     FOREIGN KEY (appointment_id) REFERENCES Appointments (id),
-    FOREIGN KEY (prescription_id) REFERENCES Prescriptions (id),
+    FOREIGN KEY (prescription_id) REFERENCES TreatmentHistory (id),
     FOREIGN KEY (test_id) REFERENCES Tests(id),
 	FOREIGN KEY (patient_id) REFERENCES Patients (id)
 );

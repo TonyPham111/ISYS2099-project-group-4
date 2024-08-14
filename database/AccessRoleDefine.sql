@@ -42,21 +42,21 @@ GRANT SELECT ON hospital_management_system.Drugs TO 'Doctors'@'host';
 GRANT SELECT ON hospital_management_system.Diagnoses TO 'Doctors'@'host';
 GRANT SELECT ON hospital_management_system.Diagnoses TO 'Nurses'@'host';
 
+/*Doctors and Nurses are allowed to view the Conditions table */
+GRANT SELECT ON hospital_management_system.Conditions TO 'Doctors'@'host';
+GRANT SELECT ON hospital_management_system.Conditions TO 'Nurses'@'host';
+
 /*Only Doctors are allowed to view, insert, and update the TreatmentHistory table*/
 /*Nurse can only  view the TreatmentHistory Table*/
 GRANT SELECT, INSERT, UPDATE ON hospital_management_system.TreatmentHistory TO 'Doctors'@'host';
 GRANT SELECT ON hospital_management_system.TreatmentHistory TO 'Nurses'@'host';
 
 
-/*Only Doctors are allowed to view, insert, and update the TreatmentDiagnosis Table*/
+/*Only Doctors are allowed to view, insert, and update the DiagnosesDetails Table*/
 /*Nurse can only  view the TreatmentHistory Table*/
-GRANT SELECT, INSERT, UPDATE ON hospital_management_system.TreatmentDiagnoses TO 'Doctors'@'host';
-GRANT SELECT  ON hospital_management_system.TreatmentDiagnoses TO 'Nurses'@'host';
+GRANT SELECT, INSERT, UPDATE ON hospital_management_system.DiagnosesDetails TO 'Doctors'@'host';
+GRANT SELECT  ON hospital_management_system.DiagnosesDetails TO 'Nurses'@'host';
 
-/*Only Doctors are allowed to view, insert, and update the Prescription Table*/
-/*Nurses are only allowed to view the prescriptions*/
-GRANT SELECT, INSERT, UPDATE ON hospital_management_system.Prescription TO 'Doctors'@'host';
-GRANT SELECT ON hospital_management_system.Prescription TO 'Nurses'@'host';
 
 /*Only Doctors are allowed to view, insert, and update the PrescriptionDetail Table*/
 /*Nurss are allowed to view the PrescriptionDetail Table*/
