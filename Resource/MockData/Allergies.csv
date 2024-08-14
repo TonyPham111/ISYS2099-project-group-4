@@ -1,0 +1,185 @@
+icd9_code,name,group,allergent,type
+995.3,Nut Allergy,Food Allergy,Almond,Nut and seed
+995.3,Oral Allergy Syndrome,Food Allergy,Apple,Fruit
+995.3,Stone Fruit Allergy,Food Allergy,Apricot,Fruit
+995.3,Insulin Allergy,Food Allergy,Artichoke,Vegetable
+995.3,Allium Allergy,Food Allergy,Asparagus,Vegetable
+995.3,Oral Allergy Syndrome,Food Allergy,Avocado,Fruit
+995.3,Histamine Allergy,Food Allergy,Bamboo shoot,Vegetable
+995.3,Banana Allergy,Food Allergy,Banana,Fruit
+579.0,Gluten Allergy,Food Allergy,Barley,Cereal grain and pulse
+995.3,Legume Allergy,Food Allergy,Bean,Cereal grain and pulse
+995.3,Salicylate Allergy,Food Allergy,Blackberry,Fruit
+995.3,Legume Allergy,Food Allergy,Black-eyed bean,Cereal grain and pulse
+995.3,Salicylate Allergy,Food Allergy,Blueberry,Fruit
+995.3,Histamine Allergy,Food Allergy,Bonito,Aquatic animal
+995.3,Legume Allergy,Food Allergy,Broad bean,Cereal grain and pulse
+995.3,Broccoli allergy,Food Allergy,Broccoli,Vegetable
+995.3,Cruciferous Allergy,Food Allergy,Brussels sprouts,Vegetable
+579.0,Gluten Allergy,Food Allergy,Buckwheat,Cereal grain and pulse
+995.3,Ragweed Allergy,Food Allergy,Burdock,Vegetable
+995.3,Milk allergy / Lactose intolerance,Food Allergy,Butter,Dairy
+995.3,Legume Allergy,Food Allergy,Butter bean,Cereal grain and pulse
+995.3,Milk allergy / Lactose intolerance,Food Allergy,Buttermilk,Dairy
+995.3,Mushroom Allergy,Food Allergy,Button mushroom,Vegetable
+995.3,Cruciferous Allergy,Food Allergy,Cabbage,Vegetable
+995.3,Cacao bean Allergy,Food Allergy,Cacao bean,Nut and seed
+995.3,Canola oil Allergy,Food Allergy,Canola oil,Oil
+995.3,Hypersensitivity,Food Allergy,Carrot,Vegetable
+995.3,Milk allergy / Lactose intolerance,Food Allergy,Casein,Dairy
+995.3,Alpha-gal Syndrome,Food Allergy,Cattle,Terrestrial mammal
+995.3,Cruciferous Allergy,Food Allergy,Cauliflower,Vegetable
+995.3,Hypersensitivity,Food Allergy,Celery,Vegetable
+995.3,Milk allergy / Lactose intolerance,Food Allergy,Cheese,Dairy
+995.3,Stone Fruit Allergy,Food Allergy,Cherry,Fruit
+995.3,Nut Allergy,Food Allergy,Chestnut,Nut and seed
+995.3,Poultry Allergy,Food Allergy,Chicken,Poultry
+995.3,Insulin Allergy,Food Allergy,Chicory,Vegetable
+995.3,Cruciferous Allergy,Food Allergy,Chinese cabbage,Vegetable
+995.3,Coconut oil Allergy,Food Allergy,Coconut oil,Oil
+995.3,Ochratoxin Allergy,Food Allergy,Coffee bean,Nut and seed
+995.3,Corn Allergy,Food Allergy,Corn,Cereal grain and pulse
+995.3,Corn oil Allergy,Food Allergy,Corn oil,Oil
+995.3,Seed Allergy,Food Allergy,Cotton seed,Nut and seed
+995.3,Salicylate Allergy,Food Allergy,Cranberry,Fruit
+995.3,Milk allergy / Lactose intolerance,Food Allergy,Cream,Dairy
+995.3,Shellfish Allergy,Food Allergy,Crustaceans,Aquatic animal
+995.3,Cucumber  Allergy,Food Allergy,Cucumber ,Vegetable
+995.3,Milk allergy / Lactose intolerance,Food Allergy,Custard,Dairy
+995.3,Oral Allergy Syndrome,Food Allergy,Date,Fruit
+995.3,Alpha-gal Syndrome,Food Allergy,Deer,Terrestrial mammal
+995.3,Poultry Allergy,Food Allergy,Duck,Poultry
+995.3,Fish Allergy,Food Allergy,Eel,Aquatic animal
+995.3,Nightshade Allergy,Food Allergy,Egg plant,Vegetable
+995.3,Poultry Allergy,Food Allergy,Eggs,Poultry
+995.3,Insulin Allergy,Food Allergy,Endive,Vegetable
+995.3,Sugar Allergy / Intolerance,Food Allergy,Fructose,Vegetable
+995.3,Allium Allergy,Food Allergy,Garlic,Vegetable
+995.3,Ghrkin Allergy,Food Allergy,Ghrkin,Vegetable
+995.3,Histamine Allergy,Food Allergy,Ginger,Vegetable
+995.3,Nut Allergy,Food Allergy,Ginkgo nut,Nut and seed
+995.3,Fish Allergy,Food Allergy,Globfish,Aquatic animal
+995.3,Sugar Allergy / Intolerance,Food Allergy,Glucose,Vegetable
+995.3,Alpha-gal Syndrome,Food Allergy,Goat,Terrestrial mammal
+995.3,LTP Allergy,Food Allergy,Grape,Fruit
+995.3,Citrus Allergy,Food Allergy,Grapefruit,Fruit
+995.3,Grapeseed oil Allergy,Food Allergy,Grapeseed oil,Oil
+995.3,Legume Allergy,Food Allergy,Green soybean,Vegetable
+995.3,Groundnut oil Allergy,Food Allergy,Groundnut oil,Oil
+995.3,Oral Allergy Syndrome,Food Allergy,Guava,Fruit
+995.3,Honey Allergy,Food Allergy,Honey,Bee product
+995.3,Beer Allergy,Food Allergy,Hop,Hop
+995.3,Alpha-gal Syndrome,Food Allergy,Horse,Terrestrial mammal
+995.3,Fish Allergy,Food Allergy,Horse Mackerel,Aquatic animal
+995.3,Cruciferous Allergy,Food Allergy,Horseradish,Vegetable
+995.3,Salicylate Allergy,Food Allergy,Huckleberry,Fruit
+995.3,Milk allergy / Lactose intolerance,Food Allergy,Ice cream,Dairy
+995.3,Oral Allergy Syndrome,Food Allergy,Japanese pear,Fruit
+995.3,Japanese persimmon Allergy,Food Allergy,Japanese persimmon,Fruit
+995.3,Stone Fruit Allergy,Food Allergy,Japanese plum,Fruit
+995.3,Cruciferous Allergy,Food Allergy,Kale,Vegetable
+995.3,Legume Allergy,Food Allergy,Kidney bean,Vegetable
+995.3,Oral Allergy Syndrome,Food Allergy,Kiwi,Fruit
+995.3,Potato Allergy,Food Allergy,Konjac,Vegetable
+995.3,Cruciferous Allergy,Food Allergy,Kyona,Vegetable
+995.3,Lactose Intolerance,Food Allergy,Lactose,Vegetable
+995.3,Allium Allergy,Food Allergy,Leek,Vegetable
+995.3,Citrus Allergy,Food Allergy,Lemon,Fruit
+995.3,Legume Allergy,Food Allergy,Lentil,Cereal grain and pulse
+995.3,LTP Allergy,Food Allergy,Lettuce ,Vegetable
+995.3,Legume Allergy,Food Allergy,Lima bean,Cereal grain and pulse
+995.3,Citrus Allergy,Food Allergy,Lime,Fruit
+995.3,Oral Allergy Syndrome,Food Allergy,Loquat,Fruit
+995.3,Fish Allergy,Food Allergy,Mackerel,Aquatic animal
+995.3,Makuwauri  melon Allergy,Food Allergy,Makuwauri  melon,Vegetable
+995.3,Oral Allergy Syndrome,Food Allergy,Mango,Fruit
+995.3,Melons Allergy,Food Allergy,Melons,Vegetable
+995.3,Milk allergy / Lactose intolerance,Food Allergy,Milk,Dairy
+995.3,Aquagenic Urticaria,Food Allergy,Mineral water,Mineral water
+995.3,Hypersensitivity,Food Allergy,Mitsuba,Vegetable
+995.3,Stone Fruit Allergy,Food Allergy,Mume plum,Fruit
+995.3,Mustard oil Allergy,Food Allergy,Mustard oil,Oil
+995.3,Cruciferous Allergy,Food Allergy,Mustard Spinach,Vegetable
+995.3,Stone Fruit Allergy,Food Allergy,Nectarine,Fruit
+995.3,Allium Allergy,Food Allergy,Nira,Vegetable
+995.3,Histamine Allergy,Food Allergy,Okra,Vegetable
+995.3,Olive oil Allergy,Food Allergy,Olive oil,Oil
+995.3,Allium Allergy,Food Allergy,Onion,Vegetable
+995.3,Citrus Allergy,Food Allergy,Orange,Fruit
+995.3,Citrus Allergy,Food Allergy,Orange pulp,Fruit
+995.3,Oral Allergy Syndrome,Food Allergy,Papaya,Fruit
+995.3,Hypersensitivity,Food Allergy,Parsley,Vegetable
+995.3,Hypersensitivity,Food Allergy,Parsnip,Vegetable
+995.3,Oral Allergy Syndrome,Food Allergy,Passion fruit,Fruit
+995.3,Stone Fruit Allergy,Food Allergy,Peach,Fruit
+Z91.010,Peanut Allergy,Food Allergy,Peanut,Cereal grain and pulse
+995.3,Oral Allergy Syndrome,Food Allergy,Pear,Fruit
+995.3,Legume Allergy,Food Allergy,Peas,Vegetable
+995.3,Legume Allergy,Food Allergy,Peas,Cereal grain and pulse
+995.3,Nut Allergy,Food Allergy,Pecan,Nut and seed
+995.3,Legume Allergy,Food Allergy,Pegia,Cereal grain and pulse
+995.3,Mint Allergy,Food Allergy,Peppermint,Spice and herb
+995.3,Fish Allergy,Food Allergy,Percifomes,Aquatic animal
+995.3,Alpha-gal Syndrome,Food Allergy,Pig,Terrestrial mammal
+995.3,Oral Allergy Syndrome,Food Allergy,Pineapple,Fruit
+995.3,Corn Allergy,Food Allergy,Popcorn,Cereal grain and pulse
+995.3,Potato Allergy,Food Allergy,Potato,Vegetable
+995.3,Stone Fruit Allergy,Food Allergy,Prune,Fruit
+995.3,Pumpkin Allergy,Food Allergy,Pumpkin,Vegetable
+995.3,Cruciferous Allergy,Food Allergy,Qing-geng-cai,Vegetable
+995.3,Oral Allergy Syndrome,Food Allergy,Quince,Fruit
+995.3,Radish leaf Allergy,Food Allergy,Radish leaf,Vegetable
+995.3,Hypersensitivity,Food Allergy,Radish root,Vegetable
+995.3,Seed Allergy,Food Allergy,Rapeseed,Nut and seed
+995.3,Salicylate Allergy,Food Allergy,Raspberry,Fruit
+995.3,Rice Allergy,Food Allergy,Rice,Cereal grain and pulse
+995.3,Ricebran oil Allergy,Food Allergy,Ricebran oil,Oil
+995.3,Honey Allergy,Food Allergy,Royal Jelly,Bee product
+579.0,Gluten Allergy,Food Allergy,Rye,Cereal grain and pulse
+995.3,Seed Allergy,Food Allergy,Safflower seed,Nut and seed
+995.3,Fish Allergy,Food Allergy,Salmon,Aquatic animal
+995.3,Insulin Allergy,Food Allergy,Salsify,Vegetable
+995.3,Pepper Allergy,Food Allergy,Sansho,Spice and herb
+995.3,Fish Allergy,Food Allergy,Sea Bass,Aquatic animal
+995.3,Fish Allergy,Food Allergy,Sea Bream,Aquatic animal
+995.3,Seed Allergy,Food Allergy,Sesame seed,Nut and seed
+995.3,Allium Allergy,Food Allergy,Shallot,Vegetable
+995.3,Alpha-gal Syndrome,Food Allergy,Sheep,Terrestrial mammal
+995.3,Fish Allergy,Food Allergy,Shelled mollusc,Aquatic animal
+995.3,Mushroom Allergy,Food Allergy,Shiitake  mushroom,Vegetable
+995.3,Insulin Allergy,Food Allergy,Shungiku,Vegetable
+995.3,Milk allergy / Lactose intolerance,Food Allergy,Sour cream,Dairy
+995.3,Soy Allergy,Food Allergy,Soybean,Cereal grain and pulse
+995.3,Mint Allergy,Food Allergy,Spearmint,Spice and herb
+995.3,Histamine Allergy,Food Allergy,Spinach,Vegetable
+995.3,Squash Allergy,Food Allergy,Squash,Vegetable
+995.3,Salicylate Allergy,Food Allergy,Strawberry,Fruit
+995.3,Sugar Allergy / Intolerance,Food Allergy,Sugar,Vegetable
+995.3,Sugar Allergy / Intolerance,Food Allergy,Sugar beet,Vegetable
+995.3,Sugar Allergy / Intolerance,Food Allergy,Sugarcane,Vegetable
+995.3,Legume Allergy,Food Allergy,Sultani,Cereal grain and pulse
+995.3,Legume Allergy,Food Allergy,Sultapya,Cereal grain and pulse
+995.3,Sunflower oil Allergy,Food Allergy,Sunflower oil,Oil
+995.3,Seed Allergy,Food Allergy,Sunflower seed,Nut and seed
+995.3,Corn Allergy,Food Allergy,Sweet corn,Cereal grain and pulse
+995.3,Nightshade Allergy,Food Allergy,Sweet Pepper,Vegetable
+995.3,Potato Allergy,Food Allergy,Sweet potato,Vegetable
+995.3,Potato Allergy,Food Allergy,Taro,Vegetable
+995.3,Tannin Allergy,Food Allergy,Tea,Tea
+995.3,Fish Allergy,Food Allergy,Tetraodontiformes,Aquatic animal
+995.3,Nightshade Allergy,Food Allergy,Tomato,Vegetable
+995.3,Fish Allergy,Food Allergy,Trout,Aquatic animal
+995.3,Fish Allergy,Food Allergy,Tuna,Aquatic animal
+995.3,Poultry Allergy,Food Allergy,Turkey,Poultry
+995.3,Turnip leaf Allergy,Food Allergy,Turnip leaf,Vegetable
+995.3,Thyroid,Food Allergy,Turnip root,Vegetable
+995.3,Vegetable oil Allergy,Food Allergy,Vegetable oil,Oil
+995.3,Nut Allergy,Food Allergy,Walnut,Nut and seed
+995.3,Water melon Allergy,Food Allergy,Water melon,Vegetable
+995.3,Watercress Allergy,Food Allergy,Watercress,Vegetable
+995.3,Allium Allergy,Food Allergy,Welsh,Vegetable
+579.0,Gluten Allergy,Food Allergy,Wheat,Cereal grain and pulse
+995.3,Milk allergy / Lactose intolerance,Food Allergy,Whey,Dairy
+995.3,Legume Allergy,Food Allergy,White bean,Cereal grain and pulse
+995.3,Potato Allergy,Food Allergy,Yam,Vegetable
+995.3,Milk allergy / Lactose intolerance,Food Allergy,Yogurt ,Dairy
