@@ -4,7 +4,7 @@ import CustomDatePicker from "@/component/ui/CustomDateTimePicker";
 import * as patientService from "@/services/patientService";
 import { PopupContext, PopupContextProvider } from "@/contexts/popupContext";
 import CreateTreatmentButton from "@/component/patient/treatment/CreateTreatmentButton";
-import DataTable from "@/component/DataTable";
+import DataTable from "@/component/ui/DataTable";
 import Popup from "@/component/ui/Popup";
 import TreatmentHistoryForm from "@/component/patient/treatment/TreatmentHistoryForm";
 

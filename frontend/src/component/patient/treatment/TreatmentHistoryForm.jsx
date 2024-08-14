@@ -1,7 +1,7 @@
 import Editor from "@/component/ui/Editor";
 import * as patientService from "@/services/patientService";
 import { useState } from "react";
-import DataTable from "../../DataTable";
+import DataTable from "../../ui/DataTable";
 export default function TreatmentHistoryForm({ treatmentId }) {
   let patientTreatmentHistoryData =
     patientService.getPatientTreatmentHistory(treatmentId);
