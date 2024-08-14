@@ -1,25 +1,24 @@
 import { useContext } from "react";
-import { Button } from "../../../../components/ui/button";
-import { PopupContext } from "../../../../contexts/popupContext";
-import Popup from "../../../../component/Popup";
+import { PopupContext } from "../../../contexts/popupContext";
+import Popup from "../../ui/Popup";
 import RegisterPatientForm from "./RegisterPatientForm";
-const RegisterButton = () => {
+const RegisterPatientButton = () => {
   const { setIsPopup } = useContext(PopupContext);
   const handleRegisterPatient = () => {
     setIsPopup(true);
   };
   return (
     <>
-      <Button
+      <button
         onClick={handleRegisterPatient}
         className="bg-custom-blue text-white"
       >
         Register new patient +
-      </Button>
+      </button>
       <Popup>
         <RegisterPatientForm/>
       </Popup>
     </>
   );
 };
-export default RegisterButton;
+export default RegisterPatientButton;

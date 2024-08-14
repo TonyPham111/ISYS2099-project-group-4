@@ -4,9 +4,6 @@ const PopupContext = createContext();
 
 function PopupContextProvider({ children }) {
   const [isPopup, setIsPopup] = useState(false);
-  useEffect(()=>{
-    console.log(`popup status: ${isPopup}`);
-  }, [isPopup]);
   return (
     <PopupContext.Provider value={{ isPopup, setIsPopup }}>
       {children}
