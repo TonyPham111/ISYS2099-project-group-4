@@ -2,6 +2,7 @@ import { colorConfig, screenConfig, fontFamilyConfig } from "./config/tailwindCo
 import plugin from "tailwindcss"
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  important: false,
   darkMode: ["class"],
   content: [
     './pages/**/*.{js,jsx}',
@@ -22,6 +23,9 @@ module.exports = {
     },
     extend: {
       colors: colorConfig,
+      width:{
+        main: 'calc(100vw - 70px)'
+      },
       height:{
           main: 'calc(100vh - 50px)'
       },

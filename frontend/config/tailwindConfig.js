@@ -6,7 +6,8 @@ export const colorConfig = {
     },
     dark: {
       100: "#F4F4F4",
-      200: "7E7E7E",
+      200: "#7E7E7E",
+      300: "#757575",
       DEFAULT: "##262626",
     },
   },
