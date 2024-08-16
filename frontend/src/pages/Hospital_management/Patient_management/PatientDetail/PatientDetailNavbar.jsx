@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation} from "react-router-dom";
-export default function PatientNavbar() {
+export default function PatientDetailNavbar() {
   const [activeItem, setActiveItem] = useState();
   const location = useLocation();
   useEffect(() => {
