@@ -32,6 +32,7 @@ export default function Editor({ value, setValue, readOnly }) {
         onUpdate={({ editor }) => {
           setValue(JSON.stringify(editor.getJSON()));
         }}
+        editable={!readOnly}
       ></EditorProvider>
     </div>
   );

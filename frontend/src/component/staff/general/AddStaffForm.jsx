@@ -17,7 +17,6 @@ const AddStaffForm = () => {
   const [hireDate, setHireDate] = useState(null);
   const [birthDate, setBirthDate] = useState(null);
   const handleRegister = () => {
-    console.log(isPopup);
     const condition =
       firstNameRef &&
       lastNameRef &&
@@ -25,9 +24,7 @@ const AddStaffForm = () => {
       homeAddressRef &&
       contactPhoneNumberRef &&
       birthDate;
-    console.log(`condition: ${condition}`);
     if (condition) {
-      console.log("hello");
       setIsPopup(false);
     }
   };
