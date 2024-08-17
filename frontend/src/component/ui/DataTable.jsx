@@ -1,8 +1,10 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-
-export default function DataTable({ headerData, data, handleOnClick, hoverOnRow}) {
-  const navigate = useNavigate();
+/*this table allow to show data in table row, column, it can use to view data and direct or do some action when click on row */
+export default function DataTable({
+  headerData,
+  data,
+  handleOnClick,
+  hoverOnRow,
+}) {
   return (
     <section className="w-full overflow-scroll rounded-xl">
       <table className=" w-full">
@@ -15,7 +17,13 @@ export default function DataTable({ headerData, data, handleOnClick, hoverOnRow}
         </thead>
         <tbody>
           {data.map((item, rowIndex) => (
-            <tr className={hoverOnRow?'tr--hover':''} onClick={()=>{handleOnClick(item, rowIndex)}} key={item.id}>
+            <tr
+              className={hoverOnRow ? "tr--hover" : ""}
+              onClick={() => {
+                handleOnClick(item, rowIndex);
+              }}
+              key={item.id}
+            >
               {headerData.map((keyItem) => (
                 <td>{item[keyItem]}</td>
               ))}

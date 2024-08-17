@@ -10,7 +10,7 @@ import {
   FaListOl,
   FaStrikethrough,
 } from "react-icons/fa6";
-
+/*this is editor use to insert data like doctor note, and can use to view data from it when pass value and turn on readOnly mode*/
 export default function Editor({ value, setValue, readOnly }) {
   return (
     <div className={readOnly ? "" : "border-[1px] border-solid border-black"}>
@@ -32,6 +32,7 @@ export default function Editor({ value, setValue, readOnly }) {
         onUpdate={({ editor }) => {
           setValue(JSON.stringify(editor.getJSON()));
         }}
+        editable={!readOnly}
       ></EditorProvider>
     </div>
   );

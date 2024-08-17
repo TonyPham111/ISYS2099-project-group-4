@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import CustomDatePicker from "../../../../component/ui/CustomDatePicker";
+import CustomDatePicker from "../../../../../component/ui/CustomDatePicker";
 import * as patientService from "@/services/patientService";
 import { useParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
@@ -22,7 +22,7 @@ export default function PatientInfo() {
       setGender(patientData.gender);
       setHomeAddress(patientData.home_address);
       setContactPhoneNumber(patientData.contact_phone_number);
-      setBirthDate(dayjs(patientData.birth_date));
+      setBirthDate(dayjs(patientData.birth_date, "DD/MM/YYYY"));
     }
   }, [patientData]);
   if (!patientData) {
