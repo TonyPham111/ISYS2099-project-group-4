@@ -15,7 +15,7 @@ CREATE TABLE Allergies (
     id INT AUTO_INCREMENT PRIMARY KEY,
 	icd9_code CHAR(7),
     name VARCHAR(50),
-    group VARCHAR(20)
+    allergy_group VARCHAR(20)
     allergent VARCHAR(20),
     type VARCHAR(20)
 );
@@ -51,10 +51,10 @@ CREATE TABLE Jobs (
 
 CREATE TABLE Staff(
 	id INT AUTO_INCREMENT PRIMARY KEY,
-    ssn INT UNIQUE,
-    manager_id INT,
-    department_id INT,
-    job_id INT,
+    ssn INT UNIQUE NOT NULL,
+    manager_id INT NOT NULL,
+    department_id INT NOT NULL,
+    job_id INT NOT NULL,
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL, 
     gender ENUM('M', 'F') NOT NULL,
@@ -68,35 +68,44 @@ CREATE TABLE Staff(
     employment_type ENUM ('Full_Time', 'Shift_Based') NOT NULL,
     employment_status ENUM ('Active', 'Terminated') NOT NULL,
     employment_document_id VARCHAR(24) NOT NULL,
-    FOREIGN KEY (manager_id) REFERENCES Staff(id) ON DELETE SET NULL,
-    FOREIGN KEY (department_id) REFERENCES Departments (id) ON DELETE SET NULL,
+    FOREIGN KEY (manager_id) REFERENCES Staff(id),
+    FOREIGN KEY (department_id) REFERENCES Departments (id),
     FOREIGN KEY (job_id) REFERENCES Jobs (id) ON DELETE SET NULL);
 
 
-
+CREATE TABLE Staff_Schedule (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+    staff_id INT NOT NULL,
+    date DATE NOT NULL,
+    start_time TIME NOT NULL,
+    end_time TIME NOT NULL,
+    note TEXT NOT NULL,
+    FOREIGN KEY (staff_id) REFERENCES Staff(id)
+);
 
 CREATE TABLE Appointments (
 	id INT AUTO_INCREMENT PRIMARY KEY,
     patient_id INT,
     doctor_id INT,
-    document_id VARCHAR(24),
     appointment_purpose TEXT NOT NULL,
     appointment_date DATE NOT NULL,
     start_time TIME NOT NULL,
     end_time TIME NOT NULL,
     appointment_charge DECIMAL(6,2) NOT NULL,
+    schedule_id INT NOT NULL,
     status ENUM('Active', "Finished", 'Cancelled') NOT NULL,
     appointment_notes_document_id VARCHAR(24) NOT NULL,
+    FOREIGN KEY (schedule_id) REFERENCES Staff_Schedule (id),
     FOREIGN KEY (patient_id) REFERENCES Patients (id),
     FOREIGN KEY (doctor_id) REFERENCES Staff (id)    
 );
 
 CREATE TABLE Diagnoses (
 	id INT AUTO_INCREMENT PRIMARY KEY,
+    patient_id INT NOT NULL,
     doctor_id INT NOT NULL,
     diagnosis_date DATE NOT NULL,
     diagnosis_note TEXT,
-    FOREIGN KEY (condition_code) REFERENCES Conditions (code),
     FOREIGN KEY (doctor_id) REFERENCES Staff (id)
 );
 
@@ -104,7 +113,8 @@ CREATE TABLE DiagnosesDetails (
     diagnosis_id INT,
     condition_code CHAR(7),
     PRIMARY KEY (diagnosis_id, condition_code),
-    FOREIGN KEY (diagnosis_id) REFERENCES Diagnoses (id)
+    FOREIGN KEY (diagnosis_id) REFERENCES Diagnoses (id),
+    FOREIGN KEY (condition_code) REFERENCES Conditions (code)
 );
 
 
@@ -117,7 +127,6 @@ CREATE TABLE TreatmentHistory (
     treatment_start_time TIME NOT NULL,
     treatment_end_date DATETIME NOT NULL,
     treatment_end_time TIME NOT NULL,
-    diagnosis_note TEXT,
     FOREIGN kEY (diagnosis_id) REFERENCES Diagnoses (id),
     FOREIGN KEY (patient_id) REFERENCES Patients (id),
     FOREIGN KEY (doctor_id) REFERENCES Staff (id)
@@ -188,14 +197,7 @@ CREATE TABLE Billings (
 	FOREIGN KEY (patient_id) REFERENCES Patients (id)
 );
 
-CREATE TABLE Doctor_Schedule (
-	id INT AUTO_INCREMENT PRIMARY KEY,
-    doctor_id INT,
-    date DATE NOT NULL,
-    start_time TIME NOT NULL,
-    end_time TIME NOT NULL,
-    FOREIGN KEY (doctor_id) REFERENCES Staff(id)
-);
+
 
 CREATE TABLE Salary_Change(
     staff_id INT,
