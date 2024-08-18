@@ -146,8 +146,8 @@ CREATE TABLE Drugs (
 
 
 CREATE TABLE Prescription_Details (
-	drug_code INT,
-    prescription_id INT,
+	drug_code INT NOT NULL,
+    prescription_id INT NOT NULL,
     quantity INT NOT NULL,
     price DECIMAL(6,2) NOT NULL,
     PRIMARY KEY (prescription_id, drug_code),
@@ -160,10 +160,10 @@ CREATE TABLE Test_Types(
 	id INT PRIMARY KEY AUTO_INCREMENT,
     test_name VARCHAR(5) NOT NULL,
     price DECIMAL(6,2) NOT NULL,
+    duration INT NOT NULL,
     test_description TEXT
 );
 
-ALTER TABLE  Test_Types ADD duration INT NOT NULL;
 
 CREATE TABLE Test_Orders (
 	id INT PRIMARY KEY,

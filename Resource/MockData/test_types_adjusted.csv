@@ -1,0 +1,21 @@
+id,test_name,price,duration,test_description
+1,CBC,15.0,30,Complete Blood Count
+2,MRI,200.0,60,Magnetic Resonance Imaging
+3,XRay,50.0,30,X-Ray Imaging
+4,CT,180.0,60,Computed Tomography
+5,Echo,120.0,30,Echocardiogram
+6,LFT,60.0,30,Liver Function Test
+7,RFT,55.0,30,Renal Function Test
+8,Lipid,70.0,30,Lipid Profile
+9,ECG,80.0,30,Electrocardiogram
+10,BP,20.0,30,Blood Pressure Measurement
+11,PT,40.0,30,Prothrombin Time
+12,A1C,30.0,30,Hemoglobin A1C
+13,TSH,25.0,30,Thyroid Stimulating Hormone
+14,VITD,65.0,60,Vitamin D Test
+15,BMD,110.0,60,Bone Mineral Density
+16,USG,90.0,30,Ultrasound
+17,TFT,35.0,30,Thyroid Function Test
+18,EEG,140.0,60,Electroencephalogram
+19,Urine,10.0,30,Urine Analysis
+20,CRP,75.0,60,C-Reactive Protein
