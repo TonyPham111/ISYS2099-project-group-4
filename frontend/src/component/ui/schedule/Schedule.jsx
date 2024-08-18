@@ -7,7 +7,7 @@ import detectEventOverlapping from "@/utils/eventOverlapping";
 import Popup from "../Popup";
 import { PopupContext } from "@/contexts/popupContext";
 import AppointmentPopup from "../AppointmentPopup";
-import { patient } from "@/services/sampleData";
+import { useLocation } from "react-router-dom";
 // Setup the localizer by providing the moment (or globalize, or Luxon) Object
 // to the correct localizer.
 const localizer = momentLocalizer(moment); // or globalizeLocalizer
@@ -16,9 +16,10 @@ export default function Schedule({
   backgroundEvents,
   setBackgroundEvents,
 }) {
+  const location = useLocation();
   const [isSelectable, setIsSelectable] = useState(false);
   const { setIsPopup } = useContext(PopupContext);
-  const [popupComponent, setPopupComponent] = useState(<div>hello</div>);
+  const [popupComponent, setPopupComponent] = useState(<></>);
   /*----------------------------main function use for react big calendar props-----------------------------------*/
   function handleSelectSlot({ start, end }) {
     // allow to create new slot in schedule if it is not repeat with any backgroundEvent before it
@@ -36,9 +37,24 @@ export default function Schedule({
     console.log(JSON.stringify(events.patient_id));
     console.log(JSON.stringify(events.id));
     if (!events.isBackgroundEvent) {
-      setPopupComponent(
-        <AppointmentPopup patient_id={events.patient_id} appointment_id={events.id}/>
-      )
+      //only allow appointment router to able to cancel appointment [access control]
+      if (location.pathname == "/appointment") {
+        setPopupComponent(
+          <AppointmentPopup
+            patient_id={events.patient_id}
+            appointment_id={events.id}
+            ableToCancel={true}
+          />
+        );
+        //else, cannot cancel appointment
+      } else {
+        setPopupComponent(
+          <AppointmentPopup
+            patient_id={events.patient_id}
+            appointment_id={events.id}
+          />
+        );
+      }
       setIsPopup(true);
     }
   }
@@ -48,6 +64,8 @@ export default function Schedule({
     } else {
       setIsSelectable(true);
     }
+  }
+  /*
   }
   /*-------------------------------------------------------------------------------------------------------------*/
   return (
@@ -71,9 +89,7 @@ export default function Schedule({
         startAccessor="start"
         endAccessor="end"
       />
-      <Popup>
-        {popupComponent}
-      </Popup>
+      <Popup>{popupComponent}</Popup>
     </>
   );
 }

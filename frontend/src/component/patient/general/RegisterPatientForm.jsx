@@ -10,11 +10,8 @@ const RegisterPatientForm = () => {
   const contactPhoneNumberRef = useRef(null);
   const [birthDate, setBirthDate] = useState(null);
   const handleRegister = () => {
-    console.log(isPopup);
     const condition = firstNameRef && lastNameRef && genderRef && homeAddressRef && contactPhoneNumberRef && birthDate;
-    console.log(`condition: ${condition}`);
     if(condition){
-        console.log("hello");
        setIsPopup(false);
     }
   };
@@ -48,7 +45,7 @@ const RegisterPatientForm = () => {
           </div>
           <div>
             <h4>Date of Birth</h4>
-            <CustomDatePicker value={birthDate} setValue={setBirthDate} />
+            <CustomDatePicker value={birthDate} setValue={setBirthDate} size={"lg"} />
           </div>
           <div>
             <h4>Home Address</h4>

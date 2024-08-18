@@ -12,7 +12,7 @@ const Popup = ({ children }) => {
       <section
         className={`w-screen h-screen fixed top-0 left-0 bg-black bg-opacity-20 flex justify-center items-center z-50`}
       >
-        <section className="w-11/12 h-5/6 bg-white rounded-2xl pt-10 relative">
+        <section className="w-11/12 h-[85%] bg-white rounded-2xl pt-10 relative">
           <MdClose
             onClick={handleClosePopup}
             className="cursor-pointer h-6 w-6 text-custom-blue top-5 right-5 absolute"

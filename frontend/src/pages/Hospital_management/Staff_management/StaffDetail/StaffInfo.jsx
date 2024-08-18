@@ -80,7 +80,7 @@ export default function StaffInfo() {
           </div>
           <div>
             <h4>Date of Birth</h4>
-            <CustomDatePicker value={birthDate} setValue={setBirthDate} />
+            <CustomDatePicker value={birthDate} setValue={setBirthDate} size={"lg"} />
           </div>
           <div>
             <h4>Home Address</h4>
@@ -126,7 +126,7 @@ export default function StaffInfo() {
           </div>
           <div>
             <h4>hire date</h4>
-            <CustomDatePicker value={hireDate} setValue={setHireDate} />
+            <CustomDatePicker value={hireDate} setValue={setHireDate} size={"lg"} />
           </div>
           <div>
             <h4>job position</h4>

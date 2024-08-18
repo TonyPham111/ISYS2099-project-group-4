@@ -20,3 +20,4 @@ export function getPatientTreatmentHistory(id) {
   });
   return result[0];
 }
+
