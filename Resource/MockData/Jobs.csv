@@ -1,6 +1,0 @@
-name,min_wage,max_wage,description
-Nurse,45000.0,65000.0,"Responsible for patient care, administering medication, and maintaining medical records."
-Doctor,120000.0,250000.0,"Responsible for diagnosing and treating patients, prescribing medication, and providing medical advice."
-HR,40000.0,70000.0,"Responsible for recruiting, managing employee relations, and overseeing organizational development."
-Front Desk,30000.0,45000.0,"Responsible for greeting patients, scheduling appointments, and managing front office operations."
-Business Officer,50000.0,80000.0,"Responsible for managing business operations, financial planning, and overseeing administrative functions."
