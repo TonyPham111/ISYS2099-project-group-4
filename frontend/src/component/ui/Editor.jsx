@@ -15,6 +15,11 @@ export default function Editor({ value, setValue, readOnly }) {
   return (
     <div className={readOnly ? "" : "border-[1px] border-solid border-black"}>
       <EditorProvider
+    editorProps={{
+      attributes: {
+        class:"overflow-scroll h-[100px]"
+      },
+    }}
         slotBefore={readOnly ? <></> : <MenuBar />}
         extensions={[
           StarterKit.configure({
@@ -30,7 +35,7 @@ export default function Editor({ value, setValue, readOnly }) {
         ]}
         content={value}
         onUpdate={({ editor }) => {
-          setValue(JSON.stringify(editor.getJSON()));
+          setValue(editor.getJSON())
         }}
         editable={!readOnly}
       ></EditorProvider>

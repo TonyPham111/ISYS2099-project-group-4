@@ -13,8 +13,10 @@ export function getStaff(id) {
 export function getJob() {
   return data.job;
 }
-
-export function getStaffAppointments(staff_id, appointment_id) {
+export function getAllAppointments() {
+  return data.appointment;
+}
+export function getStaffAppointments(staff_id) {
   const result = data.appointment.filter((item) => {
     return staff_id == item.doctor_id;
   });
@@ -31,4 +33,18 @@ export function getStaffSchedule(staff_id) {
     return staff_id == item.staff_id;
   });
   return result;
+}
+
+export function getAllDepartments() {
+  return data.department;
+}
+export function getDoctorWorkingStatus(
+  date,
+  startTime,
+  endTime,
+  department_id
+) {
+  console.log(`jejkldaaj;lsfajk;lf`)
+  console.log(data.availableTime);
+  return data.availableTime;
 }

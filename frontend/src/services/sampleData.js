@@ -165,6 +165,37 @@ export const staffs = [
     hire_date: "2021-11-20",
     employment_type: "fulltime",
   },
+  {
+    id: 5,
+    first_name: "Tony",
+    last_name: "Pham",
+    job: "Doctor",
+    gender: "Male",
+    birth_date: "1988-01-23",
+    home_address: "123 Pasteur Street, District 3, HCMC",
+    contact_phone_number: "028-6543-2109",
+    email: "brian.nguyen.md@gmail.com",
+    wage: 25000000,
+    hire_date: "2022-03-12",
+    employment_type: "fulltime",
+  },
+];
+
+export const availableTime = [
+  {
+    doctor_id: 2,
+    first_name: "Brian",
+    last_name: "Nguyen",
+    gender: "Male",
+    available_status: "available",
+  },
+  {
+    doctor_id: 5,
+    first_name: "Tony",
+    last_name: "Pham",
+    gender: "Male",
+    available_status: "available",
+  },
 ];
 
 export const appointment = [
@@ -204,6 +235,18 @@ export const appointment = [
     during_note: "beware with poison food please",
     after_note: "just dont do stupid thing, stupid patient!",
   },
+  {
+    id: 5,
+    purpose_of_appointment: "leg pain",
+    patient_id: 3,
+    doctor_id: 5,
+    date: "2024-08-15",
+    start_time: "15:30:00",
+    end_time: "16:00:00",
+    before_note: "my arm is in pain",
+    during_note: "beware with poison food please",
+    after_note: "just dont do stupid thing, stupid patient!",
+  },
 ];
 
 export const workingTime = [
@@ -232,5 +275,24 @@ export const job = [
   {
     id: 4,
     job_name: "FrontDesk",
+  },
+];
+
+export const department = [
+  {
+    id: 1,
+    name: "Cardiology",
+  },
+  {
+    id: 2,
+    name: "Pediatrics",
+  },
+  {
+    id: 3,
+    name: "Oncology",
+  },
+  {
+    id: 4,
+    name: "Orthopedics",
   },
 ];

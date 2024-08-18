@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import CustomDatePicker from "../../../../../component/ui/CustomDatePicker";
+import CustomDatePicker from "@/component/ui/CustomDatePicker";
 import * as patientService from "@/services/patientService";
 import { useParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
@@ -63,7 +63,7 @@ export default function PatientInfo() {
           </div>
           <div>
             <h4>Date of Birth</h4>
-            <CustomDatePicker value={birthDate} setValue={setBirthDate} />
+            <CustomDatePicker value={birthDate} setValue={setBirthDate} size={"lg"} />
           </div>
           <div>
             <h4>Home Address</h4>
