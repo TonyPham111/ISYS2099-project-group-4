@@ -105,6 +105,9 @@ GRANT EXECUTE ON hospital_management_system.GetBillingDetails TO 'BusinessOffice
 GRANT EXECUTE ON hospital_management_system.InsertNewBilling TO 'BusinessOfficers'@'host'
 
 
+-- Granting permissions to get staff information
+GRANT EXECUTE ON hospital_management_system.GetStaffInfo TO 'Nurses'@'host'
+
 
 
 
