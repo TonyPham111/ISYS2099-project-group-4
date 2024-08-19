@@ -1,6 +1,7 @@
-CREATE PROCEDURE FetchAllStaffById(
+CREATE PROCEDURE FetchStaffInfoById(
     staff_id INT                      -- Parameter for the ID of the staff member whose details are to be fetched
 )
+SQL SECURITY DEFINER
 BEGIN
     -- Select various fields from the Staff, Jobs, and Departments tables
     SELECT
@@ -38,4 +39,26 @@ BEGIN
         Non_Manager.id = staff_id;           -- Filter to include only the specified staff member
 
 END;
+GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'FetchStaffInfoById' TO 'HR'@'host';
+GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'FetchStaffInfoById' TO 'Doctors'@'host';
+GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'FetchStaffInfoById' TO 'Nurses'@'host';
+GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'FetchStaffInfoById' TO 'FrontDesk'@'host';
+GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'FetchStaffInfoById' TO 'BusinessOfficers'@'host';
 
+
+
+CREATE PROCEDURE FetchPatientsPersonalInfo()
+SQL SECURITY DEFINER
+BEGIN
+    SELECT 
+        id,
+        ssn,
+        full_name,
+        birth_date,
+        gender,
+        phone_number,
+        email
+    FROM Patients;
+END;
+GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'FetchStaffInfoById' TO 'FrontDesk'@'host';
+GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'FetchStaffInfoById' TO 'BusinessOfficers'@'host';

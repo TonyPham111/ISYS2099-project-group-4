@@ -42,6 +42,10 @@ BEGIN
         Test_Details.test_id = testID;
 END;
 
+GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'GetBillingsDetails' TO 'BusinessOfficers'@'host'
+
+
+
 CREATE PROCEDURE InsertNewBilling(
     BillingID INT,          -- Parameter for the billing ID
     patientID INT,          -- Parameter for the patient ID
@@ -96,3 +100,4 @@ BEGIN
     );
 
 END;
+GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'InsertNewBillings' TO 'BusinessOfficers'@'host'

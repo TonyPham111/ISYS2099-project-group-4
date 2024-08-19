@@ -1,4 +1,4 @@
-CREATE PROCEDURE AddNewDiagnoses(
+CREATE PROCEDURE AddNewDiagnosis(
     para_id INT,                  -- Parameter for the diagnosis ID
     para_doctor_id INT,           -- Parameter for the doctor ID who made the diagnosis
     para_patient_id INT,          -- Parameter for the patient ID who is being diagnosed
@@ -63,6 +63,8 @@ BEGIN
     -- Commit the transaction to save all changes
     COMMIT;
 END;
+GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'AddNewDiagnosis' TO 'Doctors'@'host';
+
 
 
 CREATE PROCEDURE AddNewPrescription(
@@ -159,6 +161,8 @@ BEGIN
     -- Commit the transaction to save all changes
     COMMIT;
 END;
+GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'AddNewPrescription' TO 'Doctors'@'host';
+
 
 
 
@@ -239,9 +243,11 @@ BEGIN
     -- Commit the transaction to save all changes
     COMMIT;
 END;
+GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'OrderTest' TO 'Doctors'@'host';
 
 
 CREATE PROCEDURE FetchDoctorScheduleById(para_doctor_id INT)  -- Procedure to fetch a doctor's schedule by their ID
+SQL SECURITY DEFINER
 BEGIN
     -- Select the schedule details for the specified doctor
     SELECT
@@ -267,3 +273,4 @@ BEGIN
     WHERE 
         doctor_id = para_doctor_id;                          -- Filtering the results to include only the specified doctor's schedule
 END;
+GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'FetchDoctorScheduleById' TO 'Doctors'@'host';

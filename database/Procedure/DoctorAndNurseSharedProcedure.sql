@@ -20,6 +20,8 @@ BEGIN
         PatientAllergy.allergy_id = Allergies.id; -- Match allergy_id with the Allergies table
 
 END;
+GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'GetPatientsInfo' TO 'Doctors'@'host';
+GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'GetPatientsInfo' TO 'Nurses'@'host';
 
 
 CREATE PROCEDURE FetchTestDetailsByPatientId(
@@ -70,6 +72,8 @@ BEGIN
         Test_Orders_Details.patient_id = patient_id;  -- Filter to include only the tests for the specified patient
 
 END;
+GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'FetchTestDetailsByPatientId' TO 'Doctors'@'host';
+GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'FetchTestDetailsByPatientId' TO 'Nurses'@'host';
 
 
 CREATE PROCEDURE FetchDiagnosesByPatientId(
@@ -102,6 +106,8 @@ BEGIN
         Diagnoses.patient_id = patient_id;    -- Filter to include only the diagnoses for the specified patient
 
 END;
+GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'FetchDiagnosesByPatientId' TO 'Doctors'@'host';
+GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'FetchDiagnosesByPatientId' TO 'Nurses'@'host';
 
 
 
@@ -133,6 +139,8 @@ BEGIN
         TreatmentHistory.patient_id = para_patient_id; -- Filter to include only the prescriptions for the specified patient
 
 END;
+GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'FetchPrescriptionsByPatientId' TO 'Doctors'@'host';
+GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'FetchPrescriptionsByPatientId' TO 'Nurses'@'host';
 
 
 
@@ -153,3 +161,5 @@ BEGIN
         test_id = para_test_order_id  -- Match the test order ID
         AND test_type_id = para_test_type_id;  -- Match the test type ID
 END;
+GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'UpdateTestDetail' TO 'Doctors'@'host';
+GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'UpdateTestDetail' TO 'Nurses'@'host';

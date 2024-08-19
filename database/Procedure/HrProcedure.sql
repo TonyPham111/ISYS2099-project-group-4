@@ -82,6 +82,7 @@ BEGIN
     -- Commit the transaction to save all changes
     COMMIT;
 END;
+GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'AddNewStaff' TO 'HR'@'host';
 
 
 CREATE PROCEDURE FetchAllStaff()
@@ -122,6 +123,7 @@ BEGIN
         Departments.id = Non_Manager.department_id;  -- Matching the department_id in the Staff table with the id in the Departments table
 
 END;
+GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'FetchAllStaff' TO 'HR'@'host';
 
 
 
@@ -170,6 +172,7 @@ BEGIN
     -- Commit the transaction to save all changes
     COMMIT;
 END;
+GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'ChangeWage' TO 'HR'@'host';
 
 
 
@@ -223,6 +226,7 @@ BEGIN
     -- Commit the transaction to save all changes
     COMMIT;
 END;
+GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'ChangeJob' TO 'HR'@'host';
 
 
 
@@ -274,3 +278,4 @@ BEGIN
     WHERE 
         Staff.id = para_staff_id;       -- Filter the results to include only the specified staff member
 END;
+GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'ChangeStaffPersonalInfo' TO 'HR'@'host';

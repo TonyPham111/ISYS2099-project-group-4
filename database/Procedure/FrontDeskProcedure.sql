@@ -1,4 +1,4 @@
-REATE PROCEDURE AddNewPatients(
+REATE PROCEDURE AddNewPatient(
     id INT,                               -- Parameter for the patient ID
     para_ssn INT,                         -- Parameter for the patient's SSN (Social Security Number)
     para_full_name VARCHAR(50),           -- Parameter for the full name of the patient
@@ -57,6 +57,8 @@ BEGIN
     -- Commit the transaction to save all changes
     COMMIT;
 END;
+GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'AddNewPatient' TO 'FrontDesk'@'host';
+
 
 
 
@@ -116,6 +118,8 @@ BEGIN
         Staff.department_id = para_department_id; -- Filtering for staff in the specified department
 
 END;
+GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'CheckAvailability' TO 'FrontDesk'@'host';
+
 
 
 
@@ -195,6 +199,8 @@ BEGIN
     -- Commit the transaction to save all changes
     COMMIT;
 END;
+GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'AddNewAppointment' TO 'FrontDesk'@'host';
+
 
 
 
@@ -232,6 +238,7 @@ BEGIN
     -- Commit the transaction to save all changes
     COMMIT;
 END;
+GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'CancelAnAppointment' TO 'FrontDesk'@'host';
 
 
 
@@ -287,3 +294,4 @@ BEGIN
     -- Commit the transaction to save all changes
     COMMIT;
 END;
+GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'RescheduleAnAppointment' TO 'FrontDesk'@'host';
