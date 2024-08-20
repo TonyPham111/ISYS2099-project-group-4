@@ -100,4 +100,4 @@ BEGIN
     );
 
 END;
-GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'InsertNewBillings' TO 'BusinessOfficers'@'host'
+GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'InsertNewBilling' TO 'BusinessOfficers'@'host'

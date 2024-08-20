@@ -1,5 +1,4 @@
 CREATE PROCEDURE AddNewStaff(
-    para_id INT,                              -- Parameter for the staff ID
     para_full_name VARCHAR(50),               -- Parameter for the full name of the staff member
     para_ssn INT,                             -- Parameter for the Social Security Number (SSN) of the staff member
     para_job_name VARCHAR(50),                -- Parameter for the job title of the staff member
@@ -19,30 +18,55 @@ SQL SECURITY DEFINER
 BEGIN
     -- Declare variables to store the IDs of the job, department, and manager
     DECLARE job_id INT;
+    DECLARE max_job_wage DECIMAL(6,2);
+    DECLARE min_job_wage DECIMAL(6,2);
     DECLARE department_id INT;
     DECLARE manager_id INT;
+    DECLARE error_message TEXT;
+
+     DECLARE EXIT HANDLER FOR SQLSTATE '45000'
+        BEGIN
+            GET DIAGNOSTICS CONDITION 1
+                error_message = MESSAGE_TEXT;
+            SELECT error_message AS ErrorMessage;  -- Return an error message
+        END;
 
     -- Lookup the job ID based on the provided job name
-    SELECT id INTO job_id 
-    FROM Jobs 
+    SELECT id INTO job_id
+    FROM Jobs
     WHERE Jobs.job_name = para_job_name;
 
     -- Lookup the department ID based on the provided department name
-    SELECT id INTO department_id 
-    FROM Departments 
+    SELECT id INTO department_id
+    FROM Departments
     WHERE Departments.department_name = para_department_name;
 
     -- Lookup the manager ID based on the provided manager name
-    SELECT id INTO manager_id 
-    FROM Staff 
+    SELECT id INTO manager_id
+    FROM Staff
     WHERE Staff.full_name = para_manager_name;
+
+    -- Compare the input wage and the wage range of the job. Raise an exception if it does not fall within the correct wage range
+    SELECT Jobs.max_wage INTO max_job_wage FROM Jobs WHERE id = job_id;
+    SELECT Jobs.min_wage INTO min_job_wage FROM Jobs WHERE id = job_id;
+
+    IF para_wage > max_job_wage OR para_wage < min_job_wage
+        THEN SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Wage does not fall within the correct range';
+    END IF;
+
+    -- Check if the manager exists. Raise an exception if they don't
+    IF manager_id IS NULL
+        THEN SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Cannot find manager. Please try again or Leave the manager field empty';
+    END IF;
+
 
     -- Start a transaction to ensure all operations succeed or fail together
     START TRANSACTION;
-        
+
         -- Insert the new staff member into the Staff table
         INSERT INTO Staff (
-            id,                            -- Staff ID
             ssn,                           -- Social Security Number (SSN)
             manager_id,                    -- Manager ID (foreign key to Staff table)
             department_id,                 -- Department ID (foreign key to Departments table)
@@ -60,7 +84,6 @@ BEGIN
             employment_status,             -- Employment status (e.g., 'Active')
             employment_document_id         -- Employment document ID
         ) VALUES (
-            para_id,                       -- Provided staff ID
             para_ssn,                      -- Provided SSN
             manager_id,                    -- Retrieved manager ID based on manager name
             department_id,                 -- Retrieved department ID based on department name
@@ -82,7 +105,7 @@ BEGIN
     -- Commit the transaction to save all changes
     COMMIT;
 END;
-GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'AddNewStaff' TO 'HR'@'host';
+GRANT EXECUTE ON PROCEDURE hospital_management_system.AddNewStaff TO 'HR'@'host';
 
 
 CREATE PROCEDURE FetchAllStaff()
@@ -123,7 +146,7 @@ BEGIN
         Departments.id = Non_Manager.department_id;  -- Matching the department_id in the Staff table with the id in the Departments table
 
 END;
-GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'FetchAllStaff' TO 'HR'@'host';
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchAllStaff TO 'HR'@'host';
 
 
 
@@ -144,16 +167,16 @@ BEGIN
     END;
 
     -- Retrieve the current wage of the staff member and store it in the para_old_wage variable
-    SELECT wage INTO para_old_wage 
-    FROM Staff 
+    SELECT wage INTO para_old_wage
+    FROM Staff
     WHERE Staff.id = staff_id;
 
     -- Start a transaction to ensure all operations succeed or fail together
     START TRANSACTION;
 
         -- Update the wage of the staff member in the Staff table
-        UPDATE Staff 
-        SET wage = para_new_wage 
+        UPDATE Staff
+        SET wage = para_new_wage
         WHERE Staff.id = staff_id;
 
         -- Insert a record into the Salary_Change table to log the wage change
@@ -172,7 +195,7 @@ BEGIN
     -- Commit the transaction to save all changes
     COMMIT;
 END;
-GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'ChangeWage' TO 'HR'@'host';
+GRANT EXECUTE ON PROCEDURE hospital_management_system.ChangeWage TO 'HR'@'host';
 
 
 
@@ -193,21 +216,21 @@ BEGIN
     END;
 
     -- Retrieve the job ID of the new job based on the provided job name and store it in local_new_job
-    SELECT id INTO local_new_job 
-    FROM Jobs 
+    SELECT id INTO local_new_job
+    FROM Jobs
     WHERE Jobs.job_name = new_job_name;
 
     -- Retrieve the current job ID of the staff member and store it in local_old_job
-    SELECT job_id INTO local_old_job 
-    FROM Staff 
+    SELECT job_id INTO local_old_job
+    FROM Staff
     WHERE Staff.id = staff_id;
 
     -- Start a transaction to ensure all operations succeed or fail together
     START TRANSACTION;
 
         -- Update the job ID of the staff member in the Staff table to the new job ID
-        UPDATE Staff 
-        SET Staff.job_id = local_new_job  
+        UPDATE Staff
+        SET Staff.job_id = local_new_job
         WHERE Staff.id = staff_id;
 
         -- Insert a record into the Job_Movement table to log the job change
@@ -226,7 +249,7 @@ BEGIN
     -- Commit the transaction to save all changes
     COMMIT;
 END;
-GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'ChangeJob' TO 'HR'@'host';
+GRANT EXECUTE ON PROCEDURE hospital_management_system.ChangeJob TO 'HR'@'host';
 
 
 
@@ -240,15 +263,16 @@ CREATE PROCEDURE ChangeStaffPersonalInfo(
 SQL SECURITY DEFINER
 BEGIN
     -- Update the Staff table with the new personal information for the staff member with the given staff_id
-    UPDATE Staff 
-    SET 
+    UPDATE Staff
+    SET
         Staff.home_address = new_home_address,       -- Update the home address
         Staff.email = new_email,                     -- Update the email address
         Staff.phone_number = new_phone_number,       -- Update the phone number
         Staff.staff_password = new_password          -- Update the password
-    WHERE 
+    WHERE
         Staff.id = staff_id;                         -- Specify the staff member by their ID
 END;
+GRANT EXECUTE ON PROCEDURE hospital_management_system.ChangeStaffPersonalInfo TO 'HR'@'host';
 
 
 CREATE PROCEDURE FetchJobChangeByStaffId(
@@ -265,17 +289,17 @@ BEGIN
         Staff                           -- The Staff table
     INNER JOIN
         Job_Movement                    -- The Job_Movement table, which records job changes
-    ON 
+    ON
         Staff.id = Job_Movement.staff_id -- Join the Staff table with the Job_Movement table on staff ID
     INNER JOIN
         Jobs AS Old_Jobs                -- Join with the Jobs table to get the name of the old job
-    ON 
+    ON
         Job_Movement.old_job = Old_Jobs.id -- Match the old job ID in Job_Movement with the Jobs table
     INNER JOIN
         Jobs AS New_Jobs                -- Join with the Jobs table again to get the name of the new job
-    ON 
+    ON
         Job_Movement.new_job = New_Jobs.id -- Match the new job ID in Job_Movement with the Jobs table
-    WHERE 
+    WHERE
         Staff.id = para_staff_id;       -- Filter the results to include only the specified staff member
 END;
-GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'ChangeStaffPersonalInfo' TO 'HR'@'host';
+GRANT EXECUTE ON PROCEDURE hospital_management_system.ChangeStaffPersonalInfo TO 'HR'@'host';

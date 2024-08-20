@@ -246,7 +246,7 @@ A4281,Actinomycotic meningitis,A medical condition known as actinomycotic mening
 A4282,Actinomycotic encephalitis,A medical condition known as actinomycotic encephalitis.
 A4289,Other forms of actinomycosis,A medical condition known as other forms of actinomycosis.
 A429,"Actinomycosis, unspecified","A medical condition known as actinomycosis, unspecified."
-A430,Pulmonary nocardiosis,A medical condition known as pulmonary nocardiosis.
+A430,"Pulmonary nocardiosis",A medical condition known as pulmonary nocardiosis.
 A431,Cutaneous nocardiosis,A medical condition known as cutaneous nocardiosis.
 A438,Other forms of nocardiosis,A medical condition known as other forms of nocardiosis.
 A439,"Nocardiosis, unspecified","A medical condition known as nocardiosis, unspecified."
@@ -915,34 +915,6 @@ B948,Sequelae of other specified infectious and parasitic diseases,A medical con
 B949,Sequelae of unspecified infectious and parasitic disease,A medical condition known as sequelae of unspecified infectious and parasitic disease.
 B950,"Streptococcus, group A, as the cause of diseases classified else","A medical condition known as streptococcus, group a, as the cause of diseases classified else."
 B951,"Streptococcus, group B, as the cause of diseases classified else","A medical condition known as streptococcus, group b, as the cause of diseases classified else."
-B954Other streptococcus as the cause of diseases classified elsewh,,A medical condition known as .
-B955Unspecified streptococcus as the cause of diseases classified el,,A medical condition known as .
-B9561Methicillin susceptible Staphylococcus aureus infection as the,,A medical condition known as .
-elsewhere,,A medical condition known as .
-B9562Methicillin resistant Staphylococcus aureus infection as the ca,,A medical condition known as .
-elsewhere,,A medical condition known as .
-B957Other staphylococcus as the cause of diseases classified elsew,,A medical condition known as .
-B958Unspecified staphylococcus as the cause of diseases classified,,A medical condition known as .
-B960Mycoplasma pneumoniae [M. pneumoniae] as the cause of dis,,A medical condition known as .
-B961Klebsiella pneumoniae [K. pneumoniae] as the cause of diseas,,A medical condition known as .
-B9620Unspecified Escherichia coli [E. coli] as the cause of diseases c,,A medical condition known as .
-B9621Shiga toxin-producing Escherichia coli [E. coli] (STEC) O157 as,,A medical condition known as .
-elsewhere,,A medical condition known as .
-B9622Other specified Shiga toxin-producing Escherichia coli [E. coli],,A medical condition known as .
-classified elsewhere,,A medical condition known as .
-B9623Unspecified Shiga toxin-producing Escherichia coli [E. coli] (ST,,A medical condition known as .
-classified elsewhere,,A medical condition known as .
-B9629Other Escherichia coli [E. coli] as the cause of diseases classifi,,A medical condition known as .
-B963Hemophilus influenzae [H. influenzae] as the cause of diseases,,A medical condition known as .
-B964Proteus (mirabilis) (morganii) as the cause of diseases classifie,,A medical condition known as .
-B965Pseudomonas (aeruginosa) (mallei) (pseudomallei) as the caus,,A medical condition known as .
-B966Bacteroides fragilis [B. fragilis] as the cause of diseases classifi,,A medical condition known as .
-B967Clostridium perfringens [C. perfringens] as the cause of diseas,,A medical condition known as .
-B9681Helicobacter pylori [H. pylori] as the cause of diseases classifi,,A medical condition known as .
-B9682Vibrio vulnificus as the cause of diseases classified elsewhere,,A medical condition known as .
-B9689Other specified bacterial agents as the cause of diseases classi,,A medical condition known as .
-B970Adenovirus as the cause of diseases classified elsewhere,,A medical condition known as .
-B9710Unspecified enterovirus as the cause of diseases classified els,,A medical condition known as .
 B9719,Other enterovirus as the cause of diseases classified elsewher,A medical condition known as other enterovirus as the cause of diseases classified elsewher.
 B9721,SARS-associated coronavirus as the cause of diseases classifie,A medical condition known as sars-associated coronavirus as the cause of diseases classifie.
 B9729,Other coronavirus as the cause of diseases classified elsewher,A medical condition known as other coronavirus as the cause of diseases classified elsewher.

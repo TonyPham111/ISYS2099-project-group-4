@@ -2,7 +2,7 @@ CREATE DATABASE hospital_management_system;
 USE hospital_management_system;
 
 CREATE TABLE Patients (
-	id INT PRIMARY KEY,
+	id INT AUTO_INCREMENT PRIMARY KEY,
     ssn INT UNIQUE NOT NULL,
     full_name VARCHAR(50) NOT NULL,
     birth_date DATE,
@@ -10,6 +10,7 @@ CREATE TABLE Patients (
     phone_number VARCHAR(15) NOT NULL,
     email VARCHAR(50),
     home_address VARCHAR(255) NOT NULL);
+
 
 CREATE TABLE Allergies (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -46,11 +47,12 @@ CREATE TABLE Jobs (
     min_wage DECIMAL(6,2) NOT NULL,
     max_wage DECIMAL(6,2) NOT NULL,
     job_description TEXT,
-    job_document_id VARCHAR(24) NOT NUll
+    job_document_id VARCHAR(24)
 );
 
+
 CREATE TABLE Staff(
-	id INT PRIMARY KEY,
+	id INT AUTO_INCREMENT PRIMARY KEY,
     ssn INT UNIQUE NOT NULL,
     manager_id INT,
     department_id INT NOT NULL,
@@ -66,14 +68,16 @@ CREATE TABLE Staff(
     hire_date DATE NOT NULL,
     employment_type ENUM ('Full_Time', 'Shift_Based') NOT NULL,
     employment_status ENUM ('Active', 'Terminated') NOT NULL,
-    employment_document_id VARCHAR(24) NOT NULL,
+    employment_document_id VARCHAR(24),
     FOREIGN KEY (manager_id) REFERENCES Staff(id),
     FOREIGN KEY (department_id) REFERENCES Departments (id),
     FOREIGN KEY (job_id) REFERENCES Jobs (id));
 
+ALTER TABLE Staff MODIFY employment_document_id VARCHAR(24) NULL;
+
 
 CREATE TABLE Staff_Schedule (
-	id INT PRIMARY KEY,
+	id INT AUTO_INCREMENT PRIMARY KEY,
     staff_id INT NOT NULL,
     schedule_date DATE NOT NULL,
     start_time TIME NOT NULL,
@@ -84,7 +88,7 @@ CREATE TABLE Staff_Schedule (
 );
 
 CREATE TABLE Appointments (
-	id INT PRIMARY KEY,
+	id INT AUTO_INCREMENT PRIMARY KEY,
     patient_id INT NOT NULL,
     doctor_id INT NOT NULL,
     appointment_purpose TEXT NOT NULL,
@@ -94,7 +98,7 @@ CREATE TABLE Appointments (
     appointment_charge DECIMAL(6,2) NOT NULL,
     schedule_id INT,
     appointment_status ENUM('Active', 'Finished', 'Cancelled') NOT NULL,
-    appointment_notes_document_id VARCHAR(24) NOT NULL,
+    appointment_notes_document_id VARCHAR(24),
     FOREIGN KEY (schedule_id) REFERENCES Staff_Schedule (id) ON DELETE SET NULL,
     FOREIGN KEY (patient_id) REFERENCES Patients (id),
     FOREIGN KEY (doctor_id) REFERENCES Staff (id),
@@ -102,7 +106,7 @@ CREATE TABLE Appointments (
 );
 
 CREATE TABLE Diagnoses (
-	id INT PRIMARY KEY,
+	id INT AUTO_INCREMENT PRIMARY KEY,
     patient_id INT NOT NULL,
     doctor_id INT NOT NULL,
     diagnosis_date DATE NOT NULL,
@@ -120,7 +124,7 @@ CREATE TABLE DiagnosesDetails (
 
 
 CREATE TABLE TreatmentHistory (
-	id INT PRIMARY KEY,
+	id INT AUTO_INCREMENT PRIMARY KEY,
     patient_id INT,
     doctor_id INT,
     diagnosis_id INT,
@@ -146,8 +150,8 @@ CREATE TABLE Drugs (
 
 
 CREATE TABLE Prescription_Details (
-	drug_code INT NOT NULL,
-    prescription_id INT NOT NULL,
+	drug_code INT,
+    prescription_id INT,
     quantity INT NOT NULL,
     price DECIMAL(6,2) NOT NULL,
     PRIMARY KEY (prescription_id, drug_code),
@@ -155,6 +159,7 @@ CREATE TABLE Prescription_Details (
     FOREIGN KEY (drug_code) REFERENCES Drugs (drug_code)
 
 );
+
 
 CREATE TABLE Test_Types(
 	id INT PRIMARY KEY AUTO_INCREMENT,
@@ -164,9 +169,8 @@ CREATE TABLE Test_Types(
     test_description TEXT
 );
 
-
 CREATE TABLE Test_Orders (
-	id INT PRIMARY KEY,
+	id INT AUTO_INCREMENT PRIMARY KEY,
     patient_id INT,
     ordering_staff_id INT,
     ordering_date DATE,
@@ -174,6 +178,7 @@ CREATE TABLE Test_Orders (
     FOREIGN KEY (ordering_staff_id) REFERENCES Staff(id)
 
 );
+
 
 CREATE TABLE Test_Details (
 	test_id INT,
@@ -191,7 +196,7 @@ CREATE TABLE Test_Details (
 
 
 CREATE TABLE Billings (
-	id INT PRIMARY KEY,
+	id INT AUTO_INCREMENT PRIMARY KEY,
     patient_id INT,
     billing_date DATE NOT NULL,
     total_amount DECIMAL(8,2) NOT NULL,
@@ -223,8 +228,3 @@ CREATE TABLE Job_Movement(
     FOREIGN KEY (old_job) REFERENCES Jobs (id),
     FOREIGN KEY (new_job) REFERENCES Jobs (id)
 );
-
-ALTER TABLE Test_Details MODIFY lab_result_document_id VARCHAR(24);
-
-SELECT Drugs.drug_name FROM Drugs;
-
