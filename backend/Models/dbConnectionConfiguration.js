@@ -29,22 +29,7 @@ class Database {
       connectionLimit: process.env.CONNECTION_LIMIT,
     });
 
-    this.poolFrontDesk = mysql.createPool({
-      host: process.env.DB_HOST,
-      user: process.env.DB_USER_SELLER,
-      password: process.env.DB_PASS_SELLER,
-      database: process.env.MYSQL_DB,
-      connectionLimit: process.env.CONNECTION_LIMIT,
-    });
-    this.poolHR = mysql.createPool({
-      host: process.env.DB_HOST,
-      user: process.env.DB_USER_SELLER,
-      password: process.env.DB_PASS_SELLER,
-      database: process.env.MYSQL_DB,
-      connectionLimit: process.env.CONNECTION_LIMIT,
-    });
-
-    this.poolBusinessOfficers = mysql.createPool({
+    this.poolSeller = mysql.createPool({
       host: process.env.DB_HOST,
       user: process.env.DB_USER_SELLER,
       password: process.env.DB_PASS_SELLER,
@@ -53,5 +38,3 @@ class Database {
     });
   }
 }
-
-module.exports = new Database();

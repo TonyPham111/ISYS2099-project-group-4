@@ -3,6 +3,7 @@
     "@biomejs/biome": "1.8.3"
   },
   "dependencies": {
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.5.2",
     "mysql2": "^3.11.0"
   }
