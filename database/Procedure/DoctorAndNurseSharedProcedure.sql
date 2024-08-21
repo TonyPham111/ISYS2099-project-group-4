@@ -50,7 +50,7 @@ BEGIN
         Test_Orders_Details.id,                -- The ID of the test order
         Test_Orders_Details.ordering_date,     -- The date the test was ordered
         Test_Orders_Details.ordering_doctor,   -- The name of the doctor who ordered the test
-        Staff.id AS administrating_nurse,      -- The ID of the nurse who administered the test
+        Staff.name AS administering_nurse,      -- The ID of the nurse who administered the test
         Test_Details.administering_date,       -- The date the test was administered
         Test_Details.administering_time,       -- The time the test was administered
         Test_Details.lab_result_document_id    -- The ID of the document containing the lab results
@@ -63,7 +63,7 @@ BEGIN
     INNER JOIN
         Staff                                  -- The Staff table to retrieve the name of the nurse who administered the test
     ON
-        Test_Details.administrating_staff_id = Staff.id -- Join on the staff ID to get the administering nurse's name
+        Test_Details.administering_staff_id = Staff.id -- Join on the staff ID to get the administering nurse's name
     INNER JOIN
         Test_Orders_Details                    -- The CTE to link the test details with the test orders
     ON
@@ -84,6 +84,7 @@ BEGIN
     -- Select various fields related to diagnoses for the specified patient
     SELECT
         Conditions.condition_name,            -- The name of the diagnosed condition
+        Conditions.description,
         Diagnoses.id AS diagnosis_id,         -- The ID of the diagnosis
         Staff.full_name AS doctor_name,       -- The full name of the doctor who made the diagnosis
         Diagnoses.diagnosis_date,             -- The date when the diagnosis was made
