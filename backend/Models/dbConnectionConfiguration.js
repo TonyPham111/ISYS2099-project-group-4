@@ -1,5 +1,5 @@
 const mysql = require("mysql2/promise");
-require('dotenv').configf();
+require('dotenv').config();
 
 class Database {
   constructor() {

@@ -1,15 +1,18 @@
 
-const { setTokenCookie, verifyToken } = require("Util");
-const { model } = require("../Models");
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
-const authenticate = async (req, res, next) => {
-  const { accessToken, refreshToken } = req.cookies;
+function authenticateToken(req, res, next) {
+    const token = req.header('Authorization').split(' ')[1];
+    if (!token) return res.status(401).json({ message: 'Access Denied' });
 
-  console.log("\n");
-  console.log("Access token: " + accessToken);
-  console.log("Refresh token: " + refreshToken);
-};
+    try {
+        const verified = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+        req.user = verified;
+        next();
+    } catch (err) {
+        res.status(400).json({ message: 'Invalid Token' });
+    }
+}
 
-module.exports = {
-  authenticate,
-};
+module.exports = authenticateToken;
