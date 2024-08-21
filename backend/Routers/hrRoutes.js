@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+//http protol 5 types: GET, POST, PUT, PATCH, DELETE
+
 //This handle the request to add new staff
 router.post("/hr/add_new_staff", (req, res) => {
     const {
@@ -19,6 +21,7 @@ router.post("/hr/add_new_staff", (req, res) => {
         employment_type,
         employment_document_id
     } = req.body
+    
 })
 
 //This will return a list of staff to the client

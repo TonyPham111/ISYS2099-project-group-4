@@ -169,12 +169,8 @@ SQL SECURITY DEFINER
 BEGIN
     -- Declare a variable to store the old wage of the staff
     DECLARE para_staff_id INT;
-    DECLARE para_old_wage DECIMAL(6,2);
-    DECLARE max_job_wage DECIMAL(6,2);
-    DECLARE min_job_wage DECIMAL(6,2);
     DECLARE error_message TEXT;
-    DECLARE para_job_id INT;
-
+    DECLARE new_wage DECIMAL(6,2);
     -- Error handling: In case of any SQL exception, rollback the transaction and return an error message
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
       BEGIN
@@ -192,41 +188,13 @@ BEGIN
         SET MESSAGE_TEXT = 'Id not exist. Please try again';
     END IF;
 
-    SELECT Staff.job_id INTO para_job_id FROM Staff WHERE id = para_staff_id;
-    SELECT Jobs.max_wage INTO max_job_wage FROM Jobs WHERE id = para_job_id;
-    SELECT Jobs.min_wage INTO min_job_wage FROM Jobs WHERE id = para_job_id;
-
-    -- Comparing the new wage to the correct wage range. If it falls outside of the range, an exception is raised
-    IF para_new_wage > max_job_wage OR para_new_wage < min_job_wage
-        THEN SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Wage does not fall within the correct range';
-    END IF;
-
-    -- Retrieve the current wage of the staff member and store it in the para_old_wage variable
-    SELECT wage INTO para_old_wage
-    FROM Staff
-    WHERE Staff.id = para_staff_id;
-
     -- Start a transaction to ensure all operations succeed or fail together
     START TRANSACTION;
-
+        SELECT ChangeWage(para_staff_id, para_new_wage) INTO new_wage;
         -- Update the wage of the staff member in the Staff table
         UPDATE Staff
-        SET wage = para_new_wage
+        SET wage = new_wage
         WHERE Staff.id = para_staff_id;
-
-        -- Insert a record into the Salary_Change table to log the wage change
-        INSERT INTO Salary_Change (
-            staff_id,                     -- The ID of the staff member
-            old_wage,                     -- The previous wage of the staff member
-            new_wage,                     -- The new wage of the staff member
-            date_change                   -- The date of the wage change
-        ) VALUES (
-            para_staff_id,                     -- The provided staff ID
-            para_old_wage,                -- The old wage value retrieved earlier
-            para_new_wage,                -- The new wage value provided as input
-            CURDATE()                     -- The current date as the date of the change
-        );
 
     -- Commit the transaction to save all changes
     COMMIT;
@@ -246,16 +214,12 @@ CREATE PROCEDURE ChangeJob(
 BEGIN
     -- Declare variables to store the IDs of the new and old jobs
     DECLARE new_manager_id INT DEFAULT NULL;
-    DECLARE target_department_id INT DEFAULT NULL;
-    DECLARE current_department_id INT;
     DECLARE local_new_job INT;
     DECLARE local_old_job INT;
     DECLARE para_staff_id INT;
-    DECLARE min_new_job_wage DECIMAL(6,2);
-    DECLARE max_new_job_wage DECIMAL(6,2);
-    DECLARE para_old_wage DECIMAL(6,2);
+    DECLARE new_wage INT;
+    DECLARE target_department_id INT;
     DECLARE error_message TEXT;
-
     -- Error handling: In case of any SQL exception, rollback the transaction and return an error message
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
        BEGIN
@@ -282,15 +246,6 @@ BEGIN
         SET MESSAGE_TEXT = 'job does not exist';
     END IF;
 
-    -- Check if the new wage matches with the wage range of the new job
-    SELECT Jobs.max_wage INTO max_new_job_wage FROM Jobs WHERE id = local_new_job;
-    SELECT Jobs.min_wage INTO min_new_job_wage FROM Jobs WHERE id = local_new_job;
-     -- Comparing the new wage to the correct wage range. If it falls outside of the range, an exception is raised
-    IF para_new_wage > max_new_job_wage OR para_new_wage < min_new_job_wage
-        THEN SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Wage does not fall within the correct range';
-    END IF;
-
     -- Check if the new manager name exists
     IF new_manager_name IS NOT NULL THEN
         SELECT id INTO new_manager_id FROM Staff WHERE full_name = new_manager_name;
@@ -300,44 +255,30 @@ BEGIN
         end if;
     end if;
 
-
-    -- Check if the new department name exists
-    IF new_department_name IS NOT NULL THEN
-        SELECT id INTO target_department_id FROM Departments WHERE department_name = new_department_name;
-        SELECT Staff.department_id into current_department_id FROM Staff WHERE id = para_staff_id;
-        IF target_department_id IS NULL THEN
-            SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Incorrect department name. Please check your input';
-        end if;
-    end if;
-
     -- Retrieve the current job ID of the staff member and store it in local_old_job
     SELECT job_id INTO local_old_job
     FROM Staff
     WHERE Staff.id = staff_id;
 
-    -- Retrieve the current wage of the staff member
-    SELECT wage INTO para_old_wage FROM Staff WHERE id = para_staff_id;
-
     -- Start a transaction to ensure all operations succeed or fail together
     START TRANSACTION;
+        SELECT ChangeWageFunction(para_staff_id, para_new_wage ) INTO new_wage;
         -- Update the job ID and wage of the staff member in the Staff table to the new job ID
         IF new_department_name IS NULL THEN
             UPDATE Staff
                 SET Staff.job_id = local_new_job,
-                Staff.wage = para_new_wage,
+                Staff.wage = new_wage,
                 Staff.manager_id = new_manager_id
             WHERE Staff.id = staff_id;
         ELSE
+            SELECT ChangeDepartmentFunction(para_staff_id, new_department_name) INTO target_department_id;
             UPDATE Staff
                 SET Staff.job_id = local_new_job,
-                Staff.wage = para_new_wage,
+                Staff.wage = new_wage,
                 Staff.manager_id = new_manager_id,
                 Staff.department_id = target_department_id
             WHERE Staff.id = staff_id;
         END If;
-
-
         -- Insert a record into the Job_Movement table to log the job change
         INSERT INTO Job_Movement (
             staff_id,                   -- The ID of the staff member
@@ -350,34 +291,6 @@ BEGIN
             local_new_job,              -- The new job ID retrieved earlier
             CURDATE()                   -- The current date as the date of the job change
         );
-        -- Insert a record into the Salary_Change table to log the wage change
-        INSERT INTO Salary_Change (
-            staff_id,                     -- The ID of the staff member
-            old_wage,                     -- The previous wage of the staff member
-            new_wage,                     -- The new wage of the staff member
-            date_change                   -- The date of the wage change
-        ) VALUES (
-            para_staff_id,                     -- The provided staff ID
-            para_old_wage,                -- The old wage value retrieved earlier
-            para_new_wage,                -- The new wage value provided as input
-            CURDATE()                     -- The current date as the date of the change
-        );
-
-        -- If there is a change in department, insert a new entry into the department_change table
-            IF new_department_name IS NOT NULL THEN
-                INSERT INTO Department_Change (
-                    staff_id,
-                    old_department_id,
-                    new_department_id,
-                    date_change)
-                VALUES (
-                    para_staff_id,
-                    current_department_id,
-                    target_department_id,
-                    CURDATE() )
-                ;
-            END IF;
-
     -- Commit the transaction to save all changes
     COMMIT;
 END;
@@ -396,8 +309,8 @@ BEGIN
     DECLARE error_message TEXT;
     DECLARE para_staff_id INT;
     DECLARE para_manager_id INT;
-    DECLARE target_department_id INT;
-    DECLARE current_department_id INT;
+    DECLARE para_new_department_id INT;
+
 
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
       BEGIN
@@ -423,34 +336,13 @@ BEGIN
         END IF;
     END IF;
 
-    -- Check if the input department name is correct
-    SELECT id INTO target_department_id FROM Departments WHERE department_name = target_department_name;
-    SELECT Staff.department_id into current_department_id FROM Staff WHERE id = para_staff_id;
-        IF target_department_id IS NULL THEN
-            SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Incorrect department name. Please check your input';
-        end if;
-
     START TRANSACTION;
+        SELECT ChangeDepartment(para_staff_id, target_department_name) INTO para_new_department_id;
         -- Update the department id of the relevant staff
         UPDATE Staff SET
-                    Staff.department_id = target_department_id,
+                    Staff.department_id = para_new_department_id,
                     Staff.manager_id = para_manager_id
         WHERE id = para_staff_id;
-
-        -- Log the change into the department_change table
-        INSERT INTO Department_Change (
-                    staff_id,
-                    old_department_id,
-                    new_department_id,
-                    date_change)
-        VALUES (
-                    para_staff_id,
-                    current_department_id,
-                    target_department_id,
-                    CURDATE()
-               );
-
     COMMIT;
 END;
 GRANT EXECUTE ON PROCEDURE hospital_management_system.ChangeDepartment TO 'HR'@'host';

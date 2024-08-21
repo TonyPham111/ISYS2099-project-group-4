@@ -15,7 +15,6 @@ CALL AddNewStaff(
     NULL   -- Random employment document ID for the manager
 );
 
-SELECT * FROM Staff;
 
 -- Now insert the new doctor under this manager (Example 1)
 CALL AddNewStaff(

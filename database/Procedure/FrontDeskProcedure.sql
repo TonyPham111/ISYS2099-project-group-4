@@ -13,7 +13,6 @@ BEGIN
     INSERT INTO Patients (ssn, full_name, birth_date, phone_number, email, home_address, gender)
     VALUES (para_ssn, para_full_name, para_birth_date, para_phone_number, para_email, para_home_address, para_gender);
 END;
-DROP PROCEDURE IF EXISTS AddNewPatient;
 GRANT EXECUTE ON PROCEDURE hospital_management_system.AddNewPatient TO 'FrontDesk'@'host';
 
 
