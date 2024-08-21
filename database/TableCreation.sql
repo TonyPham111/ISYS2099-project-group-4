@@ -228,3 +228,17 @@ CREATE TABLE Job_Movement(
     FOREIGN KEY (old_job) REFERENCES Jobs (id),
     FOREIGN KEY (new_job) REFERENCES Jobs (id)
 );
+
+CREATE TABLE Department_Change(
+    staff_id INT,
+    old_department_id INT,
+    new_department_id INT,
+    date_change DATE,
+    PRIMARY KEY (staff_id, old_department_id, new_department_id, date_change),
+    FOREIGN KEY (staff_id) REFERENCES Staff (id),
+    FOREIGN KEY (old_department_id) REFERENCES Departments(id),
+    FOREIGN KEY (new_department_id) REFERENCES Departments(id)
+
+);
+
+
