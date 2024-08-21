@@ -1,3 +1,4 @@
+
 CREATE PROCEDURE AddNewPatient(
     para_ssn INT,                         -- Parameter for the patient's SSN (Social Security Number)
     para_full_name VARCHAR(50),           -- Parameter for the full name of the patient
@@ -76,7 +77,7 @@ GRANT EXECUTE ON PROCEDURE hospital_management_system.CheckAvailability TO 'Fron
 
 
 CREATE PROCEDURE AddNewAppointment(
-    para_doctor_id INT,                        -- Parameter for the doctor ID who will handle the appointment
+    para_staff_id INT,                        -- Parameter for the doctor ID who will handle the appointment
     para_patient_name VARCHAR(50),                       -- Parameter for the patient ID who is scheduling the appointment
     para_appointment_purpose TEXT,             -- Parameter for the purpose of the appointment
     para_appointment_date DATE,                -- Parameter for the date of the appointment
@@ -88,11 +89,9 @@ CREATE PROCEDURE AddNewAppointment(
 SQL SECURITY DEFINER
 BEGIN
     -- Declare variables to be used in the procedure
-    DECLARE clash_count INT; -- Count the number of timetable clashes and put it here
+    DECLARE para_doctor_id INT;
     DECLARE new_schedule_id INT; -- Variable to store the newly generated schedule id
     DECLARE error_message TEXT; -- Variable to store the error message
-    DECLARE business_start TIME DEFAULT '09:00:00'; -- Variable to store the start of the business hour
-    DECLARE business_end TIME DEFAULT '17:00:00'; -- Variable to store the end of the business hour
     DECLARE para_patient_id INT;
     DECLARE appointment_duration INT;             -- Variable to store the duration of the appointment in minutes
     DECLARE para_appointment_charge DECIMAL(6,2) DEFAULT 400.5;      -- Variable to store the charge for the appointment
@@ -106,6 +105,14 @@ BEGIN
             SELECT error_message AS ErrorMessage;  -- Return an error message
         END;
 
+    -- Check if the id exists and belongs to a doctor
+    SELECT id INTO para_doctor_id FROM Staff WHERE id = para_staff_id AND job_id = 2;
+    IF para_doctor_id IS NULL THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Incorrect doctor id. Please check your input';
+    END IF;
+
+
     -- Find the id of the patient based on their name
     SELECT
         Patients.id
@@ -115,42 +122,13 @@ BEGIN
         Patients
     WHERE full_name = para_patient_name;
 
-    -- Raise an exception if no patient is found
+        -- Raise an exception if no patient is found
     IF para_patient_id IS NULL THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Cannot find patient. Please try again';
     END IF;
 
-    -- Check if the input time is within business hour. Raise an exception if it isn't
-    IF
-        para_start_time < business_start
-            OR
-        para_start_time > business_end
-            OR
-        para_end_time < business_start
-            OR
-        para_end_time > business_end THEN
-            SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Outside of business hour. Please choose other times';
-    END IF;
-
-    -- Check if there is a timetable clash
-    SELECT COUNT(*) INTO clash_count
-    FROM Staff_Schedule
-    WHERE
-        Staff_Schedule.schedule_date = para_appointment_date
-            AND
-        (
-            Staff_Schedule.start_time > para_start_time AND Staff_Schedule.start_time < para_end_time
-                OR
-            Staff_Schedule.start_time <= para_start_time AND Staff_Schedule.end_time > para_start_time
-        )
-    GROUP BY Staff_Schedule.staff_id;
-
-    IF clash_count IS NOT NULL THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Schedule clash detected. Please choose another time';
-    END IF ;
+    CALL CheckBookingTime(para_doctor_id, para_appointment_date, para_start_time, para_end_time);
 
     -- Calculate the duration of the appointment in minutes
     SET appointment_duration = TIME_TO_SEC(TIMEDIFF(para_end_time, para_start_time)) / 60;
@@ -200,19 +178,60 @@ BEGIN
     -- Commit the transaction to save all changes
     COMMIT;
 END;
+DROP PROCEDURE IF EXISTS AddNewAppointment;
 GRANT EXECUTE ON PROCEDURE hospital_management_system.AddNewAppointment TO 'FrontDesk'@'host';
+
+
+
+
+CREATE PROCEDURE CancelAnAppointment(appointment_id INT)  -- Procedure to cancel an appointment by its ID
+SQL SECURITY DEFINER
+BEGIN
+    -- Declare a variable to store the schedule ID linked to the appointment
+    DECLARE schedule_id INT;
+
+    -- Error handling: In case of any SQL exception, rollback the transaction and return an error message
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        ROLLBACK;  -- Rollback any changes made during the transaction
+        SELECT 'An error occurred. Transaction rolled back.' AS ErrorMessage;  -- Return an error message
+    END;
+
+    -- Retrieve the schedule ID associated with the appointment
+    SELECT Appointments.schedule_id INTO schedule_id
+    FROM Appointments
+    WHERE Appointments.id = appointment_id
+    LIMIT 1;
+
+    -- Start a transaction to ensure all operations succeed or fail together
+    START TRANSACTION;
+
+    -- Update the appointment status to 'Cancelled' in the Appointments table
+    UPDATE Appointments
+    SET appointment_status = 'Cancelled'
+    WHERE Appointments.id = appointment_id;
+
+    -- Delete the corresponding schedule from the Staff_Schedule table using the retrieved schedule ID
+    DELETE FROM Staff_Schedule
+    WHERE Staff_Schedule.id = schedule_id;
+
+    -- Commit the transaction to save all changes
+    COMMIT;
+END;
+GRANT EXECUTE ON PROCEDURE hospital_management_system.CancelAnAppointment TO 'FrontDesk'@'host';
 
 
 
 CREATE PROCEDURE RescheduleAnAppointment(
     appointment_id INT,          -- Parameter for the ID of the appointment to be rescheduled
-    appointment_date DATE,       -- Parameter for the new date of the appointment
-    start_time TIME,             -- Parameter for the new start time of the appointment
-    end_time TIME                -- Parameter for the new end time of the appointment
+    para_appointment_date DATE,       -- Parameter for the new date of the appointment
+    para_start_time TIME,             -- Parameter for the new start time of the appointment
+    para_end_time TIME                -- Parameter for the new end time of the appointment
 )
 SQL SECURITY DEFINER
 BEGIN
     -- Declare variables to be used in the procedure
+    DECLARE para_doctor_id INT;
     DECLARE schedule_id INT;                 -- Variable to store the schedule ID associated with the appointment
     DECLARE appointment_duration INT;        -- Variable to store the duration of the appointment in minutes
     DECLARE appointment_charge DEC(6,2);     -- Variable to store the updated charge for the appointment
@@ -224,8 +243,12 @@ BEGIN
         SELECT 'An error occurred. Transaction rolled back.' AS ErrorMessage;  -- Return an error message
     END;
 
+    SELECT Appointments.doctor_id INTO para_doctor_id FROM Appointments WHERE id = appointment_id;
+
+    CALL CheckBookingTime(para_doctor_id, para_appointment_date, para_start_time, para_end_time);
+
     -- Calculate the duration of the appointment in minutes
-    SET appointment_duration = TIME_TO_SEC(TIMEDIFF(end_time, start_time)) / 60;
+    SET appointment_duration = TIME_TO_SEC(TIMEDIFF(para_end_time, para_start_time)) / 60;
 
     -- Calculate the charge for the appointment based on the new duration (assuming appointment_charge is predefined)
     SET appointment_charge = appointment_charge * appointment_duration / 30;
@@ -248,9 +271,9 @@ BEGIN
 
         -- Update the schedule details in the Staff_Schedule table
         UPDATE Staff_Schedule
-        SET schedule_date = appointment_date,        -- Update the schedule date
-            start_time = start_time,                 -- Update the start time
-            end_time = end_time                      -- Update the end time
+        SET schedule_date = para_appointment_date,        -- Update the schedule date
+            start_time = para_start_time,                 -- Update the start time
+            end_time = para_end_time                      -- Update the end time
         WHERE id = schedule_id;                      -- Specify the schedule to update by its ID
 
     -- Commit the transaction to save all changes
