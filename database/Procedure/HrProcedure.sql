@@ -36,15 +36,35 @@ BEGIN
     FROM Jobs
     WHERE Jobs.job_name = para_job_name;
 
+    -- Check if the input job name is correct
+    IF job_id IS NULL THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Job not found. Please make sure that your input is correct';
+    END IF;
+
     -- Lookup the department ID based on the provided department name
     SELECT id INTO department_id
     FROM Departments
     WHERE Departments.department_name = para_department_name;
 
+    -- Check if the input department name is correct
+    IF department_id IS NULL THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Department not found. Please make sure that your input is correct';
+    END IF;
+
     -- Lookup the manager ID based on the provided manager name
-    SELECT id INTO manager_id
-    FROM Staff
-    WHERE Staff.full_name = para_manager_name;
+    IF para_manager_name IS NOT NULL THEN
+         SELECT id INTO manager_id
+        FROM Staff
+        WHERE Staff.full_name = para_manager_name;
+
+         IF manager_id IS NULL THEN
+             SIGNAL SQLSTATE '45000'
+             SET MESSAGE_TEXT = 'manager not found. Please ensure that your input is correct';
+         end if;
+    END IF;
+
 
     -- Compare the input wage and the wage range of the job. Raise an exception if it does not fall within the correct wage range
     SELECT Jobs.max_wage INTO max_job_wage FROM Jobs WHERE id = job_id;
@@ -54,16 +74,6 @@ BEGIN
         THEN SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Wage does not fall within the correct range';
     END IF;
-
-    -- Check if the manager exists. Raise an exception if they don't
-    IF manager_id IS NULL
-        THEN SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Cannot find manager. Please try again or Leave the manager field empty';
-    END IF;
-
-
-    -- Start a transaction to ensure all operations succeed or fail together
-    START TRANSACTION;
 
         -- Insert the new staff member into the Staff table
         INSERT INTO Staff (
@@ -102,8 +112,7 @@ BEGIN
             para_employment_document_id    -- Provided employment document ID
         );
 
-    -- Commit the transaction to save all changes
-    COMMIT;
+
 END;
 GRANT EXECUTE ON PROCEDURE hospital_management_system.AddNewStaff TO 'HR'@'host';
 
@@ -132,7 +141,7 @@ BEGIN
 
     FROM
         Staff AS Manager                      -- The Staff table is referenced as Manager for joining purposes
-    INNER JOIN
+    RIGHT OUTER JOIN
         Staff AS Non_Manager                  -- The Staff table is referenced again as Non_Manager for the actual data retrieval
     ON
         Manager.id = Non_Manager.Manager_id   -- Joining Staff with itself to link each non-managerial staff member with their manager
@@ -151,25 +160,50 @@ GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchAllStaff TO 'HR'@'hos
 
 
 CREATE PROCEDURE ChangeWage(
-    staff_id INT,                        -- Parameter for the ID of the staff member whose wage is to be changed
+    para_staff_id INT,                        -- Parameter for the ID of the staff member whose wage is to be changed
     para_new_wage DECIMAL(6,2)           -- Parameter for the new wage amount
 )
 SQL SECURITY DEFINER
 BEGIN
-    -- Declare a variable to store the old wage of the staff member
+    -- Declare a variable to store the old wage of the staff
+    DECLARE staff_id INT;
     DECLARE para_old_wage DECIMAL(6,2);
+    DECLARE max_job_wage DECIMAL(6,2);
+    DECLARE min_job_wage DECIMAL(6,2);
+    DECLARE error_message TEXT;
+    DECLARE para_job_id INT;
 
     -- Error handling: In case of any SQL exception, rollback the transaction and return an error message
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
-    BEGIN
-        ROLLBACK;  -- Rollback any changes made during the transaction
-        SELECT 'An error occurred. Transaction rolled back.' AS ErrorMessage;  -- Return an error message
-    END;
+      BEGIN
+            GET DIAGNOSTICS CONDITION 1
+                error_message = MESSAGE_TEXT;
+            ROLLBACK;
+            SELECT error_message AS ErrorMessage;  -- Return an error message
+        END;
+
+    -- Check if input staff id exists
+    SELECT id INTO staff_id FROM Staff WHERE id = para_staff_id;
+
+    IF staff_id IS NULL THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Id not exist. Please try again';
+    END IF;
+
+    SELECT Staff.job_id INTO para_job_id FROM Staff WHERE id = para_staff_id;
+    SELECT Jobs.max_wage INTO max_job_wage FROM Jobs WHERE id = para_job_id;
+    SELECT Jobs.min_wage INTO min_job_wage FROM Jobs WHERE id = para_job_id;
+
+    -- Comparing the new wage to the correct wage range. If it falls outside of the range, an exception is raised
+    IF para_new_wage > max_job_wage OR para_new_wage < min_job_wage
+        THEN SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Wage does not fall within the correct range';
+    END IF;
 
     -- Retrieve the current wage of the staff member and store it in the para_old_wage variable
     SELECT wage INTO para_old_wage
     FROM Staff
-    WHERE Staff.id = staff_id;
+    WHERE Staff.id = para_staff_id;
 
     -- Start a transaction to ensure all operations succeed or fail together
     START TRANSACTION;
@@ -177,7 +211,7 @@ BEGIN
         -- Update the wage of the staff member in the Staff table
         UPDATE Staff
         SET wage = para_new_wage
-        WHERE Staff.id = staff_id;
+        WHERE Staff.id = para_staff_id;
 
         -- Insert a record into the Salary_Change table to log the wage change
         INSERT INTO Salary_Change (
@@ -201,24 +235,53 @@ GRANT EXECUTE ON PROCEDURE hospital_management_system.ChangeWage TO 'HR'@'host';
 
 CREATE PROCEDURE ChangeJob(
     staff_id INT,                      -- Parameter for the ID of the staff member whose job is to be changed
-    new_job_name VARCHAR(50)           -- Parameter for the new job name/title
+    new_job_name VARCHAR(50),           -- Parameter for the new job name/title
+    para_new_wage DECIMAL(6,2)
 )
 BEGIN
     -- Declare variables to store the IDs of the new and old jobs
     DECLARE local_new_job INT;
     DECLARE local_old_job INT;
+    DECLARE para_staff_id INT;
+    DECLARE min_new_job_wage DECIMAL(6,2);
+    DECLARE max_new_job_wage DECIMAL(6,2);
+    DECLARE para_old_wage DECIMAL(6,2);
+    DECLARE error_message TEXT;
 
     -- Error handling: In case of any SQL exception, rollback the transaction and return an error message
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
-    BEGIN
-        ROLLBACK;  -- Rollback any changes made during the transaction
-        SELECT 'An error occurred. Transaction rolled back.' AS ErrorMessage;  -- Return an error message
-    END;
+       BEGIN
+            GET DIAGNOSTICS CONDITION 1
+                error_message = MESSAGE_TEXT;
+            ROLLBACK;
+            SELECT error_message AS ErrorMessage;  -- Return an error message
+        END;
+
+    -- Check if the input staff id is correct
+    SELECT Staff.id INTO para_staff_id FROM Staff WHERE id = staff_id;
+    IF para_staff_id IS NULL THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Staff id not found. Please try again';
+    END IF;
 
     -- Retrieve the job ID of the new job based on the provided job name and store it in local_new_job
     SELECT id INTO local_new_job
     FROM Jobs
     WHERE Jobs.job_name = new_job_name;
+    -- check if the input job name is correct
+    IF local_new_job IS NULL THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'job does not exist';
+    END IF;
+
+    -- Check if the new wage matches with the wage range of the new job
+    SELECT Jobs.max_wage INTO max_new_job_wage FROM Jobs WHERE id = local_new_job;
+    SELECT Jobs.min_wage INTO min_new_job_wage FROM Jobs WHERE id = local_new_job;
+     -- Comparing the new wage to the correct wage range. If it falls outside of the range, an exception is raised
+    IF para_new_wage > max_new_job_wage OR para_new_wage < min_new_job_wage
+        THEN SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Wage does not fall within the correct range';
+    END IF;
 
     -- Retrieve the current job ID of the staff member and store it in local_old_job
     SELECT job_id INTO local_old_job
@@ -227,10 +290,10 @@ BEGIN
 
     -- Start a transaction to ensure all operations succeed or fail together
     START TRANSACTION;
-
-        -- Update the job ID of the staff member in the Staff table to the new job ID
+        -- Update the job ID and wage of the staff member in the Staff table to the new job ID
         UPDATE Staff
-        SET Staff.job_id = local_new_job
+        SET Staff.job_id = local_new_job,
+            Staff.wage = para_new_wage
         WHERE Staff.id = staff_id;
 
         -- Insert a record into the Job_Movement table to log the job change
@@ -244,6 +307,18 @@ BEGIN
             local_old_job,              -- The old job ID retrieved earlier
             local_new_job,              -- The new job ID retrieved earlier
             CURDATE()                   -- The current date as the date of the job change
+        );
+        -- Insert a record into the Salary_Change table to log the wage change
+        INSERT INTO Salary_Change (
+            staff_id,                     -- The ID of the staff member
+            old_wage,                     -- The previous wage of the staff member
+            new_wage,                     -- The new wage of the staff member
+            date_change                   -- The date of the wage change
+        ) VALUES (
+            staff_id,                     -- The provided staff ID
+            para_old_wage,                -- The old wage value retrieved earlier
+            para_new_wage,                -- The new wage value provided as input
+            CURDATE()                     -- The current date as the date of the change
         );
 
     -- Commit the transaction to save all changes
