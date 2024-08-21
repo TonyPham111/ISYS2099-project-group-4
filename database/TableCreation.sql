@@ -55,7 +55,7 @@ CREATE TABLE Staff(
 	id INT AUTO_INCREMENT PRIMARY KEY,
     ssn INT UNIQUE NOT NULL,
     manager_id INT,
-    department_id INT NOT NULL,
+    department_id INT,
     job_id INT,
     full_name VARCHAR(50) NOT NULL,
     gender ENUM('M', 'F') NOT NULL,
