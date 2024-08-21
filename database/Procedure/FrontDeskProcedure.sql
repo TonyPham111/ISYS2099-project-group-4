@@ -1,81 +1,20 @@
-CREATE PROCEDURE AddNewPatient(                            -- Parameter for the patient ID
+CREATE PROCEDURE AddNewPatient(
     para_ssn INT,                         -- Parameter for the patient's SSN (Social Security Number)
     para_full_name VARCHAR(50),           -- Parameter for the full name of the patient
     para_gender CHAR(1),                  -- Parameter for the patient's gender (e.g., 'M' or 'F')
     para_birth_date DATE,                 -- Parameter for the patient's birth date
     para_phone_number VARCHAR(15),        -- Parameter for the patient's phone number
     para_email VARCHAR(50),               -- Parameter for the patient's email address
-    para_home_address VARCHAR(155),       -- Parameter for the patient's home address
-    para_allergy_index_string TEXT        -- Parameter for a comma-separated string of allergy IDs
+    para_home_address VARCHAR(155)       -- Parameter for the patient's home address
 )
 SQL SECURITY DEFINER
 BEGIN
-    -- Declare variables to be used in the procedure
-    DECLARE new_patient_id TEXT;
-    DECLARE error_message TEXT;
-    DECLARE error_code INT;
-    DECLARE para_allergy_id INT;
-    DECLARE current_index INT DEFAULT 1;                   -- Variable to keep track of the current index in the allergy ID string
-    DECLARE current_string_index VARCHAR(1000) DEFAULT ''; -- Variable to accumulate the current allergy ID being processed
-
-    -- Error handling: In case of any SQL exception, rollback the transaction and return an error message
-    DECLARE EXIT HANDLER FOR SQLEXCEPTION
-        BEGIN
-            GET DIAGNOSTICS CONDITION 1
-                error_message = MESSAGE_TEXT;
-            ROLLBACK;  -- Rollback any changes made during the transaction
-            SELECT 'An error occurred. Transaction rolled back.' AS ErrorMessage;  -- Return an error message
-        END;
-    -- Start a transaction to ensure all operations succeed or fail together
-    START TRANSACTION;
-
     -- Insert a new record into the Patients table with the provided parameters
     INSERT INTO Patients (ssn, full_name, birth_date, phone_number, email, home_address, gender)
     VALUES (para_ssn, para_full_name, para_birth_date, para_phone_number, para_email, para_home_address, para_gender);
-    SELECT LAST_INSERT_ID() INTO new_patient_id;
-
-    -- Begin a loop to process the comma-separated allergy IDs in para_allergy_index_string
-    WHILE current_index <= LENGTH(para_allergy_index_string) DO
-        -- Check if the current character is a comma, indicating the end of an allergy ID
-        IF SUBSTRING(para_allergy_index_string, current_index, 1) = ',' THEN
-            SELECT id INTO para_allergy_id FROM Allergies WHERE allergy_name = current_string_index LIMIT 1;
-            -- Raise an exception in case of incorrectly input allergy name
-            IF para_allergy_id IS NULL THEN
-                SIGNAL SQLSTATE '45000'
-                SET MESSAGE_TEXT = 'Cannot find allergy. Please check your input';
-            END IF;
-
-            SELECT para_allergy_id;
-            -- Insert the processed allergy ID into the PatientAllergy table
-            INSERT INTO PatientAllergy (allergy_id, patient_id, record_date)
-            VALUES (para_allergy_id, new_patient_id, CURDATE());
-
-            -- Reset the accumulated string index for the next iteration
-            SET current_string_index = '';
-        ELSE
-            SET current_string_index = CONCAT(current_string_index, SUBSTRING(para_allergy_index_string, current_index, 1));
-        END IF;
-
-        -- Move to the next character in the string
-        SET current_index = current_index + 1;
-    END WHILE;
-
-    -- After exiting the loop, handle the last allergy ID in the string (if there is any remaining)
-    SELECT id INTO para_allergy_id FROM Allergies WHERE allergy_name = current_string_index LIMIT 1;
-    IF para_allergy_id IS NULL THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Cannot find allergy. Please check your input';
-    END IF;
-    -- Insert the processed allergy ID into the PatientAllergy table
-    INSERT INTO PatientAllergy (allergy_id, patient_id, record_date)
-    VALUES (para_allergy_id, new_patient_id, CURDATE());
-
-    -- Commit the transaction to save all changes
-    COMMIT;
 END;
+DROP PROCEDURE IF EXISTS AddNewPatient;
 GRANT EXECUTE ON PROCEDURE hospital_management_system.AddNewPatient TO 'FrontDesk'@'host';
-
-
 
 
 CREATE PROCEDURE CheckAvailability(
@@ -150,6 +89,7 @@ CREATE PROCEDURE AddNewAppointment(
 SQL SECURITY DEFINER
 BEGIN
     -- Declare variables to be used in the procedure
+    DECLARE clash_count INT; -- Count the number of timetable clashes and put it here
     DECLARE new_schedule_id INT; -- Variable to store the newly generated schedule id
     DECLARE error_message TEXT; -- Variable to store the error message
     DECLARE business_start TIME DEFAULT '09:00:00'; -- Variable to store the start of the business hour
@@ -194,6 +134,24 @@ BEGIN
             SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'Outside of business hour. Please choose other times';
     END IF;
+
+    -- Check if there is a timetable clash
+    SELECT COUNT(*) INTO clash_count
+    FROM Staff_Schedule
+    WHERE
+        Staff_Schedule.schedule_date = para_appointment_date
+            AND
+        (
+            Staff_Schedule.start_time > para_start_time AND Staff_Schedule.start_time < para_end_time
+                OR
+            Staff_Schedule.start_time <= para_start_time AND Staff_Schedule.end_time > para_start_time
+        )
+    GROUP BY Staff_Schedule.staff_id;
+
+    IF clash_count IS NOT NULL THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Schedule clash detected. Please choose another time';
+    END IF ;
 
     -- Calculate the duration of the appointment in minutes
     SET appointment_duration = TIME_TO_SEC(TIMEDIFF(para_end_time, para_start_time)) / 60;
@@ -244,45 +202,6 @@ BEGIN
     COMMIT;
 END;
 GRANT EXECUTE ON PROCEDURE hospital_management_system.AddNewAppointment TO 'FrontDesk'@'host';
-
-
-
-
-CREATE PROCEDURE CancelAnAppointment(appointment_id INT)  -- Procedure to cancel an appointment by its ID
-SQL SECURITY DEFINER
-BEGIN
-    -- Declare a variable to store the schedule ID linked to the appointment
-    DECLARE schedule_id INT;
-
-    -- Error handling: In case of any SQL exception, rollback the transaction and return an error message
-    DECLARE EXIT HANDLER FOR SQLEXCEPTION
-    BEGIN
-        ROLLBACK;  -- Rollback any changes made during the transaction
-        SELECT 'An error occurred. Transaction rolled back.' AS ErrorMessage;  -- Return an error message
-    END;
-
-    -- Retrieve the schedule ID associated with the appointment
-    SELECT Appointments.schedule_id INTO schedule_id
-    FROM Appointments
-    WHERE Appointments.id = appointment_id
-    LIMIT 1;
-
-    -- Start a transaction to ensure all operations succeed or fail together
-    START TRANSACTION;
-
-    -- Update the appointment status to 'Cancelled' in the Appointments table
-    UPDATE Appointments
-    SET appointment_status = 'Cancelled'
-    WHERE Appointments.id = appointment_id;
-
-    -- Delete the corresponding schedule from the Staff_Schedule table using the retrieved schedule ID
-    DELETE FROM Staff_Schedule
-    WHERE Staff_Schedule.id = schedule_id;
-
-    -- Commit the transaction to save all changes
-    COMMIT;
-END;
-GRANT EXECUTE ON PROCEDURE hospital_management_system.CancelAnAppointment TO 'FrontDesk'@'host';
 
 
 
