@@ -5,6 +5,20 @@ const router = express.Router();
 
 //This handle the request to add new staff
 router.post("/hr/add_new_staff", (req, res) => {
+    //Structure of an employment document
+    //_id
+    // encoded string of employment contract
+    // qualifications: [qualification]
+
+    //provider_name
+    //date
+    //certificate (encoded string)
+    const {
+        personal_info,
+        employment_document_info
+    } = req.body
+
+
     const {
         full_name,
         ssn,
@@ -20,7 +34,18 @@ router.post("/hr/add_new_staff", (req, res) => {
         wage,
         employment_type,
         employment_document_id
-    } = req.body
+    } = personal_info
+
+    const qualification_info = {
+        provider,
+        date,
+        certificate //either blob or encoded string
+    }
+    const {
+        _id,
+        employment_contract, //either blob or encoded string
+        qualifications: [] //containing qualification info objects
+    } = employment_document_info
     
 })
 

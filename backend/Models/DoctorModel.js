@@ -1,6 +1,16 @@
 const {poolDoctors} = require('./dbConnectionConfiguration');
 
 const queries = {
+    AddAllergyToPatient: async (para_id, allergy_name_string) => {
+        try {
+            const sql = `CALL AddAllergiesToPatients(?, ?)`;
+            const [results] = await poolDoctors.query(sql, [para_id, allergy_name_string]);
+            return results;
+        } catch (error) {
+            console.error("Error executing AddNewDiagnosis:", error);
+            return { error: "An error occurred while executing AddNewDiagnosis. Please try again later." };
+        }
+    },
     AddNewDiagnosis: async (para_id) => {
     try {
         const sql = `CALL AddNewDiagnosis(?)`;

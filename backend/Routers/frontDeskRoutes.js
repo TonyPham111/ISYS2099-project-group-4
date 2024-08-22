@@ -59,13 +59,19 @@ router.post("/frontdesk/check_doctor_availability", (req, res) => {
 })
 
 router.post("/frontdesk/add_new_appointment", (req, res) => {
+    //_id
+    //pre_appointment_note: [cough, fever, sneeze, etc]
+    //note_during_the_appointment: string
+    //post_appointmnet_note: string
+
     const {
         doctor_id,
         patient_name,
         appointment_date,
         appointment_start_time,
         appointment_end_time,
-        appointment_notes_document_id
+        appointment_notes_document_id,
+        symtomps_string
     } = req.body
 })
 

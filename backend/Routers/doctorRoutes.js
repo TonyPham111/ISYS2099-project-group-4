@@ -31,6 +31,13 @@ router.get('/doctor/patients', (req, res) => {
     res.send(patientMedicalInfo);
 })
 
+router.post('/doctor/add_allergies', (req, res) => {
+    const {
+        patient_id,
+        allergies : [] //containing allergy_id INT
+    } = req.body
+})
+
 router.get('/doctor/patient/:id/diagnosis', (req, res) => {
     const condition = {
         condition_name,

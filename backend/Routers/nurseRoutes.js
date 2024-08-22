@@ -81,11 +81,27 @@ router.get('/nurse/patient/:id/tests', (req, res) => {
      res.send(test_orders)
 })
 
-router.put('/doctor/update_test', (req, res) => {
+router.put('/nurse/update_test', (req, res) => {
+    //structure of lab_results_document
+    //_id
+    // pdf document of results (blob or encoded string)
+    // sample_image (blob or encoded string)
+
+    const {
+        test_details,
+        test_document
+    } = req.body
+
     const {
         test_order_id,
         test_type_id,
         administering_staff_id,
         lab_result_detail
-    } = req.body
+    } = test_details
+
+    const {
+        _id,
+        lab_result_document,
+        sample_image: [] 
+    } = test_document
 })

@@ -41,7 +41,6 @@ BEGIN
     WHERE 
         Test_Details.test_id = testID;
 END;
-
 GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'GetBillingsDetails' TO 'BusinessOfficers'@'host'
 
 

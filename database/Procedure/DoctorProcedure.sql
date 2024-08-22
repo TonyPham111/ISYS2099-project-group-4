@@ -8,6 +8,10 @@ BEGIN
     DECLARE current_string_index TEXT DEFAULT ''; -- Variable to accumulate the current allergy ID being processed
     DECLARE error_message TEXT;
     -- Error handling: In case of any SQL exception, rollback the transaction and return an error message
+    /**
+    SIGNAL SQLSTATE '45000'
+    SET MESSAGE_TEXT = 'patient not exist. Please try again'
+    **/
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         BEGIN
             GET DIAGNOSTICS CONDITION 1
@@ -15,6 +19,7 @@ BEGIN
             ROLLBACK;  -- Rollback any changes made during the transaction
             SELECT error_message AS ErrorMessage;  -- Return an error message
         END;
+    
     -- Start a transaction to ensure all operations succeed or fail together
     START TRANSACTION;
         -- Begin a loop to process the comma-separated allergy IDs in para_allergy_index_string
@@ -36,6 +41,8 @@ BEGIN
     COMMIT;
 END;
 GRANT EXECUTE ON PROCEDURE hospital_management_system.AddAllergiesToPatients TO 'Doctors'@'host';
+
+
 
 CREATE PROCEDURE AddNewDiagnosis(
     para_doctor_id INT,           -- Parameter for the doctor ID who made the diagnosis
