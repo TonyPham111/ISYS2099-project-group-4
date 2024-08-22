@@ -9,6 +9,9 @@ async function login(req, res) {
     // Select the appropriate database pool based on the role
     if (role === 'nurse') pool = poolNurses;
     else if (role === 'doctor') pool = poolDoctors;
+    else if (role === 'frontDesk') pool = poolFrontDesk;
+    else if (role === 'businessOfficer') pool = poolBusinessOfficer;
+    else if (role === 'hr') pool = poolHr;
     else return res.status(400).json({ message: 'Invalid role provided' });
 
     try {
