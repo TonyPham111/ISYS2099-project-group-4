@@ -11,7 +11,7 @@ BEGIN
     -- Find the id of the allergy with the given name
     SELECT id INTO para_allergy_id
     FROM Allergies
-    WHERE allergy_name = current_string_index
+    WHERE id = current_string_index
     LIMIT 1;
 
     -- Raise an exception in case of incorrectly input allergy name
@@ -43,7 +43,7 @@ BEGIN
      -- Fetch the condition code corresponding to the accumulated condition name
     SELECT Conditions.condition_code INTO para_condition_code
     FROM Conditions
-    WHERE Conditions.condition_name = current_string_code LIMIT 1;
+    WHERE Conditions.condition_code = current_string_code LIMIT 1;
 
     IF (para_condition_code IS NULL) THEN
         SIGNAL SQLSTATE '45000'
@@ -72,7 +72,7 @@ BEGIN
      -- Extract the drug code based on the drug name before the colon
     SELECT Drugs.drug_code INTO medicine_code
     FROM Drugs
-    WHERE Drugs.drug_name = SUBSTRING_INDEX(current_string_code, ':', 1) LIMIT 1;
+    WHERE Drugs.drug_code = SUBSTRING_INDEX(current_string_code, ':', 1) LIMIT 1;
 
     IF medicine_code IS NULL THEN
         SIGNAL SQLSTATE '45000'

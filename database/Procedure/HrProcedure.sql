@@ -1,8 +1,8 @@
 CREATE PROCEDURE AddNewStaff(
     para_full_name VARCHAR(50),               -- Parameter for the full name of the staff member
     para_ssn INT,                             -- Parameter for the Social Security Number (SSN) of the staff member
-    para_job_name VARCHAR(50),                -- Parameter for the job title of the staff member
-    para_department_name VARCHAR(50),         -- Parameter for the department name where the staff member will work
+    para_job_id VARCHAR(50),                -- Parameter for the job title of the staff member
+    para_department_id VARCHAR(50),         -- Parameter for the department name where the staff member will work
     para_manager_name VARCHAR(50),            -- Parameter for the full name of the staff member's manager
     para_gender CHAR(1),                      -- Parameter for the gender of the staff member
     para_birth_date DATE,                     -- Parameter for the birth date of the staff member
@@ -34,7 +34,7 @@ BEGIN
     -- Lookup the job ID based on the provided job name
     SELECT id INTO job_id
     FROM Jobs
-    WHERE Jobs.job_name = para_job_name;
+    WHERE Jobs.id = para_job_id;
 
     -- Check if the input job name is correct
     IF job_id IS NULL THEN
@@ -45,7 +45,7 @@ BEGIN
     -- Lookup the department ID based on the provided department name
     SELECT id INTO department_id
     FROM Departments
-    WHERE Departments.department_name = para_department_name;
+    WHERE Departments.id = para_department_id;
 
     -- Check if the input department name is correct
     IF department_id IS NULL THEN

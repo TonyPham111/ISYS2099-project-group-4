@@ -41,6 +41,42 @@ BEGIN
         );
     RETURN para_new_wage;
 
+END;
+
+CREATE FUNCTION ChangeDepartmentFunction(
+    para_staff_id INT,
+    target_department_name VARCHAR(50)
+)
+RETURNS INT
+DETERMINISTIC
+SQL SECURITY DEFINER
+BEGIN
+    DECLARE target_department_id INT;
+    DECLARE current_department_id INT;
+
+     -- Check if the input department name is correct
+    SELECT id INTO target_department_id FROM Departments WHERE department_name = target_department_name;
+    SELECT Staff.department_id into current_department_id FROM Staff WHERE id = para_staff_id;
+        IF target_department_id IS NULL THEN
+            SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Incorrect department name. Please check your input';
+        END IF;
+
+      INSERT INTO Department_Change (
+            staff_id,
+            old_department_id,
+            new_department_id,
+            date_change
+      )
+        VALUES (
+            para_staff_id,
+            current_department_id,
+            target_department_id,
+            CURDATE()
+        );
+
+    RETURN target_department_id;
 
 
 END;
+
