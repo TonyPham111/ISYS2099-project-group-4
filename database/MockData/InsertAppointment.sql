@@ -10,16 +10,16 @@ CREATE PROCEDURE CreateAppointment(
 )
 BEGIN
 	DECLARE random_doctor_id INT;
-    DECLARE random_patient_name VARCHAR(50);
+    DECLARE random_patient_id INT;
     DECLARE doctor_job_id INT;
     
     SELECT id INTO doctor_job_id FROM Jobs WHERE job_name = 'Doctor' LIMIT 1;
 
 	-- Select a random doctor and patient
 	SELECT id INTO random_doctor_id FROM Staff WHERE job_id = doctor_job_id ORDER BY RAND() LIMIT 1;
-	SELECT full_name INTO random_patient_name FROM Patients ORDER BY RAND() LIMIT 1;
+	SELECT id INTO random_patient_id FROM Patients ORDER BY RAND() LIMIT 1;
 	
-	CALL AddNewAppointment(random_doctor_id, random_patient_name, appointment_purpose, appointment_date, start_time, end_time, note, NULL);
+	CALL AddNewAppointment(random_doctor_id, random_patient_id, appointment_purpose, appointment_date, start_time, end_time, note, NULL);
 END$$
 
 DELIMITER ;

@@ -41,6 +41,30 @@ BEGIN
     RETURN doctor_exists;
 END$$
 
+DROP FUNCTION IF EXISTS CheckJobExists$$
+CREATE FUNCTION CheckJobExists(para_job_id INT)
+RETURNS BIT
+DETERMINISTIC
+BEGIN
+    DECLARE job_exists BIT;
+
+    SELECT EXISTS(SELECT 1 FROM Jobs WHERE id = para_job_id) INTO job_exists;
+
+    RETURN job_exists;
+END$$
+
+DROP FUNCTION IF EXISTS CheckDepartmentExists$$
+CREATE FUNCTION CheckDepartmentExists(para_department_id INT)
+RETURNS BIT
+DETERMINISTIC
+BEGIN
+    DECLARE department_exists BIT;
+
+    SELECT EXISTS(SELECT 1 FROM Departments WHERE id = para_department_id) INTO department_exists;
+
+    RETURN department_exists;
+END$$
+
 DROP FUNCTION IF EXISTS CheckTestOrderExists$$
 CREATE FUNCTION CheckTestOrderExists(para_test_order_id INT)
 RETURNS BIT

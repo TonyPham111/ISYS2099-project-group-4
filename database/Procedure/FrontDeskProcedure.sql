@@ -8,7 +8,7 @@ CREATE PROCEDURE AddNewPatient(
     para_birth_date DATE,                 -- Parameter for the patient's birth date
     para_phone_number VARCHAR(15),        -- Parameter for the patient's phone number
     para_email VARCHAR(50),               -- Parameter for the patient's email address
-    para_home_address VARCHAR(155)       -- Parameter for the patient's home address
+    para_home_address VARCHAR(155)        -- Parameter for the patient's home address
 )
 SQL SECURITY DEFINER
 BEGIN
@@ -19,28 +19,22 @@ END$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.AddNewPatient TO 'FrontDesk'@'host'$$
 
 
--- Recommendation: Retrieve the job id for 'Doctor' from the Staff table instead of 
--- hard-coding it as 2, in case it changes in the future.
 DROP PROCEDURE IF EXISTS CheckDoctorAvailability$$
 CREATE PROCEDURE CheckDoctorAvailability(
     booked_date DATE,                      -- Parameter for the date when the booking is intended
     booked_start_time TIME,                -- Parameter for the start time of the booking
     booked_end_time TIME,                  -- Parameter for the end time of the booking
-    department_name VARCHAR(50)            -- Parameter for the name of the department
+    department_id INT                      -- Parameter for the name of the department
 )
 SQL SECURITY DEFINER
 BEGIN
-    -- Declare a variable to store the department ID
-    DECLARE para_department_id INT;
-    
-    -- Retrieve the department ID based on the provided department name
-    SELECT id INTO para_department_id
-    FROM Departments
-    WHERE Departments.department_name = department_name
-    LIMIT 1;
+    DECLARE doctor_job_id INT;
+
+	-- Get the id of the 'Doctor' job
+	SELECT id INTO doctor_job_id FROM Jobs WHERE job_name = 'Doctor' LIMIT 1;
     
 	-- Check if the input department name is correct
-    IF para_department_id IS NULL THEN
+    IF NOT CheckDepartmentExists(department_id) THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Department not found. Please make sure that your input is correct';
     END IF;
@@ -79,18 +73,17 @@ BEGIN
     FROM
         Staff                                    -- Querying the Staff table to get staff details
     WHERE
-        Staff.job_id = 2                         -- Filtering for staff who are doctors (assuming job_id = 2 represents doctors)
+        Staff.job_id = doctor_job_id             -- Filtering for staff who are doctors
     AND
-        Staff.department_id = para_department_id; -- Filtering for staff in the specified department
+        Staff.department_id = department_id;     -- Filtering for staff in the specified department
 END$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.CheckDoctorAvailability TO 'FrontDesk'@'host'$$
 
 
--- Recommendation: Use patient ID instead of name since there can be multiple patients with the same name
 DROP PROCEDURE IF EXISTS AddNewAppointment$$
 CREATE PROCEDURE AddNewAppointment(
     para_doctor_id INT,                        -- Parameter for the doctor ID who will handle the appointment
-    para_patient_name VARCHAR(50),             -- Parameter for the patient ID who is scheduling the appointment
+    para_patient_id INT,                       -- Parameter for the patient ID who is scheduling the appointment
     para_appointment_purpose TEXT,             -- Parameter for the purpose of the appointment
     para_appointment_date DATE,                -- Parameter for the date of the appointment
     para_start_time TIME,                      -- Parameter for the start time of the appointment
@@ -103,7 +96,6 @@ BEGIN
     -- Declare variables to be used in the procedure
     DECLARE new_schedule_id INT; -- Variable to store the newly generated schedule id
     DECLARE error_message TEXT; -- Variable to store the error message
-    DECLARE para_patient_id INT;
     DECLARE appointment_duration INT;             -- Variable to store the duration of the appointment in minutes
     DECLARE para_appointment_charge DECIMAL(6,2) DEFAULT 400.5;      -- Variable to store the charge for the appointment
 	DECLARE result INT;	-- Variable to store the result for the CheckBookingTime() function
@@ -123,22 +115,13 @@ BEGIN
         SET MESSAGE_TEXT = 'Incorrect doctor id. Please check your input';
     END IF;
 
-    -- Find the id of the patient based on their name
-    SELECT
-        Patients.id
-    INTO
-        para_patient_id
-    FROM
-        Patients
-    WHERE full_name = para_patient_name;
-
 	-- Raise an exception if no patient is found
-    IF para_patient_id IS NULL THEN
+    IF NOT CheckPatientExists(para_patient_id) THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Cannot find patient. Please try again';
     END IF;
 
-	-- Call the function to check booking time without displaying the return value by setting it to a dummy variable
+    -- Call function to check booking time without displaying the return value by setting it to a dummy variable
     SET result = CheckBookingTime(para_doctor_id, para_appointment_date, para_start_time, para_end_time);
 
     -- Calculate the duration of the appointment in minutes
@@ -236,7 +219,7 @@ GRANT EXECUTE ON PROCEDURE hospital_management_system.CancelAnAppointment TO 'Fr
 
 DROP PROCEDURE IF EXISTS RescheduleAnAppointment$$
 CREATE PROCEDURE RescheduleAnAppointment(
-    appointment_id INT,          -- Parameter for the ID of the appointment to be rescheduled
+    appointment_id INT,               -- Parameter for the ID of the appointment to be rescheduled
     para_appointment_date DATE,       -- Parameter for the new date of the appointment
     para_start_time TIME,             -- Parameter for the new start time of the appointment
     para_end_time TIME                -- Parameter for the new end time of the appointment
@@ -264,7 +247,7 @@ BEGIN
         SET MESSAGE_TEXT = 'Appointment does not exist.';
     END IF;
 
-	-- Call the function to check booking time without displaying the return value by setting it to a dummy variable
+    -- Call function to check booking time without displaying the return value by setting it to a dummy variable
     SET result = CheckBookingTime(para_doctor_id, para_appointment_date, para_start_time, para_end_time);
 
     -- Calculate the duration of the appointment in minutes

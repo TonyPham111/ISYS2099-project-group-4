@@ -237,7 +237,6 @@ CREATE TABLE Department_Change(
     FOREIGN KEY (staff_id) REFERENCES Staff (id),
     FOREIGN KEY (old_department_id) REFERENCES Departments(id),
     FOREIGN KEY (new_department_id) REFERENCES Departments(id)
-
 );
 
 

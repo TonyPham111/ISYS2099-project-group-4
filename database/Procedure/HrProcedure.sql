@@ -1,14 +1,12 @@
 DELIMITER $$
 
--- Recommendations: 
--- Use manager ID instead of name since names are not unique and there can be multiple managers with the same name
 DROP PROCEDURE IF EXISTS AddNewStaff$$
 CREATE PROCEDURE AddNewStaff(
     para_full_name VARCHAR(50),               -- Parameter for the full name of the staff member
     para_ssn INT,                             -- Parameter for the Social Security Number (SSN) of the staff member
     para_job_id VARCHAR(50),                  -- Parameter for the job title of the staff member
     para_department_id VARCHAR(50),           -- Parameter for the department name where the staff member will work
-    para_manager_name VARCHAR(50),            -- Parameter for the full name of the staff member's manager
+    para_manager_id VARCHAR(50),              -- Parameter for the id of the staff member's manager
     para_gender CHAR(1),                      -- Parameter for the gender of the staff member
     para_birth_date DATE,                     -- Parameter for the birth date of the staff member
     para_home_address VARCHAR(255),           -- Parameter for the home address of the staff member
@@ -21,52 +19,33 @@ CREATE PROCEDURE AddNewStaff(
 )
 SQL SECURITY DEFINER
 BEGIN
-    -- Declare variables to store the IDs of the job, department, and manager
-    DECLARE job_id INT;
     DECLARE max_job_wage DECIMAL(6,2);
     DECLARE min_job_wage DECIMAL(6,2);
-    DECLARE department_id INT;
-    DECLARE manager_id INT;
     DECLARE error_message TEXT;
 
     DECLARE EXIT HANDLER FOR SQLSTATE '45000'
-        BEGIN
-            GET DIAGNOSTICS CONDITION 1
-                error_message = MESSAGE_TEXT;
-            SELECT error_message AS ErrorMessage;  -- Return an error message
-        END;
-
-    -- Lookup the job ID
-    SELECT id INTO job_id
-    FROM Jobs
-    WHERE Jobs.id = para_job_id;
+	BEGIN
+		GET DIAGNOSTICS CONDITION 1 error_message = MESSAGE_TEXT;
+		SELECT error_message AS ErrorMessage;  -- Return an error message
+	END;
 
     -- Check if the input job id is correct
-    IF job_id IS NULL THEN
+    IF NOT CheckJobExists(para_job_id) THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Job not found. Please make sure that your input is correct';
     END IF;
 
-    -- Lookup the department ID
-    SELECT id INTO department_id
-    FROM Departments
-    WHERE Departments.id = para_department_id;
-
     -- Check if the input department id is correct
-    IF department_id IS NULL THEN
+    IF NOT CheckDepartmentExists(para_department_id) THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Department not found. Please make sure that your input is correct';
     END IF;
 
-    -- Lookup the manager ID based on the provided manager name
-    IF para_manager_name IS NOT NULL THEN
-		SELECT id INTO manager_id
-		FROM Staff
-		WHERE Staff.full_name = para_manager_name;
-
-		IF manager_id IS NULL THEN
+    -- Check if input manager id exists
+    IF para_manager_id IS NOT NULL THEN
+		IF NOT CheckStaffExists(para_manager_id) THEN
 			SIGNAL SQLSTATE '45000'
-			SET MESSAGE_TEXT = 'manager not found. Please ensure that your input is correct';
+			SET MESSAGE_TEXT = 'Manager does not exist';
 		END IF;
     END IF;
 
@@ -74,7 +53,7 @@ BEGIN
     SELECT Jobs.max_wage, Jobs.min_wage 
     INTO max_job_wage, min_job_wage 
     FROM Jobs 
-    WHERE Jobs.id = job_id;
+    WHERE Jobs.id = para_job_id;
 
     IF para_wage > max_job_wage OR para_wage < min_job_wage
         THEN SIGNAL SQLSTATE '45000'
@@ -101,9 +80,9 @@ BEGIN
         employment_document_id         -- Employment document ID
     ) VALUES (
         para_ssn,                      -- Provided SSN
-        manager_id,                    -- Retrieved manager ID based on manager name
-        department_id,                 -- Retrieved department ID based on department name
-        job_id,                        -- Retrieved job ID based on job name
+        para_manager_id,               -- Provided manager ID
+        para_department_id,            -- Provided department ID
+        para_job_id,                   -- Provided job ID
         para_full_name,                -- Provided full name
         para_gender,                   -- Provided gender
         para_birth_date,               -- Provided birth date
@@ -143,7 +122,6 @@ BEGIN
         Non_Manager.employment_status,        -- The employment status of the non-managerial staff member
         Non_Manager.employment_document_id,   -- The employment document ID of the non-managerial staff member
         Manager.full_name AS manager_name     -- The full name of the manager associated with the non-managerial staff member
-
     FROM
         Staff AS Manager                      -- The Staff table is referenced as Manager for joining purposes
     RIGHT OUTER JOIN
@@ -171,15 +149,15 @@ SQL SECURITY DEFINER
 BEGIN
     -- Declare a variable to store the old wage of the staff
     DECLARE error_message TEXT;
-    DECLARE new_wage DECIMAL(6,2);
+	DECLARE para_job_id INT;
+
     -- Error handling: In case of any SQL exception, rollback the transaction and return an error message
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
-        BEGIN
-            GET DIAGNOSTICS CONDITION 1
-                error_message = MESSAGE_TEXT;
-            ROLLBACK;
-            SELECT error_message AS ErrorMessage;  -- Return an error message
-        END;
+	BEGIN
+		GET DIAGNOSTICS CONDITION 1 error_message = MESSAGE_TEXT;
+		ROLLBACK;
+		SELECT error_message AS ErrorMessage;  -- Return an error message
+	END;
 
     -- Check if input staff id exists
     IF NOT CheckStaffExists(para_staff_id) THEN
@@ -189,10 +167,12 @@ BEGIN
 
     -- Start a transaction to ensure all operations succeed or fail together
     START TRANSACTION;
-        SELECT ChangeWage(para_staff_id, para_new_wage) INTO new_wage;
+	    SELECT job_id INTO para_job_id FROM Staff WHERE id = para_staff_id;
+
+        CALL ChangeWageProcedure(para_staff_id, para_job_id, para_new_wage);
         -- Update the wage of the staff member in the Staff table
         UPDATE Staff
-        SET wage = new_wage
+        SET wage = para_new_wage
         WHERE Staff.id = para_staff_id;
 
     -- Commit the transaction to save all changes
@@ -203,28 +183,24 @@ GRANT EXECUTE ON PROCEDURE hospital_management_system.ChangeWage TO 'HR'@'host'$
 
 DROP PROCEDURE IF EXISTS ChangeJob$$
 CREATE PROCEDURE ChangeJob(
-    para_staff_id INT,                      -- Parameter for the ID of the staff member whose job is to be changed
-    new_job_name VARCHAR(50),           -- Parameter for the new job name/title
-    para_new_wage DECIMAL(6,2), -- Parameter for the new wage
-    new_manager_name VARCHAR(50), -- Parameter for the new manager. NULL if there is no manager change
-    new_department_name VARCHAR(50) -- Parameter for the change of department. NULL if there is no department change
+    para_staff_id INT,                        -- Parameter for the ID of the staff member whose job is to be changed
+    para_new_job_id VARCHAR(50),              -- Parameter for the new job name/title
+    para_new_wage DECIMAL(6,2),               -- Parameter for the new wage
+    para_new_manager_id VARCHAR(50),          -- Parameter for the new manager. NULL if there is no manager change
+    para_new_department_id VARCHAR(50)        -- Parameter for the change of department. NULL if there is no department change
 )
 BEGIN
     -- Declare variables to store the IDs of the new and old jobs
-    DECLARE new_manager_id INT DEFAULT NULL;
-    DECLARE local_new_job INT;
     DECLARE local_old_job INT;
-    DECLARE new_wage INT;
-    DECLARE target_department_id INT;
     DECLARE error_message TEXT;
+    
     -- Error handling: In case of any SQL exception, rollback the transaction and return an error message
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
-       BEGIN
-            GET DIAGNOSTICS CONDITION 1
-                error_message = MESSAGE_TEXT;
-            ROLLBACK;
-            SELECT error_message AS ErrorMessage;  -- Return an error message
-        END;
+	BEGIN
+		GET DIAGNOSTICS CONDITION 1 error_message = MESSAGE_TEXT;
+		ROLLBACK;
+		SELECT error_message AS ErrorMessage;  -- Return an error message
+	END;
 
     -- Check if input staff id exists
     IF NOT CheckStaffExists(para_staff_id) THEN
@@ -232,48 +208,47 @@ BEGIN
         SET MESSAGE_TEXT = 'Staff does not exist';
     END IF;
 
-    -- Retrieve the job ID of the new job based on the provided job name and store it in local_new_job
-    SELECT id INTO local_new_job
-    FROM Jobs
-    WHERE Jobs.job_name = new_job_name;
-    -- check if the input job name is correct
-    IF local_new_job IS NULL THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'job does not exist';
-    END IF;
+    -- Check if new job exists
+	IF NOT CheckJobExists(para_new_job_id) THEN
+		SIGNAL SQLSTATE '45000'
+		SET MESSAGE_TEXT = 'Job does not exist';
+	END IF;
 
     -- Check if the new manager name exists
-    IF new_manager_name IS NOT NULL THEN
-        SELECT id INTO new_manager_id FROM Staff WHERE full_name = new_manager_name;
-            IF new_manager_id IS NULL THEN
-                SIGNAL SQLSTATE '45000'
-                SET MESSAGE_TEXT = 'Manager name not found. Please check your input';
-        END IF;
+    IF para_new_manager_id IS NOT NULL THEN
+		IF NOT CheckStaffExists(para_new_manager_id) THEN
+			SIGNAL SQLSTATE '45000'
+			SET MESSAGE_TEXT = 'Manager name not found. Please check your input';
+		END IF;
+    END IF;
+	
+	-- Check if new department exists
+    IF NOT CheckDepartmentExists(para_new_department_id) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Department does not exist';
     END IF;
 
     -- Retrieve the current job ID of the staff member and store it in local_old_job
-    SELECT job_id INTO local_old_job
-    FROM Staff
-    WHERE Staff.id = staff_id;
+    SELECT job_id INTO local_old_job FROM Staff WHERE id = para_staff_id;
 
     -- Start a transaction to ensure all operations succeed or fail together
     START TRANSACTION;
-        SELECT ChangeWageFunction(para_staff_id, para_new_wage ) INTO new_wage;
+        CALL ChangeWageProcedure(para_staff_id, para_new_job_id, para_new_wage);
         -- Update the job ID and wage of the staff member in the Staff table to the new job ID
-        IF new_department_name IS NULL THEN
+        IF para_new_department_id IS NULL THEN
             UPDATE Staff
-                SET Staff.job_id = local_new_job,
-                Staff.wage = new_wage,
-                Staff.manager_id = new_manager_id
-            WHERE Staff.id = staff_id;
+            SET Staff.job_id = para_new_job_id, 
+                Staff.wage = para_new_wage, 
+                Staff.manager_id = para_new_manager_id
+            WHERE Staff.id = para_staff_id;
         ELSE
-            SELECT ChangeDepartmentFunction(para_staff_id, new_department_name) INTO target_department_id;
+            CALL ChangeDepartmentProcedure(para_staff_id, para_new_department_id);
             UPDATE Staff
-                SET Staff.job_id = local_new_job,
-                Staff.wage = new_wage,
-                Staff.manager_id = new_manager_id,
-                Staff.department_id = target_department_id
-            WHERE Staff.id = staff_id;
+            SET Staff.job_id = para_new_job_id,
+                Staff.wage = para_new_wage,
+                Staff.manager_id = para_new_manager_id,
+                Staff.department_id = para_new_department_id
+            WHERE Staff.id = para_staff_id;
         END IF;
         -- Insert a record into the Job_Movement table to log the job change
         INSERT INTO Job_Movement (
@@ -282,9 +257,9 @@ BEGIN
             new_job,                    -- The new job ID of the staff member
             date_change                 -- The date of the job change
         ) VALUES (
-            para_staff_id,                   -- The provided staff ID
+            para_staff_id,              -- The provided staff ID
             local_old_job,              -- The old job ID retrieved earlier
-            local_new_job,              -- The new job ID retrieved earlier
+            para_new_job_id,            -- The new job ID retrieved earlier
             CURDATE()                   -- The current date as the date of the job change
         );
     -- Commit the transaction to save all changes
@@ -296,23 +271,19 @@ GRANT EXECUTE ON PROCEDURE hospital_management_system.ChangeJob TO 'HR'@'host';
 DROP PROCEDURE IF EXISTS ChangeDepartment$$
 CREATE PROCEDURE ChangeDepartment(
     para_staff_id INT,
-    new_manager_name INT,
-    target_department_name VARCHAR(50)
+    para_new_manager_id INT,
+    para_new_department_id INT
 )
 SQL SECURITY DEFINER
 BEGIN
     DECLARE error_message TEXT;
-    DECLARE para_manager_id INT;
-    DECLARE para_new_department_id INT;
-
 
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
-        BEGIN
-            GET DIAGNOSTICS CONDITION 1
-                error_message = MESSAGE_TEXT;
-            ROLLBACK;
-            SELECT error_message AS ErrorMessage;  -- Return an error message
-        END;
+	BEGIN
+		GET DIAGNOSTICS CONDITION 1 error_message = MESSAGE_TEXT;
+		ROLLBACK;
+		SELECT error_message AS ErrorMessage;  -- Return an error message
+	END;
 
     -- Check if input staff id exists
     IF NOT CheckStaffExists(para_staff_id) THEN
@@ -320,22 +291,27 @@ BEGIN
         SET MESSAGE_TEXT = 'Staff does not exist';
     END IF;
     
-    -- Check if the input manager name is correct
-    -- new_manager_name is nullable. It is null when the staff is promoted to the manager position of the next job
-    IF new_manager_name IS NOT NULL THEN
-        SELECT id INTO para_staff_id FROM Staff WHERE full_name = new_manager_name;
-        IF para_manager_id IS NULL THEN
+    -- Check if the input manager id is correct
+    -- para_new_manager_id is nullable. It is null when the staff is promoted to the manager position of the next job
+    IF para_new_manager_id IS NOT NULL THEN
+        IF NOT CheckStaffExists(para_new_manager_id) THEN
             SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'Manager does not exist. Please check your input';
         END IF;
     END IF;
+	
+	-- Check if new department exists
+    IF NOT CheckDepartmentExists(para_new_department_id) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Department does not exist';
+    END IF;
 
     START TRANSACTION;
-        SELECT ChangeDepartment(para_staff_id, target_department_name) INTO para_new_department_id;
+        CALL ChangeDepartmentProcedure(para_staff_id, para_new_department_id);
         -- Update the department id of the relevant staff
-        UPDATE Staff SET
-                    Staff.department_id = para_new_department_id,
-                    Staff.manager_id = para_manager_id
+        UPDATE Staff 
+        SET Staff.department_id = para_new_department_id,
+            Staff.manager_id = para_new_manager_id
         WHERE id = para_staff_id;
     COMMIT;
 END$$
