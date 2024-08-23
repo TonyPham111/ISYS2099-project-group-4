@@ -1,3 +1,4 @@
+-- These should be changed to procedures, since functions cannot insert or update data 
 CREATE FUNCTION ChangeWageFunction(
     para_staff_id INT,
     para_new_wage DECIMAL(6,2)
@@ -79,4 +80,3 @@ BEGIN
 
 
 END;
-

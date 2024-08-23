@@ -57,7 +57,7 @@ CALL AddNewStaff(
     'Suzuki Hanako',               -- Full name in Romaji
     987654323,                     -- Random SSN
     'Nurse',                       -- Job title (Nurse)
-    'Cardiologys',                  -- Department (randomly selected)
+    'Cardiology',                  -- Department (randomly selected)
     'Tanaka Ichiro',               -- Manager's full name in Romaji
     'F',                           -- Gender (F for Female)
     '1990-08-25',                  -- Random birth date

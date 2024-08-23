@@ -1,3 +1,6 @@
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS FetchStaffInfoById$$
 CREATE PROCEDURE FetchStaffInfoById(
     staff_id INT                      -- Parameter for the ID of the staff member whose details are to be fetched
 )
@@ -38,15 +41,15 @@ BEGIN
     WHERE
         Non_Manager.id = staff_id;           -- Filter to include only the specified staff member
 
-END;
-GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'FetchStaffInfoById' TO 'HR'@'host';
-GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'FetchStaffInfoById' TO 'Doctors'@'host';
-GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'FetchStaffInfoById' TO 'Nurses'@'host';
-GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'FetchStaffInfoById' TO 'FrontDesk'@'host';
-GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'FetchStaffInfoById' TO 'BusinessOfficers'@'host';
+END$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchStaffInfoById TO 'HR'@'host'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchStaffInfoById TO 'Doctors'@'host'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchStaffInfoById TO 'Nurses'@'host'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchStaffInfoById TO 'FrontDesk'@'host'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchStaffInfoById TO 'BusinessOfficers'@'host'$$
 
 
-
+DROP PROCEDURE IF EXISTS FetchPatientsPersonalInfo$$
 CREATE PROCEDURE FetchPatientsPersonalInfo()
 SQL SECURITY DEFINER
 BEGIN
@@ -59,6 +62,8 @@ BEGIN
         phone_number,
         email
     FROM Patients;
-END;
-GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'FetchStaffInfoById' TO 'FrontDesk'@'host';
-GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'FetchStaffInfoById' TO 'BusinessOfficers'@'host';
+END$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchStaffInfoById TO 'FrontDesk'@'host'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchStaffInfoById TO 'BusinessOfficers'@'host'$$
+
+DELIMITER ;

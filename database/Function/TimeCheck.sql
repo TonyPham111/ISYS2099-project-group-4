@@ -1,3 +1,5 @@
+DELIMITER $$
+DROP FUNCTION IF EXISTS CheckBookingTime$$
 CREATE FUNCTION CheckBookingTime(
     para_doctor_id INT,
     para_appointment_date DATE,                -- Parameter for the date of the appointment
@@ -55,4 +57,5 @@ BEGIN
     END IF ;
     RETURN 0;
 
-END;
+END$$
+DELIMITER ;

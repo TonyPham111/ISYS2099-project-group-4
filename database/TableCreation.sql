@@ -157,7 +157,6 @@ CREATE TABLE Prescription_Details (
     PRIMARY KEY (prescription_id, drug_code),
     FOREIGN KEY (prescription_id) REFERENCES TreatmentHistory(id),
     FOREIGN KEY (drug_code) REFERENCES Drugs (drug_code)
-
 );
 
 

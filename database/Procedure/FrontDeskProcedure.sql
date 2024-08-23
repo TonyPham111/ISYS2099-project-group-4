@@ -1,4 +1,6 @@
+DELIMITER $$
 
+DROP PROCEDURE IF EXISTS AddNewPatient$$
 CREATE PROCEDURE AddNewPatient(
     para_ssn INT,                         -- Parameter for the patient's SSN (Social Security Number)
     para_full_name VARCHAR(50),           -- Parameter for the full name of the patient
@@ -13,11 +15,14 @@ BEGIN
     -- Insert a new record into the Patients table with the provided parameters
     INSERT INTO Patients (ssn, full_name, birth_date, phone_number, email, home_address, gender)
     VALUES (para_ssn, para_full_name, para_birth_date, para_phone_number, para_email, para_home_address, para_gender);
-END;
-GRANT EXECUTE ON PROCEDURE hospital_management_system.AddNewPatient TO 'FrontDesk'@'host';
+END$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.AddNewPatient TO 'FrontDesk'@'host'$$
 
 
-CREATE PROCEDURE CheckAvailability(
+-- Recommendation: Retrieve the job id for 'Doctor' from the Staff table instead of 
+-- hard-coding it as 2, in case it changes in the future.
+DROP PROCEDURE IF EXISTS CheckDoctorAvailability$$
+CREATE PROCEDURE CheckDoctorAvailability(
     booked_date DATE,                      -- Parameter for the date when the booking is intended
     booked_start_time TIME,                -- Parameter for the start time of the booking
     booked_end_time TIME,                  -- Parameter for the end time of the booking
@@ -27,12 +32,18 @@ SQL SECURITY DEFINER
 BEGIN
     -- Declare a variable to store the department ID
     DECLARE para_department_id INT;
-
+    
     -- Retrieve the department ID based on the provided department name
     SELECT id INTO para_department_id
     FROM Departments
     WHERE Departments.department_name = department_name
     LIMIT 1;
+    
+	-- Check if the input department name is correct
+    IF para_department_id IS NULL THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Department not found. Please make sure that your input is correct';
+    END IF;
 
     -- Common Table Expression (CTE) to identify staff who are unavailable during the requested time slot
     WITH Unavailable_Staff AS (
@@ -71,14 +82,15 @@ BEGIN
         Staff.job_id = 2                         -- Filtering for staff who are doctors (assuming job_id = 2 represents doctors)
     AND
         Staff.department_id = para_department_id; -- Filtering for staff in the specified department
+END$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.CheckDoctorAvailability TO 'FrontDesk'@'host'$$
 
-END;
-GRANT EXECUTE ON PROCEDURE hospital_management_system.CheckAvailability TO 'FrontDesk'@'host';
 
-
+-- Recommendation: Use patient ID instead of name since there can be multiple patients with the same name
+DROP PROCEDURE IF EXISTS AddNewAppointment$$
 CREATE PROCEDURE AddNewAppointment(
-    para_staff_id INT,                        -- Parameter for the doctor ID who will handle the appointment
-    para_patient_name VARCHAR(50),                       -- Parameter for the patient ID who is scheduling the appointment
+    para_doctor_id INT,                        -- Parameter for the doctor ID who will handle the appointment
+    para_patient_name VARCHAR(50),             -- Parameter for the patient ID who is scheduling the appointment
     para_appointment_purpose TEXT,             -- Parameter for the purpose of the appointment
     para_appointment_date DATE,                -- Parameter for the date of the appointment
     para_start_time TIME,                      -- Parameter for the start time of the appointment
@@ -89,13 +101,13 @@ CREATE PROCEDURE AddNewAppointment(
 SQL SECURITY DEFINER
 BEGIN
     -- Declare variables to be used in the procedure
-    DECLARE para_doctor_id INT;
     DECLARE new_schedule_id INT; -- Variable to store the newly generated schedule id
     DECLARE error_message TEXT; -- Variable to store the error message
     DECLARE para_patient_id INT;
     DECLARE appointment_duration INT;             -- Variable to store the duration of the appointment in minutes
     DECLARE para_appointment_charge DECIMAL(6,2) DEFAULT 400.5;      -- Variable to store the charge for the appointment
-
+	DECLARE result INT;	-- Variable to store the result for the CheckBookingTime() function
+    
     -- Error handling: In case of any SQL exception, rollback the transaction and return an error message
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         BEGIN
@@ -104,14 +116,12 @@ BEGIN
             ROLLBACK;
             SELECT error_message AS ErrorMessage;  -- Return an error message
         END;
-
-    -- Check if the id exists and belongs to a doctor
-    SELECT id INTO para_doctor_id FROM Staff WHERE id = para_staff_id AND job_id = 2;
-    IF para_doctor_id IS NULL THEN
+        
+	-- Check if the id exists and belongs to a doctor
+	IF NOT CheckDoctorExists(para_doctor_id) THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Incorrect doctor id. Please check your input';
     END IF;
-
 
     -- Find the id of the patient based on their name
     SELECT
@@ -122,13 +132,14 @@ BEGIN
         Patients
     WHERE full_name = para_patient_name;
 
-        -- Raise an exception if no patient is found
+	-- Raise an exception if no patient is found
     IF para_patient_id IS NULL THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Cannot find patient. Please try again';
     END IF;
 
-    CALL CheckBookingTime(para_doctor_id, para_appointment_date, para_start_time, para_end_time);
+	-- Call the function to check booking time without displaying the return value by setting it to a dummy variable
+    SET result = CheckBookingTime(para_doctor_id, para_appointment_date, para_start_time, para_end_time);
 
     -- Calculate the duration of the appointment in minutes
     SET appointment_duration = TIME_TO_SEC(TIMEDIFF(para_end_time, para_start_time)) / 60;
@@ -169,21 +180,19 @@ BEGIN
             para_appointment_date,             -- The provided appointment date
             para_start_time,                   -- The provided start time
             para_end_time,                     -- The provided end time
-            para_appointment_charge,                -- The calculated appointment charge
+            para_appointment_charge,           -- The calculated appointment charge
             'Active',                          -- Setting the appointment status as 'Active'
-            new_schedule_id,                  -- The provided schedule ID
+            new_schedule_id,                   -- The provided schedule ID
             para_appointment_notes_document_id -- The provided document ID for appointment notes
         );
 
     -- Commit the transaction to save all changes
     COMMIT;
-END;
-DROP PROCEDURE IF EXISTS AddNewAppointment;
-GRANT EXECUTE ON PROCEDURE hospital_management_system.AddNewAppointment TO 'FrontDesk'@'host';
+END$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.AddNewAppointment TO 'FrontDesk'@'host'$$
 
 
-
-
+DROP PROCEDURE IF EXISTS CancelAnAppointment$$
 CREATE PROCEDURE CancelAnAppointment(appointment_id INT)  -- Procedure to cancel an appointment by its ID
 SQL SECURITY DEFINER
 BEGIN
@@ -200,8 +209,12 @@ BEGIN
     -- Retrieve the schedule ID associated with the appointment
     SELECT Appointments.schedule_id INTO schedule_id
     FROM Appointments
-    WHERE Appointments.id = appointment_id
-    LIMIT 1;
+    WHERE Appointments.id = appointment_id;
+    
+	IF schedule_id IS NULL THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Appointment does not exist.';
+    END IF;
 
     -- Start a transaction to ensure all operations succeed or fail together
     START TRANSACTION;
@@ -217,11 +230,11 @@ BEGIN
 
     -- Commit the transaction to save all changes
     COMMIT;
-END;
-GRANT EXECUTE ON PROCEDURE hospital_management_system.CancelAnAppointment TO 'FrontDesk'@'host';
+END$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.CancelAnAppointment TO 'FrontDesk'@'host'$$
 
 
-
+DROP PROCEDURE IF EXISTS RescheduleAnAppointment$$
 CREATE PROCEDURE RescheduleAnAppointment(
     appointment_id INT,          -- Parameter for the ID of the appointment to be rescheduled
     para_appointment_date DATE,       -- Parameter for the new date of the appointment
@@ -235,6 +248,7 @@ BEGIN
     DECLARE schedule_id INT;                 -- Variable to store the schedule ID associated with the appointment
     DECLARE appointment_duration INT;        -- Variable to store the duration of the appointment in minutes
     DECLARE appointment_charge DEC(6,2);     -- Variable to store the updated charge for the appointment
+    DECLARE result INT;                      -- Variable to store the result for the CheckBookingTime() function
 
     -- Error handling: In case of any SQL exception, rollback the transaction and return an error message
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
@@ -244,8 +258,14 @@ BEGIN
     END;
 
     SELECT Appointments.doctor_id INTO para_doctor_id FROM Appointments WHERE id = appointment_id;
+    
+	IF para_doctor_id IS NULL THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Appointment does not exist.';
+    END IF;
 
-    CALL CheckBookingTime(para_doctor_id, para_appointment_date, para_start_time, para_end_time);
+	-- Call the function to check booking time without displaying the return value by setting it to a dummy variable
+    SET result = CheckBookingTime(para_doctor_id, para_appointment_date, para_start_time, para_end_time);
 
     -- Calculate the duration of the appointment in minutes
     SET appointment_duration = TIME_TO_SEC(TIMEDIFF(para_end_time, para_start_time)) / 60;
@@ -256,8 +276,7 @@ BEGIN
     -- Retrieve the schedule ID associated with the appointment
     SELECT Appointments.schedule_id INTO schedule_id
     FROM Appointments
-    WHERE Appointments.id = appointment_id
-    LIMIT 1;
+    WHERE Appointments.id = appointment_id;
 
     -- Start a transaction to ensure all operations succeed or fail together
     START TRANSACTION;
@@ -278,5 +297,7 @@ BEGIN
 
     -- Commit the transaction to save all changes
     COMMIT;
-END;
-GRANT EXECUTE ON PROCEDURE hospital_management_system.RescheduleAnAppointment TO 'FrontDesk'@'host';
+END$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.RescheduleAnAppointment TO 'FrontDesk'@'host'$$
+
+DELIMITER ;
