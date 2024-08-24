@@ -4,9 +4,9 @@ import { ScheduleContext } from "@/contexts/scheduleContext";
 import { PopupContextProvider } from "@/contexts/popupContext";
 import Schedule from "@/component/ui/schedule/Schedule";
 
-export default function DoctorWorkingSchedule() {
+export default function WorkingSchedule() {
   const appointmentsData = staffService.getAllAppointments();
-  const { events, setEvents } = useContext(ScheduleContext);
+  const { events, setEvents, backgroundEvents, setBackgroundEvents} = useContext(ScheduleContext);
   const isFetchedEventData = useRef(false);
   useEffect(() => {
     if (appointmentsData && !isFetchedEventData.current) {
