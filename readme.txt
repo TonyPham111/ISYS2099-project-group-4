@@ -1,0 +1,10 @@
+- Added validations to all relevant procedures.
+- Added common validation functions to check if a specific row in a table exists (i.e. CheckStaffExists, CheckPatientExists)
+- Converted the functions inside StringParsingFunction.sql and JobAspectChangeFunction.sql into procedures, since functions cannot insert or update data. Also modified the logic inside these procedures to ensure they work correctly.
+- InsertNewBilling procedure: removed 'BillingID' parameter since it's automatically incremented.
+- AddAllergiesToPatients, AddNewDiagnosis, AddNewPrescription, OrderTest procedures: updated string parsing logic to use IDs instead of names. Added ParsingTestIdString procedure.
+- AddNewStaff procedure: updated to use manager ID instead of name, since there can be multiple managers with the same name.
+- AddNewAppointment procedure: updated to use patient ID instead of name, since there can be multiple patients with the same name.
+- ChangeWage, ChangeJob, ChangeDepartment procedures: updated logic to ensure these procedures work correctly.
+- Optimized some procedures by combining multiple queries into one (i.e. fetching the min and max wage with one query in the AddNewStaff procedure)
+- Added mock data to insert appointments, diagnoses, prescription, and tests. Also updated the staff mock data to use IDs instead of names.

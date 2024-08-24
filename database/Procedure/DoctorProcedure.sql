@@ -1,6 +1,5 @@
 DELIMITER $$
 
--- Recommendation: Add a unique constraint to 'allergy_name' in the Allergies table
 DROP PROCEDURE IF EXISTS AddAllergiesToPatients$$
 CREATE PROCEDURE AddAllergiesToPatients (
     para_patient_id INT,
