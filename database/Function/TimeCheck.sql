@@ -1,5 +1,3 @@
-DELIMITER $$
-DROP FUNCTION IF EXISTS CheckBookingTime$$
 CREATE FUNCTION CheckBookingTime(
     para_doctor_id INT,
     para_appointment_date DATE,                -- Parameter for the date of the appointment
@@ -11,8 +9,8 @@ READS SQL DATA
 SQL SECURITY DEFINER
 BEGIN
     DECLARE clash_count INT; -- Count the number of timetable clashes and put it here
-    DECLARE business_start TIME DEFAULT '09:00:00'; -- Variable to store the start of the business hour
-    DECLARE business_end TIME DEFAULT '17:00:00'; -- Variable to store the end of the business hour
+    DECLARE shift_start TIME; -- Variable to store the start of the business hour
+    DECLARE shift_end TIME; -- Variable to store the end of the business hour
 
 
 
@@ -23,17 +21,22 @@ BEGIN
                     SIGNAL SQLSTATE '45000'
                     SET MESSAGE_TEXT = 'Incorrect time format. Please check again';
         end if;
-    -- Check if the input time is within business hour. Raise an exception if it isn't
+    -- Check if the input time is within the doctor's schedule on that date
+        SELECT Staff_Schedule.start_time, Staff_Schedule.end_time
+        INTO shift_start, shift_end
+        FROM Staff_Schedule
+        WHERE staff_id = para_doctor_id AND schedule_date = para_appointment_date;
+
     IF
-        para_start_time < business_start
+        para_start_time < shift_start
             OR
-        para_start_time > business_end
+        para_start_time > shift_end
             OR
-        para_end_time < business_start
+        para_end_time < shift_start
             OR
-        para_end_time > business_end THEN
+        para_end_time > shift_end THEN
             SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Outside of business hour. Please choose other times';
+            SET MESSAGE_TEXT = 'Incorrect time. Please choose other times';
     END IF;
 
     -- Check if there is a timetable clash
@@ -57,5 +60,4 @@ BEGIN
     END IF ;
     RETURN 0;
 
-END$$
-DELIMITER ;
+END;

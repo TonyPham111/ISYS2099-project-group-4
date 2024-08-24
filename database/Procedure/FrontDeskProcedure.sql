@@ -88,13 +88,11 @@ CREATE PROCEDURE AddNewAppointment(
     para_appointment_date DATE,                -- Parameter for the date of the appointment
     para_start_time TIME,                      -- Parameter for the start time of the appointment
     para_end_time TIME,                        -- Parameter for the end time of the appointment
-    para_note TEXT,                            -- Parameter for any notes related to the appointment's schedule
     para_appointment_notes_document_id VARCHAR(24) -- Parameter for the document ID of appointment notes
 )
 SQL SECURITY DEFINER
 BEGIN
     -- Declare variables to be used in the procedure
-    DECLARE new_schedule_id INT; -- Variable to store the newly generated schedule id
     DECLARE error_message TEXT; -- Variable to store the error message
     DECLARE appointment_duration INT;             -- Variable to store the duration of the appointment in minutes
     DECLARE para_appointment_charge DECIMAL(6,2) DEFAULT 400.5;      -- Variable to store the charge for the appointment
@@ -132,17 +130,6 @@ BEGIN
 
     -- Start a transaction to ensure all operations succeed or fail together
     START TRANSACTION;
-        -- Insert the appointment schedule into the Staff_Schedule table
-        INSERT INTO Staff_Schedule (staff_id, schedule_date, start_time, end_time, note)
-        VALUES (
-            para_doctor_id,                    -- The doctor ID linked to the schedule
-            para_appointment_date,             -- The date of the appointment
-            para_start_time,                   -- The start time of the appointment
-            para_end_time,                     -- The end time of the appointment
-            para_note                          -- Any notes related to the schedule
-        );
-        SELECT LAST_INSERT_ID() INTO new_schedule_id;
-
         -- Insert the appointment details into the Appointments table
         INSERT INTO Appointments (
             patient_id,                        -- The patient ID linked to the appointment
@@ -153,7 +140,6 @@ BEGIN
             end_time,                          -- The end time of the appointment
             appointment_charge,                -- The calculated charge for the appointment
             appointment_status,                -- The status of the appointment (e.g., 'Active')
-            schedule_id,                       -- The schedule ID linked to the appointment
             appointment_notes_document_id      -- The document ID for any appointment notes
         )
         VALUES (
@@ -165,7 +151,6 @@ BEGIN
             para_end_time,                     -- The provided end time
             para_appointment_charge,           -- The calculated appointment charge
             'Active',                          -- Setting the appointment status as 'Active'
-            new_schedule_id,                   -- The provided schedule ID
             para_appointment_notes_document_id -- The provided document ID for appointment notes
         );
 
@@ -189,16 +174,6 @@ BEGIN
         SELECT 'An error occurred. Transaction rolled back.' AS ErrorMessage;  -- Return an error message
     END;
 
-    -- Retrieve the schedule ID associated with the appointment
-    SELECT Appointments.schedule_id INTO schedule_id
-    FROM Appointments
-    WHERE Appointments.id = appointment_id;
-    
-	IF schedule_id IS NULL THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Appointment does not exist.';
-    END IF;
-
     -- Start a transaction to ensure all operations succeed or fail together
     START TRANSACTION;
 
@@ -207,80 +182,12 @@ BEGIN
     SET appointment_status = 'Cancelled'
     WHERE Appointments.id = appointment_id;
 
-    -- Delete the corresponding schedule from the Staff_Schedule table using the retrieved schedule ID
-    DELETE FROM Staff_Schedule
-    WHERE Staff_Schedule.id = schedule_id;
-
     -- Commit the transaction to save all changes
     COMMIT;
-END$$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.CancelAnAppointment TO 'FrontDesk'@'host'$$
+END;
+GRANT EXECUTE ON PROCEDURE hospital_management_system.CancelAnAppointment TO 'FrontDesk'@'host';
 
 
-DROP PROCEDURE IF EXISTS RescheduleAnAppointment$$
-CREATE PROCEDURE RescheduleAnAppointment(
-    appointment_id INT,               -- Parameter for the ID of the appointment to be rescheduled
-    para_appointment_date DATE,       -- Parameter for the new date of the appointment
-    para_start_time TIME,             -- Parameter for the new start time of the appointment
-    para_end_time TIME                -- Parameter for the new end time of the appointment
-)
-SQL SECURITY DEFINER
-BEGIN
-    -- Declare variables to be used in the procedure
-    DECLARE para_doctor_id INT;
-    DECLARE schedule_id INT;                 -- Variable to store the schedule ID associated with the appointment
-    DECLARE appointment_duration INT;        -- Variable to store the duration of the appointment in minutes
-    DECLARE appointment_charge DEC(6,2);     -- Variable to store the updated charge for the appointment
-    DECLARE result INT;                      -- Variable to store the result for the CheckBookingTime() function
 
-    -- Error handling: In case of any SQL exception, rollback the transaction and return an error message
-    DECLARE EXIT HANDLER FOR SQLEXCEPTION
-    BEGIN
-        ROLLBACK;  -- Rollback any changes made during the transaction
-        SELECT 'An error occurred. Transaction rolled back.' AS ErrorMessage;  -- Return an error message
-    END;
-
-    SELECT Appointments.doctor_id INTO para_doctor_id FROM Appointments WHERE id = appointment_id;
-    
-	IF para_doctor_id IS NULL THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Appointment does not exist.';
-    END IF;
-
-    -- Call function to check booking time without displaying the return value by setting it to a dummy variable
-    SET result = CheckBookingTime(para_doctor_id, para_appointment_date, para_start_time, para_end_time);
-
-    -- Calculate the duration of the appointment in minutes
-    SET appointment_duration = TIME_TO_SEC(TIMEDIFF(para_end_time, para_start_time)) / 60;
-
-    -- Calculate the charge for the appointment based on the new duration (assuming appointment_charge is predefined)
-    SET appointment_charge = appointment_charge * appointment_duration / 30;
-
-    -- Retrieve the schedule ID associated with the appointment
-    SELECT Appointments.schedule_id INTO schedule_id
-    FROM Appointments
-    WHERE Appointments.id = appointment_id;
-
-    -- Start a transaction to ensure all operations succeed or fail together
-    START TRANSACTION;
-
-        -- Update the appointment details in the Appointments table
-        UPDATE Appointments
-        SET appointment_date = appointment_date,     -- Update the appointment date
-            start_time = start_time,                 -- Update the start time
-            end_time = end_time                      -- Update the end time
-        WHERE id = appointment_id;                   -- Specify the appointment to update by its ID
-
-        -- Update the schedule details in the Staff_Schedule table
-        UPDATE Staff_Schedule
-        SET schedule_date = para_appointment_date,        -- Update the schedule date
-            start_time = para_start_time,                 -- Update the start time
-            end_time = para_end_time                      -- Update the end time
-        WHERE id = schedule_id;                      -- Specify the schedule to update by its ID
-
-    -- Commit the transaction to save all changes
-    COMMIT;
-END$$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.RescheduleAnAppointment TO 'FrontDesk'@'host'$$
 
 DELIMITER ;

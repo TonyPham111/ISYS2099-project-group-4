@@ -96,7 +96,6 @@ CREATE TABLE Appointments (
     start_time TIME NOT NULL,
     end_time TIME NOT NULL,
     appointment_charge DECIMAL(6,2) NOT NULL,
-    schedule_id INT,
     appointment_status ENUM('Active', 'Finished', 'Cancelled') NOT NULL,
     appointment_notes_document_id VARCHAR(24),
     FOREIGN KEY (schedule_id) REFERENCES Staff_Schedule (id) ON DELETE SET NULL,
