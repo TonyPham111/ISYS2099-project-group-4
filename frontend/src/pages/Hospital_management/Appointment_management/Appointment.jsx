@@ -1,18 +1,22 @@
+import { useEffect, useContext, useRef } from "react";
 import { PopupContextProvider } from "@/contexts/popupContext";
 import BookingAppointmentButton from "./BookingAppointmentButton";
 import * as staffService from "@/services/staffService";
-import { useEffect, useState } from "react";
 import Schedule from "@/component/ui/schedule/Schedule";
+import { ScheduleContext } from "@/contexts/scheduleContext";
 const Appointment = () => {
   const appointmentsData = staffService.getAllAppointments();
-  const [data, setData] = useState(null);
-  const [popupComponent, setPopupComponent] = useState(null);
+  const { events, setEvents } = useContext(ScheduleContext);
+  const isFetchedEventData = useRef(false);
   useEffect(() => {
-    if (appointmentsData && !data) {
-      setData(appointmentsData);
+    if (appointmentsData && !isFetchedEventData.current) {
+      setEvents(appointmentsData);
+      isFetchedEventData.current = true;
     }
   }, [appointmentsData]);
-  if (!data) {
+  useEffect(()=>{
+  },[events]);
+  if (!isFetchedEventData) {
     return <></>;
   }
   return (
@@ -27,11 +31,7 @@ const Appointment = () => {
       <div className="w-full h-[80%] bg-white rounded-2xl p-5 ">
         {/*--------------------popup appointment detail when click on appointment-------------------------*/}
         <PopupContextProvider>
-          <Schedule
-            events={data}
-            backgroundEvents={[]}
-            setBackgroundEvents={() => {}}
-          />
+          <Schedule auditable={false} />
         </PopupContextProvider>
       </div>
     </section>

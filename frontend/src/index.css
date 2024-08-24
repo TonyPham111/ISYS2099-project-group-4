@@ -73,6 +73,11 @@
     scrollbar-width: none;  /* Firefox */
   }
 
-  .rbc-event{
+  .rbc-event, .rbc-event.rbc-selected{
     background-color:rgba(7, 162, 165) ;
+  }
+  .rbc-day-slot .rbc-background-event  {
+    color: black;
+    background-color:rgba(7, 162, 165, 0.2) ;
+    border: 1px solid rgba(7, 162, 165, 0.3);
   }

@@ -21,3 +21,17 @@ export function getPatientTreatmentHistory(id) {
   return result[0];
 }
 
+export function getPatientDiagnoses() {
+  return data.diagnosis;
+}
+export function getPatientDiagnosis() {
+  return data.specificDiagnosis;
+}
+
+export function getDiagnosisData() {
+  return data.diagnosisData;
+}
+
+export function getDrugs(){
+  return data.drugs;
+}

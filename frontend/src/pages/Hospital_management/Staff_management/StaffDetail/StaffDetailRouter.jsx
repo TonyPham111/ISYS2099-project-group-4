@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import StaffDetailNavbar from "./StaffDetailNavbar";
 import StaffInfo from "./StaffInfo";
 import StaffSchedule from "./StaffSchedule";
+import { ScheduleContextProvider } from "@/contexts/scheduleContext";
 export default function StaffDetailRouter() {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -23,7 +24,14 @@ export default function StaffDetailRouter() {
       <section className="w-full h-[90%] py-3">
         <Routes>
           <Route path="/personal-information" element={<StaffInfo />} />
-          <Route path="/schedule" element={<StaffSchedule />} />
+          <Route
+            path="/schedule"
+            element={
+              <ScheduleContextProvider>
+                <StaffSchedule />
+              </ScheduleContextProvider>
+            }
+          />
         </Routes>
       </section>
 
