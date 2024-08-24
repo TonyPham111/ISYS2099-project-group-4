@@ -16,7 +16,7 @@ CREATE PROCEDURE AddNewStaff(
 )
 SQL SECURITY DEFINER
 BEGIN
-    -- Declare variables to store the IDs of the job, department, and manager
+        -- Declare variables to store the IDs of the job, department, and manager
     DECLARE job_id INT;
     DECLARE max_job_wage DECIMAL(6,2);
     DECLARE min_job_wage DECIMAL(6,2);
@@ -45,6 +45,18 @@ BEGIN
     SELECT id INTO manager_id
     FROM Staff
     WHERE Staff.full_name = para_manager_name;
+    
+    -- Check if the department exists. Raise an exception if it doesn't
+    IF department_id IS NULL
+        THEN SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Cannot find department. Please try again';
+    END IF;
+    
+    -- Check if the job title exists. Raise an exception if it doesn't
+    IF job_id IS NULL
+        THEN SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Cannot find job title. Please try again';
+    END IF;
 
     -- Compare the input wage and the wage range of the job. Raise an exception if it does not fall within the correct wage range
     SELECT Jobs.max_wage INTO max_job_wage FROM Jobs WHERE id = job_id;
@@ -56,7 +68,7 @@ BEGIN
     END IF;
 
     -- Check if the manager exists. Raise an exception if they don't
-    IF manager_id IS NULL
+    IF manager_id IS NULL AND para_manager_name IS NOT NULL
         THEN SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Cannot find manager. Please try again or Leave the manager field empty';
     END IF;
@@ -111,7 +123,7 @@ GRANT EXECUTE ON PROCEDURE hospital_management_system.AddNewStaff TO 'HR'@'host'
 CREATE PROCEDURE FetchAllStaff()
 SQL SECURITY DEFINER
 BEGIN
-    -- Select various fields from the Staff, Jobs, and Departments tables
+ -- Select various fields from the Staff, Jobs, and Departments tables
     SELECT
         Non_Manager.id,                       -- The ID of the non-managerial staff member
         Non_Manager.full_name,                -- The full name of the non-managerial staff member
@@ -128,12 +140,15 @@ BEGIN
         Non_Manager.employment_type,          -- The employment type of the non-managerial staff member
         Non_Manager.employment_status,        -- The employment status of the non-managerial staff member
         Non_Manager.employment_document_id,   -- The employment document ID of the non-managerial staff member
-        Manager.full_name AS manager_name     -- The full name of the manager associated with the non-managerial staff member
+        CASE
+            WHEN Manager.id IS NULL THEN 'No Manager'
+            ELSE Manager.full_name
+        END AS manager_name 
 
     FROM
-        Staff AS Manager                      -- The Staff table is referenced as Manager for joining purposes
-    INNER JOIN
-        Staff AS Non_Manager                  -- The Staff table is referenced again as Non_Manager for the actual data retrieval
+        Staff AS Non_Manager
+    LEFT JOIN
+        Staff AS Manager                      -- LEFT JOIN to include staff members without a manager
     ON
         Manager.id = Non_Manager.Manager_id   -- Joining Staff with itself to link each non-managerial staff member with their manager
     INNER JOIN
@@ -144,7 +159,6 @@ BEGIN
         Departments                           -- Joining with the Departments table to retrieve department names
     ON
         Departments.id = Non_Manager.department_id;  -- Matching the department_id in the Staff table with the id in the Departments table
-
 END;
 GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchAllStaff TO 'HR'@'host';
 
