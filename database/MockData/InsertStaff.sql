@@ -167,3 +167,129 @@ CALL AddNewStaff(
     'Full_Time',              
     'EMP33445566799887766554'
 );
+
+-- Eddie TIME
+-- First added these departments and jobs:
+INSERT INTO hospital_management_system.departments (department_name) VALUES ('test'), ('test1'), ('test2');
+INSERT INTO hospital_management_system.jobs (job_name, min_wage, max_wage) VALUES ('job1', 0, 10), ('job2', 10, 20), ('job3', 20, 30);
+-- The test call purpose is in the parameter full_name (first one)
+CALL AddNewStaff(
+    'Cannot find job',               -- para_full_name
+    111111111,                -- para_ssn
+    'job0',                 -- para_job_name
+    'test',              -- para_department_name
+    NULL,                     -- para_manager_name
+    'M',                      -- para_gender
+    '1980-01-01',             -- para_birth_date
+    '123 Generic Address 1', -- para_home_address
+    '9999999999',             -- para_phone_number
+    'johndoe@example.com',    -- para_email
+    'securepass',             -- para_staff_password
+    9,                  -- para_wage (random value between 8862.23 and 9863.3)
+    'Full_Time',              -- para_employment_type
+    'EMP12345678901234567890' -- para_employment_document_id
+);
+
+CALL AddNewStaff(
+    'Wrong Wage Range',               -- para_full_name
+    111111111,                -- para_ssn
+    'job1',                 -- para_job_name
+    'test',              -- para_department_name
+    NULL,                     -- para_manager_name
+    'M',                      -- para_gender
+    '1980-01-01',             -- para_birth_date
+    '123 Generic Address 1', -- para_home_address
+    '9999999999',             -- para_phone_number
+    'johndoe@example.com',    -- para_email
+    'securepass',             -- para_staff_password
+    15,                  -- para_wage 
+    'Full_Time',              -- para_employment_type
+    'EMP12345678901234567890' -- para_employment_document_id
+);
+
+CALL AddNewStaff(
+    'Cannot find Manager',               -- para_full_name
+    111111111,                -- para_ssn
+    'job1',                 -- para_job_name
+    'test',              -- para_department_name
+    '1',                     -- para_manager_name
+    'M',                      -- para_gender
+    '1980-01-01',             -- para_birth_date
+    '123 Generic Address 1', -- para_home_address
+    '9999999999',             -- para_phone_number
+    'johndoe@example.com',    -- para_email
+    'securepass',             -- para_staff_password
+    9,                  -- para_wage (random value between 8862.23 and 9863.3)
+    'Full_Time',              -- para_employment_type
+    'EMP12345678901234567890' -- para_employment_document_id
+);
+
+CALL AddNewStaff(
+    'Cannot find department',               -- para_full_name
+    111111111,                -- para_ssn
+    'job1',                 -- para_job_name
+    'none',              -- para_department_name
+    NULL,                     -- para_manager_name
+    'M',                      -- para_gender
+    '1980-01-01',             -- para_birth_date
+    '123 Generic Address 1', -- para_home_address
+    '9999999999',             -- para_phone_number
+    'johndoe@example.com',    -- para_email
+    'securepass',             -- para_staff_password
+    9,                  -- para_wage (random value between 8862.23 and 9863.3)
+    'Full_Time',              -- para_employment_type
+    'EMP12345678901234567890' -- para_employment_document_id
+);
+
+CALL AddNewStaff(
+    'Valid Staff 1',               -- para_full_name
+    111111111,                -- para_ssn
+    'job1',                 -- para_job_name
+    'test',              -- para_department_name
+    NULL,                     -- para_manager_name
+    'M',                      -- para_gender
+    '1980-01-01',             -- para_birth_date
+    '123 Generic Address 1', -- para_home_address
+    '9999999999',             -- para_phone_number
+    'johndoe@example.com',    -- para_email
+    'securepass',             -- para_staff_password
+    9,                  -- para_wage (random value between 8862.23 and 9863.3)
+    'Full_Time',              -- para_employment_type
+    'EMP12345678901234567890' -- para_employment_document_id
+);
+
+CALL AddNewStaff(
+    'Invalid Manager',               -- para_full_name
+    222222222,                -- para_ssn
+    'job2',                 -- para_job_name
+    'test',              -- para_department_name
+    '2',                     -- para_manager_name
+    'M',                      -- para_gender
+    '1980-01-01',             -- para_birth_date
+    '123 Generic Address 1', -- para_home_address
+    '9999999999',             -- para_phone_number
+    'johndoe@example.com',    -- para_email
+    'securepass',             -- para_staff_password
+    15,                  -- para_wage (random value between 8862.23 and 9863.3)
+    'Full_Time',              -- para_employment_type
+    'EMP12345678901234567890' -- para_employment_document_id
+);
+
+CALL AddNewStaff(
+    'Valid Staff 2',               -- para_full_name
+    222222222,                -- para_ssn
+    'job2',                 -- para_job_name
+    'test',              -- para_department_name
+    'Valid Staff 1',                     -- para_manager_name
+    'M',                      -- para_gender
+    '1980-01-01',             -- para_birth_date
+    '123 Generic Address 1', -- para_home_address
+    '9999999999',             -- para_phone_number
+    'johndoe@example.com',    -- para_email
+    'securepass',             -- para_staff_password
+    15,                  -- para_wage (random value between 8862.23 and 9863.3)
+    'Full_Time',              -- para_employment_type
+    'EMP12345678901234567890' -- para_employment_document_id
+);
+
+
