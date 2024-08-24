@@ -24,6 +24,14 @@ export default function CustomAutoComplete({
             width: "150px",
           }
     }
+    else if(size=="full"){
+      customSx ={
+        ".MuiOutlinedInput-root .MuiAutocomplete-input": {
+          padding: "0px",
+        },
+        width: "100%",
+      } 
+    }
   return (
     <Autocomplete
       disablePortal

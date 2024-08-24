@@ -8,35 +8,53 @@ import Popup from "../Popup";
 import { PopupContext } from "@/contexts/popupContext";
 import AppointmentPopup from "../AppointmentPopup";
 import { useLocation } from "react-router-dom";
+import DataTable from "../DataTable";
+import dayjs from "dayjs";
+import filterEventArray, { indexOfEvent } from "@/utils/eventFunction";
+import { ScheduleContext } from "@/contexts/scheduleContext";
 // Setup the localizer by providing the moment (or globalize, or Luxon) Object
 // to the correct localizer.
 const localizer = momentLocalizer(moment); // or globalizeLocalizer
-export default function Schedule({
-  events,
-  backgroundEvents,
-  setBackgroundEvents,
-}) {
-  const location = useLocation();
-  const [isSelectable, setIsSelectable] = useState(false);
+
+export default function Schedule({ auditable }) {
+  const {
+    events,
+    setEvents,
+    backgroundEvents,
+    setBackgroundEvents,
+    filterBackgroundEvents,
+    setFilterBackgroundEvents,
+  } = useContext(ScheduleContext);
   const { setIsPopup } = useContext(PopupContext);
   const [popupComponent, setPopupComponent] = useState(<></>);
+  const [isSelectable, setIsSelectable] = useState(false);
+  const location = useLocation();
   /*----------------------------main function use for react big calendar props-----------------------------------*/
   function handleSelectSlot({ start, end }) {
     // allow to create new slot in schedule if it is not repeat with any backgroundEvent before it
     const selectedEvent = { end: end, start: start, title: "working time" };
     const isOverlapping = detectEventOverlapping(
-      backgroundEvents,
+      filterBackgroundEvents,
       selectedEvent
     );
     if (!isOverlapping) {
-      setBackgroundEvents((prev) => [...prev, selectedEvent]);
+      setFilterBackgroundEvents((prev) => [...prev, selectedEvent]);
     }
   }
   function handleOnSelectEvent(events) {
     //only allow to show detail of event which is appointment, not allow to show background event
-    console.log(JSON.stringify(events.patient_id));
-    console.log(JSON.stringify(events.id));
-    if (!events.isBackgroundEvent) {
+    if (events.isBackgroundEvent) {
+      //show background event information
+      //allow to popup and delete background information
+      setPopupComponent(
+        <WorkingTimeSchedulePopup
+          startTime={events.start}
+          endTime={events.end}
+          title={events.title}
+        />
+      );
+      setIsPopup(true);
+    } else {
       //only allow appointment router to able to cancel appointment [access control]
       if (location.pathname == "/appointment") {
         setPopupComponent(
@@ -47,7 +65,17 @@ export default function Schedule({
           />
         );
         //else, cannot cancel appointment
-      } else {
+      }
+      else if(location.pathname =="/doctor-working-schedule"){
+        setPopupComponent(
+          <AppointmentPopup
+          patient_id={events.patient_id}
+          appointment_id={events.id}
+          ableToUpdate={true}
+        /> 
+        );
+      }
+      else {
         setPopupComponent(
           <AppointmentPopup
             patient_id={events.patient_id}
@@ -81,15 +109,67 @@ export default function Schedule({
             end: convertStringFormatToDate(item.date, item.end_time),
           };
         })}
-        backgroundEvents={backgroundEvents}
-        onSelectSlot={handleSelectSlot}
+        backgroundEvents={filterBackgroundEvents}
+        onSelectSlot={auditable && handleSelectSlot}
         onSelectEvent={handleOnSelectEvent}
-        onView={handleViewChange}
-        selectable={isSelectable}
+        onView={auditable && handleViewChange}
+        selectable={auditable && isSelectable}
         startAccessor="start"
         endAccessor="end"
       />
       <Popup>{popupComponent}</Popup>
     </>
+  );
+}
+
+function WorkingTimeSchedulePopup({ startTime, endTime, title, readOnly }) {
+  const {
+    events,
+    setEvents,
+    filterBackgroundEvents,
+    setFilterBackgroundEvents,
+  } = useContext(ScheduleContext);
+  const { setIsPopup } = useContext(PopupContext);
+
+  function handleDeleteEvent() {
+    const indexOfDeleteBackgroundEvent = indexOfEvent(
+      { start: startTime, end: endTime },
+      filterBackgroundEvents
+    );
+
+    //if appear in add new event --> remove only add new event
+    if (indexOfDeleteBackgroundEvent >= 0) {
+      filterBackgroundEvents.splice(indexOfDeleteBackgroundEvent, 1);
+
+      setFilterBackgroundEvents([...filterBackgroundEvents]);
+      setIsPopup(false);
+    } else {
+      //react hot toast there is an error occur
+    }
+  }
+  return (
+    <section className="w-full h-full p-[40px] flex flex-col items-start gap-[20px]">
+      <h1>Working Time</h1>
+      <div className="w-1/2">
+        <DataTable
+          headerData={["start", "end"]}
+          data={[
+            {
+              start: dayjs(startTime).format("DD/MM/YYYY"),
+              end: dayjs(endTime).format("DD/MM/YYYY"),
+            },
+          ]}
+        />
+      </div>
+      {/*------- delete current working time -------*/}
+      <div className="w-1/2 mt-[30px] border-t-[2px] border-solid border-custom-dark-100 pt-[30px]">
+        <button
+          onClick={handleDeleteEvent}
+          className="bg-red-600 text-white p-3"
+        >
+          Delete current working time
+        </button>
+      </div>
+    </section>
   );
 }

@@ -1,3 +1,4 @@
+import DiscardAndSaveButton from "@/component/ui/DiscardAndSaveButton";
 import dayjs from "dayjs";
 import CustomDatePicker from "@/component/ui/CustomDatePicker";
 import * as patientService from "@/services/patientService";
@@ -14,7 +15,6 @@ export default function PatientInfo() {
   const [contactPhoneNumber, setContactPhoneNumber] = useState(null);
   const [birthDate, setBirthDate] = useState(null);
 
-  function handleSaveInformation() {}
   useEffect(() => {
     if (patientData) {
       setFirstName(patientData.first_name);
@@ -22,20 +22,34 @@ export default function PatientInfo() {
       setGender(patientData.gender);
       setHomeAddress(patientData.home_address);
       setContactPhoneNumber(patientData.contact_phone_number);
-      setBirthDate(dayjs(patientData.birth_date, "DD/MM/YYYY"));
+      setBirthDate(dayjs(patientData.birth_date, "DD-MM-YYYY"));
     }
   }, [patientData]);
+  function handleSaveInformation() {}
+  function handleDiscardChange() {
+    if (patientData) {
+      setFirstName(patientData.first_name);
+      setLastName(patientData.last_name);
+      setGender(patientData.gender);
+      setHomeAddress(patientData.home_address);
+      setContactPhoneNumber(patientData.contact_phone_number);
+      setBirthDate(dayjs(patientData.birth_date, "DD-MM-YYYY"));
+    }
+  }
   if (!patientData) {
     return <></>;
   }
   return (
     <>
-      <div className="w-full h-full flex justify-center">
-        <div className="w-2/3 flex flex-wrap justify-between">
+      <div className="w-full h-full flex flex-col justify-center">
+        {/*-------------------------------------- upper part --------------------------------*/}
+        <div className="h-5/6 w-full flex flex-wrap justify-between">
           <div>
             <h4>First name</h4>
             <input
-              onChange={(e)=>{setFirstName(e.target.value)}}
+              onChange={(e) => {
+                setFirstName(e.target.value);
+              }}
               value={firstName}
               className="mt-[8px] border-[1px]"
             />
@@ -43,7 +57,9 @@ export default function PatientInfo() {
           <div>
             <h4>Last name</h4>
             <input
-              onChange={(e)=>{setLastName(e.target.value)}}
+              onChange={(e) => {
+                setLastName(e.target.value);
+              }}
               value={lastName}
               className="mt-[8px] border-[1px]"
             />
@@ -51,7 +67,9 @@ export default function PatientInfo() {
           <div>
             <h4>gender</h4>
             <select
-              onChange={(e)=>{setGender(e.target.value)}}
+              onChange={(e) => {
+                setGender(e.target.value);
+              }}
               value={gender}
               name="Male"
               className="mt-[8px] p-[3px] border-[1.1px]"
@@ -63,12 +81,18 @@ export default function PatientInfo() {
           </div>
           <div>
             <h4>Date of Birth</h4>
-            <CustomDatePicker value={birthDate} setValue={setBirthDate} size={"lg"} />
+            <CustomDatePicker
+              value={birthDate}
+              setValue={setBirthDate}
+              size={"lg"}
+            />
           </div>
           <div>
             <h4>Home Address</h4>
             <input
-              onChange={(e)=>{setHomeAddress(e.target.value)}}
+              onChange={(e) => {
+                setHomeAddress(e.target.value);
+              }}
               value={homeAddress}
               className="mt-[8px] border-[1px]"
             />
@@ -76,19 +100,17 @@ export default function PatientInfo() {
           <div>
             <h4>Contact phone number</h4>
             <input
-              onChange={(e)=>{setContactPhoneNumber(e.target.value)}}
+              onChange={(e) => {
+                setContactPhoneNumber(e.target.value);
+              }}
               value={contactPhoneNumber}
               className="mt-[8px] border-[1px]"
             />
           </div>
         </div>
+        {/*-------------------------------------- lower part --------------------------------*/}
+      <DiscardAndSaveButton handleDiscardChange={handleDiscardChange} handleSaveInformation={handleSaveInformation}/> 
       </div>
-      <button
-        onClick={handleSaveInformation}
-        className="h-[50px] absolute bottom-5 right-5 bg-custom-blue text-white"
-      >
-        Save information
-      </button>
     </>
   );
 }
