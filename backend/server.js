@@ -1,11 +1,8 @@
 // import required modules
 require("dotenv").config();
 const parser = require("body-parser");
-const mongoose = require("mongoose");
 const express = require('express');
 const cookieParser = require("cookie-parser");
-
-
 
 
 //import  routes 
@@ -14,7 +11,7 @@ const nurseRoutes = require("./Routers/hrRoutes.js");
 const frontDeskRoutes = require("./Routers/frontDeskRoutes.js");
 const hrRoutes = require("./Routers/hrRoutes.js");
 const businessOfficerRoutes = require("./Routers/bussinessOffcierRoutes.js");
-const authenticateToken = require("./Authenticate/authRoutes.js");
+const authRouter = require("./Routers/authRoutes.js");
 const app = express();
 const SERVER_PORT = process.env.SERVER_PORT;
 
@@ -30,13 +27,7 @@ app.use('/api/doctor', doctorRoutes);
 app.use('/api/front-desk', frontDeskRoutes);
 app.use('/api/hr', hrRoutes);
 app.use('/api/nurse', nurseRoutes);
-
-
-
-
-
-
-  
+app.use('/api/authentication', authRouter);
 
 // Start the server
 app.listen(SERVER_PORT, () => {
