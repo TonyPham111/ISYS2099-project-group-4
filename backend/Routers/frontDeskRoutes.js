@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const frontDeskRoutes = express.Router();
+
 
 router.get('/frontdesk/:id/personal_information', (req, res) => {
     const staff_personal_info = {
@@ -89,3 +91,5 @@ router.put("/frontdesk/reschedule", (req, res) => {
         appointment_end_time
     } = req.body
 })
+
+module.exports = frontDeskRoutes;

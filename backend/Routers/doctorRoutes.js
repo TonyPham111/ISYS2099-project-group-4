@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const doctorRoutes = express.Router();
 
 router.get('/doctor/:id/personal_information', (req, res) => {
     const staff_personal_info = {
@@ -155,3 +156,5 @@ router.put('/doctor/update_test', (req, res) => {
         lab_result_detail
     } = req.body
 })
+
+module.exports = doctorRoutes;

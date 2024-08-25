@@ -150,6 +150,7 @@ BEGIN
         SET MESSAGE_TEXT = 'Doctor does not exist';
     END IF;
 
+
     -- Start a transaction to ensure all operations succeed or fail together
     START TRANSACTION;
 
