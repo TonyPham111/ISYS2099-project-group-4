@@ -57,12 +57,12 @@ exports.register = async (req, res) => {
     const { username, password, role, department } = req.body;
     let pool;
 
-    if (role === 'nurse') pool = poolNurses;
-    else if (role === 'doctor') pool = poolDoctors;
-    else if (role === 'frontDesk') pool = poolFrontDesk;
-    else if (role === 'hr') pool = poolHR;
-    else if (role === 'businessOfficer') pool = poolBusinessOfficers;
-    else return res.status(400).json({ message: 'Invalid role provided' });
+    // if (role === 'nurse') pool = poolNurses;
+    // else if (role === 'doctor') pool = poolDoctors;
+    // else if (role === 'frontDesk') pool = poolFrontDesk;
+    // else if (role === 'hr') pool = poolHR;
+    // else if (role === 'businessOfficer') pool = poolBusinessOfficers;
+    // else return res.status(400).json({ message: 'Invalid role provided' });
 
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
