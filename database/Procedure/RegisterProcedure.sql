@@ -1,3 +1,6 @@
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS RegisterUser$$
 CREATE PROCEDURE RegisterUser(
     IN p_username VARCHAR(255),
     IN p_password VARCHAR(255),
@@ -17,7 +20,6 @@ BEGIN
     -- Insert the new user
     INSERT INTO staff (username, password, role, department_id)
     VALUES (p_username, p_password, p_role, department_id);
-END $$
+END$$
 
-
-
+DELIMITER ;

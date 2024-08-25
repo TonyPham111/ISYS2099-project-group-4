@@ -96,7 +96,6 @@ CREATE TABLE Appointments (
     start_time TIME NOT NULL,
     end_time TIME NOT NULL,
     appointment_charge DECIMAL(6,2) NOT NULL,
-    schedule_id INT,
     appointment_status ENUM('Active', 'Finished', 'Cancelled') NOT NULL,
     appointment_notes_document_id VARCHAR(24),
     FOREIGN KEY (schedule_id) REFERENCES Staff_Schedule (id) ON DELETE SET NULL,
@@ -157,7 +156,6 @@ CREATE TABLE Prescription_Details (
     PRIMARY KEY (prescription_id, drug_code),
     FOREIGN KEY (prescription_id) REFERENCES TreatmentHistory(id),
     FOREIGN KEY (drug_code) REFERENCES Drugs (drug_code)
-
 );
 
 
@@ -238,7 +236,6 @@ CREATE TABLE Department_Change(
     FOREIGN KEY (staff_id) REFERENCES Staff (id),
     FOREIGN KEY (old_department_id) REFERENCES Departments(id),
     FOREIGN KEY (new_department_id) REFERENCES Departments(id)
-
 );
 
 CREATE TABLE Criteria (

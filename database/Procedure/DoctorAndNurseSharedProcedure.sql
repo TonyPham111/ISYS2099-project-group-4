@@ -1,4 +1,6 @@
+DELIMITER $$
 
+DROP PROCEDURE IF EXISTS GetPatientsInfo$$
 CREATE PROCEDURE GetPatientsInfo()
 SQL SECURITY DEFINER
 BEGIN
@@ -19,12 +21,12 @@ BEGIN
         Allergies                         -- The Allergies table, which contains allergy details
     ON 
         PatientAllergy.allergy_id = Allergies.id; -- Match allergy_id with the Allergies table
+END$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.GetPatientsInfo TO 'Doctors'@'host'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.GetPatientsInfo TO 'Nurses'@'host'$$
 
-END;
-GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'GetPatientsInfo' TO 'Doctors'@'host';
-GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'GetPatientsInfo' TO 'Nurses'@'host';
 
-
+DROP PROCEDURE IF EXISTS FetchTestDetailsByPatientId$$
 CREATE PROCEDURE FetchTestDetailsByPatientId(
     patient_id INT    -- Parameter for the ID of the patient whose test details are to be fetched
 )
@@ -71,12 +73,12 @@ BEGIN
         Test_Details.test_id = Test_Orders_Details.id -- Join on the test ID to get the order details
     WHERE
         Test_Orders_Details.patient_id = patient_id;  -- Filter to include only the tests for the specified patient
+END$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchTestDetailsByPatientId TO 'Doctors'@'host'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchTestDetailsByPatientId TO 'Nurses'@'host'$$
 
-END;
-GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'FetchTestDetailsByPatientId' TO 'Doctors'@'host';
-GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'FetchTestDetailsByPatientId' TO 'Nurses'@'host';
 
-
+DROP PROCEDURE IF EXISTS FetchDiagnosesByPatientId$$
 CREATE PROCEDURE FetchDiagnosesByPatientId(
     patient_id INT  -- Parameter for the ID of the patient whose diagnoses are to be fetched
 )
@@ -106,13 +108,12 @@ BEGIN
         Diagnoses.doctor_id = Staff.id        -- Join on doctor_id to link Diagnoses with Staff
     WHERE 
         Diagnoses.patient_id = patient_id;    -- Filter to include only the diagnoses for the specified patient
-
-END;
-GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'FetchDiagnosesByPatientId' TO 'Doctors'@'host';
-GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'FetchDiagnosesByPatientId' TO 'Nurses'@'host';
-
+END$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchDiagnosesByPatientId TO 'Doctors'@'host'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchDiagnosesByPatientId TO 'Nurses'@'host'$$
 
 
+DROP PROCEDURE IF EXISTS FetchPrescriptionsByPatientId$$
 CREATE PROCEDURE FetchPrescriptionsByPatientId(
     para_patient_id INT  -- Parameter for the ID of the patient whose prescriptions are to be fetched
 )
@@ -139,13 +140,12 @@ BEGIN
         TreatmentHistory.doctor_id = Staff.id -- Join on doctor_id to link TreatmentHistory with Staff
     WHERE
         TreatmentHistory.patient_id = para_patient_id; -- Filter to include only the prescriptions for the specified patient
-
-END;
-GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'FetchPrescriptionsByPatientId' TO 'Doctors'@'host';
-GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'FetchPrescriptionsByPatientId' TO 'Nurses'@'host';
-
+END$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchPrescriptionsByPatientId TO 'Doctors'@'host'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchPrescriptionsByPatientId TO 'Nurses'@'host'$$
 
 
+DROP PROCEDURE IF EXISTS UpdateTestDetail$$
 CREATE PROCEDURE UpdateTestDetail(
     para_test_order_id INT,                   -- Parameter for the test order ID
     para_test_type_id INT,                    -- Parameter for the test type ID
@@ -154,6 +154,22 @@ CREATE PROCEDURE UpdateTestDetail(
 )
 SQL SECURITY DEFINER
 BEGIN
+    -- Validate inputs
+    IF NOT CheckTestOrderExists(para_test_order_id) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Test order does not exist';
+    END IF;
+
+    IF NOT CheckTestTypeExists(para_test_type_id) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Test type does not exist';
+    END IF;
+
+    IF NOT CheckStaffExists(para_administering_staff_id) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Staff does not exist';
+    END IF;
+    
     -- Update the Test_Details table with the new administering staff ID and lab result document ID
     UPDATE Test_Details
     SET
@@ -162,6 +178,8 @@ BEGIN
     WHERE
         test_id = para_test_order_id  -- Match the test order ID
         AND test_type_id = para_test_type_id;  -- Match the test type ID
-END;
-GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'UpdateTestDetail' TO 'Doctors'@'host';
-GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'UpdateTestDetail' TO 'Nurses'@'host';
+END$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.UpdateTestDetail TO 'Doctors'@'host'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.UpdateTestDetail TO 'Nurses'@'host'$$
+
+DELIMITER ;
