@@ -238,4 +238,29 @@ CREATE TABLE Department_Change(
     FOREIGN KEY (new_department_id) REFERENCES Departments(id)
 );
 
+CREATE TABLE Criteria (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    criteria_name VARCHAR(100) NOT NULL,
+    criteria_description TEXT
+);
+
+CREATE TABLE PerformanceEvaluation (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    evaluated_staff_id INT NOT NULL,
+    evaluator_staff_id INT NOT NULL,
+    evaluation_date DATE NOT NULL,
+    FOREIGN KEY (evaluated_staff_id) REFERENCES Staff(id),
+    FOREIGN KEY (evaluator_staff_id) REFERENCES Staff(id)
+);
+
+CREATE TABLE EvaluationCriteria (
+    evaluation_id INT NOT NULL,
+    criteria_id INT NOT NULL,
+    criteria_score DECIMAL(4,2),
+    PRIMARY KEY (evaluation_id, criteria_id),
+    FOREIGN KEY (evaluation_id) REFERENCES PerformanceEvaluation(id),
+    FOREIGN KEY (criteria_id) REFERENCES Criteria(id)
+);
+
+
 
