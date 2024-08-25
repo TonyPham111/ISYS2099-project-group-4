@@ -65,6 +65,7 @@ CREATE PROCEDURE ParsingDrugsCodeAndQuantity(
 )
 SQL SECURITY DEFINER
 BEGIN
+    DECLARE current_inventory INT;
     DECLARE medicine_code INT;                    -- Variable to store the drug code fetched from the Drugs table
     DECLARE medicine_quantity INT;                -- Variable to store the quantity of the drug to be prescribed
     DECLARE current_price DECIMAL(6,2);           -- Variable to store the price per unit of the drug
@@ -85,6 +86,14 @@ BEGIN
 
     -- Extract the quantity of the drug after the colon and convert it to an unsigned integer
     SET medicine_quantity = CAST(SUBSTRING_INDEX(current_string_code, ':', -1) AS UNSIGNED);
+
+    -- Check if there is enough inventory
+    SELECT inventory INTO current_inventory FROM Drugs WHERE Drugs.drug_code = medicine_code;
+
+    IF current_inventory - medicine_quantity < 0 THEN
+        SIGNL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Not enough inventory currently. Aborting Operation'
+
 
     -- Update the inventory in the Drugs table by subtracting the prescribed quantity
     UPDATE Drugs
