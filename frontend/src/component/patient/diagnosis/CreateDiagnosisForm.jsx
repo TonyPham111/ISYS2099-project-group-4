@@ -1,25 +1,26 @@
 import Editor from "@/component/ui/Editor";
 import * as patientService from "@/services/patientService";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { PopupContext } from "@/contexts/popupContext";
 import CustomAutoComplete from "@/component/ui/CustomAutoComplete";
-import { json } from "react-router-dom";
+import { useEditor } from "@tiptap/react";
 
-export default function CreateTreatmentForm({ treatmentId }) {
+export default function CreateDiagnosisForm({ diagnosisId }) {
   const [createdData, setCreatedData] = useState([]);
-  const [doctorNote, setDoctorNote] = useState(null);
+  const [diagnosisNote, setDiagnosisNote] = useState(null);
   const { setIsPopup } = useContext(PopupContext);
-  const drugData = patientService.getDrugs();
-  const headerData = ["drug_name", "quantity", "unit", "price_per_unit", ""];
+  const headerData = ["diagnosis", "description", ""];
+  useEffect(() => {
+    console.log(`currnet createdData: ${JSON.stringify(createdData)}\n`);
+  }, [createdData]);
+  const diagnosisData = patientService.getDiagnosisData();
   function handleAddRowData() {
     setCreatedData([
       ...createdData,
       {
-        drug_name: null,
-        inventory: 0,
-        quantity: 0,
-        unit: null,
-        price_per_unit: null,
+        code: null,
+        name: null,
+        description: null,
       },
     ]);
   }
@@ -28,36 +29,34 @@ export default function CreateTreatmentForm({ treatmentId }) {
     result.splice(index, 1);
     setCreatedData([...result]);
   }
-  function handleInputOnChange(rowIndex, keyItem, value, limit) {
+  function handleInputOnChange(rowIndex, keyItem, value) {
     const result = createdData;
-    if (value <= limit) {
-      result[rowIndex][keyItem] = value;
-    }
-    setCreatedData([...result]);
+    result[rowIndex][keyItem] = value;
+    setCreatedData(result);
   }
-  function handleCreateTreatment() {
-    let readToCreateTreatment = true;
+  function handleCreateDiagnosis() {
+    let readyToCreateDiagnosis = true;
     /*----check if it meet requirement to create new treatment ( not allow any blank input )*/
     if (createdData.length > 0) {
       for (let i = 0; i < createdData.length; ++i) {
         for (let j = 0; j < headerData.length; j++) {
           if (!createdData[i][headerData[i]]) {
-            readToCreateTreatment = false;
+            readyToCreateDiagnosis = false;
           }
         }
       }
     } else {
-      readToCreateTreatment = false;
+      readyToCreateDiagnosis = false;
     }
-    if (readToCreateTreatment) {
+    if (readyToCreateDiagnosis) {
       setIsPopup(false);
     }
   }
   return (
     <div className="w-full h-full p-5 flex flex-col gap-[10px] relative">
       <div className="w-full h-[90%] overflow-scroll">
-        <h2>Prescription</h2>
-        <table className=" w-full ">
+        <h2>Condition</h2>
+        <table className=" w-full">
           <thead className="h-[50px] bg-custom-dark-100 p-3">
             <tr>
               {headerData.map((item, index) => (
@@ -71,7 +70,7 @@ export default function CreateTreatmentForm({ treatmentId }) {
                 {headerData.map((keyItem) => {
                   if (keyItem == "") {
                     return (
-                      <td className="w-[30px] h-[20px] py-[5px]">
+                      <td className="w-[30px] h-[20px]  py-[5px]">
                         <button
                           onClick={() => {
                             removeRow(rowIndex);
@@ -82,57 +81,40 @@ export default function CreateTreatmentForm({ treatmentId }) {
                         </button>
                       </td>
                     );
-                  } else if (keyItem == "drug_name") {
+                  } else if (keyItem == "diagnosis") {
                     return (
                       <td className="w-[70px] h-[20px] py-[5px]">
                         <CustomAutoComplete
-                          options={drugData}
+                          options={diagnosisData}
                           // value={patientValue}
                           onChange={(event, value) => {
-                            createdData[rowIndex].drug_name = value.drug_name;
-                            createdData[rowIndex].unit = value.unit;
-                            createdData[rowIndex].price_per_unit =
-                              value.price_per_unit;
-                            createdData[rowIndex].inventory = value.inventory;
+                            console.log(
+                              `getValue: ${JSON.stringify(
+                                value
+                              )}\n index: ${rowIndex}`
+                            );
+                            createdData[rowIndex].code = value.code;
+                            createdData[rowIndex].name = value.name;
+                            createdData[rowIndex].description =
+                              value.description;
+                            console.log(
+                              `check createdData: ${JSON.stringify(
+                                createdData
+                              )}`
+                            );
                             setCreatedData([...createdData]);
                           }}
                           getOptionLabel={(option) => {
-                            return `${option.drug_name} ( ${option.drug_code} )`;
+                            return `${option.name} ( ${option.code} )`;
                           }}
-                          label={"search by drug name"}
+                          label={"search by diagnosis or code ..."}
                           size={"full"}
                         />
                       </td>
                     );
-                  } else if (keyItem == "quantity") {
-                    return (
-                      <td className="w-[30px]  h-[20px] py-[5px]">
-                        <div
-                          className="w-full h-full flex gap-[10px] items-center relative
-                        "
-                        >
-                          <input
-                          value={item[keyItem]}
-                            onChange={(e) => {
-                              handleInputOnChange(
-                                rowIndex,
-                                keyItem,
-                                e.target.value,
-                                item["inventory"]
-                              );
-                            }}
-                            className="w-full h-full"
-                            type="number"
-                            min={0}
-                            max={item["inventory"]}
-                          />
-                           <span className="absolute right-[30px] bottom-[10px] text-custom-dark-300">({item["inventory"] - item["quantity"]})</span>
-                        </div>
-                      </td>
-                    );
                   } else {
                     return (
-                      <td className="w-[20px]  h-[20px] py-[5px]">
+                      <td className="w-[70px] h-[20px]  py-[5px] ">
                         {item[keyItem]}
                       </td>
                     );
@@ -146,19 +128,19 @@ export default function CreateTreatmentForm({ treatmentId }) {
           onClick={handleAddRowData}
           className="bg-custom-blue text-white w-[150px]"
         >
-          add drug +{" "}
+          add condtion +{" "}
         </button>
-        <h3>Doctor note</h3>
+        <h3>Diagnosis note</h3>
         <div className="w-[50%]">
-          <Editor value={doctorNote} setValue={setDoctorNote} />
+          <Editor value={diagnosisNote} setValue={setDiagnosisNote} />
         </div>
       </div>
       <div className="w-[95%] mx-auto pt-5 border-t-2 border-custom-gray-200 flex justify-center absolute bottom-[10px]">
         <button
-          onClick={handleCreateTreatment}
+          onClick={handleCreateDiagnosis}
           className="h-[50px] w-[250px] bg-custom-blue text-white"
         >
-          Create treatment +
+          Create diagnosis +
         </button>
       </div>
     </div>

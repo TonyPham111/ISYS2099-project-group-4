@@ -1,8 +1,8 @@
 CALL AddNewStaff(
     'Sato Jiro',                  -- Manager's full name in Romaji
     123456780,                    -- Random SSN for the manager
-    'Doctor',                     -- Job title for the manager
-    'Pediatrics',                 -- Department for the manager (randomly selected)
+    2,                            -- Job title for the manager
+    4,                            -- Department for the manager (randomly selected)
     NULL,                         -- Manager's manager (None for top-level doctor manager)
     'M',                          -- Gender (M for Male)
     '1975-01-15',                 -- Random birth date for the manager
@@ -20,9 +20,9 @@ CALL AddNewStaff(
 CALL AddNewStaff(
     'Yamada Taro',                 -- Full name in Romaji
     123456789,                     -- Random SSN
-    'Doctor',                      -- Job title (Doctor)
-    'Pediatrics',                  -- Department (randomly selected)
-    'Sato Jiro',                   -- Manager's full name in Romaji
+    2,                             -- Job title (Doctor)
+    4,                             -- Department (randomly selected)
+    LAST_INSERT_ID(),              -- Manager's id
     'M',                           -- Gender (M for Male)
     '1985-03-22',                  -- Random birth date
     'Tokyo-to Shibuya-ku 1-2-3',   -- Home address in Romaji
@@ -38,8 +38,8 @@ CALL AddNewStaff(
 CALL AddNewStaff(
     'Tanaka Ichiro',               -- Manager's full name in Romaji
     345678901,                     -- Random SSN for the manager
-    'Nurse',                       -- Job title for the manager
-    'Cardiology',                  -- Department for the manager (randomly selected)
+    1,                             -- Job title for the manager
+    1,                             -- Department for the manager (randomly selected)
     NULL,                          -- Manager's manager (None for top-level nurse manager)
     'M',                           -- Gender (M for Male)
     '1972-07-10',                  -- Random birth date for the manager
@@ -56,16 +56,16 @@ CALL AddNewStaff(
 CALL AddNewStaff(
     'Suzuki Hanako',               -- Full name in Romaji
     987654323,                     -- Random SSN
-    'Nurse',                       -- Job title (Nurse)
-    'Cardiologys',                  -- Department (randomly selected)
-    'Tanaka Ichiro',               -- Manager's full name in Romaji
+    1,                             -- Job title (Nurse)
+    1,                             -- Department (randomly selected)
+    LAST_INSERT_ID(),              -- Manager's id
     'F',                           -- Gender (F for Female)
     '1990-08-25',                  -- Random birth date
     'Osaka-shi Kita-ku 4-5-6',     -- Home address in Romaji
     '090-9876-5432',               -- Random phone number
     'hanako.suzuki@example.jp',    -- Random email address
-    'securepass6',               -- Random password
-    4800.0,                       -- Random wage within the nurse range (3579.35 to 5381.45)
+    'securepass6',                 -- Random password
+    4800.0,                        -- Random wage within the nurse range (3579.35 to 5381.45)
     'shift_based',                 -- Employment type (shift_based for nurses)
     NULL    -- Random employment document ID
 );
