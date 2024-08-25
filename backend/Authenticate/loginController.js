@@ -1,14 +1,18 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { poolNurses, poolDoctors } = require('../dbConnection');
+
+const {poolHR, poolBusinessOfficers, poolDoctors, poolFrontDesk, poolNurses} = require('../Models/dbConnectionConfiguration');
 
 async function login(req, res) {
-    const { username, password, role } = req.body;
+    const { username, password } = req.body;
     let pool;
 
     // Select the appropriate database pool based on the role
     if (role === 'nurse') pool = poolNurses;
     else if (role === 'doctor') pool = poolDoctors;
+    else if (role === 'frontDesk') pool = poolFrontDesk;
+    else if (role === 'hr') pool = poolHR;
+    else if (role === 'businessOfficer') pool = poolBusinessOfficers;
     else return res.status(400).json({ message: 'Invalid role provided' });
 
     try {

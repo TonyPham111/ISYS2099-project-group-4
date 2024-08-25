@@ -1,5 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const nurseRoutes = express.Router(); 
+
+
 
 router.get('/nurse/:id/personal_information', (req, res) => {
     const staff_personal_info = {
@@ -105,3 +108,5 @@ router.put('/nurse/update_test', (req, res) => {
         sample_image: [] 
     } = test_document
 })
+
+module.exports = nurseRoutes;
