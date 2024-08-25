@@ -1,7 +1,5 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const express = require('express');
-const router = express.Router();
 const {poolHR, poolBusinessOfficers, poolDoctors, poolFrontDesk, poolNurses} = require('../Models/dbConnectionConfiguration');
 
 
@@ -47,6 +45,14 @@ exports.logout = (req, res) => {
 };
 
 //register a new staff
+exports.registerPage = (req, res) => {
+  try {
+      res.json("This is Register Page");
+  } catch (error) {
+      res.status(500).send({ message: error.message || "Error Occurred" });
+  }
+};
+
 exports.register = async (req, res) => {
     const { username, password, role, department } = req.body;
     let pool;

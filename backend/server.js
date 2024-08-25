@@ -27,7 +27,8 @@ app.use('/api/doctor', doctorRoutes);
 app.use('/api/front-desk', frontDeskRoutes);
 app.use('/api/hr', hrRoutes);
 app.use('/api/nurse', nurseRoutes);
-app.use('/api/authentication', authRouter);
+app.use('/', authRouter);
+
 
 // Start the server
 app.listen(SERVER_PORT, () => {
