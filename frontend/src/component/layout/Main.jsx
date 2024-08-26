@@ -3,18 +3,18 @@ import PatientRouter from "../../pages/Hospital_management/Patient_management/Pa
 import StaffRouter from "../../pages/Hospital_management/Staff_management/StaffRouter";
 import Appointment from "../../pages/Hospital_management/Appointment_management/Appointment";
 import Report from "../../pages/Hospital_management/Report_management/Report";
-import { useState } from "react";
-import { Router, Routes, Route } from "react-router-dom";
+import Login from "../../pages/Hospital_management/Login_management/Login";
+import {  Routes, Route } from "react-router-dom";
 const Main = () => {
-  const [text, setText] = useState("");
   return (
     <section className="mt-[50px] w-main h-main flex items-center justify-center">
       <Routes>
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/patient/*" element={<PatientRouter/>} />
-        <Route path="/staff/*" element={<StaffRouter/>} />
-        <Route path="/appointment/*" element={<Appointment/>} />
-        <Route path="/report/*" element={<Report/>} />
+        <Route path="/patient/*" element={<PatientRouter />} />
+        <Route path="/staff/*" element={<StaffRouter />} />
+        <Route path="/appointment/*" element={<Appointment />} />
+        <Route path="/report/*" element={<Report />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </section>
   );
