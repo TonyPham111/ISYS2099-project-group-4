@@ -3,6 +3,7 @@ import CustomDatePicker from "@/component/ui/CustomDatePicker";
 import * as staffService from "@/services/staffService";
 import { useParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
+import DiscardAndSaveButton from "@/component/ui/DiscardAndSaveButton";
 
 export default function StaffInfo() {
   const { id } = useParams();
@@ -20,7 +21,6 @@ export default function StaffInfo() {
   const [hireDate, setHireDate] = useState(null);
   const [birthDate, setBirthDate] = useState(null);
 
-  function handleSaveInformation() {}
   useEffect(() => {
     if (staffData) {
       setFirstName(staffData.first_name);
@@ -36,13 +36,29 @@ export default function StaffInfo() {
       setEmploymentType(staffData.employment_type);
     }
   }, [staffData]);
+  function handleSaveInformation() {}
+  function handleDiscardChange() {
+    if (staffData) {
+      setFirstName(staffData.first_name);
+      setLastName(staffData.last_name);
+      setGender(staffData.gender);
+      setHomeAddress(staffData.home_address);
+      setContactPhoneNumber(staffData.contact_phone_number);
+      setBirthDate(dayjs(staffData.birth_date, "DD/MM/YYYY"));
+      setHireDate(dayjs(staffData.hire_date, "DD/MM/YYYY"));
+      setJob(staffData.job);
+      setWage(staffData.wage);
+      setEmail(staffData.email);
+      setEmploymentType(staffData.employment_type);
+    }
+  }
   if (!staffData) {
     return <></>;
   }
   return (
     <>
-      <div className="w-full h-full flex justify-center">
-        <div className="w-2/3 flex flex-wrap justify-between">
+      <div className="w-full h-full flex flex-col justify-center">
+        <div className="h-5/6 w-full flex flex-wrap justify-between">
           <div>
             <h4>First name</h4>
             <input
@@ -80,7 +96,11 @@ export default function StaffInfo() {
           </div>
           <div>
             <h4>Date of Birth</h4>
-            <CustomDatePicker value={birthDate} setValue={setBirthDate} size={"lg"} />
+            <CustomDatePicker
+              value={birthDate}
+              setValue={setBirthDate}
+              size={"lg"}
+            />
           </div>
           <div>
             <h4>Home Address</h4>
@@ -126,7 +146,11 @@ export default function StaffInfo() {
           </div>
           <div>
             <h4>hire date</h4>
-            <CustomDatePicker value={hireDate} setValue={setHireDate} size={"lg"} />
+            <CustomDatePicker
+              value={hireDate}
+              setValue={setHireDate}
+              size={"lg"}
+            />
           </div>
           <div>
             <h4>job position</h4>
@@ -142,13 +166,9 @@ export default function StaffInfo() {
             </select>
           </div>
         </div>
+        {/*-------------------------------------- lower part --------------------------------*/}
+      <DiscardAndSaveButton handleDiscardChange={handleDiscardChange} handleSaveInformation={handleSaveInformation}/> 
       </div>
-      <button
-        onClick={handleSaveInformation}
-        className="h-[50px] absolute bottom-5 right-5 bg-custom-blue text-white"
-      >
-        Save information
-      </button>
     </>
   );
 }

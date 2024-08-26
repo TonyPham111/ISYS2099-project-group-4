@@ -1,3 +1,6 @@
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS FetchStaffInfoById$$
 CREATE PROCEDURE FetchStaffInfoById(
     staff_id INT                      -- Parameter for the ID of the staff member whose details are to be fetched
 )
@@ -38,15 +41,15 @@ BEGIN
     WHERE
         Non_Manager.id = staff_id;           -- Filter to include only the specified staff member
 
-END;
-GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'FetchStaffInfoById' TO 'HR'@'host';
-GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'FetchStaffInfoById' TO 'Doctors'@'host';
-GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'FetchStaffInfoById' TO 'Nurses'@'host';
-GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'FetchStaffInfoById' TO 'FrontDesk'@'host';
-GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'FetchStaffInfoById' TO 'BusinessOfficers'@'host';
+END$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchStaffInfoById TO 'HR'@'host'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchStaffInfoById TO 'Doctors'@'host'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchStaffInfoById TO 'Nurses'@'host'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchStaffInfoById TO 'FrontDesk'@'host'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchStaffInfoById TO 'BusinessOfficers'@'host'$$
 
 
-
+DROP PROCEDURE IF EXISTS FetchPatientsPersonalInfo$$
 CREATE PROCEDURE FetchPatientsPersonalInfo()
 SQL SECURITY DEFINER
 BEGIN
@@ -59,6 +62,51 @@ BEGIN
         phone_number,
         email
     FROM Patients;
+END$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchStaffInfoById TO 'FrontDesk'@'host'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchStaffInfoById TO 'BusinessOfficers'@'host'$$
+
+CREATE PROCEDURE Reschedule(
+    doctor_id INT,
+    schedule_id INT,          -- Parameter for the ID of the appointment to be rescheduled
+    para_schedule_date DATE,       -- Parameter for the new date of the appointment
+    para_start_time TIME,             -- Parameter for the new start time of the appointment
+    para_end_time TIME                -- Parameter for the new end time of the appointment
+)
+SQL SECURITY DEFINER
+BEGIN
+    -- Declare variables to be used in the procedure
+    DECLARE para_schedule_id INT;                 -- Variable to store the schedule ID associated with the appointment
+  
+    -- Error handling: In case of any SQL exception, rollback the transaction and return an error message
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        ROLLBACK;  -- Rollback any changes made during the transaction
+        SELECT 'An error occurred. Transaction rolled back.' AS ErrorMessage;  -- Return an error message
+    END;
+
+    -- Check if schedule_id belongs to the doctor_id
+
+    SELECT Staff_Schedule.id INTO para_schedule_id FROM Staff_Schedule WHERE Staff_Schedule.id = schedule_id AND Staff_Schedule.staff_id = doctor_id LIMIT 1;
+
+    IF para_schedule_id IS NULL THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Incorrect schedule id. Please try again';
+    END IF;
+    
+    UPDATE Staff_Schedule
+        SET schedule_date = para_schedule_date,        -- Update the schedule date
+            start_time = para_start_time,                 -- Update the start time
+            end_time = para_end_time                      -- Update the end time
+        WHERE id = schedule_id;                      -- Specify the schedule to update by its ID
+
 END;
-GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'FetchStaffInfoById' TO 'FrontDesk'@'host';
-GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'FetchStaffInfoById' TO 'BusinessOfficers'@'host';
+GRANT EXECUTE ON PROCEDURE hospital_management_system.RescheduleAnAppointment TO 'FrontDesk'@'host';
+GRANT EXECUTE ON PROCEDURE hospital_management_system.RescheduleAnAppointment TO 'HR'@'host';
+GRANT EXECUTE ON PROCEDURE hospital_management_system.RescheduleAnAppointment TO 'BusinessOfficers'@'host';
+GRANT EXECUTE ON PROCEDURE hospital_management_system.RescheduleAnAppointment TO 'Doctors'@'host';
+GRANT EXECUTE ON PROCEDURE hospital_management_system.RescheduleAnAppointment TO 'Nurses'@'host';
+
+
+
+DELIMITER ;

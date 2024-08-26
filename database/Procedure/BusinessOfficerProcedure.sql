@@ -1,3 +1,6 @@
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS GetBillingDetails$$
 CREATE PROCEDURE GetBillingDetails(
     presID INT,          -- Parameter for the prescription ID
     testID INT,          -- Parameter for the test ID
@@ -40,17 +43,17 @@ BEGIN
         Test_Types ON Test_Details.test_type_id = Test_Types.id
     WHERE 
         Test_Details.test_id = testID;
-END;
-GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'GetBillingsDetails' TO 'BusinessOfficers'@'host'
+END$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.GetBillingDetails TO 'BusinessOfficers'@'host'$$
 
 
-
+-- Removed the 'BillingID' parameter since it's automatically incremented
+DROP PROCEDURE IF EXISTS InsertNewBilling$$
 CREATE PROCEDURE InsertNewBilling(
-    BillingID INT,          -- Parameter for the billing ID
-    patientID INT,          -- Parameter for the patient ID
-    appointmentID INT,      -- Parameter for the appointment ID
-    testID INT,             -- Parameter for the test ID
-    prescriptionID INT      -- Parameter for the prescription ID
+    para_patient_id INT,          -- Parameter for the patient ID
+    para_appointment_id INT,      -- Parameter for the appointment ID
+    para_test_id INT,             -- Parameter for the test ID
+    para_prescription_id INT      -- Parameter for the prescription ID
 )
 SQL SECURITY DEFINER
 BEGIN
@@ -58,7 +61,40 @@ BEGIN
     DECLARE appointment_fee DECIMAL(6,2);
     DECLARE total_prescription_fee DECIMAL(8,2);
     DECLARE total_test_fee DECIMAL(8,2);
-
+    
+	-- Validate inputs
+	IF NOT CheckPatientExists(para_patient_id) THEN
+		SIGNAL SQLSTATE '45000'
+		SET MESSAGE_TEXT = 'Patient does not exist';
+	END IF;
+    
+	-- Ensure that at least one ID is provided
+	IF para_appointment_id IS NULL AND para_test_id IS NULL AND para_prescription_id IS NULL THEN
+		SIGNAL SQLSTATE '45000'
+		SET MESSAGE_TEXT = 'At least one ID must be provided';
+	END IF;
+    
+	IF para_appointment_id IS NOT NULL THEN
+		IF NOT CheckAppointmentExists(para_appointment_id) THEN
+			SIGNAL SQLSTATE '45000'
+			SET MESSAGE_TEXT = 'Appointment does not exist';
+		END IF;
+	END IF;
+    
+	IF para_test_id IS NOT NULL THEN
+		IF NOT CheckTestDetailsExists(para_test_id) THEN
+			SIGNAL SQLSTATE '45000'
+			SET MESSAGE_TEXT = 'Test details does not exist';
+		END IF;
+	END IF;
+    
+	IF para_prescription_id IS NOT NULL THEN
+		IF NOT CheckPrescriptionExists(para_prescription_id) THEN
+			SIGNAL SQLSTATE '45000'
+			SET MESSAGE_TEXT = 'Prescription does not exist';
+		END IF;
+	END IF;
+    
     -- Initialize variables to prevent null values in case there are no fees
     SET appointment_fee = 0;
     SET total_prescription_fee = 0;
@@ -67,21 +103,20 @@ BEGIN
     -- Fetch the appointment fee
     SELECT appointment_charge INTO appointment_fee
     FROM Appointments
-    WHERE Appointments.id = appointmentID;
+    WHERE Appointments.id = para_appointment_id;
 
     -- Calculate the total prescription fee
     SELECT IFNULL(SUM(price), 0) INTO total_prescription_fee
     FROM Prescription_Details
-    WHERE prescription_id = prescriptionID;
+    WHERE prescription_id = para_prescription_id;
 
     -- Calculate the total test fee
     SELECT IFNULL(SUM(price), 0) INTO total_test_fee
     FROM Test_Details
-    WHERE test_id = testID;
+    WHERE test_id = para_test_id;
 
     -- Insert the new billing record into the Billings table
     INSERT INTO Billings (
-        id, 
         patient_id, 
         billing_date, 
         total_amount, 
@@ -89,14 +124,14 @@ BEGIN
         prescription_id, 
         test_id
     ) VALUES (
-        BillingID, 
-        patientID, 
+        para_patient_id, 
         CURDATE(), 
         appointment_fee + total_prescription_fee + total_test_fee, 
-        appointmentID, 
-        prescriptionID, 
-        testID
+        para_appointment_id, 
+        para_prescription_id, 
+        para_test_id
     );
+END$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.InsertNewBilling TO 'BusinessOfficers'@'host'$$
 
-END;
-GRANT EXECUTE ON PROCEDURE 'hospital_management_system'.'InsertNewBilling' TO 'BusinessOfficers'@'host'
+DELIMITER ;
