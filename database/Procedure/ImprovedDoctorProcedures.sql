@@ -209,7 +209,7 @@ BEGIN
 			SET @case_clause = CONCAT(@case_clause, SUBSTRING_INDEX(SUBSTRING_INDEX(returned_statement, ';', 2), ';', -1));
 
             -- Update the WHERE clause for the UPDATE query with the returned WHERE condition for the current drug
-			SET @where_clause = CONCAT(@where_clause, SUBSTRING(SUBSTRING_INDEX(returned_statement, ',', 1), 2), ',');
+			SET @where_clause = CONCAT(@where_clause, SUBSTRING_INDEX(returned_statement, ';', -1));
 
             -- Reset the accumulated string code for the next iteration
             SET current_string_code = '';
