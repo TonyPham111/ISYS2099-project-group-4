@@ -1,3 +1,5 @@
+DELIMITER $$
+
 DROP PROCEDURE IF EXISTS AddAllergiesToPatients;
 CREATE PROCEDURE AddAllergiesToPatients (
     para_patient_id INT,                  -- Parameter for the patient ID
@@ -67,19 +69,18 @@ BEGIN
 
     -- Commit the transaction to finalize the changes in the database
     COMMIT;
-END;
-GRANT EXECUTE ON PROCEDURE hospital_management_system.AddAllergiesToPatients TO 'Doctors'@'host';
+END$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.AddAllergiesToPatients TO 'Doctors'@'host'$$
 
 
 
-DROP PROCEDURE IF EXISTS AddNewDiagnosis;
+DROP PROCEDURE IF EXISTS AddNewDiagnosis$$
 CREATE PROCEDURE AddNewDiagnosis(
     para_doctor_id INT,           -- Parameter for the doctor ID who made the diagnosis
     para_patient_id INT,          -- Parameter for the patient ID who is being diagnosed
     para_diagnosis_date DATE,     -- Parameter for the date of the diagnosis
     para_diagnosis_note TEXT,     -- Parameter for any notes related to the diagnosis
     para_condition_code_string TEXT  -- Parameter for a comma-separated string of condition codes
-
 )
 SQL SECURITY DEFINER
 BEGIN
@@ -145,11 +146,11 @@ BEGIN
 
     -- Commit the transaction to save all changes
     COMMIT;
-END;
-GRANT EXECUTE ON PROCEDURE hospital_management_system.AddNewDiagnosis TO 'Doctors'@'host';
+END$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.AddNewDiagnosis TO 'Doctors'@'host'$$
 
 
-
+DROP PROCEDURE IF EXISTS AddNewPrescription$$
 CREATE PROCEDURE AddNewPrescription(
     para_doctor_id INT,                       -- Parameter for the doctor ID who issued the prescription
     para_patient_id INT,                      -- Parameter for the patient ID to whom the prescription is given
@@ -180,8 +181,8 @@ BEGIN
     -- Initialize the base SQL statements for later use
     SET @insert_query = 'INSERT INTO Prescription_Details(drug_code, prescription_id, quantity, price) VALUES ';  -- Base for the INSERT query
     SET @case_clause = '';  -- Base for the CASE clause in the UPDATE query
-    SET @where_clause = 'END \n WHERE (';  -- Start of the WHERE clause in the UPDATE query
-    SET @update_query = 'UPDATE Drugs SET inventory = CASE \n';  -- Base for the UPDATE query
+    SET @where_clause = 'END\nWHERE drug_code IN (';  -- Start of the WHERE clause in the UPDATE query
+    SET @update_query = 'UPDATE Drugs SET inventory = CASE\n';  -- Base for the UPDATE query
 
     -- Start a transaction to ensure all operations succeed or fail together
     START TRANSACTION;
@@ -202,13 +203,13 @@ BEGIN
             INTO returned_statement;
 
             -- Update the INSERT query with the returned INSERT statement for the current drug
-            SET @insert_query = CONCAT(@insert_query, SUBSTRING_INDEX(returned_statement, ',', 1), ',');
+            SET @insert_query = CONCAT(@insert_query, SUBSTRING_INDEX(returned_statement, ';', 1), ',');
 
             -- Update the CASE clause for the UPDATE query with the returned CASE statement for the current drug
-            SET @case_clause = CONCAT(@case_clause, SUBSTRING_INDEX(SUBSTRING_INDEX(returned_statement, ',', -1 ), ',', 1));
+			SET @case_clause = CONCAT(@case_clause, SUBSTRING_INDEX(SUBSTRING_INDEX(returned_statement, ';', 2), ';', -1));
 
             -- Update the WHERE clause for the UPDATE query with the returned WHERE condition for the current drug
-            SET @where_clause = CONCAT(@where_clause, SUBSTRING_INDEX(SUBSTRING_INDEX(returned_statement, ',', -1 ), ',', -1));
+			SET @where_clause = CONCAT(@where_clause, SUBSTRING(SUBSTRING_INDEX(returned_statement, ',', 1), 2), ',');
 
             -- Reset the accumulated string code for the next iteration
             SET current_string_code = '';
@@ -223,19 +224,17 @@ BEGIN
 
     -- After exiting the loop, handle the last drug code and quantity pair in the string (as it won't be followed by a comma)
     SELECT ParsingDrugsCodeAndQuantity(current_string_code, latest_prescription_id, 1)
-        INTO returned_statement;
+	INTO returned_statement;
 
     -- Finalize the INSERT query with the last drug's data
-    SET @insert_query = CONCAT(@insert_query, SUBSTRING_INDEX(returned_statement, ';', 1), ',');
+    SET @insert_query = CONCAT(@insert_query, SUBSTRING_INDEX(returned_statement, ';', 1), ';');
 
-    -- Finalize the CASE clause with the last drug's data
-    SET @case_clause = CONCAT(@case_clause, SUBSTRING_INDEX(SUBSTRING_INDEX(returned_statement, ';', -1 ), ',', 1));
-
-    -- Finalize the WHERE clause with the last drug's data and close it
-    SET @where_clause = CONCAT(@where_clause, SUBSTRING_INDEX(SUBSTRING_INDEX(returned_statement, ';', -1 ), ',', -1));
+    -- Finalize the CASE clause and WHERE clause with the last drug's data
+    SET @case_clause = CONCAT(@case_clause, SUBSTRING_INDEX(SUBSTRING_INDEX(returned_statement, ';', -2), ';', 1));
+	SET @where_clause = CONCAT(@where_clause, SUBSTRING_INDEX(returned_statement, ';', -1));
 
     -- Finalize the UPDATE query by concatenating the CASE clause and WHERE clause
-    SET @update_query = CONCAT(@update_query, @case_clause ,@where_clause);
+    SET @update_query = CONCAT(@update_query, @case_clause, @where_clause);
 
     -- Prepare and execute the final INSERT statement for Prescription_Details
     PREPARE insert_statement FROM @insert_query;
@@ -249,15 +248,14 @@ BEGIN
 
     -- Commit the transaction to save all changes
     COMMIT;
-END;
-DROP PROCEDURE IF EXISTS AddNewPrescription;
-GRANT EXECUTE ON PROCEDURE hospital_management_system.AddNewPrescription TO 'Doctors'@'host';
+END$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.AddNewPrescription TO 'Doctors'@'host'$$
 
 
-
+DROP PROCEDURE IF EXISTS OrderTest$$
 CREATE PROCEDURE OrderTest(
-    para_patient_id INT,                  -- Parameter for the patient ID for whom the test is ordered
     para_doctor_id INT,                   -- Parameter for the doctor ID who orders the test
+    para_patient_id INT,                  -- Parameter for the patient ID for whom the test is ordered
     para_administering_date DATE,         -- Parameter for the date when the test will be administered
     para_administering_time TIME,         -- Parameter for the time when the test will be administered
     para_ordering_date DATE,              -- Parameter for the date when the test was ordered
@@ -299,7 +297,7 @@ BEGIN
         IF SUBSTRING(para_text_name_string, current_index, 1) = ',' THEN
             -- Process the current test type name using the ParsingTestTypeIdString function
             SELECT ParsingTestTypeIdString(latest_test_order_id, current_string_code,
-                                           para_administering_date, para_administering_time, 0)
+                                           para_administering_date, para_administering_time, para_doctor_id, 0)
             INTO @single_value;
 
             -- Append the processed value to the INSERT query
@@ -318,11 +316,13 @@ BEGIN
 
     -- After exiting the loop, handle the last test type name in the string (as it won't be followed by a comma)
     SELECT ParsingTestTypeIdString(latest_test_order_id, current_string_code,
-                                   para_administering_date, para_administering_time, 1)
+                                   para_administering_date, para_administering_time, para_doctor_id, 1)
     INTO @single_value;
 
     -- Append the final processed value to the INSERT query
     SET @insert_query = CONCAT(@insert_query, @single_value);
+    
+    SELECT @insert_query;
 
     -- Prepare and execute the final INSERT statement for Test_Details
     PREPARE insert_statement FROM @insert_query;
@@ -331,11 +331,11 @@ BEGIN
 
     -- Commit the transaction to save all changes
     COMMIT;
-END;
-GRANT EXECUTE ON PROCEDURE hospital_management_system.OrderTest TO 'Doctors'@'host';
+END$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.OrderTest TO 'Doctors'@'host'$$
 
 
-
+DROP PROCEDURE IF EXISTS FetchDoctorScheduleById$$
 CREATE PROCEDURE FetchDoctorScheduleById(para_doctor_id INT)  -- Procedure to fetch a doctor's schedule by their ID
 SQL SECURITY DEFINER
 BEGIN
@@ -362,5 +362,7 @@ BEGIN
         Appointments.patient_id = Patients.id                -- Matching the patient ID in appointments with the Patients table
     WHERE
         doctor_id = para_doctor_id;                          -- Filtering the results to include only the specified doctor's schedule
-END;
-GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchDoctorScheduleById TO 'Doctors'@'host';
+END$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchDoctorScheduleById TO 'Doctors'@'host'$$
+
+DELIMITER ;
