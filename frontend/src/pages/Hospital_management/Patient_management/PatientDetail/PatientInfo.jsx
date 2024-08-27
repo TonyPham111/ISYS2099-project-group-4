@@ -4,10 +4,14 @@ import CustomDatePicker from "@/component/ui/CustomDatePicker";
 import * as patientService from "@/services/patientService";
 import { useParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
+import useSWR from "swr";
+import fetcher from "@/utils/fetcher";
 
 export default function PatientInfo() {
   const { id } = useParams();
-  const patientData = patientService.getPatient(id);
+  const { data, error, isLoading } = useSWR(
+    `http://localhost:8000/patients/${id}`,fetcher
+  );
   const [firstName, setFirstName] = useState(null);
   const [lastName, setLastName] = useState(null);
   const [gender, setGender] = useState(null);
@@ -16,28 +20,30 @@ export default function PatientInfo() {
   const [birthDate, setBirthDate] = useState(null);
 
   useEffect(() => {
-    if (patientData) {
-      setFirstName(patientData.first_name);
-      setLastName(patientData.last_name);
-      setGender(patientData.gender);
-      setHomeAddress(patientData.home_address);
-      setContactPhoneNumber(patientData.contact_phone_number);
-      setBirthDate(dayjs(patientData.birth_date, "DD-MM-YYYY"));
+    if (data) {
+      setFirstName(data.first_name);
+      setLastName(data.last_name);
+      setGender(data.gender);
+      setHomeAddress(data.home_address);
+      setContactPhoneNumber(data.contact_phone_number);
+      setBirthDate(dayjs(data.birth_date, "DD-MM-YYYY"));
     }
-  }, [patientData]);
+  }, [data]);
   function handleSaveInformation() {}
   function handleDiscardChange() {
-    if (patientData) {
-      setFirstName(patientData.first_name);
-      setLastName(patientData.last_name);
-      setGender(patientData.gender);
-      setHomeAddress(patientData.home_address);
-      setContactPhoneNumber(patientData.contact_phone_number);
-      setBirthDate(dayjs(patientData.birth_date, "DD-MM-YYYY"));
+    if (data) {
+      setFirstName(data.first_name);
+      setLastName(data.last_name);
+      setGender(data.gender);
+      setHomeAddress(data.home_address);
+      setContactPhoneNumber(data.contact_phone_number);
+      setBirthDate(dayjs(data.birth_date, "DD-MM-YYYY"));
     }
   }
-  if (!patientData) {
-    return <></>;
+  if (error) {
+    return <div>error when loading data</div>;
+  } else if (isLoading) {
+    return <div>isLoading</div>;
   }
   return (
     <>
@@ -109,7 +115,10 @@ export default function PatientInfo() {
           </div>
         </div>
         {/*-------------------------------------- lower part --------------------------------*/}
-      <DiscardAndSaveButton handleDiscardChange={handleDiscardChange} handleSaveInformation={handleSaveInformation}/> 
+        <DiscardAndSaveButton
+          handleDiscardChange={handleDiscardChange}
+          handleSaveInformation={handleSaveInformation}
+        />
       </div>
     </>
   );

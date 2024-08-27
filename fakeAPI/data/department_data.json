@@ -1,0 +1,54 @@
+[
+  {
+    "id": 1,
+    "name": "Cardiology"
+  },
+  {
+    "id": 2,
+    "name": "Neurology"
+  },
+  {
+    "id": 3,
+    "name": "Oncology"
+  },
+  {
+    "id": 4,
+    "name": "Pediatrics"
+  },
+  {
+    "id": 5,
+    "name": "Orthopedics"
+  },
+  {
+    "id": 6,
+    "name": "Dermatology"
+  },
+  {
+    "id": 7,
+    "name": "Gastroenterology"
+  },
+  {
+    "id": 8,
+    "name": "Ophthalmology"
+  },
+  {
+    "id": 9,
+    "name": "Endocrinology"
+  },
+  {
+    "id": 10,
+    "name": "Radiology"
+  },
+  {
+    "id": 11,
+    "name": "Urology"
+  },
+  {
+    "id": 12,
+    "name": "Pulmonology"
+  },
+  {
+    "id": 13,
+    "name": "Business"
+  }
+]

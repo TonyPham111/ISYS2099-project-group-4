@@ -2,10 +2,9 @@ import Editor from "@/component/ui/Editor";
 import * as patientService from "@/services/patientService";
 import { useState } from "react";
 import DataTable from "../../ui/DataTable";
-export default function DiagnosisForm({ diagnosisId }) {
-  let patientDiagnosisData = patientService.getPatientDiagnosis();
-  const condition = patientDiagnosisData.condition;
-  const diagnosisNote = patientDiagnosisData.diagnosis_note;
+export default function DiagnosisForm({ diagnosisData }) {
+  const condition = diagnosisData.condition;
+  const diagnosisNote = diagnosisData.doctor_note;
   const headerData = ["code", "name", "description"];
   function handleOnClick(item, index) {}
   return (
@@ -26,11 +25,7 @@ export default function DiagnosisForm({ diagnosisId }) {
           readOnly={true}
         />
       </div>
-      {patientDiagnosisData.diagnosis_image.length > 0 && (
-        <div>
-          <h3>Diagnosis Image</h3>
-        </div>
-      )}
+     
     </div>
   );
 }

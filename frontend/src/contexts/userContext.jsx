@@ -3,11 +3,11 @@ import { createContext, useState } from "react";
 const UserContext = createContext();
 
 function UserContextProvider({ children }) {
-  const [isPopup, setIsPopup] = useState(false);
+  const [id, ] = useState(false);
   return (
-    <PopupContext.Provider value={{ isPopup, setIsPopup }}>
+    <UserContext.Provider value={{ isPopup, setIsPopup }}>
       {children}
-    </PopupContext.Provider>
+    </UserContext.Provider>
   );
 }
 export { PopupContext, PopupContextProvider };

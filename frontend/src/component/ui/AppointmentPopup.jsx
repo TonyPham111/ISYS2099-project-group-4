@@ -7,21 +7,19 @@ import { useContext, useEffect, useState } from "react";
 import { PopupContext } from "@/contexts/popupContext";
 import { useLocation } from "react-router-dom";
 import useSWR from "swr";
+import PatientInfo from "@/pages/Hospital_management/Patient_management/PatientDetail/PatientInfo";
+import fetcher from "@/utils/fetcher";
 export default function AppointmentPopup({
-  patient_id,
-  appointment_id,
+  appointmentData,
   ableToCancel,
   ableToUpdate,
 }) {
+  const {isLoading, error, data:patientInfo} = useSWR(`http://localhost:8000/patients/${appointmentData.patient_id}`, fetcher);//data in here is patient data
   const location = useLocation();
   const { setIsPopup } = useContext(PopupContext);
-  const patientInfo = patientService.getPatient(patient_id);
-  const appointmentInfo = staffService.getAppointment(appointment_id);
-  const [durningNote, setDuringNote] = useState(appointmentInfo.during_note);
-  const [afterNote, setAfterNote] = useState(appointmentInfo.after_note);
-  const timeIsPassed =
-    Date.now() >=
-    convertStringFormatToDate(appointmentInfo.date, appointmentInfo.start_time);
+  const [durningNote, setDuringNote] = useState(appointmentData.during_note);
+  const [afterNote, setAfterNote] = useState(appointmentData.after_note);
+  const timeIsPassed = Date.now() >= appointmentData.start;
   const headerData = [
     "id",
     "first_name",
@@ -45,9 +43,12 @@ export default function AppointmentPopup({
     }
   }
 
-  if (!patientInfo || !appointmentInfo) {
-    return <></>;
-  } else {
+  if (error) {
+    return <div>error when loading data</div>;
+  } else if (isLoading) {
+    return <div>isLoading</div>;
+  } else if (patientInfo) {
+    console.log(`patient Info: ${JSON.stringify(patientInfo)}`)
     return (
       <section className="w-full h-full p-5 flex flex-col gap-[30px]">
         <div className="h-[95%] flex flex-col gap-[15px]">
@@ -60,7 +61,7 @@ export default function AppointmentPopup({
           />
           <div className="flex flex-col gap-[10px]">
             <h4>Purpose of Appointment:</h4>
-            <p>{appointmentInfo.purpose_of_appointment}</p>
+            <p>{appointmentData.title}</p>
           </div>
           {/*-------doctor note-------*/}
           <h4>Doctor note:</h4>
@@ -71,18 +72,18 @@ export default function AppointmentPopup({
               <div
                 className={`border-[1px] border-solid border-black h-[145px]`}
               >
-                <Editor value={appointmentInfo.before_note} readOnly={true} />
+                <Editor value={appointmentData.before_note} readOnly={true} />
               </div>
             </div>
             {/** before note **/}
             <div className="w-1/3 ">
               <h5>During note:</h5>
               <div
-               className={
-                timeIsPassed || !ableToUpdate
-                  ? `border-[1px] border-solid border-black  h-[145px]`
-                  : ""
-              }
+                className={
+                  timeIsPassed || !ableToUpdate
+                    ? `border-[1px] border-solid border-black  h-[145px]`
+                    : ""
+                }
               >
                 <Editor
                   value={durningNote}

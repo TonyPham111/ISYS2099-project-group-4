@@ -42,6 +42,7 @@ export default function Schedule({ auditable }) {
     }
   }
   function handleOnSelectEvent(events) {
+    console.log(`check event: ${JSON.stringify(events)}`);
     //only allow to show detail of event which is appointment, not allow to show background event
     if (events.isBackgroundEvent) {
       //show background event information
@@ -58,30 +59,15 @@ export default function Schedule({ auditable }) {
       //only allow appointment router to able to cancel appointment [access control]
       if (location.pathname == "/appointment") {
         setPopupComponent(
-          <AppointmentPopup
-            patient_id={events.patient_id}
-            appointment_id={events.id}
-            ableToCancel={true}
-          />
+          <AppointmentPopup appointmentData={events} ableToCancel={true} />
         );
         //else, cannot cancel appointment
-      }
-      else if(location.pathname =="/doctor-working-schedule"){
+      } else if (location.pathname == "/doctor-working-schedule") {
         setPopupComponent(
-          <AppointmentPopup
-          patient_id={events.patient_id}
-          appointment_id={events.id}
-          ableToUpdate={true}
-        /> 
+          <AppointmentPopup appointmentData={events} ableToUpdate={true} />
         );
-      }
-      else {
-        setPopupComponent(
-          <AppointmentPopup
-            patient_id={events.patient_id}
-            appointment_id={events.id}
-          />
-        );
+      } else {
+        setPopupComponent(<AppointmentPopup appointmentData={events} />);
       }
       setIsPopup(true);
     }
@@ -104,6 +90,10 @@ export default function Schedule({ auditable }) {
           return {
             id: item.id,
             patient_id: item.patient_id,
+            doctor_id: item.doctor_id,
+            before_note: item.before_note,
+            during_note: item.during_note,
+            after_note: item.after_note,
             title: item.purpose_of_appointment,
             start: convertStringFormatToDate(item.date, item.start_time),
             end: convertStringFormatToDate(item.date, item.end_time),
