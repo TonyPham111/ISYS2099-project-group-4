@@ -11,6 +11,28 @@ BEGIN
 
     RETURN staff_exists;
 END; -- $$
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'HR'@'host';
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'FrontDesk'@'host';
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'HR'@'host';
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'FrontDesk'@'host';
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'HR'@'host';
+
+
+
+DROP FUNCTION IF EXISTS CheckManagementRelationship; -- $$
+CREATE FUNCTION CheckManagementRelationship(para_staff_id INT, para_manager_id INT)
+RETURNS BIT
+DETERMINISTIC
+BEGIN
+    DECLARE staff_exists BIT;
+
+    SELECT EXISTS(SELECT 1 FROM Staff WHERE id = para_staff_id AND manager_id = para_manager_id) INTO staff_exists;
+
+    RETURN staff_exists;
+END; -- $$
+
+
+
 
 DROP FUNCTION IF EXISTS CheckPatientExists; -- $$
 CREATE FUNCTION CheckPatientExists(para_patient_id INT)
@@ -23,8 +45,14 @@ BEGIN
 
     RETURN patient_exists;
 END; -- $$
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'HR'@'host';
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'FrontDesk'@'host';
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'HR'@'host';
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'FrontDesk'@'host';
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'HR'@'host';
 
-DROP FUNCTION IF EXISTS CheckDoctorExists$$
+
+DROP FUNCTION IF EXISTS CheckDoctorExists; -- $$
 CREATE FUNCTION CheckDoctorExists(para_doctor_id INT)
 RETURNS BIT
 DETERMINISTIC
@@ -39,6 +67,34 @@ BEGIN
 
     RETURN doctor_exists;
 END; -- $$
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'HR'@'host';
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'FrontDesk'@'host';
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'HR'@'host';
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'FrontDesk'@'host';
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'HR'@'host';
+
+
+DROP FUNCTION IF EXISTS CheckDoctorExistsInDepartment; -- $$
+CREATE FUNCTION CheckDoctorExistsInDepartment(para_doctor_id INT, para_department_id INT)
+RETURNS BIT
+DETERMINISTIC
+BEGIN
+    DECLARE doctor_exists BIT;
+	DECLARE para_doctor_job_id INT;
+	-- Retrieve the job ID for 'Doctor' based on the job name
+    SELECT id INTO para_doctor_job_id FROM Jobs WHERE job_name = 'Doctor' LIMIT 1;
+
+    -- Check if the doctor exists
+    SELECT EXISTS(SELECT 1 FROM Staff WHERE id = para_doctor_id AND job_id = para_doctor_job_id AND department_id = para_department_id FOR UPDATE) INTO doctor_exists;
+
+    RETURN doctor_exists;
+END; -- $$
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'HR'@'host';
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'FrontDesk'@'host';
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'HR'@'host';
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'FrontDesk'@'host';
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'HR'@'host';
+
 
 DROP FUNCTION IF EXISTS CheckJobExists; -- $$
 CREATE FUNCTION CheckJobExists(para_job_id INT)
@@ -51,6 +107,12 @@ BEGIN
 
     RETURN job_exists;
 END; -- $$
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'HR'@'host';
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'FrontDesk'@'host';
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'HR'@'host';
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'FrontDesk'@'host';
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'HR'@'host';
+
 
 DROP FUNCTION IF EXISTS CheckDepartmentExists; -- $$
 CREATE FUNCTION CheckDepartmentExists(para_department_id INT)
@@ -63,6 +125,11 @@ BEGIN
 
     RETURN department_exists;
 END; -- $$
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'HR'@'host';
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'FrontDesk'@'host';
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'HR'@'host';
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'FrontDesk'@'host';
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'HR'@'host';
 
 
 DROP FUNCTION IF EXISTS CheckTestOrderExists; -- $$
@@ -76,6 +143,12 @@ BEGIN
 
     RETURN test_order_exists;
 END; -- $$
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'HR'@'host';
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'FrontDesk'@'host';
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'HR'@'host';
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'FrontDesk'@'host';
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'HR'@'host';
+
 
 DROP FUNCTION IF EXISTS CheckTestTypeExists; -- $$
 CREATE FUNCTION CheckTestTypeExists(para_test_type_id INT)
@@ -88,6 +161,12 @@ BEGIN
 
     RETURN test_type_exists;
 END; -- $$
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'HR'@'host';
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'FrontDesk'@'host';
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'HR'@'host';
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'FrontDesk'@'host';
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'HR'@'host';
+
 
 DROP FUNCTION IF EXISTS CheckAppointmentExists; -- $$
 CREATE FUNCTION CheckAppointmentExists(para_appointment_id INT)
@@ -100,6 +179,8 @@ BEGIN
 
     RETURN appointment_exists;
 END; -- $$
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'FrontDesk'@'host';
+
 
 DROP FUNCTION IF EXISTS CheckPrescriptionExists; -- $$
 CREATE FUNCTION CheckPrescriptionExists(para_prescription_id INT)
@@ -112,6 +193,9 @@ BEGIN
 
     RETURN prescription_exists;
 END; -- $$
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'Nurses'@'host';
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'Doctors'@'host';
+
 
 DROP FUNCTION IF EXISTS CheckTestDetailsExists; -- $$
 CREATE FUNCTION CheckTestDetailsExists(para_test_details_id INT)
@@ -128,7 +212,6 @@ END; -- $$
 
 -- Drop the function if it already exists to avoid errors when creating it
 DROP FUNCTION IF EXISTS FindPatientWithAppointmentCurrently; -- $$
-
 -- Create a new function named FindPatientWithAccommodationCurrently
 CREATE FUNCTION FindPatientWithAppointmentCurrently(
     para_patient_id INT,  -- Input parameter: ID of the patient to check

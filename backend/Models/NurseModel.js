@@ -60,7 +60,49 @@ const queries = {
         console.error("Error executing FetchStaffInfoById:", error);
         return { error: "An error occurred while executing FetchStaffInfoById. Please try again later." };
     }
-}
+},
+    Schedule: async (manager_id, staff_id, schedule_date, start_time, end_time, note) => {
+        try {
+            const sql = `CALL Schedule(?, ?, ?, ?, ?, ?)`;
+            const [results] = await poolDoctors.query(sql, [manager_id, staff_id, schedule_date, start_time, end_time, note]);
+            return results;
+        } catch (error) {
+            console.error("Error executing FetchStaffInfoById:", error);
+            return { error: "An error occurred while executing FetchStaffInfoById. Please try again later." };
+        }
+    },
+    ReSchedule: async (manager_id, staff_id, schedule_date, start_time, end_time, note) => {
+        try {
+            const sql = `CALL ReSchedule(?, ?, ?, ?, ?, ?)`;
+            const [results] = await poolDoctors.query(sql, [manager_id, staff_id, schedule_date, start_time, end_time, note]);
+            return results;
+        } catch (error) {
+            console.error("Error executing FetchStaffInfoById:", error);
+            return { error: "An error occurred while executing FetchStaffInfoById. Please try again later." };
+        }
+    },
+
+    GetSubordinates: async (manager_id) => {
+        try {
+            const sql = `CALL GetStaffUnderManager(?)`;
+            const [results] = await poolDoctors.query(sql, [manager_id]);
+            return results;
+        } catch (error) {
+            console.error("Error executing FetchStaffInfoById:", error);
+            return { error: "An error occurred while executing FetchStaffInfoById. Please try again later." };
+        }
+    },
+
+    GetSubordinates: async (manager_id, staff_id, evaluation_string) => {
+        try {
+            const sql = `CALL CreateNewEvaluation(?, ?, ?)`;
+            const [results] = await poolDoctors.query(sql, [manager_id, staff_id, evaluation_string]);
+            return results;
+        } catch (error) {
+            console.error("Error executing FetchStaffInfoById:", error);
+            return { error: "An error occurred while executing FetchStaffInfoById. Please try again later." };
+        }
+    }
 };
 
 module.exports = queries;

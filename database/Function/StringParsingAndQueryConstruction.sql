@@ -94,7 +94,8 @@ BEGIN
     -- Extract the drug code from the input string (portion before the colon) and verify if the drug exists
     SELECT drug_code INTO medicine_code
     FROM Drugs
-    WHERE drug_code = drug_code_string;
+    WHERE drug_code = drug_code_string
+    FOR UPDATE;
 
     -- If the drug code is not found, raise an error
     IF medicine_code IS NULL THEN

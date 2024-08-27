@@ -78,15 +78,11 @@ SQL SECURITY DEFINER
 BEGIN
     DECLARE checked_staff_id INT;
 
-    -- Check if the staff exists and is under the manager
-    SELECT id INTO checked_staff_id
-              FROM Staff WHERE id = staff_id
-                           AND Staff.manager_id = para_manager_id;
-
-    IF checked_staff_id IS NULL THEN
+       -- Check if the staff has the authority to schedule for the other staff
+    IF NOT CheckManagementRelationship(manager_id, staff_id) THEN
         SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Incorrect staff id. Please check your input again';
-    end if;
+        SET MESSAGE_TEXT = 'Do not have the authority to schedule for this staff.'
+    END IF;
 
     SELECT ScheduleCheck(checked_staff_id, para_schedule_date,
                        schedule_start_time, schedule_end_time);
@@ -103,7 +99,8 @@ GRANT EXECUTE ON PROCEDURE hospital_management_system.Schedule TO 'BusinessOffic
 
 DROP PROCEDURE IF EXISTS Reschedule; -- $$
 CREATE PROCEDURE Reschedule(
-    doctor_id INT,
+    manager_id INT,
+    staff_id INT,
     schedule_id INT,          -- Parameter for the ID of the appointment to be rescheduled
     para_schedule_date DATE,       -- Parameter for the new date of the appointment
     para_start_time TIME,             -- Parameter for the new start time of the appointment
@@ -121,12 +118,17 @@ BEGIN
         SELECT 'An error occurred. Transaction rolled back.' AS ErrorMessage;  -- Return an error message
     END;
 
-    -- Check if schedule_id belongs to the doctor_id
+    -- Check if the staff has the authority to schedule for the other staff
+    IF NOT CheckManagementRelationship(manager_id, staff_id) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Do not have the authority to schedule for this staff.'
+    END IF;
 
+    -- Check if schedule_id belongs to the doctor_id
     SELECT Staff_Schedule.id INTO para_schedule_id
             FROM Staff_Schedule
             WHERE Staff_Schedule.id = schedule_id
-              AND Staff_Schedule.staff_id = doctor_id LIMIT 1;
+              AND Staff_Schedule.staff_id = staff_id LIMIT 1;
 
     IF para_schedule_id IS NULL THEN
         SIGNAL SQLSTATE '45000'
@@ -366,7 +368,7 @@ BEGIN
             -- Insert the score into the EvaluationCriteria table
             INSERT INTO EvaluationCriteria (evaluation_id, criteria_id, criteria_score)
             VALUES (eval_id, crit_id, current_string_index);
-            
+        
             -- Reset the current_string_index for the next score
             SET current_string_index = '';
             SET crit_id = crit_id + 1;  -- Move to the next criteria ID

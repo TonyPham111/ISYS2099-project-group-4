@@ -259,7 +259,11 @@ BEGIN
             local_old_job,              -- The old job ID retrieved earlier
             para_new_job_id,            -- The new job ID retrieved earlier
             CURDATE()                   -- The current date as the date of the job change
-        );
+        )
+        IF local_old_job = 2 THEN
+            DELETE FROM Appointments WHERE staff_id = para_staff_id  AND ( appointment_date > CURDATE() OR (appointment_date = CURDATE AND start_time > CURRENT_TIME()));
+        END IF;
+        
     -- Commit the transaction to save all changes
     COMMIT;
 END$$
@@ -274,6 +278,7 @@ CREATE PROCEDURE ChangeDepartment(
 )
 SQL SECURITY DEFINER
 BEGIN
+    DECLARE local_old_job INT;
     DECLARE error_message TEXT;
 
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
@@ -304,13 +309,21 @@ BEGIN
         SET MESSAGE_TEXT = 'Department does not exist';
     END IF;
 
+    -- Retrieve the current job ID of the staff member and store it in local_old_job
+    SELECT job_id INTO local_old_job FROM Staff WHERE id = para_staff_id;
+
     START TRANSACTION;
         CALL ChangeDepartmentProcedure(para_staff_id, para_new_department_id);
         -- Update the department id of the relevant staff
         UPDATE Staff 
-        SET Staff.department_id = para_new_department_id,
+            SET Staff.department_id = para_new_department_id,
             Staff.manager_id = para_new_manager_id
-        WHERE id = para_staff_id;
+            WHERE id = para_staff_id
+
+        IF local_old_job = 2 THEN
+            DELETE FROM Appointments WHERE staff_id = para_staff_id  AND ( appointment_date > CURDATE() OR (appointment_date = CURDATE AND start_time > CURRENT_TIME())  );
+        END IF;
+        
     COMMIT;
 END$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.ChangeDepartment TO 'HR'@'host'$$

@@ -97,7 +97,8 @@ BEGIN
     SELECT Staff_Schedule.start_time, Staff_Schedule.end_time
     INTO shift_start, shift_end
     FROM Staff_Schedule
-    WHERE staff_id = para_doctor_id AND schedule_date = para_appointment_date;
+    WHERE staff_id = para_doctor_id AND schedule_date = para_appointment_date
+    FOR UPDATE;
 
     -- Check if the appointment time is within the doctor's schedule
     -- Return 0 if the appointment time is outside the doctor's schedule

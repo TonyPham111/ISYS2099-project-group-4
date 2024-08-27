@@ -456,6 +456,8 @@ BEGIN
 END; -- $$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.OrderTest TO 'Doctors'@'host'; -- $$
 
+
+
 DROP PROCEDURE IF EXISTS FetchAppointmentById; -- $$
 CREATE PROCEDURE FetchAppointmentById(para_doctor_id INT)  -- Procedure to fetch a doctor's schedule by their ID
 SQL SECURITY DEFINER

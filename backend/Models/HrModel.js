@@ -1,11 +1,11 @@
 const {poolHR} = require('./dbConnectionConfiguration');
 
 const queries = {
-    AddNewStaff: async (para_id, ssn, job_name, department_name, manager_name, gender, birth_date, home_address, 
+    AddNewStaff: async (full_name, ssn, job_name, department_name, manager_name, gender, birth_date, home_address, 
         phone_number, email, password, wage, employment_type, employment_document_id) => {
     try {
-        const sql = `CALL AddNewStaff(?)`;
-        const [results] = await poolHR.query(sql, [para_id, ssn, job_name, department_name, manager_name, gender, birth_date, home_address, phone_number, 
+        const sql = `CALL AddNewStaff(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+        const [results] = await poolHR.query(sql, [full_name, ssn, job_name, department_name, manager_name, gender, birth_date, home_address, phone_number, 
             email, password, wage, employment_type, employment_document_id]);
         return results;
     } catch (error) {
@@ -33,17 +33,17 @@ const queries = {
         return { error: "An error occurred while executing ChangeWage. Please try again later." };
     }
 },
-    ChangeJob: async (staff_id, new_job_name, new_wage, new_manager_name, new_department_name) => {
+    ChangeJob: async (staff_id, new_job_name, new_wage, new_manager_id, new_department_id) => {
     try {
         const sql = `CALL ChangeJob(?, ?, ?, ?, ?)`;
-        const [results] = await poolHR.query(sql, [staff_id, new_job_name, new_wage, new_manager_name, new_department_name]);
+        const [results] = await poolHR.query(sql, [staff_id, new_job_name, new_wage, new_manager_id, new_department_id]);
         return results;
     } catch (error) {
         console.error("Error executing ChangeJob:", error);
         return { error: "An error occurred while executing ChangeJob. Please try again later." };
     }
 },
-ChangeDepartment: async (staff_id, new_manager_name, new_department_name) => {
+ChangeDepartment: async (staff_id, new_manager_id, new_department_id) => {
     try {
         const sql = `CALL ChangeDepartment(?, ?, ?)`;
         const [results] = await poolHR.query(sql, [staff_id, new_manager_name, new_department_name]);
@@ -103,7 +103,49 @@ FetchStaffInfoById: async (staff_id) => {
         console.error("Error executing FetchStaffInfoById:", error);
         return { error: "An error occurred while executing FetchStaffInfoById. Please try again later." };
     }
-}
+},
+    Schedule: async (manager_id, staff_id, schedule_date, start_time, end_time, note) => {
+        try {
+            const sql = `CALL Schedule(?, ?, ?, ?, ?, ?)`;
+            const [results] = await poolDoctors.query(sql, [manager_id, staff_id, schedule_date, start_time, end_time, note]);
+            return results;
+        } catch (error) {
+            console.error("Error executing FetchStaffInfoById:", error);
+            return { error: "An error occurred while executing FetchStaffInfoById. Please try again later." };
+        }
+    },
+    ReSchedule: async (manager_id, staff_id, schedule_date, start_time, end_time, note) => {
+        try {
+            const sql = `CALL ReSchedule(?, ?, ?, ?, ?, ?)`;
+            const [results] = await poolDoctors.query(sql, [manager_id, staff_id, schedule_date, start_time, end_time, note]);
+            return results;
+        } catch (error) {
+            console.error("Error executing FetchStaffInfoById:", error);
+            return { error: "An error occurred while executing FetchStaffInfoById. Please try again later." };
+        }
+    },
+
+    GetSubordinates: async (manager_id) => {
+        try {
+            const sql = `CALL GetStaffUnderManager(?)`;
+            const [results] = await poolDoctors.query(sql, [manager_id]);
+            return results;
+        } catch (error) {
+            console.error("Error executing FetchStaffInfoById:", error);
+            return { error: "An error occurred while executing FetchStaffInfoById. Please try again later." };
+        }
+    },
+
+    GetSubordinates: async (manager_id, staff_id, evaluation_string) => {
+        try {
+            const sql = `CALL CreateNewEvaluation(?, ?, ?)`;
+            const [results] = await poolDoctors.query(sql, [manager_id, staff_id, evaluation_string]);
+            return results;
+        } catch (error) {
+            console.error("Error executing FetchStaffInfoById:", error);
+            return { error: "An error occurred while executing FetchStaffInfoById. Please try again later." };
+        }
+    }
 };
 
 module.exports = queries;

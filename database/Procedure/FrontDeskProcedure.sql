@@ -52,6 +52,7 @@ GRANT EXECUTE ON PROCEDURE hospital_management_system.CheckAvailability TO 'Fron
 
 DROP PROCEDURE IF EXISTS AddNewAppointment; -- $$
 CREATE PROCEDURE AddNewAppointment(
+    para_department_id INT,
     para_doctor_id INT,                        -- Parameter for the doctor ID who will handle the appointment
     para_patient_id INT,                       -- Parameter for the patient ID who is scheduling the appointment
     para_appointment_purpose TEXT,             -- Parameter for the purpose of the appointment
@@ -79,10 +80,10 @@ BEGIN
             SELECT error_message AS ErrorMessage;  -- Return an error message
         END;
 
-	-- Check if the id exists and belongs to a doctor
-	IF NOT CheckDoctorExists(para_doctor_id) THEN
+    -- Check if the doctor still belongs to the department the patient is booking
+    IF NOT CheckDoctorExistsInDepartment(para_doctor_id, para_department_id) THEN
         SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Incorrect doctor id. Please check your input';
+        SET MESSAGE_TEXT = 'Incorrect doctor id. Please check your input'
     END IF;
 
 	-- Raise an exception if no patient is found
