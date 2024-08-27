@@ -4,9 +4,9 @@ import { verifyToken } from "../Middleware/auth.js";
 const treatmentHistoryRouter = express.Router();
 treatmentHistoryRouter
   .route("/")
-  .get(verifyToken, treatmentHistoryController.getAllTreatmentHistory)
-  .post(verifyToken, treatmentHistoryController.createNewTreatment);
+  .get(verifyToken, treatmentHistoryController.getAllTreatmentHistory)//doctor, nurse
+  .post(verifyToken, treatmentHistoryController.createNewTreatment);//doctor
 treatmentHistoryRouter
   .route("/:treatmentId")
-  .get(verifyToken, treatmentHistoryController.getSpecificTreatmentHistory);
+  .get(verifyToken, treatmentHistoryController.getSpecificTreatmentHistory);//doctor, nurse
 export default treatmentHistoryRouter;
