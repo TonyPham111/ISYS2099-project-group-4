@@ -1,3 +1,4 @@
+DROP DATABASE IF EXISTS hospital_management_system;
 CREATE DATABASE hospital_management_system;
 USE hospital_management_system;
 
@@ -66,14 +67,12 @@ CREATE TABLE Staff(
     staff_password VARCHAR(12) NOT NULL,
     wage DECIMAL(6,2),
     hire_date DATE NOT NULL,
-    employment_type ENUM ('Full_Time', 'Shift_Based') NOT NULL,
     employment_status ENUM ('Active', 'Terminated') NOT NULL,
     employment_document_id VARCHAR(24),
-    FOREIGN KEY (manager_id) REFERENCES Staff(id),
-    FOREIGN KEY (department_id) REFERENCES Departments (id),
-    FOREIGN KEY (job_id) REFERENCES Jobs (id));
-
-ALTER TABLE Staff MODIFY employment_document_id VARCHAR(24) NULL;
+    FOREIGN KEY (manager_id) REFERENCES Staff(id) ON DELETE SET NULL,
+    FOREIGN KEY (department_id) REFERENCES Departments (id) ON DELETE SET NULL,
+    FOREIGN KEY (job_id) REFERENCES Jobs (id) ON DELETE SET NULL
+);
 
 
 CREATE TABLE Staff_Schedule (
@@ -98,11 +97,12 @@ CREATE TABLE Appointments (
     appointment_charge DECIMAL(6,2) NOT NULL,
     appointment_status ENUM('Active', 'Finished', 'Cancelled') NOT NULL,
     appointment_notes_document_id VARCHAR(24),
-    FOREIGN KEY (schedule_id) REFERENCES Staff_Schedule (id) ON DELETE SET NULL,
     FOREIGN KEY (patient_id) REFERENCES Patients (id),
     FOREIGN KEY (doctor_id) REFERENCES Staff (id),
     CONSTRAINT time_check CHECK (start_time < end_time)
 );
+
+
 
 CREATE TABLE Diagnoses (
 	id INT AUTO_INCREMENT PRIMARY KEY,
@@ -127,15 +127,18 @@ CREATE TABLE TreatmentHistory (
     patient_id INT,
     doctor_id INT,
     diagnosis_id INT,
-    treatment_start_date DATETIME NOT NULL,
-    treatment_end_date DATETIME NOT NULL,
+    treatment_start_date DATE NOT NULL,
+    treatment_end_date DATE NOT NULL,
     prescription_note TEXT,
     FOREIGN kEY (diagnosis_id) REFERENCES Diagnoses (id),
     FOREIGN KEY (patient_id) REFERENCES Patients (id),
-    FOREIGN KEY (doctor_id) REFERENCES Staff (id),
-    CONSTRAINT treatment_date_checker CHECK ( treatment_start_date < treatment_end_date )
-
+    FOREIGN KEY (doctor_id) REFERENCES Staff (id)
 );
+
+
+ALTER TABLE TreatmentHistory MODIFY COLUMN treatment_start_date DATE;
+ALTER TABLE TreatmentHistory MODIFY COLUMN treatment_end_date DATE;
+
 
 
 CREATE TABLE Drugs (
@@ -156,6 +159,7 @@ CREATE TABLE Prescription_Details (
     PRIMARY KEY (prescription_id, drug_code),
     FOREIGN KEY (prescription_id) REFERENCES TreatmentHistory(id),
     FOREIGN KEY (drug_code) REFERENCES Drugs (drug_code)
+
 );
 
 
@@ -236,6 +240,7 @@ CREATE TABLE Department_Change(
     FOREIGN KEY (staff_id) REFERENCES Staff (id),
     FOREIGN KEY (old_department_id) REFERENCES Departments(id),
     FOREIGN KEY (new_department_id) REFERENCES Departments(id)
+
 );
 
 CREATE TABLE Criteria (

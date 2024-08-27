@@ -1,6 +1,6 @@
 DELIMITER $$
 
-DROP PROCEDURE IF EXISTS AddNewPatient$$
+DROP PROCEDURE IF EXISTS AddNewPatient; -- $$ 
 CREATE PROCEDURE AddNewPatient(
     para_ssn INT,                         -- Parameter for the patient's SSN (Social Security Number)
     para_full_name VARCHAR(50),           -- Parameter for the full name of the patient
@@ -8,79 +8,49 @@ CREATE PROCEDURE AddNewPatient(
     para_birth_date DATE,                 -- Parameter for the patient's birth date
     para_phone_number VARCHAR(15),        -- Parameter for the patient's phone number
     para_email VARCHAR(50),               -- Parameter for the patient's email address
-    para_home_address VARCHAR(155)        -- Parameter for the patient's home address
+    para_home_address VARCHAR(155)       -- Parameter for the patient's home address
 )
 SQL SECURITY DEFINER
 BEGIN
     -- Insert a new record into the Patients table with the provided parameters
     INSERT INTO Patients (ssn, full_name, birth_date, phone_number, email, home_address, gender)
     VALUES (para_ssn, para_full_name, para_birth_date, para_phone_number, para_email, para_home_address, para_gender);
-END$$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.AddNewPatient TO 'FrontDesk'@'host'$$
+END; -- $$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.AddNewPatient TO 'FrontDesk'@'host';
 
-
-DROP PROCEDURE IF EXISTS CheckDoctorAvailability$$
-CREATE PROCEDURE CheckDoctorAvailability(
+DROP PROCEDURE IF EXISTS CheckAvailability; -- $$
+CREATE PROCEDURE CheckAvailability(
     booked_date DATE,                      -- Parameter for the date when the booking is intended
     booked_start_time TIME,                -- Parameter for the start time of the booking
     booked_end_time TIME,                  -- Parameter for the end time of the booking
-    department_id INT                      -- Parameter for the name of the department
+    department_id VARCHAR(50)            -- Parameter for the name of the department
 )
 SQL SECURITY DEFINER
 BEGIN
-    DECLARE doctor_job_id INT;
+    -- Declare a variable to store the department ID
+    DECLARE para_department_id INT;
+    -- Retrieve the department ID based on the provided department name
+    SELECT id INTO para_department_id
+    FROM Departments
+    WHERE Departments.id = department_id
+    LIMIT 1;
 
-	-- Get the id of the 'Doctor' job
-	SELECT id INTO doctor_job_id FROM Jobs WHERE job_name = 'Doctor' LIMIT 1;
-    
-	-- Check if the input department name is correct
-    IF NOT CheckDepartmentExists(department_id) THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Department not found. Please make sure that your input is correct';
-    END IF;
-
-    -- Common Table Expression (CTE) to identify staff who are unavailable during the requested time slot
-    WITH Unavailable_Staff AS (
-        SELECT
-            staff_id                             -- Selecting the staff ID of unavailable staff
-        FROM
-            Staff_Schedule                        -- Checking the Staff_Schedule table for conflicts
-        WHERE
-            schedule_date = booked_date          -- Matching the booking date with the schedule date
-        AND
-            (
-                -- Checking if the start time of the existing schedule conflicts with the requested booking time
-                (start_time > booked_start_time AND start_time < booked_end_time)
-            OR
-                -- Checking if the end time of the existing schedule conflicts with the requested booking time
-                (start_time <= booked_start_time AND end_time > booked_start_time)
-            )
-    )
-
-    -- Selecting the staff in the specified department and their availability
-    SELECT
-        Staff.id,                                -- The staff ID
-        Staff.full_name,                         -- The full name of the staff member
-        CASE
-            -- If the staff ID is not in the list of unavailable staff, they are 'Available'
-            WHEN id NOT IN (
-                SELECT staff_id FROM Unavailable_Staff
-            ) THEN 'Available'
-            -- Otherwise, they are 'Occupied'
-            ELSE 'Occupied'
-        END AS availability                      -- The availability status of the staff member
-
-    FROM
-        Staff                                    -- Querying the Staff table to get staff details
-    WHERE
-        Staff.job_id = doctor_job_id             -- Filtering for staff who are doctors
-    AND
-        Staff.department_id = department_id;     -- Filtering for staff in the specified department
-END$$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.CheckDoctorAvailability TO 'FrontDesk'@'host'$$
+    SELECT Staff.id,
+           Staff.full_name,
+            CASE
+                WHEN CheckIfBookingTimeOutsideSchedule(Staff.id, booked_date,
+                                                       booked_start_time, booked_end_time) = 0 THEN 'Occupied'
+                WHEN CheckAppointmentClash(Staff.id, booked_date,
+                                      booked_start_time, booked_end_time) <> 0 THEN 'Occupied'
+                ELSE 'Available'
+            END AS 'Availability'
+    FROM Staff
+        WHERE Staff.department_id = para_department_id;
+END; -- $$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.CheckAvailability TO 'FrontDesk'@'host'; -- $$
 
 
-DROP PROCEDURE IF EXISTS AddNewAppointment$$
+DROP PROCEDURE IF EXISTS AddNewAppointment; -- $$
 CREATE PROCEDURE AddNewAppointment(
     para_doctor_id INT,                        -- Parameter for the doctor ID who will handle the appointment
     para_patient_id INT,                       -- Parameter for the patient ID who is scheduling the appointment
@@ -93,11 +63,13 @@ CREATE PROCEDURE AddNewAppointment(
 SQL SECURITY DEFINER
 BEGIN
     -- Declare variables to be used in the procedure
+    DECLARE  checked_schedule_id INT;
     DECLARE error_message TEXT; -- Variable to store the error message
     DECLARE appointment_duration INT;             -- Variable to store the duration of the appointment in minutes
     DECLARE para_appointment_charge DECIMAL(6,2) DEFAULT 400.5;      -- Variable to store the charge for the appointment
-	DECLARE result INT;	-- Variable to store the result for the CheckBookingTime() function
-    
+    DECLARE clash_count INT;
+    DECLARE appointment_schedule_check INT;
+
     -- Error handling: In case of any SQL exception, rollback the transaction and return an error message
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         BEGIN
@@ -106,7 +78,7 @@ BEGIN
             ROLLBACK;
             SELECT error_message AS ErrorMessage;  -- Return an error message
         END;
-        
+
 	-- Check if the id exists and belongs to a doctor
 	IF NOT CheckDoctorExists(para_doctor_id) THEN
         SIGNAL SQLSTATE '45000'
@@ -119,12 +91,34 @@ BEGIN
         SET MESSAGE_TEXT = 'Cannot find patient. Please try again';
     END IF;
 
-    -- Call function to check booking time without displaying the return value by setting it to a dummy variable
-    SET result = CheckBookingTime(para_doctor_id, para_appointment_date, para_start_time, para_end_time);
+    -- Check if the doctor has a schedule on that date
+    SELECT id INTO checked_schedule_id
+              FROM Staff_Schedule
+              WHERE schedule_date = para_appointment_date;
+
+    IF checked_schedule_id IS NULL THEN
+         SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'No schedule has been planned for the doctor on that date. Please try again';
+    end if;
+
+    -- Check if the input time is within the doctor's schedule
+    SELECT CheckIfBookingTimeOutsideSchedule(para_doctor_id, para_appointment_date,
+                                             para_start_time, para_end_time) INTO appointment_schedule_check;
+    IF appointment_schedule_check = 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Appointment out of schedule range. Please try again';
+    end if;
+
+    -- Check if there is any booking clash
+    SELECT CheckAppointmentClash(para_doctor_id, para_appointment_date,
+                                 para_start_time, para_end_time) INTO clash_count;
+    IF clash_count <> 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Time slot has already been reserved. Please try again';
+    end if;
 
     -- Calculate the duration of the appointment in minutes
     SET appointment_duration = TIME_TO_SEC(TIMEDIFF(para_end_time, para_start_time)) / 60;
-
     -- Calculate the charge for the appointment based on the duration (assuming appointment_charge is predefined)
     SET para_appointment_charge = para_appointment_charge * appointment_duration / 30;
 
@@ -156,11 +150,12 @@ BEGIN
 
     -- Commit the transaction to save all changes
     COMMIT;
-END$$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.AddNewAppointment TO 'FrontDesk'@'host'$$
+END; -- $$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.AddNewAppointment TO 'FrontDesk'@'host'; -- $$
 
 
-DROP PROCEDURE IF EXISTS CancelAnAppointment$$
+
+DROP PROCEDURE IF EXISTS CancelAnAppointment; -- $$
 CREATE PROCEDURE CancelAnAppointment(appointment_id INT)  -- Procedure to cancel an appointment by its ID
 SQL SECURITY DEFINER
 BEGIN
@@ -184,9 +179,8 @@ BEGIN
 
     -- Commit the transaction to save all changes
     COMMIT;
-END;
-GRANT EXECUTE ON PROCEDURE hospital_management_system.CancelAnAppointment TO 'FrontDesk'@'host';
-
+END; -- $$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.CancelAnAppointment TO 'FrontDesk'@'host'; -- $$
 
 
 
