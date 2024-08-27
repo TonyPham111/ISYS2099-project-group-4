@@ -275,6 +275,124 @@ GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchPrescriptionsByPatien
 GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchPrescriptionsByPatientId TO 'Nurses'@'host'; -- $$
 
 
+-- procedure to get all staff under a manager
+CREATE PROCEDURE GetStaffUnderManager(
+    IN managerId INT
+)
+BEGIN
+    SELECT 
+        s.id AS staff_id,
+        s.full_name,
+        s.gender,
+        s.birth_date,
+        s.email,
+        s.job_id,
+        s.department_id,
+        s.wage,
+        s.hire_date,
+        s.employment_type,
+        s.employment_status,
+        j.job_name,
+        d.department_name,
+        pe.id AS evaluation_id,
+        pe.evaluation_date,
+        ec.criteria_id,
+        c.criteria_name,
+        c.criteria_description,
+        ec.criteria_score
+    FROM 
+        Staff s
+    INNER JOIN 
+        Jobs j ON s.job_id = j.id
+    INNER JOIN 
+        Departments d ON s.department_id = d.id
+    LEFT JOIN 
+        PerformanceEvaluation pe ON s.id = pe.evaluated_staff_id
+    LEFT JOIN 
+        EvaluationCriteria ec ON pe.id = ec.evaluation_id
+    LEFT JOIN 
+        Criteria c ON ec.criteria_id = c.id
+    WHERE 
+        s.manager_id = managerId;
+END$$
+
+GRANT EXECUTE ON PROCEDURE hospital_management_system.GetStaffUnderManager TO 'HR'@'host'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.GetStaffUnderManager TO 'BusinessOfficers'@'host'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.GetStaffUnderManager TO 'Doctors'@'host'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.GetStaffUnderManager TO 'Nurses'@'host'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.GetStaffUnderManager TO 'FrontDesk'@'host'$$
+
+
+-- Procedure for creating new evaluation
+CREATE PROCEDURE CreateNewEvaluation(
+    IN para_manager_id INT,               -- Manager ID (who is logged in)
+    IN para_staff_id INT,                 -- Staff ID (who is being evaluated)
+    IN para_evaluation_string TEXT        -- Evaluation string (scores for criteria)
+)
+SQL SECURITY DEFINER
+BEGIN
+    DECLARE current_index INT DEFAULT 1;             -- Variable to keep track of the current index in the string
+    DECLARE current_string_index TEXT DEFAULT '';    -- Variable to accumulate the current score being processed
+    DECLARE error_message TEXT;
+    DECLARE eval_id INT;                             -- Variable to store the newly created evaluation ID
+    DECLARE crit_id INT DEFAULT 1;                   -- Variable to track the criteria ID
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        GET DIAGNOSTICS CONDITION 1 error_message = MESSAGE_TEXT;
+        ROLLBACK;  -- Rollback any changes made during the transaction
+        SELECT error_message AS ErrorMessage;  -- Return an error message
+    END;
+
+    -- Validate that the staff ID exists and is managed by the manager
+    IF NOT EXISTS (SELECT 1 FROM Staff WHERE id = para_staff_id AND manager_id = para_manager_id) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Staff does not exist or is not managed by this manager';
+    END IF;
+
+    -- Start a transaction
+    START TRANSACTION;
+    
+    -- Insert a new record into the PerformanceEvaluation table
+    INSERT INTO PerformanceEvaluation (evaluated_staff_id, evaluation_date)
+    VALUES (para_staff_id, NOW());
+    
+    -- Get the last inserted ID to use for the EvaluationCriteria table
+    SET eval_id = LAST_INSERT_ID();
+
+    -- Begin a loop to process the comma-separated scores in para_evaluation_string
+    WHILE current_index <= LENGTH(para_evaluation_string) DO
+        -- Check if the current character is a comma, indicating the end of a score
+        IF SUBSTRING(para_evaluation_string, current_index, 1) = ',' THEN
+            -- Insert the score into the EvaluationCriteria table
+            INSERT INTO EvaluationCriteria (evaluation_id, criteria_id, criteria_score)
+            VALUES (eval_id, crit_id, current_string_index);
+            
+            -- Reset the current_string_index for the next score
+            SET current_string_index = '';
+            SET crit_id = crit_id + 1;  -- Move to the next criteria ID
+        ELSE
+            -- Accumulate the current character to build the score
+            SET current_string_index = CONCAT(current_string_index, SUBSTRING(para_evaluation_string, current_index, 1));
+        END IF;
+
+        -- Move to the next character in the string
+        SET current_index = current_index + 1;
+    END WHILE;
+
+    -- After exiting the loop, handle the last score in the string
+    INSERT INTO EvaluationCriteria (evaluation_id, criteria_id, criteria_score)
+    VALUES (eval_id, crit_id, current_string_index);
+    
+    COMMIT;
+END$$
+
+GRANT EXECUTE ON PROCEDURE hospital_management_system.CreateNewEvaluation TO 'HR'@'host'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.CreateNewEvaluation TO 'BusinessOfficers'@'host'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.CreateNewEvaluation TO 'Doctors'@'host'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.CreateNewEvaluation TO 'Nurses'@'host'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.CreateNewEvaluation TO 'FrontDesk'@'host'$$
+
+
 
 
 DELIMITER ;

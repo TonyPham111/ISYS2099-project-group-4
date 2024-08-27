@@ -67,7 +67,6 @@ CREATE TABLE Staff(
     staff_password VARCHAR(12) NOT NULL,
     wage DECIMAL(6,2),
     hire_date DATE NOT NULL,
-    employment_type ENUM ('Full_Time', 'Shift_Based') NOT NULL,
     employment_status ENUM ('Active', 'Terminated') NOT NULL,
     employment_document_id VARCHAR(24),
     FOREIGN KEY (manager_id) REFERENCES Staff(id) ON DELETE SET NULL,
