@@ -1,0 +1,2822 @@
+[
+    {
+        "diagnosis_id": 1,
+        "patient_id": 2,
+        "doctor_id": 11,
+        "diagnosis_date": "11/07/2024",
+        "condition": [
+            {
+                "code": "C250",
+                "name": "Malignant neoplasm of head of pancreas",
+                "description": "A medical condition known as malignant neoplasm of head of pancreas."
+            },
+            {
+                "code": "Q990",
+                "name": "Chimera 46, XX/46, XY",
+                "description": "A medical condition known as chimera 46, xx/46, xy."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to pediatric check-up. | Examination: Doctor performed examination and tests related to pediatric check-up. | Conclusion: Prescribed medication and follow-up for pediatric check-up."
+    },
+    {
+        "diagnosis_id": 2,
+        "patient_id": 35,
+        "doctor_id": 20,
+        "diagnosis_date": "04/07/2024",
+        "condition": [
+            {
+                "code": "F641",
+                "name": "Dual role transvestism",
+                "description": "A medical condition known as dual role transvestism."
+            },
+            {
+                "code": "Q322",
+                "name": "Congenital bronchomalacia",
+                "description": "A medical condition known as congenital bronchomalacia."
+            },
+            {
+                "code": "Q5001",
+                "name": "Congenital absence of ovary, unilateral",
+                "description": "A medical condition known as congenital absence of ovary, unilateral."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to orthopedic examination. | Examination: Doctor performed examination and tests related to orthopedic examination. | Conclusion: Prescribed medication and follow-up for orthopedic examination."
+    },
+    {
+        "diagnosis_id": 3,
+        "patient_id": 30,
+        "doctor_id": 19,
+        "diagnosis_date": "04/07/2024",
+        "condition": [
+            {
+                "code": "D759",
+                "name": "Disease of blood and blood-forming organs, unspecified",
+                "description": "A medical condition known as disease of blood and blood-forming organs, unspecified."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to annual physical exam. | Examination: Doctor performed examination and tests related to annual physical exam. | Conclusion: Prescribed medication and follow-up for annual physical exam."
+    },
+    {
+        "diagnosis_id": 4,
+        "patient_id": 10,
+        "doctor_id": 14,
+        "diagnosis_date": "12/07/2024",
+        "condition": [
+            {
+                "code": "A310",
+                "name": "Pulmonary mycobacterial infection",
+                "description": "A medical condition known as pulmonary mycobacterial infection."
+            },
+            {
+                "code": "Q410",
+                "name": "Congenital absence, atresia and stenosis of duodenum",
+                "description": "A medical condition known as congenital absence, atresia and stenosis of duodenum."
+            },
+            {
+                "code": "B2700",
+                "name": "Gammaherpesviral mononucleosis without complication",
+                "description": "A medical condition known as gammaherpesviral mononucleosis without complication."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to respiratory infection treatment. | Examination: Doctor performed examination and tests related to respiratory infection treatment. | Conclusion: Prescribed medication and follow-up for respiratory infection treatment."
+    },
+    {
+        "diagnosis_id": 5,
+        "patient_id": 17,
+        "doctor_id": 20,
+        "diagnosis_date": "06/07/2024",
+        "condition": [
+            {
+                "code": "D408",
+                "name": "Neoplasm of uncertain behavior of other specified male genit",
+                "description": "A medical condition known as neoplasm of uncertain behavior of other specified male genit."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to orthopedic examination. | Examination: Doctor performed examination and tests related to orthopedic examination. | Conclusion: Prescribed medication and follow-up for orthopedic examination."
+    },
+    {
+        "diagnosis_id": 6,
+        "patient_id": 32,
+        "doctor_id": 19,
+        "diagnosis_date": "16/07/2024",
+        "condition": [
+            {
+                "code": "C4310",
+                "name": "Malignant melanoma of unspecified eyelid, including canthus",
+                "description": "A medical condition known as malignant melanoma of unspecified eyelid, including canthus."
+            },
+            {
+                "code": "C6901",
+                "name": "Malignant neoplasm of right conjunctiva",
+                "description": "A medical condition known as malignant neoplasm of right conjunctiva."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to respiratory infection treatment. | Examination: Doctor performed examination and tests related to respiratory infection treatment. | Conclusion: Prescribed medication and follow-up for respiratory infection treatment."
+    },
+    {
+        "diagnosis_id": 7,
+        "patient_id": 45,
+        "doctor_id": 17,
+        "diagnosis_date": "30/07/2024",
+        "condition": [
+            {
+                "code": "B3889",
+                "name": "Other forms of coccidioidomycosis",
+                "description": "A medical condition known as other forms of coccidioidomycosis."
+            },
+            {
+                "code": "D0430",
+                "name": "Carcinoma in situ of skin of unspecified part of face",
+                "description": "A medical condition known as carcinoma in situ of skin of unspecified part of face."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to dermatology consultation. | Examination: Doctor performed examination and tests related to dermatology consultation. | Conclusion: Prescribed medication and follow-up for dermatology consultation."
+    },
+    {
+        "diagnosis_id": 8,
+        "patient_id": 20,
+        "doctor_id": 19,
+        "diagnosis_date": "16/07/2024",
+        "condition": [
+            {
+                "code": "Q6432",
+                "name": "Congenital stricture of urethra",
+                "description": "A medical condition known as congenital stricture of urethra."
+            },
+            {
+                "code": "C4A0",
+                "name": "Merkel cell carcinoma of lip",
+                "description": "A medical condition known as merkel cell carcinoma of lip."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to dermatology consultation. | Examination: Doctor performed examination and tests related to dermatology consultation. | Conclusion: Prescribed medication and follow-up for dermatology consultation."
+    },
+    {
+        "diagnosis_id": 9,
+        "patient_id": 1,
+        "doctor_id": 15,
+        "diagnosis_date": "17/07/2024",
+        "condition": [
+            {
+                "code": "R4681",
+                "name": "Obsessive-compulsive behavior",
+                "description": "A medical condition known as obsessive-compulsive behavior."
+            },
+            {
+                "code": "D2931",
+                "name": "Benign neoplasm of right epididymis",
+                "description": "A medical condition known as benign neoplasm of right epididymis."
+            },
+            {
+                "code": "R531",
+                "name": "Weakness",
+                "description": "A medical condition known as weakness."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to respiratory infection treatment. | Examination: Doctor performed examination and tests related to respiratory infection treatment. | Conclusion: Prescribed medication and follow-up for respiratory infection treatment."
+    },
+    {
+        "diagnosis_id": 10,
+        "patient_id": 16,
+        "doctor_id": 16,
+        "diagnosis_date": "25/07/2024",
+        "condition": [
+            {
+                "code": "G038",
+                "name": "Meningitis due to other specified causes",
+                "description": "A medical condition known as meningitis due to other specified causes."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to flu. | Examination: Doctor performed examination and tests related to flu. | Conclusion: Prescribed medication and follow-up for flu."
+    },
+    {
+        "diagnosis_id": 11,
+        "patient_id": 18,
+        "doctor_id": 12,
+        "diagnosis_date": "28/07/2024",
+        "condition": [
+            {
+                "code": "P9163",
+                "name": "Severe hypoxic ischemic encephalopathy [HIE]",
+                "description": "A medical condition known as severe hypoxic ischemic encephalopathy [hie]."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to cardiac evaluation. | Examination: Doctor performed examination and tests related to cardiac evaluation. | Conclusion: Prescribed medication and follow-up for cardiac evaluation."
+    },
+    {
+        "diagnosis_id": 12,
+        "patient_id": 48,
+        "doctor_id": 17,
+        "diagnosis_date": "28/07/2024",
+        "condition": [
+            {
+                "code": "B9721",
+                "name": "SARS-associated coronavirus as the cause of diseases classifie",
+                "description": "A medical condition known as sars-associated coronavirus as the cause of diseases classifie."
+            },
+            {
+                "code": "A539",
+                "name": "Syphilis, unspecified",
+                "description": "A medical condition known as syphilis, unspecified."
+            },
+            {
+                "code": "E508",
+                "name": "Other manifestations of vitamin A deficiency",
+                "description": "A medical condition known as other manifestations of vitamin a deficiency."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to hypertension follow-up. | Examination: Doctor performed examination and tests related to hypertension follow-up. | Conclusion: Prescribed medication and follow-up for hypertension follow-up."
+    },
+    {
+        "diagnosis_id": 13,
+        "patient_id": 44,
+        "doctor_id": 17,
+        "diagnosis_date": "10/07/2024",
+        "condition": [
+            {
+                "code": "C84Z2",
+                "name": "Other mature T/NK-cell lymphomas, intrathoracic lymph node",
+                "description": "A medical condition known as other mature t/nk-cell lymphomas, intrathoracic lymph node."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to diabetes check-up. | Examination: Doctor performed examination and tests related to diabetes check-up. | Conclusion: Prescribed medication and follow-up for diabetes check-up."
+    },
+    {
+        "diagnosis_id": 14,
+        "patient_id": 34,
+        "doctor_id": 12,
+        "diagnosis_date": "11/07/2024",
+        "condition": [
+            {
+                "code": "A772",
+                "name": "Spotted fever due to Rickettsia siberica",
+                "description": "A medical condition known as spotted fever due to rickettsia siberica."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to diabetes check-up. | Examination: Doctor performed examination and tests related to diabetes check-up. | Conclusion: Prescribed medication and follow-up for diabetes check-up."
+    },
+    {
+        "diagnosis_id": 15,
+        "patient_id": 41,
+        "doctor_id": 17,
+        "diagnosis_date": "04/07/2024",
+        "condition": [
+            {
+                "code": "R200",
+                "name": "Anesthesia of skin",
+                "description": "A medical condition known as anesthesia of skin."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to cardiac evaluation. | Examination: Doctor performed examination and tests related to cardiac evaluation. | Conclusion: Prescribed medication and follow-up for cardiac evaluation."
+    },
+    {
+        "diagnosis_id": 16,
+        "patient_id": 17,
+        "doctor_id": 17,
+        "diagnosis_date": "20/07/2024",
+        "condition": [
+            {
+                "code": "A836",
+                "name": "Rocio virus disease",
+                "description": "A medical condition known as rocio virus disease."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to flu. | Examination: Doctor performed examination and tests related to flu. | Conclusion: Prescribed medication and follow-up for flu."
+    },
+    {
+        "diagnosis_id": 17,
+        "patient_id": 21,
+        "doctor_id": 18,
+        "diagnosis_date": "06/07/2024",
+        "condition": [
+            {
+                "code": "A380",
+                "name": "Scarlet fever with otitis media",
+                "description": "A medical condition known as scarlet fever with otitis media."
+            },
+            {
+                "code": "R008",
+                "name": "Other abnormalities of heart beat",
+                "description": "A medical condition known as other abnormalities of heart beat."
+            },
+            {
+                "code": "A4152",
+                "name": "Sepsis due to Pseudomonas",
+                "description": "A medical condition known as sepsis due to pseudomonas."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to pediatric check-up. | Examination: Doctor performed examination and tests related to pediatric check-up. | Conclusion: Prescribed medication and follow-up for pediatric check-up."
+    },
+    {
+        "diagnosis_id": 18,
+        "patient_id": 17,
+        "doctor_id": 19,
+        "diagnosis_date": "22/07/2024",
+        "condition": [
+            {
+                "code": "P7883",
+                "name": "Newborn esophageal reflux",
+                "description": "A medical condition known as newborn esophageal reflux."
+            },
+            {
+                "code": "A079",
+                "name": "Protozoal intestinal disease, unspecified",
+                "description": "A medical condition known as protozoal intestinal disease, unspecified."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to diabetes check-up. | Examination: Doctor performed examination and tests related to diabetes check-up. | Conclusion: Prescribed medication and follow-up for diabetes check-up."
+    },
+    {
+        "diagnosis_id": 19,
+        "patient_id": 19,
+        "doctor_id": 16,
+        "diagnosis_date": "08/07/2024",
+        "condition": [
+            {
+                "code": "F4321",
+                "name": "Adjustment disorder with depressed mood",
+                "description": "A medical condition known as adjustment disorder with depressed mood."
+            },
+            {
+                "code": "F28",
+                "name": "Other psychotic disorder not due to a substance or known phys",
+                "description": "A medical condition known as other psychotic disorder not due to a substance or known phys."
+            },
+            {
+                "code": "B2683",
+                "name": "Mumps nephritis",
+                "description": "A medical condition known as mumps nephritis."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to dermatology consultation. | Examination: Doctor performed examination and tests related to dermatology consultation. | Conclusion: Prescribed medication and follow-up for dermatology consultation."
+    },
+    {
+        "diagnosis_id": 20,
+        "patient_id": 30,
+        "doctor_id": 19,
+        "diagnosis_date": "08/07/2024",
+        "condition": [
+            {
+                "code": "D552",
+                "name": "Anemia due to disorders of glycolytic enzymes",
+                "description": "A medical condition known as anemia due to disorders of glycolytic enzymes."
+            },
+            {
+                "code": "A229",
+                "name": "Anthrax, unspecified",
+                "description": "A medical condition known as anthrax, unspecified."
+            },
+            {
+                "code": "D3100",
+                "name": "Benign neoplasm of unspecified conjunctiva",
+                "description": "A medical condition known as benign neoplasm of unspecified conjunctiva."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to hypertension follow-up. | Examination: Doctor performed examination and tests related to hypertension follow-up. | Conclusion: Prescribed medication and follow-up for hypertension follow-up."
+    },
+    {
+        "diagnosis_id": 21,
+        "patient_id": 3,
+        "doctor_id": 20,
+        "diagnosis_date": "14/07/2024",
+        "condition": [
+            {
+                "code": "P232",
+                "name": "Congenital pneumonia due to staphylococcus",
+                "description": "A medical condition known as congenital pneumonia due to staphylococcus."
+            },
+            {
+                "code": "A012",
+                "name": "Paratyphoid fever B",
+                "description": "A medical condition known as paratyphoid fever b."
+            },
+            {
+                "code": "D303",
+                "name": "Benign neoplasm of bladder",
+                "description": "A medical condition known as benign neoplasm of bladder."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to orthopedic examination. | Examination: Doctor performed examination and tests related to orthopedic examination. | Conclusion: Prescribed medication and follow-up for orthopedic examination."
+    },
+    {
+        "diagnosis_id": 22,
+        "patient_id": 46,
+        "doctor_id": 11,
+        "diagnosis_date": "06/07/2024",
+        "condition": [
+            {
+                "code": "E259",
+                "name": "Adrenogenital disorder, unspecified",
+                "description": "A medical condition known as adrenogenital disorder, unspecified."
+            },
+            {
+                "code": "P059",
+                "name": "Newborn affected by slow intrauterine growth, unspecified",
+                "description": "A medical condition known as newborn affected by slow intrauterine growth, unspecified."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to cardiac evaluation. | Examination: Doctor performed examination and tests related to cardiac evaluation. | Conclusion: Prescribed medication and follow-up for cardiac evaluation."
+    },
+    {
+        "diagnosis_id": 23,
+        "patient_id": 8,
+        "doctor_id": 20,
+        "diagnosis_date": "15/07/2024",
+        "condition": [
+            {
+                "code": "G500",
+                "name": "Trigeminal neuralgia",
+                "description": "A medical condition known as trigeminal neuralgia."
+            },
+            {
+                "code": "G479",
+                "name": "Sleep disorder, unspecified",
+                "description": "A medical condition known as sleep disorder, unspecified."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to diabetes check-up. | Examination: Doctor performed examination and tests related to diabetes check-up. | Conclusion: Prescribed medication and follow-up for diabetes check-up."
+    },
+    {
+        "diagnosis_id": 24,
+        "patient_id": 27,
+        "doctor_id": 17,
+        "diagnosis_date": "04/07/2024",
+        "condition": [
+            {
+                "code": "G733",
+                "name": "Myasthenic syndromes in other diseases classified elsewhere",
+                "description": "A medical condition known as myasthenic syndromes in other diseases classified elsewhere."
+            },
+            {
+                "code": "F601",
+                "name": "Schizoid personality disorder",
+                "description": "A medical condition known as schizoid personality disorder."
+            },
+            {
+                "code": "Q811",
+                "name": "Epidermolysis bullosa letalis",
+                "description": "A medical condition known as epidermolysis bullosa letalis."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to annual physical exam. | Examination: Doctor performed examination and tests related to annual physical exam. | Conclusion: Prescribed medication and follow-up for annual physical exam."
+    },
+    {
+        "diagnosis_id": 25,
+        "patient_id": 41,
+        "doctor_id": 18,
+        "diagnosis_date": "15/07/2024",
+        "condition": [
+            {
+                "code": "P122",
+                "name": "Epicranial subaponeurotic hemorrhage due to birth injury",
+                "description": "A medical condition known as epicranial subaponeurotic hemorrhage due to birth injury."
+            },
+            {
+                "code": "Q281",
+                "name": "Other malformations of precerebral vessels",
+                "description": "A medical condition known as other malformations of precerebral vessels."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to dermatology consultation. | Examination: Doctor performed examination and tests related to dermatology consultation. | Conclusion: Prescribed medication and follow-up for dermatology consultation."
+    },
+    {
+        "diagnosis_id": 26,
+        "patient_id": 43,
+        "doctor_id": 14,
+        "diagnosis_date": "01/07/2024",
+        "condition": [
+            {
+                "code": "A241",
+                "name": "Acute and fulminating melioidosis",
+                "description": "A medical condition known as acute and fulminating melioidosis."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to orthopedic examination. | Examination: Doctor performed examination and tests related to orthopedic examination. | Conclusion: Prescribed medication and follow-up for orthopedic examination."
+    },
+    {
+        "diagnosis_id": 27,
+        "patient_id": 10,
+        "doctor_id": 19,
+        "diagnosis_date": "26/07/2024",
+        "condition": [
+            {
+                "code": "D750",
+                "name": "Familial erythrocytosis",
+                "description": "A medical condition known as familial erythrocytosis."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to respiratory infection treatment. | Examination: Doctor performed examination and tests related to respiratory infection treatment. | Conclusion: Prescribed medication and follow-up for respiratory infection treatment."
+    },
+    {
+        "diagnosis_id": 28,
+        "patient_id": 19,
+        "doctor_id": 17,
+        "diagnosis_date": "21/07/2024",
+        "condition": [
+            {
+                "code": "C8115",
+                "name": "Nodular sclerosis Hodgkin lymphoma, lymph nodes of inguina",
+                "description": "A medical condition known as nodular sclerosis hodgkin lymphoma, lymph nodes of inguina."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to orthopedic examination. | Examination: Doctor performed examination and tests related to orthopedic examination. | Conclusion: Prescribed medication and follow-up for orthopedic examination."
+    },
+    {
+        "diagnosis_id": 29,
+        "patient_id": 29,
+        "doctor_id": 15,
+        "diagnosis_date": "04/07/2024",
+        "condition": [
+            {
+                "code": "A2789",
+                "name": "Other forms of leptospirosis",
+                "description": "A medical condition known as other forms of leptospirosis."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to diabetes check-up. | Examination: Doctor performed examination and tests related to diabetes check-up. | Conclusion: Prescribed medication and follow-up for diabetes check-up."
+    },
+    {
+        "diagnosis_id": 30,
+        "patient_id": 48,
+        "doctor_id": 20,
+        "diagnosis_date": "04/07/2024",
+        "condition": [
+            {
+                "code": "B461",
+                "name": "Rhinocerebral mucormycosis",
+                "description": "A medical condition known as rhinocerebral mucormycosis."
+            },
+            {
+                "code": "A811",
+                "name": "Subacute sclerosing panencephalitis",
+                "description": "A medical condition known as subacute sclerosing panencephalitis."
+            },
+            {
+                "code": "B663",
+                "name": "Fascioliasis",
+                "description": "A medical condition known as fascioliasis."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to orthopedic examination. | Examination: Doctor performed examination and tests related to orthopedic examination. | Conclusion: Prescribed medication and follow-up for orthopedic examination."
+    },
+    {
+        "diagnosis_id": 31,
+        "patient_id": 36,
+        "doctor_id": 18,
+        "diagnosis_date": "11/07/2024",
+        "condition": [
+            {
+                "code": "C8312",
+                "name": "Mantle cell lymphoma, intrathoracic lymph nodes",
+                "description": "A medical condition known as mantle cell lymphoma, intrathoracic lymph nodes."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to allergy consultation. | Examination: Doctor performed examination and tests related to allergy consultation. | Conclusion: Prescribed medication and follow-up for allergy consultation."
+    },
+    {
+        "diagnosis_id": 32,
+        "patient_id": 43,
+        "doctor_id": 15,
+        "diagnosis_date": "31/07/2024",
+        "condition": [
+            {
+                "code": "B7300",
+                "name": "Onchocerciasis with eye involvement, unspecified",
+                "description": "A medical condition known as onchocerciasis with eye involvement, unspecified."
+            },
+            {
+                "code": "G2579",
+                "name": "Other drug induced movement disorders",
+                "description": "A medical condition known as other drug induced movement disorders."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to dermatology consultation. | Examination: Doctor performed examination and tests related to dermatology consultation. | Conclusion: Prescribed medication and follow-up for dermatology consultation."
+    },
+    {
+        "diagnosis_id": 33,
+        "patient_id": 34,
+        "doctor_id": 20,
+        "diagnosis_date": "24/07/2024",
+        "condition": [
+            {
+                "code": "Q7022",
+                "name": "Fused toes, left foot",
+                "description": "A medical condition known as fused toes, left foot."
+            },
+            {
+                "code": "R195",
+                "name": "Other fecal abnormalities",
+                "description": "A medical condition known as other fecal abnormalities."
+            },
+            {
+                "code": "P292",
+                "name": "Neonatal hypertension",
+                "description": "A medical condition known as neonatal hypertension."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to annual physical exam. | Examination: Doctor performed examination and tests related to annual physical exam. | Conclusion: Prescribed medication and follow-up for annual physical exam."
+    },
+    {
+        "diagnosis_id": 34,
+        "patient_id": 11,
+        "doctor_id": 16,
+        "diagnosis_date": "20/07/2024",
+        "condition": [
+            {
+                "code": "A184",
+                "name": "Tuberculosis of skin and subcutaneous tissue",
+                "description": "A medical condition known as tuberculosis of skin and subcutaneous tissue."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to annual physical exam. | Examination: Doctor performed examination and tests related to annual physical exam. | Conclusion: Prescribed medication and follow-up for annual physical exam."
+    },
+    {
+        "diagnosis_id": 35,
+        "patient_id": 28,
+        "doctor_id": 16,
+        "diagnosis_date": "25/07/2024",
+        "condition": [
+            {
+                "code": "A984",
+                "name": "Ebola virus disease",
+                "description": "A medical condition known as ebola virus disease."
+            },
+            {
+                "code": "B1009",
+                "name": "Other human herpesvirus encephalitis",
+                "description": "A medical condition known as other human herpesvirus encephalitis."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to orthopedic examination. | Examination: Doctor performed examination and tests related to orthopedic examination. | Conclusion: Prescribed medication and follow-up for orthopedic examination."
+    },
+    {
+        "diagnosis_id": 36,
+        "patient_id": 44,
+        "doctor_id": 15,
+        "diagnosis_date": "18/07/2024",
+        "condition": [
+            {
+                "code": "A200",
+                "name": "Bubonic plague",
+                "description": "A medical condition known as bubonic plague."
+            },
+            {
+                "code": "P0507",
+                "name": "Newborn light for gestational age, 1750-1999 grams",
+                "description": "A medical condition known as newborn light for gestational age, 1750-1999 grams."
+            },
+            {
+                "code": "C84Z8",
+                "name": "Other mature T/NK-cell lymphomas, lymph nodes of multiple",
+                "description": "A medical condition known as other mature t/nk-cell lymphomas, lymph nodes of multiple."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to orthopedic examination. | Examination: Doctor performed examination and tests related to orthopedic examination. | Conclusion: Prescribed medication and follow-up for orthopedic examination."
+    },
+    {
+        "diagnosis_id": 37,
+        "patient_id": 44,
+        "doctor_id": 16,
+        "diagnosis_date": "11/07/2024",
+        "condition": [
+            {
+                "code": "P280",
+                "name": "Primary atelectasis of newborn",
+                "description": "A medical condition known as primary atelectasis of newborn."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to cardiac evaluation. | Examination: Doctor performed examination and tests related to cardiac evaluation. | Conclusion: Prescribed medication and follow-up for cardiac evaluation."
+    },
+    {
+        "diagnosis_id": 38,
+        "patient_id": 50,
+        "doctor_id": 16,
+        "diagnosis_date": "25/07/2024",
+        "condition": [
+            {
+                "code": "Q678",
+                "name": "Other congenital deformities of chest",
+                "description": "A medical condition known as other congenital deformities of chest."
+            },
+            {
+                "code": "Q514",
+                "name": "Unicornate uterus",
+                "description": "A medical condition known as unicornate uterus."
+            },
+            {
+                "code": "D3011",
+                "name": "Benign neoplasm of right renal pelvis",
+                "description": "A medical condition known as benign neoplasm of right renal pelvis."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to dermatology consultation. | Examination: Doctor performed examination and tests related to dermatology consultation. | Conclusion: Prescribed medication and follow-up for dermatology consultation."
+    },
+    {
+        "diagnosis_id": 39,
+        "patient_id": 50,
+        "doctor_id": 20,
+        "diagnosis_date": "14/07/2024",
+        "condition": [
+            {
+                "code": "A6002",
+                "name": "Herpesviral infection of other male genital organs",
+                "description": "A medical condition known as herpesviral infection of other male genital organs."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to flu. | Examination: Doctor performed examination and tests related to flu. | Conclusion: Prescribed medication and follow-up for flu."
+    },
+    {
+        "diagnosis_id": 40,
+        "patient_id": 8,
+        "doctor_id": 14,
+        "diagnosis_date": "14/07/2024",
+        "condition": [
+            {
+                "code": "Q2547",
+                "name": "Right aortic arch",
+                "description": "A medical condition known as right aortic arch."
+            },
+            {
+                "code": "P2421",
+                "name": "Neonatal aspiration of blood with respiratory symptoms",
+                "description": "A medical condition known as neonatal aspiration of blood with respiratory symptoms."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to hypertension follow-up. | Examination: Doctor performed examination and tests related to hypertension follow-up. | Conclusion: Prescribed medication and follow-up for hypertension follow-up."
+    },
+    {
+        "diagnosis_id": 41,
+        "patient_id": 26,
+        "doctor_id": 19,
+        "diagnosis_date": "24/07/2024",
+        "condition": [
+            {
+                "code": "F330",
+                "name": "Major depressive disorder, recurrent, mild",
+                "description": "A medical condition known as major depressive disorder, recurrent, mild."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to respiratory infection treatment. | Examination: Doctor performed examination and tests related to respiratory infection treatment. | Conclusion: Prescribed medication and follow-up for respiratory infection treatment."
+    },
+    {
+        "diagnosis_id": 42,
+        "patient_id": 23,
+        "doctor_id": 15,
+        "diagnosis_date": "07/07/2024",
+        "condition": [
+            {
+                "code": "G64",
+                "name": "Other disorders of peripheral nervous system",
+                "description": "A medical condition known as other disorders of peripheral nervous system."
+            },
+            {
+                "code": "D0371",
+                "name": "Melanoma in situ of right lower limb, including hip",
+                "description": "A medical condition known as melanoma in situ of right lower limb, including hip."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to allergy consultation. | Examination: Doctor performed examination and tests related to allergy consultation. | Conclusion: Prescribed medication and follow-up for allergy consultation."
+    },
+    {
+        "diagnosis_id": 43,
+        "patient_id": 8,
+        "doctor_id": 12,
+        "diagnosis_date": "11/07/2024",
+        "condition": [
+            {
+                "code": "G372",
+                "name": "Central pontine myelinolysis",
+                "description": "A medical condition known as central pontine myelinolysis."
+            },
+            {
+                "code": "G3289",
+                "name": "Other specified degenerative disorders of nervous system in",
+                "description": "A medical condition known as other specified degenerative disorders of nervous system in."
+            },
+            {
+                "code": "Q562",
+                "name": "Female pseudohermaphroditism, not elsewhere classified",
+                "description": "A medical condition known as female pseudohermaphroditism, not elsewhere classified."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to flu. | Examination: Doctor performed examination and tests related to flu. | Conclusion: Prescribed medication and follow-up for flu."
+    },
+    {
+        "diagnosis_id": 44,
+        "patient_id": 42,
+        "doctor_id": 14,
+        "diagnosis_date": "20/07/2024",
+        "condition": [
+            {
+                "code": "A071",
+                "name": "Giardiasis [lambliasis]",
+                "description": "A medical condition known as giardiasis [lambliasis]."
+            },
+            {
+                "code": "Q434",
+                "name": "Duplication of intestine",
+                "description": "A medical condition known as duplication of intestine."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to orthopedic examination. | Examination: Doctor performed examination and tests related to orthopedic examination. | Conclusion: Prescribed medication and follow-up for orthopedic examination."
+    },
+    {
+        "diagnosis_id": 45,
+        "patient_id": 49,
+        "doctor_id": 16,
+        "diagnosis_date": "22/07/2024",
+        "condition": [
+            {
+                "code": "A5440",
+                "name": "Gonococcal infection of musculoskeletal system, unspecified",
+                "description": "A medical condition known as gonococcal infection of musculoskeletal system, unspecified."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to orthopedic examination. | Examination: Doctor performed examination and tests related to orthopedic examination. | Conclusion: Prescribed medication and follow-up for orthopedic examination."
+    },
+    {
+        "diagnosis_id": 46,
+        "patient_id": 4,
+        "doctor_id": 14,
+        "diagnosis_date": "08/07/2024",
+        "condition": [
+            {
+                "code": "C254",
+                "name": "Malignant neoplasm of endocrine pancreas",
+                "description": "A medical condition known as malignant neoplasm of endocrine pancreas."
+            },
+            {
+                "code": "C8498",
+                "name": "Mature T/NK-cell lymphomas, unspecified, lymph nodes of m",
+                "description": "A medical condition known as mature t/nk-cell lymphomas, unspecified, lymph nodes of m."
+            },
+            {
+                "code": "A770",
+                "name": "Spotted fever due to Rickettsia rickettsii",
+                "description": "A medical condition known as spotted fever due to rickettsia rickettsii."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to cardiac evaluation. | Examination: Doctor performed examination and tests related to cardiac evaluation. | Conclusion: Prescribed medication and follow-up for cardiac evaluation."
+    },
+    {
+        "diagnosis_id": 47,
+        "patient_id": 20,
+        "doctor_id": 12,
+        "diagnosis_date": "16/07/2024",
+        "condition": [
+            {
+                "code": "E040",
+                "name": "Nontoxic diffuse goiter",
+                "description": "A medical condition known as nontoxic diffuse goiter."
+            },
+            {
+                "code": "C259",
+                "name": "Malignant neoplasm of pancreas, unspecified",
+                "description": "A medical condition known as malignant neoplasm of pancreas, unspecified."
+            },
+            {
+                "code": "D1622",
+                "name": "Benign neoplasm of long bones of left lower limb",
+                "description": "A medical condition known as benign neoplasm of long bones of left lower limb."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to pediatric check-up. | Examination: Doctor performed examination and tests related to pediatric check-up. | Conclusion: Prescribed medication and follow-up for pediatric check-up."
+    },
+    {
+        "diagnosis_id": 48,
+        "patient_id": 49,
+        "doctor_id": 20,
+        "diagnosis_date": "13/07/2024",
+        "condition": [
+            {
+                "code": "B452",
+                "name": "Cutaneous cryptococcosis",
+                "description": "A medical condition known as cutaneous cryptococcosis."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to respiratory infection treatment. | Examination: Doctor performed examination and tests related to respiratory infection treatment. | Conclusion: Prescribed medication and follow-up for respiratory infection treatment."
+    },
+    {
+        "diagnosis_id": 49,
+        "patient_id": 37,
+        "doctor_id": 11,
+        "diagnosis_date": "12/07/2024",
+        "condition": [
+            {
+                "code": "C9191",
+                "name": "Lymphoid leukemia, unspecified, in remission",
+                "description": "A medical condition known as lymphoid leukemia, unspecified, in remission."
+            },
+            {
+                "code": "D321",
+                "name": "Benign neoplasm of spinal meninges",
+                "description": "A medical condition known as benign neoplasm of spinal meninges."
+            },
+            {
+                "code": "D4122",
+                "name": "Neoplasm of uncertain behavior of left ureter",
+                "description": "A medical condition known as neoplasm of uncertain behavior of left ureter."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to allergy consultation. | Examination: Doctor performed examination and tests related to allergy consultation. | Conclusion: Prescribed medication and follow-up for allergy consultation."
+    },
+    {
+        "diagnosis_id": 50,
+        "patient_id": 41,
+        "doctor_id": 15,
+        "diagnosis_date": "29/07/2024",
+        "condition": [
+            {
+                "code": "E229",
+                "name": "Hyperfunction of pituitary gland, unspecified",
+                "description": "A medical condition known as hyperfunction of pituitary gland, unspecified."
+            },
+            {
+                "code": "E668",
+                "name": "Other obesity",
+                "description": "A medical condition known as other obesity."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to orthopedic examination. | Examination: Doctor performed examination and tests related to orthopedic examination. | Conclusion: Prescribed medication and follow-up for orthopedic examination."
+    },
+    {
+        "diagnosis_id": 51,
+        "patient_id": 6,
+        "doctor_id": 11,
+        "diagnosis_date": "13/07/2024",
+        "condition": [
+            {
+                "code": "Q6410",
+                "name": "Exstrophy of urinary bladder, unspecified",
+                "description": "A medical condition known as exstrophy of urinary bladder, unspecified."
+            },
+            {
+                "code": "G8323",
+                "name": "Monoplegia of upper limb affecting right nondominant side",
+                "description": "A medical condition known as monoplegia of upper limb affecting right nondominant side."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to respiratory infection treatment. | Examination: Doctor performed examination and tests related to respiratory infection treatment. | Conclusion: Prescribed medication and follow-up for respiratory infection treatment."
+    },
+    {
+        "diagnosis_id": 52,
+        "patient_id": 29,
+        "doctor_id": 13,
+        "diagnosis_date": "08/07/2024",
+        "condition": [
+            {
+                "code": "C4090",
+                "name": "Malignant neoplasm of unspecified bones and articular cartila",
+                "description": "A medical condition known as malignant neoplasm of unspecified bones and articular cartila."
+            },
+            {
+                "code": "C651",
+                "name": "Malignant neoplasm of right renal pelvis",
+                "description": "A medical condition known as malignant neoplasm of right renal pelvis."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to dermatology consultation. | Examination: Doctor performed examination and tests related to dermatology consultation. | Conclusion: Prescribed medication and follow-up for dermatology consultation."
+    },
+    {
+        "diagnosis_id": 53,
+        "patient_id": 15,
+        "doctor_id": 12,
+        "diagnosis_date": "18/07/2024",
+        "condition": [
+            {
+                "code": "Q5522",
+                "name": "Retractile testis",
+                "description": "A medical condition known as retractile testis."
+            },
+            {
+                "code": "A233",
+                "name": "Brucellosis due to Brucella canis",
+                "description": "A medical condition known as brucellosis due to brucella canis."
+            },
+            {
+                "code": "C4030",
+                "name": "Malignant neoplasm of short bones of unspecified lower limb",
+                "description": "A medical condition known as malignant neoplasm of short bones of unspecified lower limb."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to allergy consultation. | Examination: Doctor performed examination and tests related to allergy consultation. | Conclusion: Prescribed medication and follow-up for allergy consultation."
+    },
+    {
+        "diagnosis_id": 54,
+        "patient_id": 47,
+        "doctor_id": 12,
+        "diagnosis_date": "10/07/2024",
+        "condition": [
+            {
+                "code": "G709",
+                "name": "Myoneural disorder, unspecified",
+                "description": "A medical condition known as myoneural disorder, unspecified."
+            },
+            {
+                "code": "B0239",
+                "name": "Other herpes zoster eye disease",
+                "description": "A medical condition known as other herpes zoster eye disease."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to pediatric check-up. | Examination: Doctor performed examination and tests related to pediatric check-up. | Conclusion: Prescribed medication and follow-up for pediatric check-up."
+    },
+    {
+        "diagnosis_id": 55,
+        "patient_id": 19,
+        "doctor_id": 15,
+        "diagnosis_date": "21/07/2024",
+        "condition": [
+            {
+                "code": "A539",
+                "name": "Syphilis, unspecified",
+                "description": "A medical condition known as syphilis, unspecified."
+            },
+            {
+                "code": "C168",
+                "name": "Malignant neoplasm of overlapping sites of stomach",
+                "description": "A medical condition known as malignant neoplasm of overlapping sites of stomach."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to diabetes check-up. | Examination: Doctor performed examination and tests related to diabetes check-up. | Conclusion: Prescribed medication and follow-up for diabetes check-up."
+    },
+    {
+        "diagnosis_id": 56,
+        "patient_id": 19,
+        "doctor_id": 12,
+        "diagnosis_date": "28/07/2024",
+        "condition": [
+            {
+                "code": "B2789",
+                "name": "Other infectious mononucleosis with other complication",
+                "description": "A medical condition known as other infectious mononucleosis with other complication."
+            },
+            {
+                "code": "G5743",
+                "name": "Lesion of medial popliteal nerve, bilateral lower limbs",
+                "description": "A medical condition known as lesion of medial popliteal nerve, bilateral lower limbs."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to allergy consultation. | Examination: Doctor performed examination and tests related to allergy consultation. | Conclusion: Prescribed medication and follow-up for allergy consultation."
+    },
+    {
+        "diagnosis_id": 57,
+        "patient_id": 9,
+        "doctor_id": 14,
+        "diagnosis_date": "31/07/2024",
+        "condition": [
+            {
+                "code": "Q631",
+                "name": "Lobulated, fused and horseshoe kidney",
+                "description": "A medical condition known as lobulated, fused and horseshoe kidney."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to respiratory infection treatment. | Examination: Doctor performed examination and tests related to respiratory infection treatment. | Conclusion: Prescribed medication and follow-up for respiratory infection treatment."
+    },
+    {
+        "diagnosis_id": 58,
+        "patient_id": 42,
+        "doctor_id": 20,
+        "diagnosis_date": "24/07/2024",
+        "condition": [
+            {
+                "code": "C322",
+                "name": "Malignant neoplasm of subglottis",
+                "description": "A medical condition known as malignant neoplasm of subglottis."
+            },
+            {
+                "code": "F428",
+                "name": "Other obsessive-compulsive disorder",
+                "description": "A medical condition known as other obsessive-compulsive disorder."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to orthopedic examination. | Examination: Doctor performed examination and tests related to orthopedic examination. | Conclusion: Prescribed medication and follow-up for orthopedic examination."
+    },
+    {
+        "diagnosis_id": 59,
+        "patient_id": 48,
+        "doctor_id": 14,
+        "diagnosis_date": "27/07/2024",
+        "condition": [
+            {
+                "code": "D242",
+                "name": "Benign neoplasm of left breast",
+                "description": "A medical condition known as benign neoplasm of left breast."
+            },
+            {
+                "code": "A811",
+                "name": "Subacute sclerosing panencephalitis",
+                "description": "A medical condition known as subacute sclerosing panencephalitis."
+            },
+            {
+                "code": "F5221",
+                "name": "Male erectile disorder",
+                "description": "A medical condition known as male erectile disorder."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to annual physical exam. | Examination: Doctor performed examination and tests related to annual physical exam. | Conclusion: Prescribed medication and follow-up for annual physical exam."
+    },
+    {
+        "diagnosis_id": 60,
+        "patient_id": 41,
+        "doctor_id": 14,
+        "diagnosis_date": "15/07/2024",
+        "condition": [
+            {
+                "code": "F5113",
+                "name": "Hypersomnia due to other mental disorder",
+                "description": "A medical condition known as hypersomnia due to other mental disorder."
+            },
+            {
+                "code": "G6181",
+                "name": "Chronic inflammatory demyelinating polyneuritis",
+                "description": "A medical condition known as chronic inflammatory demyelinating polyneuritis."
+            },
+            {
+                "code": "R1902",
+                "name": "Left upper quadrant abdominal swelling, mass and lump",
+                "description": "A medical condition known as left upper quadrant abdominal swelling, mass and lump."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to pediatric check-up. | Examination: Doctor performed examination and tests related to pediatric check-up. | Conclusion: Prescribed medication and follow-up for pediatric check-up."
+    },
+    {
+        "diagnosis_id": 61,
+        "patient_id": 25,
+        "doctor_id": 12,
+        "diagnosis_date": "13/07/2024",
+        "condition": [
+            {
+                "code": "E851",
+                "name": "Neuropathic heredofamilial amyloidosis",
+                "description": "A medical condition known as neuropathic heredofamilial amyloidosis."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to cardiac evaluation. | Examination: Doctor performed examination and tests related to cardiac evaluation. | Conclusion: Prescribed medication and follow-up for cardiac evaluation."
+    },
+    {
+        "diagnosis_id": 62,
+        "patient_id": 46,
+        "doctor_id": 14,
+        "diagnosis_date": "10/07/2024",
+        "condition": [
+            {
+                "code": "F809",
+                "name": "Developmental disorder of speech and language, unspecified",
+                "description": "A medical condition known as developmental disorder of speech and language, unspecified."
+            },
+            {
+                "code": "Q897",
+                "name": "Multiple congenital malformations, not elsewhere classified",
+                "description": "A medical condition known as multiple congenital malformations, not elsewhere classified."
+            },
+            {
+                "code": "G252",
+                "name": "Other specified forms of tremor",
+                "description": "A medical condition known as other specified forms of tremor."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to orthopedic examination. | Examination: Doctor performed examination and tests related to orthopedic examination. | Conclusion: Prescribed medication and follow-up for orthopedic examination."
+    },
+    {
+        "diagnosis_id": 63,
+        "patient_id": 32,
+        "doctor_id": 11,
+        "diagnosis_date": "12/07/2024",
+        "condition": [
+            {
+                "code": "Q7012",
+                "name": "Webbed fingers, left hand",
+                "description": "A medical condition known as webbed fingers, left hand."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to hypertension follow-up. | Examination: Doctor performed examination and tests related to hypertension follow-up. | Conclusion: Prescribed medication and follow-up for hypertension follow-up."
+    },
+    {
+        "diagnosis_id": 64,
+        "patient_id": 36,
+        "doctor_id": 11,
+        "diagnosis_date": "13/07/2024",
+        "condition": [
+            {
+                "code": "C049",
+                "name": "Malignant neoplasm of floor of mouth, unspecified",
+                "description": "A medical condition known as malignant neoplasm of floor of mouth, unspecified."
+            },
+            {
+                "code": "C419",
+                "name": "Malignant neoplasm of bone and articular cartilage, unspecifie",
+                "description": "A medical condition known as malignant neoplasm of bone and articular cartilage, unspecifie."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to allergy consultation. | Examination: Doctor performed examination and tests related to allergy consultation. | Conclusion: Prescribed medication and follow-up for allergy consultation."
+    },
+    {
+        "diagnosis_id": 65,
+        "patient_id": 23,
+        "doctor_id": 20,
+        "diagnosis_date": "29/07/2024",
+        "condition": [
+            {
+                "code": "A5005",
+                "name": "Early congenital syphilitic rhinitis",
+                "description": "A medical condition known as early congenital syphilitic rhinitis."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to diabetes check-up. | Examination: Doctor performed examination and tests related to diabetes check-up. | Conclusion: Prescribed medication and follow-up for diabetes check-up."
+    },
+    {
+        "diagnosis_id": 66,
+        "patient_id": 8,
+        "doctor_id": 13,
+        "diagnosis_date": "07/07/2024",
+        "condition": [
+            {
+                "code": "F331",
+                "name": "Major depressive disorder, recurrent, moderate",
+                "description": "A medical condition known as major depressive disorder, recurrent, moderate."
+            },
+            {
+                "code": "D0007",
+                "name": "Carcinoma in situ of tongue",
+                "description": "A medical condition known as carcinoma in situ of tongue."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to dermatology consultation. | Examination: Doctor performed examination and tests related to dermatology consultation. | Conclusion: Prescribed medication and follow-up for dermatology consultation."
+    },
+    {
+        "diagnosis_id": 67,
+        "patient_id": 23,
+        "doctor_id": 20,
+        "diagnosis_date": "22/07/2024",
+        "condition": [
+            {
+                "code": "B019",
+                "name": "Varicella without complication",
+                "description": "A medical condition known as varicella without complication."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to annual physical exam. | Examination: Doctor performed examination and tests related to annual physical exam. | Conclusion: Prescribed medication and follow-up for annual physical exam."
+    },
+    {
+        "diagnosis_id": 68,
+        "patient_id": 31,
+        "doctor_id": 15,
+        "diagnosis_date": "19/07/2024",
+        "condition": [
+            {
+                "code": "F688",
+                "name": "Other specified disorders of adult personality and behavior",
+                "description": "A medical condition known as other specified disorders of adult personality and behavior."
+            },
+            {
+                "code": "C8256",
+                "name": "Diffuse follicle center lymphoma, intrapelvic lymph nodes",
+                "description": "A medical condition known as diffuse follicle center lymphoma, intrapelvic lymph nodes."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to allergy consultation. | Examination: Doctor performed examination and tests related to allergy consultation. | Conclusion: Prescribed medication and follow-up for allergy consultation."
+    },
+    {
+        "diagnosis_id": 69,
+        "patient_id": 7,
+        "doctor_id": 19,
+        "diagnosis_date": "27/07/2024",
+        "condition": [
+            {
+                "code": "G239",
+                "name": "Degenerative disease of basal ganglia, unspecified",
+                "description": "A medical condition known as degenerative disease of basal ganglia, unspecified."
+            },
+            {
+                "code": "A5007",
+                "name": "Early mucocutaneous congenital syphilis",
+                "description": "A medical condition known as early mucocutaneous congenital syphilis."
+            },
+            {
+                "code": "G0402",
+                "name": "Postimmunization acute disseminated encephalitis, myelitis a",
+                "description": "A medical condition known as postimmunization acute disseminated encephalitis, myelitis a."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to allergy consultation. | Examination: Doctor performed examination and tests related to allergy consultation. | Conclusion: Prescribed medication and follow-up for allergy consultation."
+    },
+    {
+        "diagnosis_id": 70,
+        "patient_id": 28,
+        "doctor_id": 16,
+        "diagnosis_date": "09/07/2024",
+        "condition": [
+            {
+                "code": "Q120",
+                "name": "Congenital cataract",
+                "description": "A medical condition known as congenital cataract."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to respiratory infection treatment. | Examination: Doctor performed examination and tests related to respiratory infection treatment. | Conclusion: Prescribed medication and follow-up for respiratory infection treatment."
+    },
+    {
+        "diagnosis_id": 71,
+        "patient_id": 38,
+        "doctor_id": 20,
+        "diagnosis_date": "25/07/2024",
+        "condition": [
+            {
+                "code": "B718",
+                "name": "Other specified cestode infections",
+                "description": "A medical condition known as other specified cestode infections."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to diabetes check-up. | Examination: Doctor performed examination and tests related to diabetes check-up. | Conclusion: Prescribed medication and follow-up for diabetes check-up."
+    },
+    {
+        "diagnosis_id": 72,
+        "patient_id": 21,
+        "doctor_id": 20,
+        "diagnosis_date": "07/07/2024",
+        "condition": [
+            {
+                "code": "B653",
+                "name": "Cercarial dermatitis",
+                "description": "A medical condition known as cercarial dermatitis."
+            },
+            {
+                "code": "B665",
+                "name": "Fasciolopsiasis",
+                "description": "A medical condition known as fasciolopsiasis."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to annual physical exam. | Examination: Doctor performed examination and tests related to annual physical exam. | Conclusion: Prescribed medication and follow-up for annual physical exam."
+    },
+    {
+        "diagnosis_id": 73,
+        "patient_id": 35,
+        "doctor_id": 19,
+        "diagnosis_date": "09/07/2024",
+        "condition": [
+            {
+                "code": "P260",
+                "name": "Tracheobronchial hemorrhage originating in the perinatal peri",
+                "description": "A medical condition known as tracheobronchial hemorrhage originating in the perinatal peri."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to cardiac evaluation. | Examination: Doctor performed examination and tests related to cardiac evaluation. | Conclusion: Prescribed medication and follow-up for cardiac evaluation."
+    },
+    {
+        "diagnosis_id": 74,
+        "patient_id": 45,
+        "doctor_id": 17,
+        "diagnosis_date": "09/07/2024",
+        "condition": [
+            {
+                "code": "D030",
+                "name": "Melanoma in situ of lip",
+                "description": "A medical condition known as melanoma in situ of lip."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to orthopedic examination. | Examination: Doctor performed examination and tests related to orthopedic examination. | Conclusion: Prescribed medication and follow-up for orthopedic examination."
+    },
+    {
+        "diagnosis_id": 75,
+        "patient_id": 7,
+        "doctor_id": 13,
+        "diagnosis_date": "27/07/2024",
+        "condition": [
+            {
+                "code": "B000",
+                "name": "Eczema herpeticum",
+                "description": "A medical condition known as eczema herpeticum."
+            },
+            {
+                "code": "Q371",
+                "name": "Cleft hard palate with unilateral cleft lip",
+                "description": "A medical condition known as cleft hard palate with unilateral cleft lip."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to cardiac evaluation. | Examination: Doctor performed examination and tests related to cardiac evaluation. | Conclusion: Prescribed medication and follow-up for cardiac evaluation."
+    },
+    {
+        "diagnosis_id": 76,
+        "patient_id": 43,
+        "doctor_id": 19,
+        "diagnosis_date": "04/07/2024",
+        "condition": [
+            {
+                "code": "Q186",
+                "name": "Macrocheilia",
+                "description": "A medical condition known as macrocheilia."
+            },
+            {
+                "code": "B002",
+                "name": "Herpesviral gingivostomatitis and pharyngotonsillitis",
+                "description": "A medical condition known as herpesviral gingivostomatitis and pharyngotonsillitis."
+            },
+            {
+                "code": "A1801",
+                "name": "Tuberculosis of spine",
+                "description": "A medical condition known as tuberculosis of spine."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to hypertension follow-up. | Examination: Doctor performed examination and tests related to hypertension follow-up. | Conclusion: Prescribed medication and follow-up for hypertension follow-up."
+    },
+    {
+        "diagnosis_id": 77,
+        "patient_id": 31,
+        "doctor_id": 11,
+        "diagnosis_date": "17/07/2024",
+        "condition": [
+            {
+                "code": "B582",
+                "name": "Toxoplasma meningoencephalitis",
+                "description": "A medical condition known as toxoplasma meningoencephalitis."
+            },
+            {
+                "code": "Q179",
+                "name": "Congenital malformation of ear, unspecified",
+                "description": "A medical condition known as congenital malformation of ear, unspecified."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to allergy consultation. | Examination: Doctor performed examination and tests related to allergy consultation. | Conclusion: Prescribed medication and follow-up for allergy consultation."
+    },
+    {
+        "diagnosis_id": 78,
+        "patient_id": 37,
+        "doctor_id": 16,
+        "diagnosis_date": "12/07/2024",
+        "condition": [
+            {
+                "code": "D34",
+                "name": "Benign neoplasm of thyroid gland",
+                "description": "A medical condition known as benign neoplasm of thyroid gland."
+            },
+            {
+                "code": "E139",
+                "name": "Other specified diabetes mellitus without complications",
+                "description": "A medical condition known as other specified diabetes mellitus without complications."
+            },
+            {
+                "code": "G4701",
+                "name": "Insomnia due to medical condition",
+                "description": "A medical condition known as insomnia due to medical condition."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to allergy consultation. | Examination: Doctor performed examination and tests related to allergy consultation. | Conclusion: Prescribed medication and follow-up for allergy consultation."
+    },
+    {
+        "diagnosis_id": 79,
+        "patient_id": 47,
+        "doctor_id": 15,
+        "diagnosis_date": "26/07/2024",
+        "condition": [
+            {
+                "code": "G311",
+                "name": "Senile degeneration of brain, not elsewhere classified",
+                "description": "A medical condition known as senile degeneration of brain, not elsewhere classified."
+            },
+            {
+                "code": "B681",
+                "name": "Taenia saginata taeniasis",
+                "description": "A medical condition known as taenia saginata taeniasis."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to orthopedic examination. | Examination: Doctor performed examination and tests related to orthopedic examination. | Conclusion: Prescribed medication and follow-up for orthopedic examination."
+    },
+    {
+        "diagnosis_id": 80,
+        "patient_id": 9,
+        "doctor_id": 11,
+        "diagnosis_date": "24/07/2024",
+        "condition": [
+            {
+                "code": "A925",
+                "name": "Zika virus disease",
+                "description": "A medical condition known as zika virus disease."
+            },
+            {
+                "code": "Q107",
+                "name": "Congenital malformation of orbit",
+                "description": "A medical condition known as congenital malformation of orbit."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to annual physical exam. | Examination: Doctor performed examination and tests related to annual physical exam. | Conclusion: Prescribed medication and follow-up for annual physical exam."
+    },
+    {
+        "diagnosis_id": 81,
+        "patient_id": 43,
+        "doctor_id": 12,
+        "diagnosis_date": "22/07/2024",
+        "condition": [
+            {
+                "code": "A58",
+                "name": "Granuloma inguinale",
+                "description": "A medical condition known as granuloma inguinale."
+            },
+            {
+                "code": "C8235",
+                "name": "Follicular lymphoma grade IIIa, lymph nodes of inguinal regio",
+                "description": "A medical condition known as follicular lymphoma grade iiia, lymph nodes of inguinal regio."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to annual physical exam. | Examination: Doctor performed examination and tests related to annual physical exam. | Conclusion: Prescribed medication and follow-up for annual physical exam."
+    },
+    {
+        "diagnosis_id": 82,
+        "patient_id": 9,
+        "doctor_id": 17,
+        "diagnosis_date": "09/07/2024",
+        "condition": [
+            {
+                "code": "G608",
+                "name": "Other hereditary and idiopathic neuropathies",
+                "description": "A medical condition known as other hereditary and idiopathic neuropathies."
+            },
+            {
+                "code": "G0490",
+                "name": "Encephalitis and encephalomyelitis, unspecified",
+                "description": "A medical condition known as encephalitis and encephalomyelitis, unspecified."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to respiratory infection treatment. | Examination: Doctor performed examination and tests related to respiratory infection treatment. | Conclusion: Prescribed medication and follow-up for respiratory infection treatment."
+    },
+    {
+        "diagnosis_id": 83,
+        "patient_id": 45,
+        "doctor_id": 18,
+        "diagnosis_date": "28/07/2024",
+        "condition": [
+            {
+                "code": "B4081",
+                "name": "Blastomycotic meningoencephalitis",
+                "description": "A medical condition known as blastomycotic meningoencephalitis."
+            },
+            {
+                "code": "Q510",
+                "name": "Agenesis and aplasia of uterus",
+                "description": "A medical condition known as agenesis and aplasia of uterus."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to orthopedic examination. | Examination: Doctor performed examination and tests related to orthopedic examination. | Conclusion: Prescribed medication and follow-up for orthopedic examination."
+    },
+    {
+        "diagnosis_id": 84,
+        "patient_id": 24,
+        "doctor_id": 13,
+        "diagnosis_date": "26/07/2024",
+        "condition": [
+            {
+                "code": "C9152",
+                "name": "Adult T-cell lymphoma/leukemia (HTLV-1-associated), in relap",
+                "description": "A medical condition known as adult t-cell lymphoma/leukemia (htlv-1-associated), in relap."
+            },
+            {
+                "code": "Q447",
+                "name": "Other congenital malformations of liver",
+                "description": "A medical condition known as other congenital malformations of liver."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to dermatology consultation. | Examination: Doctor performed examination and tests related to dermatology consultation. | Conclusion: Prescribed medication and follow-up for dermatology consultation."
+    },
+    {
+        "diagnosis_id": 85,
+        "patient_id": 18,
+        "doctor_id": 14,
+        "diagnosis_date": "27/07/2024",
+        "condition": [
+            {
+                "code": "C8293",
+                "name": "Follicular lymphoma, unspecified, intra-abdominal lymph nod",
+                "description": "A medical condition known as follicular lymphoma, unspecified, intra-abdominal lymph nod."
+            },
+            {
+                "code": "P0710",
+                "name": "Other low birth weight newborn, unspecified weight",
+                "description": "A medical condition known as other low birth weight newborn, unspecified weight."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to respiratory infection treatment. | Examination: Doctor performed examination and tests related to respiratory infection treatment. | Conclusion: Prescribed medication and follow-up for respiratory infection treatment."
+    },
+    {
+        "diagnosis_id": 86,
+        "patient_id": 38,
+        "doctor_id": 11,
+        "diagnosis_date": "08/07/2024",
+        "condition": [
+            {
+                "code": "B7789",
+                "name": "Ascariasis with other complications",
+                "description": "A medical condition known as ascariasis with other complications."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to allergy consultation. | Examination: Doctor performed examination and tests related to allergy consultation. | Conclusion: Prescribed medication and follow-up for allergy consultation."
+    },
+    {
+        "diagnosis_id": 87,
+        "patient_id": 33,
+        "doctor_id": 18,
+        "diagnosis_date": "28/07/2024",
+        "condition": [
+            {
+                "code": "R782",
+                "name": "Finding of cocaine in blood",
+                "description": "A medical condition known as finding of cocaine in blood."
+            },
+            {
+                "code": "C8258",
+                "name": "Diffuse follicle center lymphoma, lymph nodes of multiple site",
+                "description": "A medical condition known as diffuse follicle center lymphoma, lymph nodes of multiple site."
+            },
+            {
+                "code": "P362",
+                "name": "Sepsis of newborn due to Staphylococcus aureus",
+                "description": "A medical condition known as sepsis of newborn due to staphylococcus aureus."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to orthopedic examination. | Examination: Doctor performed examination and tests related to orthopedic examination. | Conclusion: Prescribed medication and follow-up for orthopedic examination."
+    },
+    {
+        "diagnosis_id": 88,
+        "patient_id": 45,
+        "doctor_id": 11,
+        "diagnosis_date": "10/07/2024",
+        "condition": [
+            {
+                "code": "R011",
+                "name": "Cardiac murmur, unspecified",
+                "description": "A medical condition known as cardiac murmur, unspecified."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to annual physical exam. | Examination: Doctor performed examination and tests related to annual physical exam. | Conclusion: Prescribed medication and follow-up for annual physical exam."
+    },
+    {
+        "diagnosis_id": 89,
+        "patient_id": 49,
+        "doctor_id": 20,
+        "diagnosis_date": "04/07/2024",
+        "condition": [
+            {
+                "code": "B781",
+                "name": "Cutaneous strongyloidiasis",
+                "description": "A medical condition known as cutaneous strongyloidiasis."
+            },
+            {
+                "code": "G8191",
+                "name": "Hemiplegia, unspecified affecting right dominant side",
+                "description": "A medical condition known as hemiplegia, unspecified affecting right dominant side."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to cardiac evaluation. | Examination: Doctor performed examination and tests related to cardiac evaluation. | Conclusion: Prescribed medication and follow-up for cardiac evaluation."
+    },
+    {
+        "diagnosis_id": 90,
+        "patient_id": 18,
+        "doctor_id": 14,
+        "diagnosis_date": "20/07/2024",
+        "condition": [
+            {
+                "code": "C8196",
+                "name": "Hodgkin lymphoma, unspecified, intrapelvic lymph nodes",
+                "description": "A medical condition known as hodgkin lymphoma, unspecified, intrapelvic lymph nodes."
+            },
+            {
+                "code": "G5793",
+                "name": "Unspecified mononeuropathy of bilateral lower limbs",
+                "description": "A medical condition known as unspecified mononeuropathy of bilateral lower limbs."
+            },
+            {
+                "code": "E243",
+                "name": "Ectopic ACTH syndrome",
+                "description": "A medical condition known as ectopic acth syndrome."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to pediatric check-up. | Examination: Doctor performed examination and tests related to pediatric check-up. | Conclusion: Prescribed medication and follow-up for pediatric check-up."
+    },
+    {
+        "diagnosis_id": 91,
+        "patient_id": 42,
+        "doctor_id": 15,
+        "diagnosis_date": "11/07/2024",
+        "condition": [
+            {
+                "code": "R062",
+                "name": "Wheezing",
+                "description": "A medical condition known as wheezing."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to annual physical exam. | Examination: Doctor performed examination and tests related to annual physical exam. | Conclusion: Prescribed medication and follow-up for annual physical exam."
+    },
+    {
+        "diagnosis_id": 92,
+        "patient_id": 38,
+        "doctor_id": 13,
+        "diagnosis_date": "04/07/2024",
+        "condition": [
+            {
+                "code": "R065",
+                "name": "Mouth breathing",
+                "description": "A medical condition known as mouth breathing."
+            },
+            {
+                "code": "A363",
+                "name": "Cutaneous diphtheria",
+                "description": "A medical condition known as cutaneous diphtheria."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to dermatology consultation. | Examination: Doctor performed examination and tests related to dermatology consultation. | Conclusion: Prescribed medication and follow-up for dermatology consultation."
+    },
+    {
+        "diagnosis_id": 93,
+        "patient_id": 33,
+        "doctor_id": 14,
+        "diagnosis_date": "10/07/2024",
+        "condition": [
+            {
+                "code": "B664",
+                "name": "Paragonimiasis",
+                "description": "A medical condition known as paragonimiasis."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to respiratory infection treatment. | Examination: Doctor performed examination and tests related to respiratory infection treatment. | Conclusion: Prescribed medication and follow-up for respiratory infection treatment."
+    },
+    {
+        "diagnosis_id": 94,
+        "patient_id": 35,
+        "doctor_id": 18,
+        "diagnosis_date": "05/07/2024",
+        "condition": [
+            {
+                "code": "C8143",
+                "name": "Lymphocyte-rich Hodgkin lymphoma, intra-abdominal lymph",
+                "description": "A medical condition known as lymphocyte-rich hodgkin lymphoma, intra-abdominal lymph."
+            },
+            {
+                "code": "F338",
+                "name": "Other recurrent depressive disorders",
+                "description": "A medical condition known as other recurrent depressive disorders."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to annual physical exam. | Examination: Doctor performed examination and tests related to annual physical exam. | Conclusion: Prescribed medication and follow-up for annual physical exam."
+    },
+    {
+        "diagnosis_id": 95,
+        "patient_id": 30,
+        "doctor_id": 19,
+        "diagnosis_date": "22/07/2024",
+        "condition": [
+            {
+                "code": "R198",
+                "name": "Other specified symptoms and signs involving the digestive sys",
+                "description": "A medical condition known as other specified symptoms and signs involving the digestive sys."
+            },
+            {
+                "code": "D751",
+                "name": "Secondary polycythemia",
+                "description": "A medical condition known as secondary polycythemia."
+            },
+            {
+                "code": "D1772",
+                "name": "Benign lipomatous neoplasm of other genitourinary organ",
+                "description": "A medical condition known as benign lipomatous neoplasm of other genitourinary organ."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to allergy consultation. | Examination: Doctor performed examination and tests related to allergy consultation. | Conclusion: Prescribed medication and follow-up for allergy consultation."
+    },
+    {
+        "diagnosis_id": 96,
+        "patient_id": 5,
+        "doctor_id": 11,
+        "diagnosis_date": "15/07/2024",
+        "condition": [
+            {
+                "code": "Q514",
+                "name": "Unicornate uterus",
+                "description": "A medical condition known as unicornate uterus."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to dermatology consultation. | Examination: Doctor performed examination and tests related to dermatology consultation. | Conclusion: Prescribed medication and follow-up for dermatology consultation."
+    },
+    {
+        "diagnosis_id": 97,
+        "patient_id": 20,
+        "doctor_id": 17,
+        "diagnosis_date": "25/07/2024",
+        "condition": [
+            {
+                "code": "C8527",
+                "name": "Mediastinal (thymic) large B-cell lymphoma, spleen",
+                "description": "A medical condition known as mediastinal (thymic) large b-cell lymphoma, spleen."
+            },
+            {
+                "code": "A7740",
+                "name": "Ehrlichiosis, unspecified",
+                "description": "A medical condition known as ehrlichiosis, unspecified."
+            },
+            {
+                "code": "Q958",
+                "name": "Other balanced rearrangements and structural markers",
+                "description": "A medical condition known as other balanced rearrangements and structural markers."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to orthopedic examination. | Examination: Doctor performed examination and tests related to orthopedic examination. | Conclusion: Prescribed medication and follow-up for orthopedic examination."
+    },
+    {
+        "diagnosis_id": 98,
+        "patient_id": 18,
+        "doctor_id": 15,
+        "diagnosis_date": "15/07/2024",
+        "condition": [
+            {
+                "code": "B79",
+                "name": "Trichuriasis",
+                "description": "A medical condition known as trichuriasis."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to annual physical exam. | Examination: Doctor performed examination and tests related to annual physical exam. | Conclusion: Prescribed medication and follow-up for annual physical exam."
+    },
+    {
+        "diagnosis_id": 99,
+        "patient_id": 29,
+        "doctor_id": 18,
+        "diagnosis_date": "09/07/2024",
+        "condition": [
+            {
+                "code": "G8310",
+                "name": "Monoplegia of lower limb affecting unspecified side",
+                "description": "A medical condition known as monoplegia of lower limb affecting unspecified side."
+            },
+            {
+                "code": "Q1381",
+                "name": "Rieger's anomaly",
+                "description": "A medical condition known as rieger's anomaly."
+            },
+            {
+                "code": "B181",
+                "name": "Chronic viral hepatitis B without delta-agent",
+                "description": "A medical condition known as chronic viral hepatitis b without delta-agent."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to hypertension follow-up. | Examination: Doctor performed examination and tests related to hypertension follow-up. | Conclusion: Prescribed medication and follow-up for hypertension follow-up."
+    },
+    {
+        "diagnosis_id": 100,
+        "patient_id": 18,
+        "doctor_id": 20,
+        "diagnosis_date": "05/07/2024",
+        "condition": [
+            {
+                "code": "G5780",
+                "name": "Other specified mononeuropathies of unspecified lower limb",
+                "description": "A medical condition known as other specified mononeuropathies of unspecified lower limb."
+            },
+            {
+                "code": "Q505",
+                "name": "Embryonic cyst of broad ligament",
+                "description": "A medical condition known as embryonic cyst of broad ligament."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to dermatology consultation. | Examination: Doctor performed examination and tests related to dermatology consultation. | Conclusion: Prescribed medication and follow-up for dermatology consultation."
+    },
+    {
+        "diagnosis_id": 101,
+        "patient_id": 6,
+        "doctor_id": 15,
+        "diagnosis_date": "14/08/2024",
+        "condition": [
+            {
+                "code": "D2322",
+                "name": "Other benign neoplasm of skin of left ear and external auricul",
+                "description": "A medical condition known as other benign neoplasm of skin of left ear and external auricul."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to respiratory infection treatment. | Examination: Doctor performed examination and tests related to respiratory infection treatment. | Conclusion: Prescribed medication and follow-up for respiratory infection treatment."
+    },
+    {
+        "diagnosis_id": 102,
+        "patient_id": 46,
+        "doctor_id": 19,
+        "diagnosis_date": "22/08/2024",
+        "condition": [
+            {
+                "code": "D559",
+                "name": "Anemia due to enzyme disorder, unspecified",
+                "description": "A medical condition known as anemia due to enzyme disorder, unspecified."
+            },
+            {
+                "code": "C8384",
+                "name": "Other non-follicular lymphoma, lymph nodes of axilla and upp",
+                "description": "A medical condition known as other non-follicular lymphoma, lymph nodes of axilla and upp."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to allergy consultation. | Examination: Doctor performed examination and tests related to allergy consultation. | Conclusion: Prescribed medication and follow-up for allergy consultation."
+    },
+    {
+        "diagnosis_id": 103,
+        "patient_id": 28,
+        "doctor_id": 15,
+        "diagnosis_date": "20/08/2024",
+        "condition": [
+            {
+                "code": "D0001",
+                "name": "Carcinoma in situ of labial mucosa and vermilion border",
+                "description": "A medical condition known as carcinoma in situ of labial mucosa and vermilion border."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to cardiac evaluation. | Examination: Doctor performed examination and tests related to cardiac evaluation. | Conclusion: Prescribed medication and follow-up for cardiac evaluation."
+    },
+    {
+        "diagnosis_id": 104,
+        "patient_id": 44,
+        "doctor_id": 17,
+        "diagnosis_date": "09/08/2024",
+        "condition": [
+            {
+                "code": "C031",
+                "name": "Malignant neoplasm of lower gum",
+                "description": "A medical condition known as malignant neoplasm of lower gum."
+            },
+            {
+                "code": "A8189",
+                "name": "Other atypical virus infections of central nervous system",
+                "description": "A medical condition known as other atypical virus infections of central nervous system."
+            },
+            {
+                "code": "P393",
+                "name": "Neonatal urinary tract infection",
+                "description": "A medical condition known as neonatal urinary tract infection."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to orthopedic examination. | Examination: Doctor performed examination and tests related to orthopedic examination. | Conclusion: Prescribed medication and follow-up for orthopedic examination."
+    },
+    {
+        "diagnosis_id": 105,
+        "patient_id": 41,
+        "doctor_id": 20,
+        "diagnosis_date": "24/08/2024",
+        "condition": [
+            {
+                "code": "A300",
+                "name": "Indeterminate leprosy",
+                "description": "A medical condition known as indeterminate leprosy."
+            },
+            {
+                "code": "P0735",
+                "name": "Preterm newborn, gestational age 32 completed weeks",
+                "description": "A medical condition known as preterm newborn, gestational age 32 completed weeks."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to orthopedic examination. | Examination: Doctor performed examination and tests related to orthopedic examination. | Conclusion: Prescribed medication and follow-up for orthopedic examination."
+    },
+    {
+        "diagnosis_id": 106,
+        "patient_id": 19,
+        "doctor_id": 14,
+        "diagnosis_date": "10/08/2024",
+        "condition": [
+            {
+                "code": "D171",
+                "name": "Benign lipomatous neoplasm of skin and subcutaneous tissue",
+                "description": "A medical condition known as benign lipomatous neoplasm of skin and subcutaneous tissue."
+            },
+            {
+                "code": "G8312",
+                "name": "Monoplegia of lower limb affecting left dominant side",
+                "description": "A medical condition known as monoplegia of lower limb affecting left dominant side."
+            },
+            {
+                "code": "Q390",
+                "name": "Atresia of esophagus without fistula",
+                "description": "A medical condition known as atresia of esophagus without fistula."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to pediatric check-up. | Examination: Doctor performed examination and tests related to pediatric check-up. | Conclusion: Prescribed medication and follow-up for pediatric check-up."
+    },
+    {
+        "diagnosis_id": 107,
+        "patient_id": 36,
+        "doctor_id": 12,
+        "diagnosis_date": "18/08/2024",
+        "condition": [
+            {
+                "code": "G5791",
+                "name": "Unspecified mononeuropathy of right lower limb",
+                "description": "A medical condition known as unspecified mononeuropathy of right lower limb."
+            },
+            {
+                "code": "Q6530",
+                "name": "Congenital partial dislocation of unspecified hip, unilateral",
+                "description": "A medical condition known as congenital partial dislocation of unspecified hip, unilateral."
+            },
+            {
+                "code": "C9241",
+                "name": "Acute promyelocytic leukemia, in remission",
+                "description": "A medical condition known as acute promyelocytic leukemia, in remission."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to diabetes check-up. | Examination: Doctor performed examination and tests related to diabetes check-up. | Conclusion: Prescribed medication and follow-up for diabetes check-up."
+    },
+    {
+        "diagnosis_id": 108,
+        "patient_id": 13,
+        "doctor_id": 13,
+        "diagnosis_date": "24/08/2024",
+        "condition": [
+            {
+                "code": "P9162",
+                "name": "Moderate hypoxic ischemic encephalopathy [HIE]",
+                "description": "A medical condition known as moderate hypoxic ischemic encephalopathy [hie]."
+            },
+            {
+                "code": "E871",
+                "name": "Hypo-osmolality and hyponatremia",
+                "description": "A medical condition known as hypo-osmolality and hyponatremia."
+            },
+            {
+                "code": "F451",
+                "name": "Undifferentiated somatoform disorder",
+                "description": "A medical condition known as undifferentiated somatoform disorder."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to flu. | Examination: Doctor performed examination and tests related to flu. | Conclusion: Prescribed medication and follow-up for flu."
+    },
+    {
+        "diagnosis_id": 109,
+        "patient_id": 37,
+        "doctor_id": 11,
+        "diagnosis_date": "24/08/2024",
+        "condition": [
+            {
+                "code": "E0540",
+                "name": "Thyrotoxicosis factitia without thyrotoxic crisis or storm",
+                "description": "A medical condition known as thyrotoxicosis factitia without thyrotoxic crisis or storm."
+            },
+            {
+                "code": "D1612",
+                "name": "Benign neoplasm of short bones of left upper limb",
+                "description": "A medical condition known as benign neoplasm of short bones of left upper limb."
+            },
+            {
+                "code": "C248",
+                "name": "Malignant neoplasm of overlapping sites of biliary tract",
+                "description": "A medical condition known as malignant neoplasm of overlapping sites of biliary tract."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to respiratory infection treatment. | Examination: Doctor performed examination and tests related to respiratory infection treatment. | Conclusion: Prescribed medication and follow-up for respiratory infection treatment."
+    },
+    {
+        "diagnosis_id": 110,
+        "patient_id": 33,
+        "doctor_id": 15,
+        "diagnosis_date": "13/08/2024",
+        "condition": [
+            {
+                "code": "G733",
+                "name": "Myasthenic syndromes in other diseases classified elsewhere",
+                "description": "A medical condition known as myasthenic syndromes in other diseases classified elsewhere."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to orthopedic examination. | Examination: Doctor performed examination and tests related to orthopedic examination. | Conclusion: Prescribed medication and follow-up for orthopedic examination."
+    },
+    {
+        "diagnosis_id": 111,
+        "patient_id": 48,
+        "doctor_id": 14,
+        "diagnosis_date": "21/08/2024",
+        "condition": [
+            {
+                "code": "R7982",
+                "name": "Elevated C-reactive protein (CRP)",
+                "description": "A medical condition known as elevated c-reactive protein (crp)."
+            },
+            {
+                "code": "F69",
+                "name": "Unspecified disorder of adult personality and behavior",
+                "description": "A medical condition known as unspecified disorder of adult personality and behavior."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to orthopedic examination. | Examination: Doctor performed examination and tests related to orthopedic examination. | Conclusion: Prescribed medication and follow-up for orthopedic examination."
+    },
+    {
+        "diagnosis_id": 112,
+        "patient_id": 43,
+        "doctor_id": 15,
+        "diagnosis_date": "06/08/2024",
+        "condition": [
+            {
+                "code": "Q041",
+                "name": "Arhinencephaly",
+                "description": "A medical condition known as arhinencephaly."
+            },
+            {
+                "code": "C4002",
+                "name": "Malignant neoplasm of scapula and long bones of left upper li",
+                "description": "A medical condition known as malignant neoplasm of scapula and long bones of left upper li."
+            },
+            {
+                "code": "A3711",
+                "name": "Whooping cough due to Bordetella parapertussis with pneum",
+                "description": "A medical condition known as whooping cough due to bordetella parapertussis with pneum."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to respiratory infection treatment. | Examination: Doctor performed examination and tests related to respiratory infection treatment. | Conclusion: Prescribed medication and follow-up for respiratory infection treatment."
+    },
+    {
+        "diagnosis_id": 113,
+        "patient_id": 38,
+        "doctor_id": 13,
+        "diagnosis_date": "10/08/2024",
+        "condition": [
+            {
+                "code": "Q272",
+                "name": "Other congenital malformations of renal artery",
+                "description": "A medical condition known as other congenital malformations of renal artery."
+            },
+            {
+                "code": "B838",
+                "name": "Other specified helminthiases",
+                "description": "A medical condition known as other specified helminthiases."
+            },
+            {
+                "code": "C8313",
+                "name": "Mantle cell lymphoma, intra-abdominal lymph nodes",
+                "description": "A medical condition known as mantle cell lymphoma, intra-abdominal lymph nodes."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to dermatology consultation. | Examination: Doctor performed examination and tests related to dermatology consultation. | Conclusion: Prescribed medication and follow-up for dermatology consultation."
+    },
+    {
+        "diagnosis_id": 114,
+        "patient_id": 44,
+        "doctor_id": 20,
+        "diagnosis_date": "09/08/2024",
+        "condition": [
+            {
+                "code": "Q301",
+                "name": "Agenesis and underdevelopment of nose",
+                "description": "A medical condition known as agenesis and underdevelopment of nose."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to respiratory infection treatment. | Examination: Doctor performed examination and tests related to respiratory infection treatment. | Conclusion: Prescribed medication and follow-up for respiratory infection treatment."
+    },
+    {
+        "diagnosis_id": 115,
+        "patient_id": 49,
+        "doctor_id": 18,
+        "diagnosis_date": "03/08/2024",
+        "condition": [
+            {
+                "code": "Q2543",
+                "name": "Congenital aneurysm of aorta",
+                "description": "A medical condition known as congenital aneurysm of aorta."
+            },
+            {
+                "code": "P923",
+                "name": "Underfeeding of newborn",
+                "description": "A medical condition known as underfeeding of newborn."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to annual physical exam. | Examination: Doctor performed examination and tests related to annual physical exam. | Conclusion: Prescribed medication and follow-up for annual physical exam."
+    },
+    {
+        "diagnosis_id": 116,
+        "patient_id": 48,
+        "doctor_id": 13,
+        "diagnosis_date": "15/08/2024",
+        "condition": [
+            {
+                "code": "C860",
+                "name": "Extranodal NK/T-cell lymphoma, nasal type",
+                "description": "A medical condition known as extranodal nk/t-cell lymphoma, nasal type."
+            },
+            {
+                "code": "B0052",
+                "name": "Herpesviral keratitis",
+                "description": "A medical condition known as herpesviral keratitis."
+            },
+            {
+                "code": "Q348",
+                "name": "Other specified congenital malformations of respiratory syste",
+                "description": "A medical condition known as other specified congenital malformations of respiratory syste."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to diabetes check-up. | Examination: Doctor performed examination and tests related to diabetes check-up. | Conclusion: Prescribed medication and follow-up for diabetes check-up."
+    },
+    {
+        "diagnosis_id": 117,
+        "patient_id": 38,
+        "doctor_id": 15,
+        "diagnosis_date": "01/08/2024",
+        "condition": [
+            {
+                "code": "A228",
+                "name": "Other forms of anthrax",
+                "description": "A medical condition known as other forms of anthrax."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to cardiac evaluation. | Examination: Doctor performed examination and tests related to cardiac evaluation. | Conclusion: Prescribed medication and follow-up for cardiac evaluation."
+    },
+    {
+        "diagnosis_id": 118,
+        "patient_id": 39,
+        "doctor_id": 20,
+        "diagnosis_date": "10/08/2024",
+        "condition": [
+            {
+                "code": "Q105",
+                "name": "Congenital stenosis and stricture of lacrimal duct",
+                "description": "A medical condition known as congenital stenosis and stricture of lacrimal duct."
+            },
+            {
+                "code": "C8239",
+                "name": "Follicular lymphoma grade IIIa, extranodal and solid organ sit",
+                "description": "A medical condition known as follicular lymphoma grade iiia, extranodal and solid organ sit."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to dermatology consultation. | Examination: Doctor performed examination and tests related to dermatology consultation. | Conclusion: Prescribed medication and follow-up for dermatology consultation."
+    },
+    {
+        "diagnosis_id": 119,
+        "patient_id": 1,
+        "doctor_id": 18,
+        "diagnosis_date": "06/08/2024",
+        "condition": [
+            {
+                "code": "R159",
+                "name": "Full incontinence of feces",
+                "description": "A medical condition known as full incontinence of feces."
+            },
+            {
+                "code": "F908",
+                "name": "Attention-deficit hyperactivity disorder, other type",
+                "description": "A medical condition known as attention-deficit hyperactivity disorder, other type."
+            },
+            {
+                "code": "G459",
+                "name": "Transient cerebral ischemic attack, unspecified",
+                "description": "A medical condition known as transient cerebral ischemic attack, unspecified."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to respiratory infection treatment. | Examination: Doctor performed examination and tests related to respiratory infection treatment. | Conclusion: Prescribed medication and follow-up for respiratory infection treatment."
+    },
+    {
+        "diagnosis_id": 120,
+        "patient_id": 28,
+        "doctor_id": 12,
+        "diagnosis_date": "14/08/2024",
+        "condition": [
+            {
+                "code": "Q330",
+                "name": "Congenital cystic lung",
+                "description": "A medical condition known as congenital cystic lung."
+            },
+            {
+                "code": "E539",
+                "name": "Vitamin B deficiency, unspecified",
+                "description": "A medical condition known as vitamin b deficiency, unspecified."
+            },
+            {
+                "code": "Q261",
+                "name": "Persistent left superior vena cava",
+                "description": "A medical condition known as persistent left superior vena cava."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to hypertension follow-up. | Examination: Doctor performed examination and tests related to hypertension follow-up. | Conclusion: Prescribed medication and follow-up for hypertension follow-up."
+    },
+    {
+        "diagnosis_id": 121,
+        "patient_id": 18,
+        "doctor_id": 11,
+        "diagnosis_date": "25/08/2024",
+        "condition": [
+            {
+                "code": "P0715",
+                "name": "Other low birth weight newborn, 1250-1499 grams",
+                "description": "A medical condition known as other low birth weight newborn, 1250-1499 grams."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to flu. | Examination: Doctor performed examination and tests related to flu. | Conclusion: Prescribed medication and follow-up for flu."
+    },
+    {
+        "diagnosis_id": 122,
+        "patient_id": 9,
+        "doctor_id": 11,
+        "diagnosis_date": "09/08/2024",
+        "condition": [
+            {
+                "code": "D3132",
+                "name": "Benign neoplasm of left choroid",
+                "description": "A medical condition known as benign neoplasm of left choroid."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to orthopedic examination. | Examination: Doctor performed examination and tests related to orthopedic examination. | Conclusion: Prescribed medication and follow-up for orthopedic examination."
+    },
+    {
+        "diagnosis_id": 123,
+        "patient_id": 2,
+        "doctor_id": 12,
+        "diagnosis_date": "23/08/2024",
+        "condition": [
+            {
+                "code": "D171",
+                "name": "Benign lipomatous neoplasm of skin and subcutaneous tissue",
+                "description": "A medical condition known as benign lipomatous neoplasm of skin and subcutaneous tissue."
+            },
+            {
+                "code": "P9163",
+                "name": "Severe hypoxic ischemic encephalopathy [HIE]",
+                "description": "A medical condition known as severe hypoxic ischemic encephalopathy [hie]."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to respiratory infection treatment. | Examination: Doctor performed examination and tests related to respiratory infection treatment. | Conclusion: Prescribed medication and follow-up for respiratory infection treatment."
+    },
+    {
+        "diagnosis_id": 124,
+        "patient_id": 47,
+        "doctor_id": 11,
+        "diagnosis_date": "14/08/2024",
+        "condition": [
+            {
+                "code": "C8228",
+                "name": "Follicular lymphoma grade III, unspecified, lymph nodes of m",
+                "description": "A medical condition known as follicular lymphoma grade iii, unspecified, lymph nodes of m."
+            },
+            {
+                "code": "Q7002",
+                "name": "Fused fingers, left hand",
+                "description": "A medical condition known as fused fingers, left hand."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to respiratory infection treatment. | Examination: Doctor performed examination and tests related to respiratory infection treatment. | Conclusion: Prescribed medication and follow-up for respiratory infection treatment."
+    },
+    {
+        "diagnosis_id": 125,
+        "patient_id": 19,
+        "doctor_id": 11,
+        "diagnosis_date": "08/08/2024",
+        "condition": [
+            {
+                "code": "P258",
+                "name": "Other conditions related to interstitial emphysema originating",
+                "description": "A medical condition known as other conditions related to interstitial emphysema originating."
+            },
+            {
+                "code": "Q544",
+                "name": "Congenital chordee",
+                "description": "A medical condition known as congenital chordee."
+            },
+            {
+                "code": "C8416",
+                "name": "Sezary disease, intrapelvic lymph nodes",
+                "description": "A medical condition known as sezary disease, intrapelvic lymph nodes."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to respiratory infection treatment. | Examination: Doctor performed examination and tests related to respiratory infection treatment. | Conclusion: Prescribed medication and follow-up for respiratory infection treatment."
+    },
+    {
+        "diagnosis_id": 126,
+        "patient_id": 42,
+        "doctor_id": 14,
+        "diagnosis_date": "07/08/2024",
+        "condition": [
+            {
+                "code": "Q514",
+                "name": "Unicornate uterus",
+                "description": "A medical condition known as unicornate uterus."
+            },
+            {
+                "code": "G8331",
+                "name": "Monoplegia, unspecified affecting right dominant side",
+                "description": "A medical condition known as monoplegia, unspecified affecting right dominant side."
+            },
+            {
+                "code": "P043",
+                "name": "Newborn affected by maternal use of alcohol",
+                "description": "A medical condition known as newborn affected by maternal use of alcohol."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to hypertension follow-up. | Examination: Doctor performed examination and tests related to hypertension follow-up. | Conclusion: Prescribed medication and follow-up for hypertension follow-up."
+    },
+    {
+        "diagnosis_id": 127,
+        "patient_id": 31,
+        "doctor_id": 13,
+        "diagnosis_date": "22/08/2024",
+        "condition": [
+            {
+                "code": "E7402",
+                "name": "Pompe disease",
+                "description": "A medical condition known as pompe disease."
+            },
+            {
+                "code": "B882",
+                "name": "Other arthropod infestations",
+                "description": "A medical condition known as other arthropod infestations."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to respiratory infection treatment. | Examination: Doctor performed examination and tests related to respiratory infection treatment. | Conclusion: Prescribed medication and follow-up for respiratory infection treatment."
+    },
+    {
+        "diagnosis_id": 128,
+        "patient_id": 50,
+        "doctor_id": 12,
+        "diagnosis_date": "25/08/2024",
+        "condition": [
+            {
+                "code": "R202",
+                "name": "Paresthesia of skin",
+                "description": "A medical condition known as paresthesia of skin."
+            },
+            {
+                "code": "A679",
+                "name": "Pinta, unspecified",
+                "description": "A medical condition known as pinta, unspecified."
+            },
+            {
+                "code": "Q331",
+                "name": "Accessory lobe of lung",
+                "description": "A medical condition known as accessory lobe of lung."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to annual physical exam. | Examination: Doctor performed examination and tests related to annual physical exam. | Conclusion: Prescribed medication and follow-up for annual physical exam."
+    },
+    {
+        "diagnosis_id": 129,
+        "patient_id": 42,
+        "doctor_id": 16,
+        "diagnosis_date": "04/08/2024",
+        "condition": [
+            {
+                "code": "Q667",
+                "name": "Congenital pes cavus",
+                "description": "A medical condition known as congenital pes cavus."
+            },
+            {
+                "code": "P773",
+                "name": "Stage 3 necrotizing enterocolitis in newborn",
+                "description": "A medical condition known as stage 3 necrotizing enterocolitis in newborn."
+            },
+            {
+                "code": "Q200",
+                "name": "Common arterial trunk",
+                "description": "A medical condition known as common arterial trunk."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to respiratory infection treatment. | Examination: Doctor performed examination and tests related to respiratory infection treatment. | Conclusion: Prescribed medication and follow-up for respiratory infection treatment."
+    },
+    {
+        "diagnosis_id": 130,
+        "patient_id": 49,
+        "doctor_id": 17,
+        "diagnosis_date": "24/08/2024",
+        "condition": [
+            {
+                "code": "P133",
+                "name": "Birth injury to other long bones",
+                "description": "A medical condition known as birth injury to other long bones."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to orthopedic examination. | Examination: Doctor performed examination and tests related to orthopedic examination. | Conclusion: Prescribed medication and follow-up for orthopedic examination."
+    },
+    {
+        "diagnosis_id": 131,
+        "patient_id": 19,
+        "doctor_id": 19,
+        "diagnosis_date": "02/08/2024",
+        "condition": [
+            {
+                "code": "C8391",
+                "name": "Non-follicular (diffuse) lymphoma, unspecified, lymph nodes",
+                "description": "A medical condition known as non-follicular (diffuse) lymphoma, unspecified, lymph nodes."
+            },
+            {
+                "code": "R2230",
+                "name": "Localized swelling, mass and lump, unspecified upper limb",
+                "description": "A medical condition known as localized swelling, mass and lump, unspecified upper limb."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to respiratory infection treatment. | Examination: Doctor performed examination and tests related to respiratory infection treatment. | Conclusion: Prescribed medication and follow-up for respiratory infection treatment."
+    },
+    {
+        "diagnosis_id": 132,
+        "patient_id": 33,
+        "doctor_id": 14,
+        "diagnosis_date": "12/08/2024",
+        "condition": [
+            {
+                "code": "A5057",
+                "name": "Syphilitic saddle nose",
+                "description": "A medical condition known as syphilitic saddle nose."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to annual physical exam. | Examination: Doctor performed examination and tests related to annual physical exam. | Conclusion: Prescribed medication and follow-up for annual physical exam."
+    },
+    {
+        "diagnosis_id": 133,
+        "patient_id": 32,
+        "doctor_id": 13,
+        "diagnosis_date": "08/08/2024",
+        "condition": [
+            {
+                "code": "G0432",
+                "name": "Postimmunization acute necrotizing hemorrhagic encephalop",
+                "description": "A medical condition known as postimmunization acute necrotizing hemorrhagic encephalop."
+            },
+            {
+                "code": "Q043",
+                "name": "Other reduction deformities of brain",
+                "description": "A medical condition known as other reduction deformities of brain."
+            },
+            {
+                "code": "D171",
+                "name": "Benign lipomatous neoplasm of skin and subcutaneous tissue",
+                "description": "A medical condition known as benign lipomatous neoplasm of skin and subcutaneous tissue."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to allergy consultation. | Examination: Doctor performed examination and tests related to allergy consultation. | Conclusion: Prescribed medication and follow-up for allergy consultation."
+    },
+    {
+        "diagnosis_id": 134,
+        "patient_id": 8,
+        "doctor_id": 11,
+        "diagnosis_date": "12/08/2024",
+        "condition": [
+            {
+                "code": "A34",
+                "name": "Obstetrical tetanus",
+                "description": "A medical condition known as obstetrical tetanus."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to allergy consultation. | Examination: Doctor performed examination and tests related to allergy consultation. | Conclusion: Prescribed medication and follow-up for allergy consultation."
+    },
+    {
+        "diagnosis_id": 135,
+        "patient_id": 8,
+        "doctor_id": 17,
+        "diagnosis_date": "06/08/2024",
+        "condition": [
+            {
+                "code": "C4370",
+                "name": "Malignant melanoma of unspecified lower limb, including hip",
+                "description": "A medical condition known as malignant melanoma of unspecified lower limb, including hip."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to allergy consultation. | Examination: Doctor performed examination and tests related to allergy consultation. | Conclusion: Prescribed medication and follow-up for allergy consultation."
+    },
+    {
+        "diagnosis_id": 136,
+        "patient_id": 36,
+        "doctor_id": 15,
+        "diagnosis_date": "14/08/2024",
+        "condition": [
+            {
+                "code": "A1851",
+                "name": "Tuberculous episcleritis",
+                "description": "A medical condition known as tuberculous episcleritis."
+            },
+            {
+                "code": "Q180",
+                "name": "Sinus, fistula and cyst of branchial cleft",
+                "description": "A medical condition known as sinus, fistula and cyst of branchial cleft."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to hypertension follow-up. | Examination: Doctor performed examination and tests related to hypertension follow-up. | Conclusion: Prescribed medication and follow-up for hypertension follow-up."
+    },
+    {
+        "diagnosis_id": 137,
+        "patient_id": 21,
+        "doctor_id": 12,
+        "diagnosis_date": "09/08/2024",
+        "condition": [
+            {
+                "code": "D399",
+                "name": "Neoplasm of uncertain behavior of female genital organ, unsp",
+                "description": "A medical condition known as neoplasm of uncertain behavior of female genital organ, unsp."
+            },
+            {
+                "code": "B380",
+                "name": "Acute pulmonary coccidioidomycosis",
+                "description": "A medical condition known as acute pulmonary coccidioidomycosis."
+            },
+            {
+                "code": "A8039",
+                "name": "Other acute paralytic poliomyelitis",
+                "description": "A medical condition known as other acute paralytic poliomyelitis."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to orthopedic examination. | Examination: Doctor performed examination and tests related to orthopedic examination. | Conclusion: Prescribed medication and follow-up for orthopedic examination."
+    },
+    {
+        "diagnosis_id": 138,
+        "patient_id": 5,
+        "doctor_id": 17,
+        "diagnosis_date": "09/08/2024",
+        "condition": [
+            {
+                "code": "Q777",
+                "name": "Spondyloepiphyseal dysplasia",
+                "description": "A medical condition known as spondyloepiphyseal dysplasia."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to cardiac evaluation. | Examination: Doctor performed examination and tests related to cardiac evaluation. | Conclusion: Prescribed medication and follow-up for cardiac evaluation."
+    },
+    {
+        "diagnosis_id": 139,
+        "patient_id": 24,
+        "doctor_id": 14,
+        "diagnosis_date": "12/08/2024",
+        "condition": [
+            {
+                "code": "C7951",
+                "name": "Secondary malignant neoplasm of bone",
+                "description": "A medical condition known as secondary malignant neoplasm of bone."
+            },
+            {
+                "code": "C9301",
+                "name": "Acute monoblastic/monocytic leukemia, in remission",
+                "description": "A medical condition known as acute monoblastic/monocytic leukemia, in remission."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to flu. | Examination: Doctor performed examination and tests related to flu. | Conclusion: Prescribed medication and follow-up for flu."
+    },
+    {
+        "diagnosis_id": 140,
+        "patient_id": 13,
+        "doctor_id": 11,
+        "diagnosis_date": "15/08/2024",
+        "condition": [
+            {
+                "code": "G7001",
+                "name": "Myasthenia gravis with (acute) exacerbation",
+                "description": "A medical condition known as myasthenia gravis with (acute) exacerbation."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to pediatric check-up. | Examination: Doctor performed examination and tests related to pediatric check-up. | Conclusion: Prescribed medication and follow-up for pediatric check-up."
+    },
+    {
+        "diagnosis_id": 141,
+        "patient_id": 13,
+        "doctor_id": 20,
+        "diagnosis_date": "21/08/2024",
+        "condition": [
+            {
+                "code": "Q7012",
+                "name": "Webbed fingers, left hand",
+                "description": "A medical condition known as webbed fingers, left hand."
+            },
+            {
+                "code": "F5109",
+                "name": "Other insomnia not due to a substance or known physiologica",
+                "description": "A medical condition known as other insomnia not due to a substance or known physiologica."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to pediatric check-up. | Examination: Doctor performed examination and tests related to pediatric check-up. | Conclusion: Prescribed medication and follow-up for pediatric check-up."
+    },
+    {
+        "diagnosis_id": 142,
+        "patient_id": 19,
+        "doctor_id": 17,
+        "diagnosis_date": "18/08/2024",
+        "condition": [
+            {
+                "code": "D179",
+                "name": "Benign lipomatous neoplasm, unspecified",
+                "description": "A medical condition known as benign lipomatous neoplasm, unspecified."
+            },
+            {
+                "code": "P0510",
+                "name": "Newborn small for gestational age, unspecified weight",
+                "description": "A medical condition known as newborn small for gestational age, unspecified weight."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to cardiac evaluation. | Examination: Doctor performed examination and tests related to cardiac evaluation. | Conclusion: Prescribed medication and follow-up for cardiac evaluation."
+    },
+    {
+        "diagnosis_id": 143,
+        "patient_id": 39,
+        "doctor_id": 16,
+        "diagnosis_date": "14/08/2024",
+        "condition": [
+            {
+                "code": "C8588",
+                "name": "Other specified types of non-Hodgkin lymphoma, lymph node",
+                "description": "A medical condition known as other specified types of non-hodgkin lymphoma, lymph node."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to pediatric check-up. | Examination: Doctor performed examination and tests related to pediatric check-up. | Conclusion: Prescribed medication and follow-up for pediatric check-up."
+    },
+    {
+        "diagnosis_id": 144,
+        "patient_id": 18,
+        "doctor_id": 15,
+        "diagnosis_date": "06/08/2024",
+        "condition": [
+            {
+                "code": "G5702",
+                "name": "Lesion of sciatic nerve, left lower limb",
+                "description": "A medical condition known as lesion of sciatic nerve, left lower limb."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to dermatology consultation. | Examination: Doctor performed examination and tests related to dermatology consultation. | Conclusion: Prescribed medication and follow-up for dermatology consultation."
+    },
+    {
+        "diagnosis_id": 145,
+        "patient_id": 43,
+        "doctor_id": 11,
+        "diagnosis_date": "02/08/2024",
+        "condition": [
+            {
+                "code": "C8306",
+                "name": "Small cell B-cell lymphoma, intrapelvic lymph nodes",
+                "description": "A medical condition known as small cell b-cell lymphoma, intrapelvic lymph nodes."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to pediatric check-up. | Examination: Doctor performed examination and tests related to pediatric check-up. | Conclusion: Prescribed medication and follow-up for pediatric check-up."
+    },
+    {
+        "diagnosis_id": 146,
+        "patient_id": 24,
+        "doctor_id": 19,
+        "diagnosis_date": "09/08/2024",
+        "condition": [
+            {
+                "code": "Q704",
+                "name": "Polysyndactyly, unspecified",
+                "description": "A medical condition known as polysyndactyly, unspecified."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to annual physical exam. | Examination: Doctor performed examination and tests related to annual physical exam. | Conclusion: Prescribed medication and follow-up for annual physical exam."
+    },
+    {
+        "diagnosis_id": 147,
+        "patient_id": 1,
+        "doctor_id": 12,
+        "diagnosis_date": "15/08/2024",
+        "condition": [
+            {
+                "code": "A329",
+                "name": "Listeriosis, unspecified",
+                "description": "A medical condition known as listeriosis, unspecified."
+            },
+            {
+                "code": "C8233",
+                "name": "Follicular lymphoma grade IIIa, intra-abdominal lymph nodes",
+                "description": "A medical condition known as follicular lymphoma grade iiia, intra-abdominal lymph nodes."
+            },
+            {
+                "code": "F3162",
+                "name": "Bipolar disorder, current episode mixed, moderate",
+                "description": "A medical condition known as bipolar disorder, current episode mixed, moderate."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to dermatology consultation. | Examination: Doctor performed examination and tests related to dermatology consultation. | Conclusion: Prescribed medication and follow-up for dermatology consultation."
+    },
+    {
+        "diagnosis_id": 148,
+        "patient_id": 4,
+        "doctor_id": 19,
+        "diagnosis_date": "20/08/2024",
+        "condition": [
+            {
+                "code": "C480",
+                "name": "Malignant neoplasm of retroperitoneum",
+                "description": "A medical condition known as malignant neoplasm of retroperitoneum."
+            },
+            {
+                "code": "Q513",
+                "name": "Bicornate uterus",
+                "description": "A medical condition known as bicornate uterus."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to orthopedic examination. | Examination: Doctor performed examination and tests related to orthopedic examination. | Conclusion: Prescribed medication and follow-up for orthopedic examination."
+    },
+    {
+        "diagnosis_id": 149,
+        "patient_id": 34,
+        "doctor_id": 18,
+        "diagnosis_date": "14/08/2024",
+        "condition": [
+            {
+                "code": "B2712",
+                "name": "Cytomegaloviral mononucleosis with meningitis",
+                "description": "A medical condition known as cytomegaloviral mononucleosis with meningitis."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to dermatology consultation. | Examination: Doctor performed examination and tests related to dermatology consultation. | Conclusion: Prescribed medication and follow-up for dermatology consultation."
+    },
+    {
+        "diagnosis_id": 150,
+        "patient_id": 32,
+        "doctor_id": 18,
+        "diagnosis_date": "24/08/2024",
+        "condition": [
+            {
+                "code": "C254",
+                "name": "Malignant neoplasm of endocrine pancreas",
+                "description": "A medical condition known as malignant neoplasm of endocrine pancreas."
+            },
+            {
+                "code": "G8313",
+                "name": "Monoplegia of lower limb affecting right nondominant side",
+                "description": "A medical condition known as monoplegia of lower limb affecting right nondominant side."
+            }
+        ],
+        "doctor_note": "Symptoms: Patient described symptoms related to respiratory infection treatment. | Examination: Doctor performed examination and tests related to respiratory infection treatment. | Conclusion: Prescribed medication and follow-up for respiratory infection treatment."
+    }
+]

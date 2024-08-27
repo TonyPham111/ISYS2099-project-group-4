@@ -9,10 +9,14 @@ import filterEventArray, {
   detectAppointmentNotCover,
 } from "@/utils/eventFunction";
 import { ScheduleContext } from "@/contexts/scheduleContext";
+import useSWR from "swr";
+import fetcher from "@/utils/fetcher";
 export default function StaffSchedule() {
   const { id } = useParams();
-  const staffAppointmentsData = staffService.getStaffAppointments(id);
-  const staffScheduleData = staffService.getStaffSchedule(id);
+  const { error, isLoading, data } = useSWR(
+    `http://localhost:8000/staffs/${id}/schedule`,
+    fetcher
+  );
   const {
     events,
     setEvents,
@@ -22,28 +26,24 @@ export default function StaffSchedule() {
     setFilterBackgroundEvents,
   } = useContext(ScheduleContext);
 
-  const isSettingEvent = useRef(false);
-  const isSettingBackgroundEvent = useRef(false);
+  const isSettingData = useRef(false);
 
   //load data when it already get data from api
   useEffect(() => {
-    if (staffAppointmentsData && isSettingEvent.current == false) {
-      setEvents(staffAppointmentsData);
-      isSettingEvent.current = true;
-    }
-    if (staffScheduleData && isSettingBackgroundEvent.current == false) {
-      const data = staffScheduleData.map((item) => {
+    if (data && isSettingData.current == false) {
+      setEvents(data.staff_appointment);
+      const staffScheduleData = data.staff_schedule.map((item) => {
         return {
           title: "working time",
           start: convertStringFormatToDate(item.date, item.start_time),
           end: convertStringFormatToDate(item.date, item.end_time),
         };
       });
-      setBackgroundEvents(data);
-      setFilterBackgroundEvents(data);
-      isSettingBackgroundEvent.current = true;
+      setBackgroundEvents(staffScheduleData);
+      setFilterBackgroundEvents(staffScheduleData);
+      isSettingData.current = true;
     }
-  }, [staffAppointmentsData]);
+  }, [data]);
 
   //set filter background event when add background events array change or delete background events array change
 
@@ -78,29 +78,34 @@ export default function StaffSchedule() {
     }
   }
   function handleDiscardChange() {
-    if (staffAppointmentsData && staffScheduleData) {
-      setEvents(staffAppointmentsData);
+    if (data) {
+      setEvents(data.staff_appointment);
     }
-    const data = staffScheduleData.map((item) => {
+    const staffScheduleData= data.staff_schedule.map((item) => {
       return {
         title: "working time",
         start: convertStringFormatToDate(item.date, item.start_time),
         end: convertStringFormatToDate(item.date, item.end_time),
       };
     });
-    setBackgroundEvents(data);
+    setBackgroundEvents(staffScheduleData);
   }
-
-  return (
-    <div className="w-full h-full flex flex-col gap-[10px]">
-      {/*----when click appointment, it need to popup to show detail, show we need this context provider----*/}
-      <PopupContextProvider>
-        <Schedule auditable={true} />
-      </PopupContextProvider>
-      <DiscardAndSaveButton
-        handleDiscardChange={handleDiscardChange}
-        handleSaveInformation={handleSaveInformation}
-      />
-    </div>
-  );
+  if (error) {
+    return <div>error when loading data</div>;
+  } else if (isLoading) {
+    return <div>isLoading</div>;
+  } else if (data) {
+    return (
+      <div className="w-full h-full flex flex-col gap-[10px]">
+        {/*----when click appointment, it need to popup to show detail, show we need this context provider----*/}
+        <PopupContextProvider>
+          <Schedule auditable={true} />
+        </PopupContextProvider>
+        <DiscardAndSaveButton
+          handleDiscardChange={handleDiscardChange}
+          handleSaveInformation={handleSaveInformation}
+        />
+      </div>
+    );
+  }
 }

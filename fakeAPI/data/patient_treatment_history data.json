@@ -1,0 +1,3417 @@
+[
+    {
+        "treatment_id": 1,
+        "date": "11/07/2024",
+        "doctor_id": 11,
+        "patient_id": 2,
+        "prescription": [
+            {
+                "drug_code": 89721,
+                "drug_name": "Flontin 400 mg/600 mg Tablet",
+                "quantity": 5,
+                "unit": "syringe",
+                "price_per_unit": 198863.799
+            },
+            {
+                "drug_code": 158278,
+                "drug_name": "Nurocob G 300mg/500mcg Tablet",
+                "quantity": 4,
+                "unit": "syringe",
+                "price_per_unit": 77755.324
+            }
+        ],
+        "doctor_note": "How to use Flontin 400 mg/600 mg Tablet: Take 5 syringe in the morning after breakfast. How to use Nurocob G 300mg/500mcg Tablet: Take 4 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 2,
+        "date": "04/07/2024",
+        "doctor_id": 20,
+        "patient_id": 35,
+        "prescription": [
+            {
+                "drug_code": 48148,
+                "drug_name": "Crezone-S Injection",
+                "quantity": 5,
+                "unit": "tablet",
+                "price_per_unit": 76544.855
+            },
+            {
+                "drug_code": 109122,
+                "drug_name": "Icobit P 100 mg/500 mg Tablet",
+                "quantity": 1,
+                "unit": "bottle",
+                "price_per_unit": 34495.18
+            }
+        ],
+        "doctor_note": "How to use Crezone-S Injection: Take 5 tablet in the morning after breakfast. How to use Icobit P 100 mg/500 mg Tablet: Take 1 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 3,
+        "date": "04/07/2024",
+        "doctor_id": 19,
+        "patient_id": 30,
+        "prescription": [
+            {
+                "drug_code": 233902,
+                "drug_name": "Vriace PS 100mg/500mg/15mg Tablet",
+                "quantity": 1,
+                "unit": "bottle",
+                "price_per_unit": 178136.362
+            },
+            {
+                "drug_code": 159206,
+                "drug_name": "Nazovea Oral Drops",
+                "quantity": 1,
+                "unit": "syringe",
+                "price_per_unit": 14041.07
+            },
+            {
+                "drug_code": 143416,
+                "drug_name": "Megagyl Syrup",
+                "quantity": 4,
+                "unit": "syringe",
+                "price_per_unit": 20612.895
+            }
+        ],
+        "doctor_note": "How to use Vriace PS 100mg/500mg/15mg Tablet: Take 1 bottle in the morning after breakfast. How to use Nazovea Oral Drops: Take 1 syringe in the morning after breakfast. How to use Megagyl Syrup: Take 4 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 4,
+        "date": "12/07/2024",
+        "doctor_id": 14,
+        "patient_id": 10,
+        "prescription": [
+            {
+                "drug_code": 87734,
+                "drug_name": "FSYS 150 Tablet",
+                "quantity": 3,
+                "unit": "tablet",
+                "price_per_unit": 6489.55
+            },
+            {
+                "drug_code": 1480,
+                "drug_name": "Atocor 5 Tablet",
+                "quantity": 4,
+                "unit": "tablet",
+                "price_per_unit": 10256.465
+            }
+        ],
+        "doctor_note": "How to use FSYS 150 Tablet: Take 3 tablet in the morning after breakfast. How to use Atocor 5 Tablet: Take 4 tablet in the morning after breakfast."
+    },
+    {
+        "treatment_id": 5,
+        "date": "06/07/2024",
+        "doctor_id": 20,
+        "patient_id": 17,
+        "prescription": [
+            {
+                "drug_code": 138255,
+                "drug_name": "Multilem Syrup",
+                "quantity": 3,
+                "unit": "bottle",
+                "price_per_unit": 59554.85
+            }
+        ],
+        "doctor_note": "How to use Multilem Syrup: Take 3 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 6,
+        "date": "16/07/2024",
+        "doctor_id": 19,
+        "patient_id": 32,
+        "prescription": [
+            {
+                "drug_code": 109565,
+                "drug_name": "Iocin-K Eye Drop",
+                "quantity": 3,
+                "unit": "tablet",
+                "price_per_unit": 130344.836
+            }
+        ],
+        "doctor_note": "How to use Iocin-K Eye Drop: Take 3 tablet in the morning after breakfast."
+    },
+    {
+        "treatment_id": 7,
+        "date": "30/07/2024",
+        "doctor_id": 17,
+        "patient_id": 45,
+        "prescription": [
+            {
+                "drug_code": 159894,
+                "drug_name": "Nify CV 50mg/31.25mg Tablet",
+                "quantity": 4,
+                "unit": "bottle",
+                "price_per_unit": 195957.675
+            },
+            {
+                "drug_code": 241063,
+                "drug_name": "Volevo 250mg Tablet",
+                "quantity": 3,
+                "unit": "bottle",
+                "price_per_unit": 21779.936
+            }
+        ],
+        "doctor_note": "How to use Nify CV 50mg/31.25mg Tablet: Take 4 bottle in the morning after breakfast. How to use Volevo 250mg Tablet: Take 3 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 8,
+        "date": "16/07/2024",
+        "doctor_id": 19,
+        "patient_id": 20,
+        "prescription": [
+            {
+                "drug_code": 173549,
+                "drug_name": "Oriceft S 1000mg/500mg Injection",
+                "quantity": 3,
+                "unit": "bottle",
+                "price_per_unit": 114360.691
+            },
+            {
+                "drug_code": 191483,
+                "drug_name": "Rabsoin 20mg Injection",
+                "quantity": 5,
+                "unit": "bottle",
+                "price_per_unit": 42400.794
+            },
+            {
+                "drug_code": 143911,
+                "drug_name": "Mawel 20 Capsule",
+                "quantity": 5,
+                "unit": "bottle",
+                "price_per_unit": 50746.532
+            }
+        ],
+        "doctor_note": "How to use Oriceft S 1000mg/500mg Injection: Take 3 bottle in the morning after breakfast. How to use Rabsoin 20mg Injection: Take 5 bottle in the morning after breakfast. How to use Mawel 20 Capsule: Take 5 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 9,
+        "date": "17/07/2024",
+        "doctor_id": 15,
+        "patient_id": 1,
+        "prescription": [
+            {
+                "drug_code": 202408,
+                "drug_name": "Spaslent Tablet",
+                "quantity": 2,
+                "unit": "syringe",
+                "price_per_unit": 132932.486
+            },
+            {
+                "drug_code": 60228,
+                "drug_name": "DavaIndia Levosulpiride+Pantoprazole 75mg/40mg Capsule SR",
+                "quantity": 5,
+                "unit": "tablet",
+                "price_per_unit": 155605.829
+            }
+        ],
+        "doctor_note": "How to use Spaslent Tablet: Take 2 syringe in the morning after breakfast. How to use DavaIndia Levosulpiride+Pantoprazole 75mg/40mg Capsule SR: Take 5 tablet in the morning after breakfast."
+    },
+    {
+        "treatment_id": 10,
+        "date": "25/07/2024",
+        "doctor_id": 16,
+        "patient_id": 16,
+        "prescription": [
+            {
+                "drug_code": 152942,
+                "drug_name": "Nerfit P 750mcg/75mg Capsule",
+                "quantity": 2,
+                "unit": "bottle",
+                "price_per_unit": 159999.719
+            },
+            {
+                "drug_code": 72722,
+                "drug_name": "Ecosprin Gold  Forte 150mg/20mg/75mg Capsule",
+                "quantity": 4,
+                "unit": "syringe",
+                "price_per_unit": 116507.743
+            },
+            {
+                "drug_code": 252517,
+                "drug_name": "Zyrof 3K Injection",
+                "quantity": 4,
+                "unit": "syringe",
+                "price_per_unit": 39482.103
+            }
+        ],
+        "doctor_note": "How to use Nerfit P 750mcg/75mg Capsule: Take 2 bottle in the morning after breakfast. How to use Ecosprin Gold  Forte 150mg/20mg/75mg Capsule: Take 4 syringe in the morning after breakfast. How to use Zyrof 3K Injection: Take 4 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 11,
+        "date": "28/07/2024",
+        "doctor_id": 12,
+        "patient_id": 18,
+        "prescription": [
+            {
+                "drug_code": 162348,
+                "drug_name": "Oflobest OZ 200mg/500mg Tablet",
+                "quantity": 3,
+                "unit": "syringe",
+                "price_per_unit": 194130.474
+            },
+            {
+                "drug_code": 101100,
+                "drug_name": "Glimbell 1mg Tablet",
+                "quantity": 4,
+                "unit": "tablet",
+                "price_per_unit": 28509.9
+            },
+            {
+                "drug_code": 25169,
+                "drug_name": "Acin 500mg Injection",
+                "quantity": 2,
+                "unit": "tablet",
+                "price_per_unit": 31514.619
+            }
+        ],
+        "doctor_note": "How to use Oflobest OZ 200mg/500mg Tablet: Take 3 syringe in the morning after breakfast. How to use Glimbell 1mg Tablet: Take 4 tablet in the morning after breakfast. How to use Acin 500mg Injection: Take 2 tablet in the morning after breakfast."
+    },
+    {
+        "treatment_id": 12,
+        "date": "28/07/2024",
+        "doctor_id": 17,
+        "patient_id": 48,
+        "prescription": [
+            {
+                "drug_code": 124792,
+                "drug_name": "Lotefort 0.5% Eye Drop",
+                "quantity": 3,
+                "unit": "syringe",
+                "price_per_unit": 71633.342
+            },
+            {
+                "drug_code": 151302,
+                "drug_name": "Naaz 0.5mg Tablet",
+                "quantity": 2,
+                "unit": "bottle",
+                "price_per_unit": 155257.325
+            },
+            {
+                "drug_code": 33004,
+                "drug_name": "Bioraz-S Injection",
+                "quantity": 5,
+                "unit": "bottle",
+                "price_per_unit": 28016.553
+            }
+        ],
+        "doctor_note": "How to use Lotefort 0.5% Eye Drop: Take 3 syringe in the morning after breakfast. How to use Naaz 0.5mg Tablet: Take 2 bottle in the morning after breakfast. How to use Bioraz-S Injection: Take 5 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 13,
+        "date": "10/07/2024",
+        "doctor_id": 17,
+        "patient_id": 44,
+        "prescription": [
+            {
+                "drug_code": 93080,
+                "drug_name": "Floact MZS Oral Suspension",
+                "quantity": 2,
+                "unit": "tablet",
+                "price_per_unit": 58066.174
+            }
+        ],
+        "doctor_note": "How to use Floact MZS Oral Suspension: Take 2 tablet in the morning after breakfast."
+    },
+    {
+        "treatment_id": 14,
+        "date": "11/07/2024",
+        "doctor_id": 12,
+        "patient_id": 34,
+        "prescription": [
+            {
+                "drug_code": 207423,
+                "drug_name": "Starpace-XT Tablet",
+                "quantity": 1,
+                "unit": "syringe",
+                "price_per_unit": 62907.187
+            }
+        ],
+        "doctor_note": "How to use Starpace-XT Tablet: Take 1 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 15,
+        "date": "04/07/2024",
+        "doctor_id": 17,
+        "patient_id": 41,
+        "prescription": [
+            {
+                "drug_code": 54780,
+                "drug_name": "Ceffex OZ Tablet",
+                "quantity": 4,
+                "unit": "tablet",
+                "price_per_unit": 75980.753
+            },
+            {
+                "drug_code": 101694,
+                "drug_name": "Glimikem 2mg Tablet",
+                "quantity": 3,
+                "unit": "syringe",
+                "price_per_unit": 157704.531
+            },
+            {
+                "drug_code": 106606,
+                "drug_name": "Hosflam P 100mg/325mg Tablet",
+                "quantity": 4,
+                "unit": "syringe",
+                "price_per_unit": 48892.792
+            }
+        ],
+        "doctor_note": "How to use Ceffex OZ Tablet: Take 4 tablet in the morning after breakfast. How to use Glimikem 2mg Tablet: Take 3 syringe in the morning after breakfast. How to use Hosflam P 100mg/325mg Tablet: Take 4 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 16,
+        "date": "20/07/2024",
+        "doctor_id": 17,
+        "patient_id": 17,
+        "prescription": [
+            {
+                "drug_code": 125265,
+                "drug_name": "Levobrik M 5mg/10mg Tablet",
+                "quantity": 3,
+                "unit": "tablet",
+                "price_per_unit": 152768.0
+            }
+        ],
+        "doctor_note": "How to use Levobrik M 5mg/10mg Tablet: Take 3 tablet in the morning after breakfast."
+    },
+    {
+        "treatment_id": 17,
+        "date": "06/07/2024",
+        "doctor_id": 18,
+        "patient_id": 21,
+        "prescription": [
+            {
+                "drug_code": 58586,
+                "drug_name": "Dextrose 25% Infusion",
+                "quantity": 1,
+                "unit": "syringe",
+                "price_per_unit": 78598.793
+            },
+            {
+                "drug_code": 231667,
+                "drug_name": "Unival Oral Suspension",
+                "quantity": 3,
+                "unit": "syringe",
+                "price_per_unit": 185707.504
+            }
+        ],
+        "doctor_note": "How to use Dextrose 25% Infusion: Take 1 syringe in the morning after breakfast. How to use Unival Oral Suspension: Take 3 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 18,
+        "date": "22/07/2024",
+        "doctor_id": 19,
+        "patient_id": 17,
+        "prescription": [
+            {
+                "drug_code": 54828,
+                "drug_name": "Clovid CV 250mg/125mg Tablet",
+                "quantity": 3,
+                "unit": "syringe",
+                "price_per_unit": 172337.581
+            }
+        ],
+        "doctor_note": "How to use Clovid CV 250mg/125mg Tablet: Take 3 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 19,
+        "date": "08/07/2024",
+        "doctor_id": 16,
+        "patient_id": 19,
+        "prescription": [
+            {
+                "drug_code": 68205,
+                "drug_name": "Dempred 40mg Injection",
+                "quantity": 4,
+                "unit": "syringe",
+                "price_per_unit": 156963.301
+            },
+            {
+                "drug_code": 49006,
+                "drug_name": "Cypta Syrup",
+                "quantity": 3,
+                "unit": "bottle",
+                "price_per_unit": 198311.863
+            },
+            {
+                "drug_code": 126853,
+                "drug_name": "Lzine M Syrup",
+                "quantity": 4,
+                "unit": "bottle",
+                "price_per_unit": 100212.243
+            }
+        ],
+        "doctor_note": "How to use Dempred 40mg Injection: Take 4 syringe in the morning after breakfast. How to use Cypta Syrup: Take 3 bottle in the morning after breakfast. How to use Lzine M Syrup: Take 4 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 20,
+        "date": "08/07/2024",
+        "doctor_id": 19,
+        "patient_id": 30,
+        "prescription": [
+            {
+                "drug_code": 195880,
+                "drug_name": "Rabestorm D 30mg/20mg Capsule SR",
+                "quantity": 4,
+                "unit": "bottle",
+                "price_per_unit": 137743.639
+            },
+            {
+                "drug_code": 33907,
+                "drug_name": "Bitroxime 250mg Tablet",
+                "quantity": 4,
+                "unit": "bottle",
+                "price_per_unit": 178445.396
+            },
+            {
+                "drug_code": 157149,
+                "drug_name": "Nuroson G 300mg/500mcg Tablet",
+                "quantity": 5,
+                "unit": "bottle",
+                "price_per_unit": 64586.385
+            }
+        ],
+        "doctor_note": "How to use Rabestorm D 30mg/20mg Capsule SR: Take 4 bottle in the morning after breakfast. How to use Bitroxime 250mg Tablet: Take 4 bottle in the morning after breakfast. How to use Nuroson G 300mg/500mcg Tablet: Take 5 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 21,
+        "date": "14/07/2024",
+        "doctor_id": 20,
+        "patient_id": 3,
+        "prescription": [
+            {
+                "drug_code": 137081,
+                "drug_name": "Mef 250mg Tablet",
+                "quantity": 4,
+                "unit": "bottle",
+                "price_per_unit": 90370.252
+            },
+            {
+                "drug_code": 161499,
+                "drug_name": "Nervocox 1500 Injection",
+                "quantity": 1,
+                "unit": "syringe",
+                "price_per_unit": 71355.862
+            }
+        ],
+        "doctor_note": "How to use Mef 250mg Tablet: Take 4 bottle in the morning after breakfast. How to use Nervocox 1500 Injection: Take 1 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 22,
+        "date": "06/07/2024",
+        "doctor_id": 11,
+        "patient_id": 46,
+        "prescription": [
+            {
+                "drug_code": 88439,
+                "drug_name": "Flucus 400mg Tablet",
+                "quantity": 4,
+                "unit": "bottle",
+                "price_per_unit": 9690.271
+            }
+        ],
+        "doctor_note": "How to use Flucus 400mg Tablet: Take 4 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 23,
+        "date": "15/07/2024",
+        "doctor_id": 20,
+        "patient_id": 8,
+        "prescription": [
+            {
+                "drug_code": 139484,
+                "drug_name": "Mazocef 200mg Tablet DT",
+                "quantity": 2,
+                "unit": "bottle",
+                "price_per_unit": 100466.825
+            },
+            {
+                "drug_code": 243978,
+                "drug_name": "Xylopan DSR Capsule",
+                "quantity": 3,
+                "unit": "tablet",
+                "price_per_unit": 62786.312
+            }
+        ],
+        "doctor_note": "How to use Mazocef 200mg Tablet DT: Take 2 bottle in the morning after breakfast. How to use Xylopan DSR Capsule: Take 3 tablet in the morning after breakfast."
+    },
+    {
+        "treatment_id": 24,
+        "date": "04/07/2024",
+        "doctor_id": 17,
+        "patient_id": 27,
+        "prescription": [
+            {
+                "drug_code": 131117,
+                "drug_name": "Lantovas 5mg Tablet",
+                "quantity": 5,
+                "unit": "bottle",
+                "price_per_unit": 73329.782
+            },
+            {
+                "drug_code": 179699,
+                "drug_name": "Pasetron Injection",
+                "quantity": 2,
+                "unit": "bottle",
+                "price_per_unit": 141820.251
+            }
+        ],
+        "doctor_note": "How to use Lantovas 5mg Tablet: Take 5 bottle in the morning after breakfast. How to use Pasetron Injection: Take 2 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 25,
+        "date": "15/07/2024",
+        "doctor_id": 18,
+        "patient_id": 41,
+        "prescription": [
+            {
+                "drug_code": 170073,
+                "drug_name": "Osotax 250mg Tablet",
+                "quantity": 2,
+                "unit": "tablet",
+                "price_per_unit": 127600.762
+            }
+        ],
+        "doctor_note": "How to use Osotax 250mg Tablet: Take 2 tablet in the morning after breakfast."
+    },
+    {
+        "treatment_id": 26,
+        "date": "01/07/2024",
+        "doctor_id": 14,
+        "patient_id": 43,
+        "prescription": [
+            {
+                "drug_code": 158925,
+                "drug_name": "N Sera 100mg/15mg Tablet",
+                "quantity": 1,
+                "unit": "bottle",
+                "price_per_unit": 189866.675
+            }
+        ],
+        "doctor_note": "How to use N Sera 100mg/15mg Tablet: Take 1 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 27,
+        "date": "26/07/2024",
+        "doctor_id": 19,
+        "patient_id": 10,
+        "prescription": [
+            {
+                "drug_code": 245831,
+                "drug_name": "Yourxim 500mg Tablet",
+                "quantity": 4,
+                "unit": "bottle",
+                "price_per_unit": 31646.266
+            },
+            {
+                "drug_code": 126400,
+                "drug_name": "Leerox 500mg Tablet",
+                "quantity": 2,
+                "unit": "syringe",
+                "price_per_unit": 126831.959
+            }
+        ],
+        "doctor_note": "How to use Yourxim 500mg Tablet: Take 4 bottle in the morning after breakfast. How to use Leerox 500mg Tablet: Take 2 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 28,
+        "date": "21/07/2024",
+        "doctor_id": 17,
+        "patient_id": 19,
+        "prescription": [
+            {
+                "drug_code": 84837,
+                "drug_name": "Flurbin Eye Drop",
+                "quantity": 1,
+                "unit": "tablet",
+                "price_per_unit": 92521.616
+            },
+            {
+                "drug_code": 202167,
+                "drug_name": "Sparflox 200mg Tablet",
+                "quantity": 4,
+                "unit": "bottle",
+                "price_per_unit": 189402.663
+            },
+            {
+                "drug_code": 176881,
+                "drug_name": "Pantop Plus Capsule",
+                "quantity": 4,
+                "unit": "syringe",
+                "price_per_unit": 65440.032
+            }
+        ],
+        "doctor_note": "How to use Flurbin Eye Drop: Take 1 tablet in the morning after breakfast. How to use Sparflox 200mg Tablet: Take 4 bottle in the morning after breakfast. How to use Pantop Plus Capsule: Take 4 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 29,
+        "date": "04/07/2024",
+        "doctor_id": 15,
+        "patient_id": 29,
+        "prescription": [
+            {
+                "drug_code": 40355,
+                "drug_name": "Cornil Tablet",
+                "quantity": 4,
+                "unit": "syringe",
+                "price_per_unit": 92072.058
+            },
+            {
+                "drug_code": 43310,
+                "drug_name": "Civic Injection",
+                "quantity": 4,
+                "unit": "tablet",
+                "price_per_unit": 191453.768
+            }
+        ],
+        "doctor_note": "How to use Cornil Tablet: Take 4 syringe in the morning after breakfast. How to use Civic Injection: Take 4 tablet in the morning after breakfast."
+    },
+    {
+        "treatment_id": 30,
+        "date": "04/07/2024",
+        "doctor_id": 20,
+        "patient_id": 48,
+        "prescription": [
+            {
+                "drug_code": 140929,
+                "drug_name": "Monomer 5mg/10mg Tablet",
+                "quantity": 5,
+                "unit": "tablet",
+                "price_per_unit": 26743.884
+            },
+            {
+                "drug_code": 119181,
+                "drug_name": "Kiafate O Syrup",
+                "quantity": 1,
+                "unit": "syringe",
+                "price_per_unit": 101461.931
+            },
+            {
+                "drug_code": 184863,
+                "drug_name": "Remetor 10 Tablet",
+                "quantity": 3,
+                "unit": "bottle",
+                "price_per_unit": 116944.29
+            }
+        ],
+        "doctor_note": "How to use Monomer 5mg/10mg Tablet: Take 5 tablet in the morning after breakfast. How to use Kiafate O Syrup: Take 1 syringe in the morning after breakfast. How to use Remetor 10 Tablet: Take 3 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 31,
+        "date": "11/07/2024",
+        "doctor_id": 18,
+        "patient_id": 36,
+        "prescription": [
+            {
+                "drug_code": 89971,
+                "drug_name": "Farab 20 Injection",
+                "quantity": 4,
+                "unit": "syringe",
+                "price_per_unit": 122384.284
+            },
+            {
+                "drug_code": 172235,
+                "drug_name": "Oflogen 400mg Tablet",
+                "quantity": 3,
+                "unit": "syringe",
+                "price_per_unit": 54411.652
+            },
+            {
+                "drug_code": 41727,
+                "drug_name": "Catram 40mg Injection",
+                "quantity": 3,
+                "unit": "tablet",
+                "price_per_unit": 106113.76
+            }
+        ],
+        "doctor_note": "How to use Farab 20 Injection: Take 4 syringe in the morning after breakfast. How to use Oflogen 400mg Tablet: Take 3 syringe in the morning after breakfast. How to use Catram 40mg Injection: Take 3 tablet in the morning after breakfast."
+    },
+    {
+        "treatment_id": 32,
+        "date": "31/07/2024",
+        "doctor_id": 15,
+        "patient_id": 43,
+        "prescription": [
+            {
+                "drug_code": 24643,
+                "drug_name": "Akizone 1000mg Injection",
+                "quantity": 2,
+                "unit": "syringe",
+                "price_per_unit": 198402.487
+            },
+            {
+                "drug_code": 252816,
+                "drug_name": "Zecona Tablet",
+                "quantity": 2,
+                "unit": "bottle",
+                "price_per_unit": 154506.281
+            }
+        ],
+        "doctor_note": "How to use Akizone 1000mg Injection: Take 2 syringe in the morning after breakfast. How to use Zecona Tablet: Take 2 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 33,
+        "date": "24/07/2024",
+        "doctor_id": 20,
+        "patient_id": 34,
+        "prescription": [
+            {
+                "drug_code": 47377,
+                "drug_name": "Cypnic Syrup",
+                "quantity": 1,
+                "unit": "bottle",
+                "price_per_unit": 140814.652
+            },
+            {
+                "drug_code": 78853,
+                "drug_name": "Epitaz 100mg Injection",
+                "quantity": 1,
+                "unit": "bottle",
+                "price_per_unit": 195687.772
+            }
+        ],
+        "doctor_note": "How to use Cypnic Syrup: Take 1 bottle in the morning after breakfast. How to use Epitaz 100mg Injection: Take 1 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 34,
+        "date": "20/07/2024",
+        "doctor_id": 16,
+        "patient_id": 11,
+        "prescription": [
+            {
+                "drug_code": 199311,
+                "drug_name": "Rabistew D 30mg/20mg Capsule SR",
+                "quantity": 4,
+                "unit": "tablet",
+                "price_per_unit": 80658.534
+            }
+        ],
+        "doctor_note": "How to use Rabistew D 30mg/20mg Capsule SR: Take 4 tablet in the morning after breakfast."
+    },
+    {
+        "treatment_id": 35,
+        "date": "25/07/2024",
+        "doctor_id": 16,
+        "patient_id": 28,
+        "prescription": [
+            {
+                "drug_code": 53553,
+                "drug_name": "Cefpoglen 50mg Tablet DT",
+                "quantity": 1,
+                "unit": "tablet",
+                "price_per_unit": 118061.398
+            },
+            {
+                "drug_code": 132101,
+                "drug_name": "Levoroot M 5mg/10mg Tablet",
+                "quantity": 3,
+                "unit": "syringe",
+                "price_per_unit": 183375.377
+            }
+        ],
+        "doctor_note": "How to use Cefpoglen 50mg Tablet DT: Take 1 tablet in the morning after breakfast. How to use Levoroot M 5mg/10mg Tablet: Take 3 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 36,
+        "date": "18/07/2024",
+        "doctor_id": 15,
+        "patient_id": 44,
+        "prescription": [
+            {
+                "drug_code": 184738,
+                "drug_name": "Rosuless-C 10 Capsule",
+                "quantity": 3,
+                "unit": "tablet",
+                "price_per_unit": 35091.488
+            }
+        ],
+        "doctor_note": "How to use Rosuless-C 10 Capsule: Take 3 tablet in the morning after breakfast."
+    },
+    {
+        "treatment_id": 37,
+        "date": "11/07/2024",
+        "doctor_id": 16,
+        "patient_id": 44,
+        "prescription": [
+            {
+                "drug_code": 113759,
+                "drug_name": "Itramk 100mg Capsule",
+                "quantity": 1,
+                "unit": "bottle",
+                "price_per_unit": 101641.515
+            }
+        ],
+        "doctor_note": "How to use Itramk 100mg Capsule: Take 1 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 38,
+        "date": "25/07/2024",
+        "doctor_id": 16,
+        "patient_id": 50,
+        "prescription": [
+            {
+                "drug_code": 3725,
+                "drug_name": "Ara-SP Tablet",
+                "quantity": 1,
+                "unit": "bottle",
+                "price_per_unit": 107813.558
+            },
+            {
+                "drug_code": 99534,
+                "drug_name": "Gapitra 200mg Capsule",
+                "quantity": 1,
+                "unit": "tablet",
+                "price_per_unit": 107335.563
+            }
+        ],
+        "doctor_note": "How to use Ara-SP Tablet: Take 1 bottle in the morning after breakfast. How to use Gapitra 200mg Capsule: Take 1 tablet in the morning after breakfast."
+    },
+    {
+        "treatment_id": 39,
+        "date": "14/07/2024",
+        "doctor_id": 20,
+        "patient_id": 50,
+        "prescription": [
+            {
+                "drug_code": 230783,
+                "drug_name": "Uratin 100mg Tablet SR",
+                "quantity": 2,
+                "unit": "syringe",
+                "price_per_unit": 8394.488
+            },
+            {
+                "drug_code": 37843,
+                "drug_name": "Carryl M 60 Forte Tablet",
+                "quantity": 4,
+                "unit": "tablet",
+                "price_per_unit": 71645.673
+            },
+            {
+                "drug_code": 57513,
+                "drug_name": "Caefroxel 200mg Tablet",
+                "quantity": 2,
+                "unit": "bottle",
+                "price_per_unit": 18013.922
+            }
+        ],
+        "doctor_note": "How to use Uratin 100mg Tablet SR: Take 2 syringe in the morning after breakfast. How to use Carryl M 60 Forte Tablet: Take 4 tablet in the morning after breakfast. How to use Caefroxel 200mg Tablet: Take 2 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 40,
+        "date": "14/07/2024",
+        "doctor_id": 14,
+        "patient_id": 8,
+        "prescription": [
+            {
+                "drug_code": 39638,
+                "drug_name": "Cuflift Plus SF Syrup",
+                "quantity": 4,
+                "unit": "tablet",
+                "price_per_unit": 93805.402
+            },
+            {
+                "drug_code": 253238,
+                "drug_name": "Zema 0.5mg Tablet",
+                "quantity": 1,
+                "unit": "syringe",
+                "price_per_unit": 97793.67
+            }
+        ],
+        "doctor_note": "How to use Cuflift Plus SF Syrup: Take 4 tablet in the morning after breakfast. How to use Zema 0.5mg Tablet: Take 1 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 41,
+        "date": "24/07/2024",
+        "doctor_id": 19,
+        "patient_id": 26,
+        "prescription": [
+            {
+                "drug_code": 242407,
+                "drug_name": "Wagus Forte 30mg/40mg Capsule SR",
+                "quantity": 1,
+                "unit": "bottle",
+                "price_per_unit": 60813.361
+            }
+        ],
+        "doctor_note": "How to use Wagus Forte 30mg/40mg Capsule SR: Take 1 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 42,
+        "date": "07/07/2024",
+        "doctor_id": 15,
+        "patient_id": 23,
+        "prescription": [
+            {
+                "drug_code": 210902,
+                "drug_name": "Suprost Soft Gelatin Capsule",
+                "quantity": 5,
+                "unit": "bottle",
+                "price_per_unit": 64032.373
+            },
+            {
+                "drug_code": 204768,
+                "drug_name": "Superdef 6 Tablet",
+                "quantity": 5,
+                "unit": "syringe",
+                "price_per_unit": 186108.217
+            }
+        ],
+        "doctor_note": "How to use Suprost Soft Gelatin Capsule: Take 5 bottle in the morning after breakfast. How to use Superdef 6 Tablet: Take 5 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 43,
+        "date": "11/07/2024",
+        "doctor_id": 12,
+        "patient_id": 8,
+        "prescription": [
+            {
+                "drug_code": 228035,
+                "drug_name": "Twimax 1000 mg/125 mg Injection",
+                "quantity": 5,
+                "unit": "bottle",
+                "price_per_unit": 141267.85
+            },
+            {
+                "drug_code": 143151,
+                "drug_name": "Methymax 16mg Tablet",
+                "quantity": 4,
+                "unit": "bottle",
+                "price_per_unit": 40610.132
+            }
+        ],
+        "doctor_note": "How to use Twimax 1000 mg/125 mg Injection: Take 5 bottle in the morning after breakfast. How to use Methymax 16mg Tablet: Take 4 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 44,
+        "date": "20/07/2024",
+        "doctor_id": 14,
+        "patient_id": 42,
+        "prescription": [
+            {
+                "drug_code": 175925,
+                "drug_name": "Pro App Syrup",
+                "quantity": 5,
+                "unit": "syringe",
+                "price_per_unit": 63950.309
+            }
+        ],
+        "doctor_note": "How to use Pro App Syrup: Take 5 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 45,
+        "date": "22/07/2024",
+        "doctor_id": 16,
+        "patient_id": 49,
+        "prescription": [
+            {
+                "drug_code": 12881,
+                "drug_name": "Adyl Expectorant",
+                "quantity": 3,
+                "unit": "syringe",
+                "price_per_unit": 38987.284
+            },
+            {
+                "drug_code": 81861,
+                "drug_name": "Eletop D 30mg/40mg Capsule SR",
+                "quantity": 4,
+                "unit": "syringe",
+                "price_per_unit": 12028.746
+            }
+        ],
+        "doctor_note": "How to use Adyl Expectorant: Take 3 syringe in the morning after breakfast. How to use Eletop D 30mg/40mg Capsule SR: Take 4 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 46,
+        "date": "08/07/2024",
+        "doctor_id": 14,
+        "patient_id": 4,
+        "prescription": [
+            {
+                "drug_code": 89176,
+                "drug_name": "Fexime O 200mg Tablet",
+                "quantity": 3,
+                "unit": "syringe",
+                "price_per_unit": 63343.234
+            },
+            {
+                "drug_code": 9891,
+                "drug_name": "Atoritic 10mg Tablet",
+                "quantity": 4,
+                "unit": "syringe",
+                "price_per_unit": 59041.881
+            },
+            {
+                "drug_code": 63295,
+                "drug_name": "DE Court 6mg Tablet",
+                "quantity": 1,
+                "unit": "bottle",
+                "price_per_unit": 28747.697
+            }
+        ],
+        "doctor_note": "How to use Fexime O 200mg Tablet: Take 3 syringe in the morning after breakfast. How to use Atoritic 10mg Tablet: Take 4 syringe in the morning after breakfast. How to use DE Court 6mg Tablet: Take 1 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 47,
+        "date": "16/07/2024",
+        "doctor_id": 12,
+        "patient_id": 20,
+        "prescription": [
+            {
+                "drug_code": 120539,
+                "drug_name": "Koseclav Dry Syrup",
+                "quantity": 3,
+                "unit": "bottle",
+                "price_per_unit": 148941.031
+            },
+            {
+                "drug_code": 68732,
+                "drug_name": "Duozone 0.5gm/0.5gm Injection",
+                "quantity": 5,
+                "unit": "tablet",
+                "price_per_unit": 145080.757
+            },
+            {
+                "drug_code": 163609,
+                "drug_name": "Ovaease M 500mg/600mg Tablet SR",
+                "quantity": 2,
+                "unit": "syringe",
+                "price_per_unit": 88043.277
+            }
+        ],
+        "doctor_note": "How to use Koseclav Dry Syrup: Take 3 bottle in the morning after breakfast. How to use Duozone 0.5gm/0.5gm Injection: Take 5 tablet in the morning after breakfast. How to use Ovaease M 500mg/600mg Tablet SR: Take 2 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 48,
+        "date": "13/07/2024",
+        "doctor_id": 20,
+        "patient_id": 49,
+        "prescription": [
+            {
+                "drug_code": 87884,
+                "drug_name": "Floxo 50mg Syrup",
+                "quantity": 3,
+                "unit": "syringe",
+                "price_per_unit": 71916.383
+            }
+        ],
+        "doctor_note": "How to use Floxo 50mg Syrup: Take 3 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 49,
+        "date": "12/07/2024",
+        "doctor_id": 11,
+        "patient_id": 37,
+        "prescription": [
+            {
+                "drug_code": 117940,
+                "drug_name": "Kofbrox Syrup",
+                "quantity": 5,
+                "unit": "syringe",
+                "price_per_unit": 27025.519
+            },
+            {
+                "drug_code": 129370,
+                "drug_name": "Lulipex 1% Dusting Powder",
+                "quantity": 4,
+                "unit": "syringe",
+                "price_per_unit": 165949.907
+            },
+            {
+                "drug_code": 86596,
+                "drug_name": "Fungal 500mg Tablet",
+                "quantity": 2,
+                "unit": "syringe",
+                "price_per_unit": 109429.772
+            }
+        ],
+        "doctor_note": "How to use Kofbrox Syrup: Take 5 syringe in the morning after breakfast. How to use Lulipex 1% Dusting Powder: Take 4 syringe in the morning after breakfast. How to use Fungal 500mg Tablet: Take 2 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 50,
+        "date": "29/07/2024",
+        "doctor_id": 15,
+        "patient_id": 41,
+        "prescription": [
+            {
+                "drug_code": 10439,
+                "drug_name": "Aborax Tablet",
+                "quantity": 5,
+                "unit": "bottle",
+                "price_per_unit": 132810.538
+            }
+        ],
+        "doctor_note": "How to use Aborax Tablet: Take 5 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 51,
+        "date": "13/07/2024",
+        "doctor_id": 11,
+        "patient_id": 6,
+        "prescription": [
+            {
+                "drug_code": 248346,
+                "drug_name": "Zepil 0.25mg Tablet",
+                "quantity": 2,
+                "unit": "syringe",
+                "price_per_unit": 92779.325
+            }
+        ],
+        "doctor_note": "How to use Zepil 0.25mg Tablet: Take 2 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 52,
+        "date": "08/07/2024",
+        "doctor_id": 13,
+        "patient_id": 29,
+        "prescription": [
+            {
+                "drug_code": 147086,
+                "drug_name": "Methnilon 1000mg Injection",
+                "quantity": 5,
+                "unit": "bottle",
+                "price_per_unit": 24575.68
+            },
+            {
+                "drug_code": 216321,
+                "drug_name": "Theonac SP 100mg/325mg/15mg Tablet",
+                "quantity": 5,
+                "unit": "syringe",
+                "price_per_unit": 120005.163
+            }
+        ],
+        "doctor_note": "How to use Methnilon 1000mg Injection: Take 5 bottle in the morning after breakfast. How to use Theonac SP 100mg/325mg/15mg Tablet: Take 5 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 53,
+        "date": "18/07/2024",
+        "doctor_id": 12,
+        "patient_id": 15,
+        "prescription": [
+            {
+                "drug_code": 227385,
+                "drug_name": "Taurgat 200mg Tablet",
+                "quantity": 5,
+                "unit": "syringe",
+                "price_per_unit": 72136.536
+            },
+            {
+                "drug_code": 228846,
+                "drug_name": "Tramova P 37.5mg/325mg Tablet",
+                "quantity": 5,
+                "unit": "bottle",
+                "price_per_unit": 167365.471
+            },
+            {
+                "drug_code": 70414,
+                "drug_name": "Dacarin 500mg Injection",
+                "quantity": 4,
+                "unit": "syringe",
+                "price_per_unit": 90169.686
+            }
+        ],
+        "doctor_note": "How to use Taurgat 200mg Tablet: Take 5 syringe in the morning after breakfast. How to use Tramova P 37.5mg/325mg Tablet: Take 5 bottle in the morning after breakfast. How to use Dacarin 500mg Injection: Take 4 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 54,
+        "date": "10/07/2024",
+        "doctor_id": 12,
+        "patient_id": 47,
+        "prescription": [
+            {
+                "drug_code": 106661,
+                "drug_name": "HT Norm 25mg Tablet",
+                "quantity": 2,
+                "unit": "tablet",
+                "price_per_unit": 75201.532
+            },
+            {
+                "drug_code": 193955,
+                "drug_name": "Robomac D 30mg/20mg Capsule SR",
+                "quantity": 1,
+                "unit": "tablet",
+                "price_per_unit": 172898.373
+            }
+        ],
+        "doctor_note": "How to use HT Norm 25mg Tablet: Take 2 tablet in the morning after breakfast. How to use Robomac D 30mg/20mg Capsule SR: Take 1 tablet in the morning after breakfast."
+    },
+    {
+        "treatment_id": 55,
+        "date": "21/07/2024",
+        "doctor_id": 15,
+        "patient_id": 19,
+        "prescription": [
+            {
+                "drug_code": 72612,
+                "drug_name": "Etilaam 0.25mg Tablet MD",
+                "quantity": 3,
+                "unit": "syringe",
+                "price_per_unit": 110915.816
+            },
+            {
+                "drug_code": 102530,
+                "drug_name": "Glimbite-M1 Tablet SR",
+                "quantity": 3,
+                "unit": "syringe",
+                "price_per_unit": 37510.111
+            },
+            {
+                "drug_code": 32158,
+                "drug_name": "Bristan AT Tablet",
+                "quantity": 5,
+                "unit": "bottle",
+                "price_per_unit": 39054.303
+            }
+        ],
+        "doctor_note": "How to use Etilaam 0.25mg Tablet MD: Take 3 syringe in the morning after breakfast. How to use Glimbite-M1 Tablet SR: Take 3 syringe in the morning after breakfast. How to use Bristan AT Tablet: Take 5 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 56,
+        "date": "28/07/2024",
+        "doctor_id": 12,
+        "patient_id": 19,
+        "prescription": [
+            {
+                "drug_code": 19733,
+                "drug_name": "Aixone 500mg Injection",
+                "quantity": 4,
+                "unit": "tablet",
+                "price_per_unit": 20268.388
+            },
+            {
+                "drug_code": 26593,
+                "drug_name": "Bilacip 20mg Tablet",
+                "quantity": 2,
+                "unit": "tablet",
+                "price_per_unit": 25248.26
+            },
+            {
+                "drug_code": 152006,
+                "drug_name": "Nolasma Cream",
+                "quantity": 3,
+                "unit": "bottle",
+                "price_per_unit": 85076.945
+            }
+        ],
+        "doctor_note": "How to use Aixone 500mg Injection: Take 4 tablet in the morning after breakfast. How to use Bilacip 20mg Tablet: Take 2 tablet in the morning after breakfast. How to use Nolasma Cream: Take 3 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 57,
+        "date": "31/07/2024",
+        "doctor_id": 14,
+        "patient_id": 9,
+        "prescription": [
+            {
+                "drug_code": 249291,
+                "drug_name": "Zerine 50mg Capsule",
+                "quantity": 3,
+                "unit": "tablet",
+                "price_per_unit": 149786.786
+            },
+            {
+                "drug_code": 217596,
+                "drug_name": "Taborab 20mg Tablet",
+                "quantity": 4,
+                "unit": "syringe",
+                "price_per_unit": 110658.514
+            },
+            {
+                "drug_code": 4220,
+                "drug_name": "Aece-SP Tablet",
+                "quantity": 2,
+                "unit": "bottle",
+                "price_per_unit": 96510.162
+            }
+        ],
+        "doctor_note": "How to use Zerine 50mg Capsule: Take 3 tablet in the morning after breakfast. How to use Taborab 20mg Tablet: Take 4 syringe in the morning after breakfast. How to use Aece-SP Tablet: Take 2 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 58,
+        "date": "24/07/2024",
+        "doctor_id": 20,
+        "patient_id": 42,
+        "prescription": [
+            {
+                "drug_code": 80356,
+                "drug_name": "Etoz OD Capsule SR",
+                "quantity": 1,
+                "unit": "tablet",
+                "price_per_unit": 147757.187
+            }
+        ],
+        "doctor_note": "How to use Etoz OD Capsule SR: Take 1 tablet in the morning after breakfast."
+    },
+    {
+        "treatment_id": 59,
+        "date": "27/07/2024",
+        "doctor_id": 14,
+        "patient_id": 48,
+        "prescription": [
+            {
+                "drug_code": 237590,
+                "drug_name": "Vistacet L 5mg Tablet",
+                "quantity": 1,
+                "unit": "bottle",
+                "price_per_unit": 145220.805
+            },
+            {
+                "drug_code": 88112,
+                "drug_name": "Fylfot 500mcg Injection",
+                "quantity": 5,
+                "unit": "tablet",
+                "price_per_unit": 108296.909
+            },
+            {
+                "drug_code": 70037,
+                "drug_name": "Drxver Tablet",
+                "quantity": 2,
+                "unit": "bottle",
+                "price_per_unit": 115554.632
+            }
+        ],
+        "doctor_note": "How to use Vistacet L 5mg Tablet: Take 1 bottle in the morning after breakfast. How to use Fylfot 500mcg Injection: Take 5 tablet in the morning after breakfast. How to use Drxver Tablet: Take 2 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 60,
+        "date": "15/07/2024",
+        "doctor_id": 14,
+        "patient_id": 41,
+        "prescription": [
+            {
+                "drug_code": 7714,
+                "drug_name": "Avadase Forte 10mg Tablet",
+                "quantity": 3,
+                "unit": "bottle",
+                "price_per_unit": 50769.368
+            },
+            {
+                "drug_code": 129728,
+                "drug_name": "Lumiton 500mg Tablet",
+                "quantity": 3,
+                "unit": "tablet",
+                "price_per_unit": 188944.242
+            }
+        ],
+        "doctor_note": "How to use Avadase Forte 10mg Tablet: Take 3 bottle in the morning after breakfast. How to use Lumiton 500mg Tablet: Take 3 tablet in the morning after breakfast."
+    },
+    {
+        "treatment_id": 61,
+        "date": "13/07/2024",
+        "doctor_id": 12,
+        "patient_id": 25,
+        "prescription": [
+            {
+                "drug_code": 73106,
+                "drug_name": "Efnocar-MX 40/25 Tablet MR",
+                "quantity": 5,
+                "unit": "syringe",
+                "price_per_unit": 181631.965
+            },
+            {
+                "drug_code": 46671,
+                "drug_name": "Cefopom 200 Tablet",
+                "quantity": 5,
+                "unit": "tablet",
+                "price_per_unit": 111791.067
+            },
+            {
+                "drug_code": 156238,
+                "drug_name": "Nymtin P 100mg/325mg Tablet",
+                "quantity": 2,
+                "unit": "tablet",
+                "price_per_unit": 168230.658
+            }
+        ],
+        "doctor_note": "How to use Efnocar-MX 40/25 Tablet MR: Take 5 syringe in the morning after breakfast. How to use Cefopom 200 Tablet: Take 5 tablet in the morning after breakfast. How to use Nymtin P 100mg/325mg Tablet: Take 2 tablet in the morning after breakfast."
+    },
+    {
+        "treatment_id": 62,
+        "date": "10/07/2024",
+        "doctor_id": 14,
+        "patient_id": 46,
+        "prescription": [
+            {
+                "drug_code": 164580,
+                "drug_name": "Opvast 10mg Tablet",
+                "quantity": 4,
+                "unit": "tablet",
+                "price_per_unit": 97152.659
+            }
+        ],
+        "doctor_note": "How to use Opvast 10mg Tablet: Take 4 tablet in the morning after breakfast."
+    },
+    {
+        "treatment_id": 63,
+        "date": "12/07/2024",
+        "doctor_id": 11,
+        "patient_id": 32,
+        "prescription": [
+            {
+                "drug_code": 56511,
+                "drug_name": "Cefectra T 1000mg/125mg Injection",
+                "quantity": 4,
+                "unit": "syringe",
+                "price_per_unit": 117577.2
+            },
+            {
+                "drug_code": 195041,
+                "drug_name": "Refol S 100mg Injection",
+                "quantity": 3,
+                "unit": "tablet",
+                "price_per_unit": 79766.727
+            },
+            {
+                "drug_code": 239942,
+                "drug_name": "Vindflox 200mg Tablet",
+                "quantity": 2,
+                "unit": "bottle",
+                "price_per_unit": 178327.241
+            }
+        ],
+        "doctor_note": "How to use Cefectra T 1000mg/125mg Injection: Take 4 syringe in the morning after breakfast. How to use Refol S 100mg Injection: Take 3 tablet in the morning after breakfast. How to use Vindflox 200mg Tablet: Take 2 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 64,
+        "date": "13/07/2024",
+        "doctor_id": 11,
+        "patient_id": 36,
+        "prescription": [
+            {
+                "drug_code": 108585,
+                "drug_name": "Ibs Free 400mg Tablet",
+                "quantity": 5,
+                "unit": "tablet",
+                "price_per_unit": 81615.022
+            },
+            {
+                "drug_code": 89160,
+                "drug_name": "Fungoza 1% Dusting Powder",
+                "quantity": 4,
+                "unit": "tablet",
+                "price_per_unit": 145576.814
+            },
+            {
+                "drug_code": 51761,
+                "drug_name": "Cipride 200mg Infusion",
+                "quantity": 4,
+                "unit": "bottle",
+                "price_per_unit": 114630.083
+            }
+        ],
+        "doctor_note": "How to use Ibs Free 400mg Tablet: Take 5 tablet in the morning after breakfast. How to use Fungoza 1% Dusting Powder: Take 4 tablet in the morning after breakfast. How to use Cipride 200mg Infusion: Take 4 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 65,
+        "date": "29/07/2024",
+        "doctor_id": 20,
+        "patient_id": 23,
+        "prescription": [
+            {
+                "drug_code": 170780,
+                "drug_name": "Odoxim 100mg Tablet",
+                "quantity": 4,
+                "unit": "tablet",
+                "price_per_unit": 19290.649
+            }
+        ],
+        "doctor_note": "How to use Odoxim 100mg Tablet: Take 4 tablet in the morning after breakfast."
+    },
+    {
+        "treatment_id": 66,
+        "date": "07/07/2024",
+        "doctor_id": 13,
+        "patient_id": 8,
+        "prescription": [
+            {
+                "drug_code": 146410,
+                "drug_name": "Meditrax 500mg Injection",
+                "quantity": 5,
+                "unit": "syringe",
+                "price_per_unit": 152462.503
+            }
+        ],
+        "doctor_note": "How to use Meditrax 500mg Injection: Take 5 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 67,
+        "date": "22/07/2024",
+        "doctor_id": 20,
+        "patient_id": 23,
+        "prescription": [
+            {
+                "drug_code": 155258,
+                "drug_name": "Nidtrex 10 Tablet",
+                "quantity": 1,
+                "unit": "bottle",
+                "price_per_unit": 105969.937
+            },
+            {
+                "drug_code": 47562,
+                "drug_name": "Calmnir 0.5mg Tablet MD",
+                "quantity": 5,
+                "unit": "syringe",
+                "price_per_unit": 22121.929
+            }
+        ],
+        "doctor_note": "How to use Nidtrex 10 Tablet: Take 1 bottle in the morning after breakfast. How to use Calmnir 0.5mg Tablet MD: Take 5 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 68,
+        "date": "19/07/2024",
+        "doctor_id": 15,
+        "patient_id": 31,
+        "prescription": [
+            {
+                "drug_code": 159404,
+                "drug_name": "Nimpride-P Tablet",
+                "quantity": 5,
+                "unit": "syringe",
+                "price_per_unit": 100482.77
+            }
+        ],
+        "doctor_note": "How to use Nimpride-P Tablet: Take 5 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 69,
+        "date": "27/07/2024",
+        "doctor_id": 19,
+        "patient_id": 7,
+        "prescription": [
+            {
+                "drug_code": 203217,
+                "drug_name": "Sneez Bye Syrup",
+                "quantity": 5,
+                "unit": "syringe",
+                "price_per_unit": 156543.306
+            }
+        ],
+        "doctor_note": "How to use Sneez Bye Syrup: Take 5 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 70,
+        "date": "09/07/2024",
+        "doctor_id": 16,
+        "patient_id": 28,
+        "prescription": [
+            {
+                "drug_code": 46295,
+                "drug_name": "Colis 2MIU Injection",
+                "quantity": 3,
+                "unit": "bottle",
+                "price_per_unit": 66192.984
+            }
+        ],
+        "doctor_note": "How to use Colis 2MIU Injection: Take 3 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 71,
+        "date": "25/07/2024",
+        "doctor_id": 20,
+        "patient_id": 38,
+        "prescription": [
+            {
+                "drug_code": 63334,
+                "drug_name": "Dyzole 30mg Tablet",
+                "quantity": 1,
+                "unit": "bottle",
+                "price_per_unit": 94597.682
+            },
+            {
+                "drug_code": 102758,
+                "drug_name": "Gpcon 1mg Tablet",
+                "quantity": 3,
+                "unit": "bottle",
+                "price_per_unit": 163555.261
+            },
+            {
+                "drug_code": 246275,
+                "drug_name": "Yewloc 5mg Tablet",
+                "quantity": 1,
+                "unit": "tablet",
+                "price_per_unit": 183488.649
+            }
+        ],
+        "doctor_note": "How to use Dyzole 30mg Tablet: Take 1 bottle in the morning after breakfast. How to use Gpcon 1mg Tablet: Take 3 bottle in the morning after breakfast. How to use Yewloc 5mg Tablet: Take 1 tablet in the morning after breakfast."
+    },
+    {
+        "treatment_id": 72,
+        "date": "07/07/2024",
+        "doctor_id": 20,
+        "patient_id": 21,
+        "prescription": [
+            {
+                "drug_code": 189041,
+                "drug_name": "Retrolife Tablet",
+                "quantity": 5,
+                "unit": "tablet",
+                "price_per_unit": 186145.543
+            }
+        ],
+        "doctor_note": "How to use Retrolife Tablet: Take 5 tablet in the morning after breakfast."
+    },
+    {
+        "treatment_id": 73,
+        "date": "09/07/2024",
+        "doctor_id": 19,
+        "patient_id": 35,
+        "prescription": [
+            {
+                "drug_code": 101798,
+                "drug_name": "Gliotaz 20mg Capsule",
+                "quantity": 3,
+                "unit": "syringe",
+                "price_per_unit": 12938.299
+            },
+            {
+                "drug_code": 1155,
+                "drug_name": "Aerotrop-F Inhaler",
+                "quantity": 3,
+                "unit": "syringe",
+                "price_per_unit": 166405.19
+            },
+            {
+                "drug_code": 145210,
+                "drug_name": "Medimol Kid  125mg Tablet",
+                "quantity": 2,
+                "unit": "syringe",
+                "price_per_unit": 193140.284
+            }
+        ],
+        "doctor_note": "How to use Gliotaz 20mg Capsule: Take 3 syringe in the morning after breakfast. How to use Aerotrop-F Inhaler: Take 3 syringe in the morning after breakfast. How to use Medimol Kid  125mg Tablet: Take 2 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 74,
+        "date": "09/07/2024",
+        "doctor_id": 17,
+        "patient_id": 45,
+        "prescription": [
+            {
+                "drug_code": 156533,
+                "drug_name": "Nid-Q 200mg Tablet",
+                "quantity": 2,
+                "unit": "tablet",
+                "price_per_unit": 30482.221
+            },
+            {
+                "drug_code": 87771,
+                "drug_name": "Fegix 120mg Tablet",
+                "quantity": 4,
+                "unit": "tablet",
+                "price_per_unit": 119361.666
+            },
+            {
+                "drug_code": 34160,
+                "drug_name": "Cordarone Injection 3ml",
+                "quantity": 5,
+                "unit": "tablet",
+                "price_per_unit": 6507.75
+            }
+        ],
+        "doctor_note": "How to use Nid-Q 200mg Tablet: Take 2 tablet in the morning after breakfast. How to use Fegix 120mg Tablet: Take 4 tablet in the morning after breakfast. How to use Cordarone Injection 3ml: Take 5 tablet in the morning after breakfast."
+    },
+    {
+        "treatment_id": 75,
+        "date": "27/07/2024",
+        "doctor_id": 13,
+        "patient_id": 7,
+        "prescription": [
+            {
+                "drug_code": 128390,
+                "drug_name": "Leyflaza 30mg Tablet",
+                "quantity": 5,
+                "unit": "bottle",
+                "price_per_unit": 99185.155
+            },
+            {
+                "drug_code": 232668,
+                "drug_name": "Unizone 250mg Injection",
+                "quantity": 5,
+                "unit": "syringe",
+                "price_per_unit": 120529.589
+            },
+            {
+                "drug_code": 49243,
+                "drug_name": "Cerex 125mg Syrup",
+                "quantity": 1,
+                "unit": "tablet",
+                "price_per_unit": 92139.365
+            }
+        ],
+        "doctor_note": "How to use Leyflaza 30mg Tablet: Take 5 bottle in the morning after breakfast. How to use Unizone 250mg Injection: Take 5 syringe in the morning after breakfast. How to use Cerex 125mg Syrup: Take 1 tablet in the morning after breakfast."
+    },
+    {
+        "treatment_id": 76,
+        "date": "04/07/2024",
+        "doctor_id": 19,
+        "patient_id": 43,
+        "prescription": [
+            {
+                "drug_code": 79768,
+                "drug_name": "Etogix P 60mg/325mg Tablet",
+                "quantity": 5,
+                "unit": "syringe",
+                "price_per_unit": 161729.564
+            },
+            {
+                "drug_code": 226241,
+                "drug_name": "Telbicure-M Tablet ER",
+                "quantity": 1,
+                "unit": "bottle",
+                "price_per_unit": 75541.124
+            }
+        ],
+        "doctor_note": "How to use Etogix P 60mg/325mg Tablet: Take 5 syringe in the morning after breakfast. How to use Telbicure-M Tablet ER: Take 1 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 77,
+        "date": "17/07/2024",
+        "doctor_id": 11,
+        "patient_id": 31,
+        "prescription": [
+            {
+                "drug_code": 37125,
+                "drug_name": "Cabezon Tablet",
+                "quantity": 5,
+                "unit": "syringe",
+                "price_per_unit": 24571.979
+            }
+        ],
+        "doctor_note": "How to use Cabezon Tablet: Take 5 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 78,
+        "date": "12/07/2024",
+        "doctor_id": 16,
+        "patient_id": 37,
+        "prescription": [
+            {
+                "drug_code": 83846,
+                "drug_name": "Esmojeev-DSR 30mg/40mg Capsule",
+                "quantity": 2,
+                "unit": "tablet",
+                "price_per_unit": 186553.904
+            },
+            {
+                "drug_code": 225296,
+                "drug_name": "Topcam PT Tablet",
+                "quantity": 5,
+                "unit": "tablet",
+                "price_per_unit": 7099.222
+            },
+            {
+                "drug_code": 206926,
+                "drug_name": "Sparcin 200mg Tablet",
+                "quantity": 4,
+                "unit": "bottle",
+                "price_per_unit": 76264.659
+            }
+        ],
+        "doctor_note": "How to use Esmojeev-DSR 30mg/40mg Capsule: Take 2 tablet in the morning after breakfast. How to use Topcam PT Tablet: Take 5 tablet in the morning after breakfast. How to use Sparcin 200mg Tablet: Take 4 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 79,
+        "date": "26/07/2024",
+        "doctor_id": 15,
+        "patient_id": 47,
+        "prescription": [
+            {
+                "drug_code": 38608,
+                "drug_name": "Cefixiv-AZ-LB Tablet",
+                "quantity": 5,
+                "unit": "bottle",
+                "price_per_unit": 135654.354
+            }
+        ],
+        "doctor_note": "How to use Cefixiv-AZ-LB Tablet: Take 5 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 80,
+        "date": "24/07/2024",
+        "doctor_id": 11,
+        "patient_id": 9,
+        "prescription": [
+            {
+                "drug_code": 156628,
+                "drug_name": "Nozacof AX Syrup",
+                "quantity": 4,
+                "unit": "tablet",
+                "price_per_unit": 35654.428
+            },
+            {
+                "drug_code": 2909,
+                "drug_name": "Atril 10mg Tablet",
+                "quantity": 4,
+                "unit": "bottle",
+                "price_per_unit": 186243.598
+            }
+        ],
+        "doctor_note": "How to use Nozacof AX Syrup: Take 4 tablet in the morning after breakfast. How to use Atril 10mg Tablet: Take 4 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 81,
+        "date": "22/07/2024",
+        "doctor_id": 12,
+        "patient_id": 43,
+        "prescription": [
+            {
+                "drug_code": 219295,
+                "drug_name": "Theopod O 200mg/200mg Tablet",
+                "quantity": 2,
+                "unit": "bottle",
+                "price_per_unit": 124151.879
+            }
+        ],
+        "doctor_note": "How to use Theopod O 200mg/200mg Tablet: Take 2 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 82,
+        "date": "09/07/2024",
+        "doctor_id": 17,
+        "patient_id": 9,
+        "prescription": [
+            {
+                "drug_code": 120106,
+                "drug_name": "Koselizer 1.4gm Syrup",
+                "quantity": 2,
+                "unit": "syringe",
+                "price_per_unit": 145847.737
+            },
+            {
+                "drug_code": 18804,
+                "drug_name": "Azigram 250mg Tablet",
+                "quantity": 5,
+                "unit": "tablet",
+                "price_per_unit": 130627.4
+            },
+            {
+                "drug_code": 203521,
+                "drug_name": "Shilof OZ 200 mg/500 mg Tablet",
+                "quantity": 3,
+                "unit": "bottle",
+                "price_per_unit": 112089.635
+            }
+        ],
+        "doctor_note": "How to use Koselizer 1.4gm Syrup: Take 2 syringe in the morning after breakfast. How to use Azigram 250mg Tablet: Take 5 tablet in the morning after breakfast. How to use Shilof OZ 200 mg/500 mg Tablet: Take 3 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 83,
+        "date": "28/07/2024",
+        "doctor_id": 18,
+        "patient_id": 45,
+        "prescription": [
+            {
+                "drug_code": 163656,
+                "drug_name": "Oriwel CL Cream",
+                "quantity": 2,
+                "unit": "syringe",
+                "price_per_unit": 16000.68
+            },
+            {
+                "drug_code": 46939,
+                "drug_name": "Codofyline 400mg Syrup",
+                "quantity": 4,
+                "unit": "bottle",
+                "price_per_unit": 104019.795
+            },
+            {
+                "drug_code": 192032,
+                "drug_name": "Rexovent LS Syrup",
+                "quantity": 4,
+                "unit": "syringe",
+                "price_per_unit": 130542.455
+            }
+        ],
+        "doctor_note": "How to use Oriwel CL Cream: Take 2 syringe in the morning after breakfast. How to use Codofyline 400mg Syrup: Take 4 bottle in the morning after breakfast. How to use Rexovent LS Syrup: Take 4 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 84,
+        "date": "26/07/2024",
+        "doctor_id": 13,
+        "patient_id": 24,
+        "prescription": [
+            {
+                "drug_code": 113422,
+                "drug_name": "Ivixone 2000mg Injection",
+                "quantity": 3,
+                "unit": "tablet",
+                "price_per_unit": 90035.574
+            },
+            {
+                "drug_code": 121552,
+                "drug_name": "Lomide 2mg Tablet",
+                "quantity": 4,
+                "unit": "bottle",
+                "price_per_unit": 23128.072
+            },
+            {
+                "drug_code": 203967,
+                "drug_name": "Semi Tribet 2 mg/500 mg/7.5 mg Tablet SR",
+                "quantity": 1,
+                "unit": "tablet",
+                "price_per_unit": 162845.031
+            }
+        ],
+        "doctor_note": "How to use Ivixone 2000mg Injection: Take 3 tablet in the morning after breakfast. How to use Lomide 2mg Tablet: Take 4 bottle in the morning after breakfast. How to use Semi Tribet 2 mg/500 mg/7.5 mg Tablet SR: Take 1 tablet in the morning after breakfast."
+    },
+    {
+        "treatment_id": 85,
+        "date": "27/07/2024",
+        "doctor_id": 14,
+        "patient_id": 18,
+        "prescription": [
+            {
+                "drug_code": 44958,
+                "drug_name": "Car OD Tablet",
+                "quantity": 5,
+                "unit": "bottle",
+                "price_per_unit": 131197.366
+            },
+            {
+                "drug_code": 88400,
+                "drug_name": "Febarto 80mg Tablet",
+                "quantity": 2,
+                "unit": "bottle",
+                "price_per_unit": 136374.459
+            },
+            {
+                "drug_code": 148776,
+                "drug_name": "Mitsforce 100mg Tablet",
+                "quantity": 2,
+                "unit": "tablet",
+                "price_per_unit": 127210.489
+            }
+        ],
+        "doctor_note": "How to use Car OD Tablet: Take 5 bottle in the morning after breakfast. How to use Febarto 80mg Tablet: Take 2 bottle in the morning after breakfast. How to use Mitsforce 100mg Tablet: Take 2 tablet in the morning after breakfast."
+    },
+    {
+        "treatment_id": 86,
+        "date": "08/07/2024",
+        "doctor_id": 11,
+        "patient_id": 38,
+        "prescription": [
+            {
+                "drug_code": 241911,
+                "drug_name": "Winolap Nasal Spray",
+                "quantity": 1,
+                "unit": "bottle",
+                "price_per_unit": 13441.684
+            }
+        ],
+        "doctor_note": "How to use Winolap Nasal Spray: Take 1 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 87,
+        "date": "28/07/2024",
+        "doctor_id": 18,
+        "patient_id": 33,
+        "prescription": [
+            {
+                "drug_code": 141827,
+                "drug_name": "Micofee 400mg Tablet",
+                "quantity": 1,
+                "unit": "syringe",
+                "price_per_unit": 88107.734
+            },
+            {
+                "drug_code": 243101,
+                "drug_name": "Waflin-A Oral Drop",
+                "quantity": 2,
+                "unit": "tablet",
+                "price_per_unit": 82620.912
+            },
+            {
+                "drug_code": 10975,
+                "drug_name": "Alenpod CV 200mg/125mg Tablet",
+                "quantity": 3,
+                "unit": "tablet",
+                "price_per_unit": 116288.552
+            }
+        ],
+        "doctor_note": "How to use Micofee 400mg Tablet: Take 1 syringe in the morning after breakfast. How to use Waflin-A Oral Drop: Take 2 tablet in the morning after breakfast. How to use Alenpod CV 200mg/125mg Tablet: Take 3 tablet in the morning after breakfast."
+    },
+    {
+        "treatment_id": 88,
+        "date": "10/07/2024",
+        "doctor_id": 11,
+        "patient_id": 45,
+        "prescription": [
+            {
+                "drug_code": 89187,
+                "drug_name": "Flofex 180mg Tablet",
+                "quantity": 2,
+                "unit": "syringe",
+                "price_per_unit": 23090.136
+            },
+            {
+                "drug_code": 198257,
+                "drug_name": "Roczid 250mg Injection",
+                "quantity": 1,
+                "unit": "bottle",
+                "price_per_unit": 87487.076
+            },
+            {
+                "drug_code": 121366,
+                "drug_name": "Labmox 500 Capsule",
+                "quantity": 1,
+                "unit": "syringe",
+                "price_per_unit": 110734.969
+            }
+        ],
+        "doctor_note": "How to use Flofex 180mg Tablet: Take 2 syringe in the morning after breakfast. How to use Roczid 250mg Injection: Take 1 bottle in the morning after breakfast. How to use Labmox 500 Capsule: Take 1 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 89,
+        "date": "04/07/2024",
+        "doctor_id": 20,
+        "patient_id": 49,
+        "prescription": [
+            {
+                "drug_code": 74006,
+                "drug_name": "Encoxel 40 Injection",
+                "quantity": 3,
+                "unit": "bottle",
+                "price_per_unit": 136934.357
+            }
+        ],
+        "doctor_note": "How to use Encoxel 40 Injection: Take 3 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 90,
+        "date": "20/07/2024",
+        "doctor_id": 14,
+        "patient_id": 18,
+        "prescription": [
+            {
+                "drug_code": 163691,
+                "drug_name": "Odiwin 4mg Tablet MD",
+                "quantity": 1,
+                "unit": "tablet",
+                "price_per_unit": 118768.72
+            },
+            {
+                "drug_code": 174588,
+                "drug_name": "Presave NT 75mg/10mg Tablet",
+                "quantity": 4,
+                "unit": "bottle",
+                "price_per_unit": 21265.75
+            },
+            {
+                "drug_code": 211847,
+                "drug_name": "Serranic 10mg Tablet",
+                "quantity": 2,
+                "unit": "bottle",
+                "price_per_unit": 38367.052
+            }
+        ],
+        "doctor_note": "How to use Odiwin 4mg Tablet MD: Take 1 tablet in the morning after breakfast. How to use Presave NT 75mg/10mg Tablet: Take 4 bottle in the morning after breakfast. How to use Serranic 10mg Tablet: Take 2 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 91,
+        "date": "11/07/2024",
+        "doctor_id": 15,
+        "patient_id": 42,
+        "prescription": [
+            {
+                "drug_code": 1652,
+                "drug_name": "Ace Proxyvon TH 8 mg Tablet",
+                "quantity": 3,
+                "unit": "bottle",
+                "price_per_unit": 174812.265
+            }
+        ],
+        "doctor_note": "How to use Ace Proxyvon TH 8 mg Tablet: Take 3 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 92,
+        "date": "04/07/2024",
+        "doctor_id": 13,
+        "patient_id": 38,
+        "prescription": [
+            {
+                "drug_code": 124764,
+                "drug_name": "Listap 150 SR Tablet",
+                "quantity": 1,
+                "unit": "tablet",
+                "price_per_unit": 13925.421
+            },
+            {
+                "drug_code": 39065,
+                "drug_name": "Coffingo-CD Syrup",
+                "quantity": 2,
+                "unit": "syringe",
+                "price_per_unit": 38073.775
+            },
+            {
+                "drug_code": 52693,
+                "drug_name": "Ceftreat-S 1mg/0.5mg Injection",
+                "quantity": 4,
+                "unit": "tablet",
+                "price_per_unit": 27229.142
+            }
+        ],
+        "doctor_note": "How to use Listap 150 SR Tablet: Take 1 tablet in the morning after breakfast. How to use Coffingo-CD Syrup: Take 2 syringe in the morning after breakfast. How to use Ceftreat-S 1mg/0.5mg Injection: Take 4 tablet in the morning after breakfast."
+    },
+    {
+        "treatment_id": 93,
+        "date": "10/07/2024",
+        "doctor_id": 14,
+        "patient_id": 33,
+        "prescription": [
+            {
+                "drug_code": 54920,
+                "drug_name": "Capricef 100mg Tablet",
+                "quantity": 3,
+                "unit": "syringe",
+                "price_per_unit": 156827.763
+            },
+            {
+                "drug_code": 36939,
+                "drug_name": "Cyproson Syrup",
+                "quantity": 2,
+                "unit": "tablet",
+                "price_per_unit": 98220.248
+            },
+            {
+                "drug_code": 158910,
+                "drug_name": "Napnet D 500mg/10mg Tablet",
+                "quantity": 2,
+                "unit": "syringe",
+                "price_per_unit": 169726.613
+            }
+        ],
+        "doctor_note": "How to use Capricef 100mg Tablet: Take 3 syringe in the morning after breakfast. How to use Cyproson Syrup: Take 2 tablet in the morning after breakfast. How to use Napnet D 500mg/10mg Tablet: Take 2 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 94,
+        "date": "05/07/2024",
+        "doctor_id": 18,
+        "patient_id": 35,
+        "prescription": [
+            {
+                "drug_code": 200193,
+                "drug_name": "Silverkind Nanofine Gel",
+                "quantity": 4,
+                "unit": "tablet",
+                "price_per_unit": 10676.822
+            },
+            {
+                "drug_code": 60131,
+                "drug_name": "Dolofresh Oral Suspension",
+                "quantity": 5,
+                "unit": "syringe",
+                "price_per_unit": 134745.974
+            }
+        ],
+        "doctor_note": "How to use Silverkind Nanofine Gel: Take 4 tablet in the morning after breakfast. How to use Dolofresh Oral Suspension: Take 5 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 95,
+        "date": "22/07/2024",
+        "doctor_id": 19,
+        "patient_id": 30,
+        "prescription": [
+            {
+                "drug_code": 152326,
+                "drug_name": "Nazee 0.5mg Tablet",
+                "quantity": 4,
+                "unit": "syringe",
+                "price_per_unit": 10685.732
+            }
+        ],
+        "doctor_note": "How to use Nazee 0.5mg Tablet: Take 4 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 96,
+        "date": "15/07/2024",
+        "doctor_id": 11,
+        "patient_id": 5,
+        "prescription": [
+            {
+                "drug_code": 233469,
+                "drug_name": "Varilrix Vaccine",
+                "quantity": 3,
+                "unit": "tablet",
+                "price_per_unit": 195141.075
+            }
+        ],
+        "doctor_note": "How to use Varilrix Vaccine: Take 3 tablet in the morning after breakfast."
+    },
+    {
+        "treatment_id": 97,
+        "date": "25/07/2024",
+        "doctor_id": 17,
+        "patient_id": 20,
+        "prescription": [
+            {
+                "drug_code": 245003,
+                "drug_name": "Xtrapred 0.25% Drop",
+                "quantity": 4,
+                "unit": "tablet",
+                "price_per_unit": 96541.154
+            },
+            {
+                "drug_code": 228781,
+                "drug_name": "Toraxone S 250mg/125mg Injection",
+                "quantity": 4,
+                "unit": "bottle",
+                "price_per_unit": 22962.004
+            }
+        ],
+        "doctor_note": "How to use Xtrapred 0.25% Drop: Take 4 tablet in the morning after breakfast. How to use Toraxone S 250mg/125mg Injection: Take 4 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 98,
+        "date": "15/07/2024",
+        "doctor_id": 15,
+        "patient_id": 18,
+        "prescription": [
+            {
+                "drug_code": 35539,
+                "drug_name": "Cognione 90mg Tablet",
+                "quantity": 2,
+                "unit": "syringe",
+                "price_per_unit": 175687.054
+            }
+        ],
+        "doctor_note": "How to use Cognione 90mg Tablet: Take 2 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 99,
+        "date": "09/07/2024",
+        "doctor_id": 18,
+        "patient_id": 29,
+        "prescription": [
+            {
+                "drug_code": 247773,
+                "drug_name": "ZADY 100 MG REDIMIX SUSPENSION",
+                "quantity": 5,
+                "unit": "bottle",
+                "price_per_unit": 75071.351
+            },
+            {
+                "drug_code": 156404,
+                "drug_name": "Nimron 100mg/325mg Tablet",
+                "quantity": 5,
+                "unit": "bottle",
+                "price_per_unit": 103790.856
+            }
+        ],
+        "doctor_note": "How to use ZADY 100 MG REDIMIX SUSPENSION: Take 5 bottle in the morning after breakfast. How to use Nimron 100mg/325mg Tablet: Take 5 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 100,
+        "date": "05/07/2024",
+        "doctor_id": 20,
+        "patient_id": 18,
+        "prescription": [
+            {
+                "drug_code": 156086,
+                "drug_name": "NS 0.9% Infusion",
+                "quantity": 5,
+                "unit": "syringe",
+                "price_per_unit": 52948.532
+            }
+        ],
+        "doctor_note": "How to use NS 0.9% Infusion: Take 5 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 101,
+        "date": "14/08/2024",
+        "doctor_id": 15,
+        "patient_id": 6,
+        "prescription": [
+            {
+                "drug_code": 26637,
+                "drug_name": "BE Td Vaccine",
+                "quantity": 2,
+                "unit": "syringe",
+                "price_per_unit": 19478.629
+            },
+            {
+                "drug_code": 132461,
+                "drug_name": "Levotoz 250mg Tablet",
+                "quantity": 3,
+                "unit": "syringe",
+                "price_per_unit": 172493.119
+            },
+            {
+                "drug_code": 65888,
+                "drug_name": "Demoxin CV 875 mg/125 mg Tablet",
+                "quantity": 4,
+                "unit": "bottle",
+                "price_per_unit": 58314.021
+            }
+        ],
+        "doctor_note": "How to use BE Td Vaccine: Take 2 syringe in the morning after breakfast. How to use Levotoz 250mg Tablet: Take 3 syringe in the morning after breakfast. How to use Demoxin CV 875 mg/125 mg Tablet: Take 4 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 102,
+        "date": "22/08/2024",
+        "doctor_id": 19,
+        "patient_id": 46,
+        "prescription": [
+            {
+                "drug_code": 14804,
+                "drug_name": "Avicef O 100mg Tablet",
+                "quantity": 1,
+                "unit": "syringe",
+                "price_per_unit": 155384.391
+            }
+        ],
+        "doctor_note": "How to use Avicef O 100mg Tablet: Take 1 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 103,
+        "date": "20/08/2024",
+        "doctor_id": 15,
+        "patient_id": 28,
+        "prescription": [
+            {
+                "drug_code": 50598,
+                "drug_name": "Copa P 0.5mg/20mg Tablet",
+                "quantity": 3,
+                "unit": "syringe",
+                "price_per_unit": 191819.689
+            }
+        ],
+        "doctor_note": "How to use Copa P 0.5mg/20mg Tablet: Take 3 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 104,
+        "date": "09/08/2024",
+        "doctor_id": 17,
+        "patient_id": 44,
+        "prescription": [
+            {
+                "drug_code": 63070,
+                "drug_name": "Doxy-BLB Capsule",
+                "quantity": 3,
+                "unit": "bottle",
+                "price_per_unit": 104966.447
+            }
+        ],
+        "doctor_note": "How to use Doxy-BLB Capsule: Take 3 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 105,
+        "date": "24/08/2024",
+        "doctor_id": 20,
+        "patient_id": 41,
+        "prescription": [
+            {
+                "drug_code": 103785,
+                "drug_name": "Hepbest Tablet",
+                "quantity": 5,
+                "unit": "bottle",
+                "price_per_unit": 143656.355
+            },
+            {
+                "drug_code": 155864,
+                "drug_name": "Nutrol Tablet",
+                "quantity": 3,
+                "unit": "tablet",
+                "price_per_unit": 187291.503
+            },
+            {
+                "drug_code": 32568,
+                "drug_name": "Bergtel H 40mg/12.5mg Tablet",
+                "quantity": 2,
+                "unit": "bottle",
+                "price_per_unit": 79122.627
+            }
+        ],
+        "doctor_note": "How to use Hepbest Tablet: Take 5 bottle in the morning after breakfast. How to use Nutrol Tablet: Take 3 tablet in the morning after breakfast. How to use Bergtel H 40mg/12.5mg Tablet: Take 2 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 106,
+        "date": "10/08/2024",
+        "doctor_id": 14,
+        "patient_id": 19,
+        "prescription": [
+            {
+                "drug_code": 118484,
+                "drug_name": "Kefdil 500mg Tablet",
+                "quantity": 4,
+                "unit": "syringe",
+                "price_per_unit": 113985.291
+            }
+        ],
+        "doctor_note": "How to use Kefdil 500mg Tablet: Take 4 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 107,
+        "date": "18/08/2024",
+        "doctor_id": 12,
+        "patient_id": 36,
+        "prescription": [
+            {
+                "drug_code": 131053,
+                "drug_name": "Levitrend 250mg Tablet",
+                "quantity": 4,
+                "unit": "syringe",
+                "price_per_unit": 195003.1
+            },
+            {
+                "drug_code": 80953,
+                "drug_name": "Endy 400mg Tablet",
+                "quantity": 2,
+                "unit": "tablet",
+                "price_per_unit": 106305.02
+            },
+            {
+                "drug_code": 58231,
+                "drug_name": "Crovax LB 500mg/125mg Tablet",
+                "quantity": 2,
+                "unit": "tablet",
+                "price_per_unit": 156227.838
+            }
+        ],
+        "doctor_note": "How to use Levitrend 250mg Tablet: Take 4 syringe in the morning after breakfast. How to use Endy 400mg Tablet: Take 2 tablet in the morning after breakfast. How to use Crovax LB 500mg/125mg Tablet: Take 2 tablet in the morning after breakfast."
+    },
+    {
+        "treatment_id": 108,
+        "date": "24/08/2024",
+        "doctor_id": 13,
+        "patient_id": 13,
+        "prescription": [
+            {
+                "drug_code": 133757,
+                "drug_name": "Moxi D Eye Drop",
+                "quantity": 3,
+                "unit": "bottle",
+                "price_per_unit": 149764.218
+            },
+            {
+                "drug_code": 218689,
+                "drug_name": "T Press 1mg Injection",
+                "quantity": 4,
+                "unit": "bottle",
+                "price_per_unit": 66727.826
+            },
+            {
+                "drug_code": 58327,
+                "drug_name": "Deplatt-CV  Capsule",
+                "quantity": 5,
+                "unit": "bottle",
+                "price_per_unit": 65995.66
+            }
+        ],
+        "doctor_note": "How to use Moxi D Eye Drop: Take 3 bottle in the morning after breakfast. How to use T Press 1mg Injection: Take 4 bottle in the morning after breakfast. How to use Deplatt-CV  Capsule: Take 5 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 109,
+        "date": "24/08/2024",
+        "doctor_id": 11,
+        "patient_id": 37,
+        "prescription": [
+            {
+                "drug_code": 124092,
+                "drug_name": "Lolip 10mg Tablet",
+                "quantity": 3,
+                "unit": "bottle",
+                "price_per_unit": 198262.818
+            },
+            {
+                "drug_code": 207327,
+                "drug_name": "Sayfur 125mg Tablet",
+                "quantity": 1,
+                "unit": "tablet",
+                "price_per_unit": 62480.713
+            },
+            {
+                "drug_code": 237167,
+                "drug_name": "Vogliaid 0.3mg Tablet",
+                "quantity": 2,
+                "unit": "tablet",
+                "price_per_unit": 81192.631
+            }
+        ],
+        "doctor_note": "How to use Lolip 10mg Tablet: Take 3 bottle in the morning after breakfast. How to use Sayfur 125mg Tablet: Take 1 tablet in the morning after breakfast. How to use Vogliaid 0.3mg Tablet: Take 2 tablet in the morning after breakfast."
+    },
+    {
+        "treatment_id": 110,
+        "date": "13/08/2024",
+        "doctor_id": 15,
+        "patient_id": 33,
+        "prescription": [
+            {
+                "drug_code": 36652,
+                "drug_name": "Corfex-AM Tablet SR",
+                "quantity": 5,
+                "unit": "tablet",
+                "price_per_unit": 148469.698
+            }
+        ],
+        "doctor_note": "How to use Corfex-AM Tablet SR: Take 5 tablet in the morning after breakfast."
+    },
+    {
+        "treatment_id": 111,
+        "date": "21/08/2024",
+        "doctor_id": 14,
+        "patient_id": 48,
+        "prescription": [
+            {
+                "drug_code": 65916,
+                "drug_name": "Digifix LB 200mg Tablet",
+                "quantity": 4,
+                "unit": "bottle",
+                "price_per_unit": 170855.214
+            }
+        ],
+        "doctor_note": "How to use Digifix LB 200mg Tablet: Take 4 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 112,
+        "date": "06/08/2024",
+        "doctor_id": 15,
+        "patient_id": 43,
+        "prescription": [
+            {
+                "drug_code": 200001,
+                "drug_name": "Semi Amaryl M Tablet PR",
+                "quantity": 5,
+                "unit": "tablet",
+                "price_per_unit": 35527.283
+            }
+        ],
+        "doctor_note": "How to use Semi Amaryl M Tablet PR: Take 5 tablet in the morning after breakfast."
+    },
+    {
+        "treatment_id": 113,
+        "date": "10/08/2024",
+        "doctor_id": 13,
+        "patient_id": 38,
+        "prescription": [
+            {
+                "drug_code": 137926,
+                "drug_name": "M Cin 500mg Injection",
+                "quantity": 5,
+                "unit": "bottle",
+                "price_per_unit": 12393.081
+            }
+        ],
+        "doctor_note": "How to use M Cin 500mg Injection: Take 5 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 114,
+        "date": "09/08/2024",
+        "doctor_id": 20,
+        "patient_id": 44,
+        "prescription": [
+            {
+                "drug_code": 82892,
+                "drug_name": "Esoglin L 75mg/40mg Capsule SR",
+                "quantity": 1,
+                "unit": "syringe",
+                "price_per_unit": 13711.51
+            },
+            {
+                "drug_code": 206496,
+                "drug_name": "Sirolon 80mg Injection",
+                "quantity": 4,
+                "unit": "tablet",
+                "price_per_unit": 154672.964
+            },
+            {
+                "drug_code": 40746,
+                "drug_name": "Carbis 1000mg Tablet",
+                "quantity": 5,
+                "unit": "bottle",
+                "price_per_unit": 32831.198
+            }
+        ],
+        "doctor_note": "How to use Esoglin L 75mg/40mg Capsule SR: Take 1 syringe in the morning after breakfast. How to use Sirolon 80mg Injection: Take 4 tablet in the morning after breakfast. How to use Carbis 1000mg Tablet: Take 5 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 115,
+        "date": "03/08/2024",
+        "doctor_id": 18,
+        "patient_id": 49,
+        "prescription": [
+            {
+                "drug_code": 152107,
+                "drug_name": "Novaglipt M 500mg/50mg Tablet",
+                "quantity": 5,
+                "unit": "tablet",
+                "price_per_unit": 91155.85
+            },
+            {
+                "drug_code": 150936,
+                "drug_name": "Nozia Tablet",
+                "quantity": 1,
+                "unit": "tablet",
+                "price_per_unit": 179493.691
+            }
+        ],
+        "doctor_note": "How to use Novaglipt M 500mg/50mg Tablet: Take 5 tablet in the morning after breakfast. How to use Nozia Tablet: Take 1 tablet in the morning after breakfast."
+    },
+    {
+        "treatment_id": 116,
+        "date": "15/08/2024",
+        "doctor_id": 13,
+        "patient_id": 48,
+        "prescription": [
+            {
+                "drug_code": 39391,
+                "drug_name": "Cholip 10mg Tablet",
+                "quantity": 5,
+                "unit": "tablet",
+                "price_per_unit": 8798.072
+            }
+        ],
+        "doctor_note": "How to use Cholip 10mg Tablet: Take 5 tablet in the morning after breakfast."
+    },
+    {
+        "treatment_id": 117,
+        "date": "01/08/2024",
+        "doctor_id": 15,
+        "patient_id": 38,
+        "prescription": [
+            {
+                "drug_code": 143804,
+                "drug_name": "Medinem 250mg Injection",
+                "quantity": 2,
+                "unit": "bottle",
+                "price_per_unit": 175477.445
+            }
+        ],
+        "doctor_note": "How to use Medinem 250mg Injection: Take 2 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 118,
+        "date": "10/08/2024",
+        "doctor_id": 20,
+        "patient_id": 39,
+        "prescription": [
+            {
+                "drug_code": 121081,
+                "drug_name": "Lipirose 5 Tablet",
+                "quantity": 3,
+                "unit": "tablet",
+                "price_per_unit": 107759.84
+            },
+            {
+                "drug_code": 43753,
+                "drug_name": "Clonatrix 1mg Tablet",
+                "quantity": 3,
+                "unit": "syringe",
+                "price_per_unit": 133496.077
+            },
+            {
+                "drug_code": 207423,
+                "drug_name": "Starpace-XT Tablet",
+                "quantity": 1,
+                "unit": "tablet",
+                "price_per_unit": 167449.478
+            }
+        ],
+        "doctor_note": "How to use Lipirose 5 Tablet: Take 3 tablet in the morning after breakfast. How to use Clonatrix 1mg Tablet: Take 3 syringe in the morning after breakfast. How to use Starpace-XT Tablet: Take 1 tablet in the morning after breakfast."
+    },
+    {
+        "treatment_id": 119,
+        "date": "06/08/2024",
+        "doctor_id": 18,
+        "patient_id": 1,
+        "prescription": [
+            {
+                "drug_code": 235423,
+                "drug_name": "Vedapride 1mg Tablet",
+                "quantity": 3,
+                "unit": "tablet",
+                "price_per_unit": 23084.213
+            },
+            {
+                "drug_code": 116317,
+                "drug_name": "Keftaz CV 500mg/125mg Tablet",
+                "quantity": 2,
+                "unit": "tablet",
+                "price_per_unit": 124914.976
+            },
+            {
+                "drug_code": 159940,
+                "drug_name": "Novaride 2mg Tablet",
+                "quantity": 4,
+                "unit": "syringe",
+                "price_per_unit": 96112.341
+            }
+        ],
+        "doctor_note": "How to use Vedapride 1mg Tablet: Take 3 tablet in the morning after breakfast. How to use Keftaz CV 500mg/125mg Tablet: Take 2 tablet in the morning after breakfast. How to use Novaride 2mg Tablet: Take 4 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 120,
+        "date": "14/08/2024",
+        "doctor_id": 12,
+        "patient_id": 28,
+        "prescription": [
+            {
+                "drug_code": 41944,
+                "drug_name": "Cardilol 5mg Tablet",
+                "quantity": 1,
+                "unit": "bottle",
+                "price_per_unit": 146516.73
+            },
+            {
+                "drug_code": 177475,
+                "drug_name": "Pitsafe-FB Tablet",
+                "quantity": 1,
+                "unit": "bottle",
+                "price_per_unit": 33708.498
+            }
+        ],
+        "doctor_note": "How to use Cardilol 5mg Tablet: Take 1 bottle in the morning after breakfast. How to use Pitsafe-FB Tablet: Take 1 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 121,
+        "date": "25/08/2024",
+        "doctor_id": 11,
+        "patient_id": 18,
+        "prescription": [
+            {
+                "drug_code": 182977,
+                "drug_name": "Q-Mind SR 200 Tablet",
+                "quantity": 2,
+                "unit": "bottle",
+                "price_per_unit": 20161.761
+            }
+        ],
+        "doctor_note": "How to use Q-Mind SR 200 Tablet: Take 2 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 122,
+        "date": "09/08/2024",
+        "doctor_id": 11,
+        "patient_id": 9,
+        "prescription": [
+            {
+                "drug_code": 210033,
+                "drug_name": "Siloil 1000CST Injection",
+                "quantity": 1,
+                "unit": "bottle",
+                "price_per_unit": 112370.706
+            },
+            {
+                "drug_code": 132038,
+                "drug_name": "Leoquin R Suspension",
+                "quantity": 3,
+                "unit": "bottle",
+                "price_per_unit": 51761.129
+            }
+        ],
+        "doctor_note": "How to use Siloil 1000CST Injection: Take 1 bottle in the morning after breakfast. How to use Leoquin R Suspension: Take 3 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 123,
+        "date": "23/08/2024",
+        "doctor_id": 12,
+        "patient_id": 2,
+        "prescription": [
+            {
+                "drug_code": 159983,
+                "drug_name": "Neurotam 500mg Syrup",
+                "quantity": 4,
+                "unit": "tablet",
+                "price_per_unit": 128780.955
+            }
+        ],
+        "doctor_note": "How to use Neurotam 500mg Syrup: Take 4 tablet in the morning after breakfast."
+    },
+    {
+        "treatment_id": 124,
+        "date": "14/08/2024",
+        "doctor_id": 11,
+        "patient_id": 47,
+        "prescription": [
+            {
+                "drug_code": 228995,
+                "drug_name": "Telmitic CZ Forte 40mg/12.5mg Tablet",
+                "quantity": 4,
+                "unit": "bottle",
+                "price_per_unit": 6728.51
+            },
+            {
+                "drug_code": 224508,
+                "drug_name": "Trosef-SB 1.5gm Injection",
+                "quantity": 5,
+                "unit": "syringe",
+                "price_per_unit": 58212.677
+            }
+        ],
+        "doctor_note": "How to use Telmitic CZ Forte 40mg/12.5mg Tablet: Take 4 bottle in the morning after breakfast. How to use Trosef-SB 1.5gm Injection: Take 5 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 125,
+        "date": "08/08/2024",
+        "doctor_id": 11,
+        "patient_id": 19,
+        "prescription": [
+            {
+                "drug_code": 199166,
+                "drug_name": "Rablear D 30mg/20mg Capsule SR",
+                "quantity": 5,
+                "unit": "tablet",
+                "price_per_unit": 37373.257
+            }
+        ],
+        "doctor_note": "How to use Rablear D 30mg/20mg Capsule SR: Take 5 tablet in the morning after breakfast."
+    },
+    {
+        "treatment_id": 126,
+        "date": "07/08/2024",
+        "doctor_id": 14,
+        "patient_id": 42,
+        "prescription": [
+            {
+                "drug_code": 78038,
+                "drug_name": "ES Forte 0.5mg/10mg Tablet",
+                "quantity": 5,
+                "unit": "tablet",
+                "price_per_unit": 25031.213
+            },
+            {
+                "drug_code": 186960,
+                "drug_name": "Rize Forte Tablet",
+                "quantity": 4,
+                "unit": "syringe",
+                "price_per_unit": 89263.133
+            },
+            {
+                "drug_code": 213563,
+                "drug_name": "Stenz S 1000mg/500mg Injection",
+                "quantity": 3,
+                "unit": "syringe",
+                "price_per_unit": 91100.371
+            }
+        ],
+        "doctor_note": "How to use ES Forte 0.5mg/10mg Tablet: Take 5 tablet in the morning after breakfast. How to use Rize Forte Tablet: Take 4 syringe in the morning after breakfast. How to use Stenz S 1000mg/500mg Injection: Take 3 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 127,
+        "date": "22/08/2024",
+        "doctor_id": 13,
+        "patient_id": 31,
+        "prescription": [
+            {
+                "drug_code": 246733,
+                "drug_name": "Zevert MD 8 Tablet",
+                "quantity": 2,
+                "unit": "bottle",
+                "price_per_unit": 24919.349
+            },
+            {
+                "drug_code": 172505,
+                "drug_name": "Oflamic OZ 200mg/500mg Tablet",
+                "quantity": 5,
+                "unit": "bottle",
+                "price_per_unit": 173666.035
+            }
+        ],
+        "doctor_note": "How to use Zevert MD 8 Tablet: Take 2 bottle in the morning after breakfast. How to use Oflamic OZ 200mg/500mg Tablet: Take 5 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 128,
+        "date": "25/08/2024",
+        "doctor_id": 12,
+        "patient_id": 50,
+        "prescription": [
+            {
+                "drug_code": 190056,
+                "drug_name": "Rabkam-DSR Capsule",
+                "quantity": 4,
+                "unit": "tablet",
+                "price_per_unit": 143003.606
+            }
+        ],
+        "doctor_note": "How to use Rabkam-DSR Capsule: Take 4 tablet in the morning after breakfast."
+    },
+    {
+        "treatment_id": 129,
+        "date": "04/08/2024",
+        "doctor_id": 16,
+        "patient_id": 42,
+        "prescription": [
+            {
+                "drug_code": 17910,
+                "drug_name": "Amzid 500mg Injection",
+                "quantity": 5,
+                "unit": "tablet",
+                "price_per_unit": 192482.362
+            },
+            {
+                "drug_code": 237481,
+                "drug_name": "Vexitine Plus Tablet",
+                "quantity": 5,
+                "unit": "syringe",
+                "price_per_unit": 152106.426
+            }
+        ],
+        "doctor_note": "How to use Amzid 500mg Injection: Take 5 tablet in the morning after breakfast. How to use Vexitine Plus Tablet: Take 5 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 130,
+        "date": "24/08/2024",
+        "doctor_id": 17,
+        "patient_id": 49,
+        "prescription": [
+            {
+                "drug_code": 102777,
+                "drug_name": "Genate 60mg Injection",
+                "quantity": 1,
+                "unit": "syringe",
+                "price_per_unit": 31904.711
+            },
+            {
+                "drug_code": 103167,
+                "drug_name": "Greencet 5mg Tablet",
+                "quantity": 1,
+                "unit": "syringe",
+                "price_per_unit": 73244.139
+            }
+        ],
+        "doctor_note": "How to use Genate 60mg Injection: Take 1 syringe in the morning after breakfast. How to use Greencet 5mg Tablet: Take 1 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 131,
+        "date": "02/08/2024",
+        "doctor_id": 19,
+        "patient_id": 19,
+        "prescription": [
+            {
+                "drug_code": 175706,
+                "drug_name": "Pregicob Forte 750mcg/75mg Capsule",
+                "quantity": 2,
+                "unit": "tablet",
+                "price_per_unit": 160789.45
+            }
+        ],
+        "doctor_note": "How to use Pregicob Forte 750mcg/75mg Capsule: Take 2 tablet in the morning after breakfast."
+    },
+    {
+        "treatment_id": 132,
+        "date": "12/08/2024",
+        "doctor_id": 14,
+        "patient_id": 33,
+        "prescription": [
+            {
+                "drug_code": 142400,
+                "drug_name": "Metamef-P Suspension",
+                "quantity": 1,
+                "unit": "tablet",
+                "price_per_unit": 31296.414
+            },
+            {
+                "drug_code": 138282,
+                "drug_name": "Metcalf 500mg Tablet SR",
+                "quantity": 4,
+                "unit": "syringe",
+                "price_per_unit": 33273.455
+            },
+            {
+                "drug_code": 114771,
+                "drug_name": "Jemfin Tablet",
+                "quantity": 2,
+                "unit": "syringe",
+                "price_per_unit": 192614.398
+            }
+        ],
+        "doctor_note": "How to use Metamef-P Suspension: Take 1 tablet in the morning after breakfast. How to use Metcalf 500mg Tablet SR: Take 4 syringe in the morning after breakfast. How to use Jemfin Tablet: Take 2 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 133,
+        "date": "08/08/2024",
+        "doctor_id": 13,
+        "patient_id": 32,
+        "prescription": [
+            {
+                "drug_code": 86384,
+                "drug_name": "Fexostar 180mg Tablet",
+                "quantity": 5,
+                "unit": "syringe",
+                "price_per_unit": 50608.159
+            }
+        ],
+        "doctor_note": "How to use Fexostar 180mg Tablet: Take 5 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 134,
+        "date": "12/08/2024",
+        "doctor_id": 11,
+        "patient_id": 8,
+        "prescription": [
+            {
+                "drug_code": 171148,
+                "drug_name": "Ofloxahill 200mg Tablet",
+                "quantity": 2,
+                "unit": "tablet",
+                "price_per_unit": 41868.632
+            },
+            {
+                "drug_code": 169879,
+                "drug_name": "Obent 5mg Tablet",
+                "quantity": 2,
+                "unit": "bottle",
+                "price_per_unit": 177253.1
+            },
+            {
+                "drug_code": 250245,
+                "drug_name": "Zed Flu Oral Suspension",
+                "quantity": 3,
+                "unit": "syringe",
+                "price_per_unit": 100115.669
+            }
+        ],
+        "doctor_note": "How to use Ofloxahill 200mg Tablet: Take 2 tablet in the morning after breakfast. How to use Obent 5mg Tablet: Take 2 bottle in the morning after breakfast. How to use Zed Flu Oral Suspension: Take 3 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 135,
+        "date": "06/08/2024",
+        "doctor_id": 17,
+        "patient_id": 8,
+        "prescription": [
+            {
+                "drug_code": 54100,
+                "drug_name": "Cloxitor-LB Suspension",
+                "quantity": 1,
+                "unit": "syringe",
+                "price_per_unit": 178420.241
+            },
+            {
+                "drug_code": 14761,
+                "drug_name": "Autobact 500mg/125mg Tablet",
+                "quantity": 3,
+                "unit": "tablet",
+                "price_per_unit": 80830.545
+            }
+        ],
+        "doctor_note": "How to use Cloxitor-LB Suspension: Take 1 syringe in the morning after breakfast. How to use Autobact 500mg/125mg Tablet: Take 3 tablet in the morning after breakfast."
+    },
+    {
+        "treatment_id": 136,
+        "date": "14/08/2024",
+        "doctor_id": 15,
+        "patient_id": 36,
+        "prescription": [
+            {
+                "drug_code": 95852,
+                "drug_name": "Gentrax 500mg Injection",
+                "quantity": 3,
+                "unit": "syringe",
+                "price_per_unit": 54172.726
+            }
+        ],
+        "doctor_note": "How to use Gentrax 500mg Injection: Take 3 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 137,
+        "date": "09/08/2024",
+        "doctor_id": 12,
+        "patient_id": 21,
+        "prescription": [
+            {
+                "drug_code": 156325,
+                "drug_name": "Nimureg 100mg/325mg Tablet",
+                "quantity": 3,
+                "unit": "syringe",
+                "price_per_unit": 112390.181
+            },
+            {
+                "drug_code": 188575,
+                "drug_name": "Roscad CV 20mg/75mg Capsule",
+                "quantity": 1,
+                "unit": "tablet",
+                "price_per_unit": 80501.446
+            }
+        ],
+        "doctor_note": "How to use Nimureg 100mg/325mg Tablet: Take 3 syringe in the morning after breakfast. How to use Roscad CV 20mg/75mg Capsule: Take 1 tablet in the morning after breakfast."
+    },
+    {
+        "treatment_id": 138,
+        "date": "09/08/2024",
+        "doctor_id": 17,
+        "patient_id": 5,
+        "prescription": [
+            {
+                "drug_code": 153962,
+                "drug_name": "Norwin 400mg Tablet",
+                "quantity": 2,
+                "unit": "bottle",
+                "price_per_unit": 36095.262
+            },
+            {
+                "drug_code": 190435,
+                "drug_name": "Rapitor F 10mg/120mg Tablet",
+                "quantity": 1,
+                "unit": "syringe",
+                "price_per_unit": 147068.909
+            }
+        ],
+        "doctor_note": "How to use Norwin 400mg Tablet: Take 2 bottle in the morning after breakfast. How to use Rapitor F 10mg/120mg Tablet: Take 1 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 139,
+        "date": "12/08/2024",
+        "doctor_id": 14,
+        "patient_id": 24,
+        "prescription": [
+            {
+                "drug_code": 2274,
+                "drug_name": "Anglocet Plus Tablet",
+                "quantity": 5,
+                "unit": "tablet",
+                "price_per_unit": 113277.944
+            },
+            {
+                "drug_code": 58396,
+                "drug_name": "Dorzox T  Eye Drop",
+                "quantity": 5,
+                "unit": "syringe",
+                "price_per_unit": 65305.43
+            },
+            {
+                "drug_code": 3975,
+                "drug_name": "Aprovel 300mg Tablet",
+                "quantity": 2,
+                "unit": "tablet",
+                "price_per_unit": 72599.431
+            }
+        ],
+        "doctor_note": "How to use Anglocet Plus Tablet: Take 5 tablet in the morning after breakfast. How to use Dorzox T  Eye Drop: Take 5 syringe in the morning after breakfast. How to use Aprovel 300mg Tablet: Take 2 tablet in the morning after breakfast."
+    },
+    {
+        "treatment_id": 140,
+        "date": "15/08/2024",
+        "doctor_id": 11,
+        "patient_id": 13,
+        "prescription": [
+            {
+                "drug_code": 202549,
+                "drug_name": "Strolox OZ Tablet",
+                "quantity": 4,
+                "unit": "bottle",
+                "price_per_unit": 120394.983
+            }
+        ],
+        "doctor_note": "How to use Strolox OZ Tablet: Take 4 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 141,
+        "date": "21/08/2024",
+        "doctor_id": 20,
+        "patient_id": 13,
+        "prescription": [
+            {
+                "drug_code": 147608,
+                "drug_name": "Moreclav Oral Suspension",
+                "quantity": 4,
+                "unit": "syringe",
+                "price_per_unit": 187165.74
+            },
+            {
+                "drug_code": 91999,
+                "drug_name": "Fullrab 20mg Tablet",
+                "quantity": 3,
+                "unit": "bottle",
+                "price_per_unit": 53579.265
+            }
+        ],
+        "doctor_note": "How to use Moreclav Oral Suspension: Take 4 syringe in the morning after breakfast. How to use Fullrab 20mg Tablet: Take 3 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 142,
+        "date": "18/08/2024",
+        "doctor_id": 17,
+        "patient_id": 19,
+        "prescription": [
+            {
+                "drug_code": 225052,
+                "drug_name": "Tenebest M 500mg/20mg Tablet",
+                "quantity": 4,
+                "unit": "bottle",
+                "price_per_unit": 33737.433
+            }
+        ],
+        "doctor_note": "How to use Tenebest M 500mg/20mg Tablet: Take 4 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 143,
+        "date": "14/08/2024",
+        "doctor_id": 16,
+        "patient_id": 39,
+        "prescription": [
+            {
+                "drug_code": 95142,
+                "drug_name": "Glador 2 Tablet",
+                "quantity": 5,
+                "unit": "syringe",
+                "price_per_unit": 194861.838
+            }
+        ],
+        "doctor_note": "How to use Glador 2 Tablet: Take 5 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 144,
+        "date": "06/08/2024",
+        "doctor_id": 15,
+        "patient_id": 18,
+        "prescription": [
+            {
+                "drug_code": 89518,
+                "drug_name": "Femodine 10mg/120mg Tablet",
+                "quantity": 5,
+                "unit": "bottle",
+                "price_per_unit": 155165.099
+            },
+            {
+                "drug_code": 245922,
+                "drug_name": "Yuviclav Dry Syrup",
+                "quantity": 3,
+                "unit": "bottle",
+                "price_per_unit": 131044.859
+            },
+            {
+                "drug_code": 104882,
+                "drug_name": "HexiFresh Mouth Wash",
+                "quantity": 1,
+                "unit": "bottle",
+                "price_per_unit": 32924.042
+            }
+        ],
+        "doctor_note": "How to use Femodine 10mg/120mg Tablet: Take 5 bottle in the morning after breakfast. How to use Yuviclav Dry Syrup: Take 3 bottle in the morning after breakfast. How to use HexiFresh Mouth Wash: Take 1 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 145,
+        "date": "02/08/2024",
+        "doctor_id": 11,
+        "patient_id": 43,
+        "prescription": [
+            {
+                "drug_code": 97181,
+                "drug_name": "Genobact 500mg Tablet",
+                "quantity": 2,
+                "unit": "tablet",
+                "price_per_unit": 199036.085
+            },
+            {
+                "drug_code": 9134,
+                "drug_name": "Anxicool 0.5mg Tablet",
+                "quantity": 1,
+                "unit": "syringe",
+                "price_per_unit": 21960.75
+            }
+        ],
+        "doctor_note": "How to use Genobact 500mg Tablet: Take 2 tablet in the morning after breakfast. How to use Anxicool 0.5mg Tablet: Take 1 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 146,
+        "date": "09/08/2024",
+        "doctor_id": 19,
+        "patient_id": 24,
+        "prescription": [
+            {
+                "drug_code": 166324,
+                "drug_name": "Ongesic SP 100mg/325mg/15mg Tablet",
+                "quantity": 5,
+                "unit": "bottle",
+                "price_per_unit": 82086.417
+            },
+            {
+                "drug_code": 201953,
+                "drug_name": "Sim 10mg Tablet",
+                "quantity": 4,
+                "unit": "bottle",
+                "price_per_unit": 84045.538
+            },
+            {
+                "drug_code": 109718,
+                "drug_name": "Instacef 200mg Tablet DT",
+                "quantity": 1,
+                "unit": "bottle",
+                "price_per_unit": 139258.393
+            }
+        ],
+        "doctor_note": "How to use Ongesic SP 100mg/325mg/15mg Tablet: Take 5 bottle in the morning after breakfast. How to use Sim 10mg Tablet: Take 4 bottle in the morning after breakfast. How to use Instacef 200mg Tablet DT: Take 1 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 147,
+        "date": "15/08/2024",
+        "doctor_id": 12,
+        "patient_id": 1,
+        "prescription": [
+            {
+                "drug_code": 63392,
+                "drug_name": "Diaglip M 5 mg/500 mg Tablet",
+                "quantity": 4,
+                "unit": "tablet",
+                "price_per_unit": 81574.512
+            },
+            {
+                "drug_code": 214495,
+                "drug_name": "Spnim Suspension",
+                "quantity": 2,
+                "unit": "bottle",
+                "price_per_unit": 104783.269
+            }
+        ],
+        "doctor_note": "How to use Diaglip M 5 mg/500 mg Tablet: Take 4 tablet in the morning after breakfast. How to use Spnim Suspension: Take 2 bottle in the morning after breakfast."
+    },
+    {
+        "treatment_id": 148,
+        "date": "20/08/2024",
+        "doctor_id": 19,
+        "patient_id": 4,
+        "prescription": [
+            {
+                "drug_code": 107330,
+                "drug_name": "Halow 5mg Tablet",
+                "quantity": 4,
+                "unit": "syringe",
+                "price_per_unit": 124414.312
+            }
+        ],
+        "doctor_note": "How to use Halow 5mg Tablet: Take 4 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 149,
+        "date": "14/08/2024",
+        "doctor_id": 18,
+        "patient_id": 34,
+        "prescription": [
+            {
+                "drug_code": 5239,
+                "drug_name": "Acnecap Gel",
+                "quantity": 5,
+                "unit": "syringe",
+                "price_per_unit": 120728.257
+            },
+            {
+                "drug_code": 116125,
+                "drug_name": "Kitmox-DX Eye Drop",
+                "quantity": 2,
+                "unit": "syringe",
+                "price_per_unit": 106648.063
+            }
+        ],
+        "doctor_note": "How to use Acnecap Gel: Take 5 syringe in the morning after breakfast. How to use Kitmox-DX Eye Drop: Take 2 syringe in the morning after breakfast."
+    },
+    {
+        "treatment_id": 150,
+        "date": "24/08/2024",
+        "doctor_id": 18,
+        "patient_id": 32,
+        "prescription": [
+            {
+                "drug_code": 80768,
+                "drug_name": "E Bact 500mg/500mg Injection",
+                "quantity": 2,
+                "unit": "syringe",
+                "price_per_unit": 174044.946
+            },
+            {
+                "drug_code": 212953,
+                "drug_name": "Seratel AP 100mg/325mg/15mg Tablet",
+                "quantity": 1,
+                "unit": "syringe",
+                "price_per_unit": 107734.566
+            }
+        ],
+        "doctor_note": "How to use E Bact 500mg/500mg Injection: Take 2 syringe in the morning after breakfast. How to use Seratel AP 100mg/325mg/15mg Tablet: Take 1 syringe in the morning after breakfast."
+    }
+]
