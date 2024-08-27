@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const businessOfficerRoutes = express.Router();
+
 
 router.get('/businessofficer/:id/personal_information', (req, res) => {
     const staff_personal_info = {
@@ -79,3 +81,4 @@ router.post("/businessofficer/new_bill", (req, res) => {
     } = req.body
 })
 
+module.exports = businessOfficerRoutes;

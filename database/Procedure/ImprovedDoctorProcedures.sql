@@ -139,7 +139,6 @@ CREATE PROCEDURE AddNewDiagnosis(
     para_diagnosis_date DATE,     -- Parameter for the date of the diagnosis
     para_diagnosis_note TEXT,     -- Parameter for any notes related to the diagnosis
     para_condition_code_string TEXT  -- Parameter for a comma-separated string of condition codes
-
 )
 SQL SECURITY DEFINER
 BEGIN
@@ -259,8 +258,8 @@ BEGIN
     -- Initialize the base SQL statements for later use
     SET @insert_query = 'INSERT INTO Prescription_Details(drug_code, prescription_id, quantity, price) VALUES ';  -- Base for the INSERT query
     SET @case_clause = '';  -- Base for the CASE clause in the UPDATE query
-    SET @where_clause = 'END \n WHERE (';  -- Start of the WHERE clause in the UPDATE query
-    SET @update_query = 'UPDATE Drugs SET inventory = CASE \n';  -- Base for the UPDATE query
+    SET @where_clause = 'END\nWHERE drug_code IN (';  -- Start of the WHERE clause in the UPDATE query
+    SET @update_query = 'UPDATE Drugs SET inventory = CASE\n';  -- Base for the UPDATE query
 
         /*
       -- Check whether the input doctor id  exist
@@ -303,6 +302,7 @@ BEGIN
 
             -- Update the INSERT query with the returned INSERT statement for the current drug
             SET @insert_query = CONCAT(@insert_query, SUBSTRING_INDEX(returned_statement, ';', 1), ',');
+            SET @insert_query = CONCAT(@insert_query, SUBSTRING_INDEX(returned_statement, ';', 1), ',');
 
             -- Update the CASE clause for the UPDATE query with the returned CASE statement for the current drug
             SET @case_clause = CONCAT(@case_clause, SUBSTRING_INDEX(SUBSTRING_INDEX(returned_statement, ';', -1 ), ',', 1));
@@ -323,20 +323,18 @@ BEGIN
 
     -- After exiting the loop, handle the last drug code and quantity pair in the string (as it won't be followed by a comma)
     SELECT ParsingDrugsCodeAndQuantity(current_string_code, latest_prescription_id, 1)
-        INTO returned_statement;
+	INTO returned_statement;
 
     -- Finalize the INSERT query with the last drug's data
     SET @insert_query = CONCAT(@insert_query, SUBSTRING_INDEX(returned_statement, ';', 1));
     SELECT SUBSTRING_INDEX(returned_statement, ';', 1);
 
-    -- Finalize the CASE clause with the last drug's data
-    SET @case_clause = CONCAT(@case_clause, SUBSTRING_INDEX(SUBSTRING_INDEX(returned_statement, ';', -1 ), ',', 1));
-
-    -- Finalize the WHERE clause with the last drug's data and close it
-    SET @where_clause = CONCAT(@where_clause, SUBSTRING_INDEX(SUBSTRING_INDEX(returned_statement, ';', -1 ), ',', -1));
+    -- Finalize the CASE clause and WHERE clause with the last drug's data
+    SET @case_clause = CONCAT(@case_clause, SUBSTRING_INDEX(SUBSTRING_INDEX(returned_statement, ';', -2), ';', 1));
+	SET @where_clause = CONCAT(@where_clause, SUBSTRING_INDEX(returned_statement, ';', -1));
 
     -- Finalize the UPDATE query by concatenating the CASE clause and WHERE clause
-    SET @update_query = CONCAT(@update_query, @case_clause ,@where_clause);
+    SET @update_query = CONCAT(@update_query, @case_clause, @where_clause);
 
     -- Prepare and execute the final INSERT statement for Prescription_Details
     SELECT @insert_query;
@@ -359,8 +357,8 @@ GRANT EXECUTE ON PROCEDURE hospital_management_system.AddNewPrescription TO 'Doc
 
 DROP PROCEDURE IF EXISTS OrderTest; -- $$
 CREATE PROCEDURE OrderTest(
-    para_patient_id INT,                  -- Parameter for the patient ID for whom the test is ordered
     para_doctor_id INT,                   -- Parameter for the doctor ID who orders the test
+    para_patient_id INT,                  -- Parameter for the patient ID for whom the test is ordered
     para_administering_date DATE,         -- Parameter for the date when the test will be administered
     para_administering_time TIME,         -- Parameter for the time when the test will be administered
     para_text_name_string TEXT            -- Parameter for a comma-separated string of test type names
@@ -422,7 +420,7 @@ BEGIN
         IF SUBSTRING(para_text_name_string, current_index, 1) = ',' THEN
             -- Process the current test type name using the ParsingTestTypeIdString function
             SELECT ParsingTestTypeIdString(latest_test_order_id, current_string_code,
-                                           para_administering_date, para_administering_time, 0)
+                                           para_administering_date, para_administering_time, para_doctor_id, 0)
             INTO @single_value;
 
             -- Append the processed value to the INSERT query
@@ -441,7 +439,7 @@ BEGIN
 
     -- After exiting the loop, handle the last test type name in the string (as it won't be followed by a comma)
     SELECT ParsingTestTypeIdString(latest_test_order_id, current_string_code,
-                                   para_administering_date, para_administering_time, 1)
+                                   para_administering_date, para_administering_time, para_doctor_id, 1)
     INTO @single_value;
 
     -- Append the final processed value to the INSERT query
@@ -483,5 +481,5 @@ BEGIN
         Appointments.doctor_id = para_doctor_id                           -- Filtering the results to include only the specified doctor's schedule
             AND
         appointment_status = 'Active' OR appointment_status = 'Finished';
-END;
+END; -- $$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchDoctorScheduleById TO 'Doctors'@'host'; -- $$

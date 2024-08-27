@@ -6,7 +6,7 @@ import Report from "../../pages/Hospital_management/Report_management/Report";
 import { useState } from "react";
 import { Router, Routes, Route } from "react-router-dom";
 import { ScheduleContextProvider } from "@/contexts/scheduleContext";
-import DoctorWorkingSchedule from "@/pages/Hospital_management/Doctor_working_schedule_management/DoctorWorkingSchedule";
+import WorkingSchedule from "@/pages/Hospital_management/Doctor_working_schedule_management/WorkingSchedule";
 const Main = () => {
   return (
     <section className="mt-[50px] w-main h-main flex items-center justify-center">
@@ -26,7 +26,7 @@ const Main = () => {
           path="/doctor-working-schedule/*"
           element={
             <ScheduleContextProvider>
-              <DoctorWorkingSchedule />
+              <WorkingSchedule/>
             </ScheduleContextProvider>
           }
         />

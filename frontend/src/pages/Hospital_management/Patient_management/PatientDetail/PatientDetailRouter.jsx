@@ -33,6 +33,7 @@ export default function PatientDetailRouter() {
         </Routes>
       </section>
 
+      {/*--------------back button-------------*/}
       <button
         onClick={() => {
           navigate("../");

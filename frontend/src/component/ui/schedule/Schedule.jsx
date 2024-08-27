@@ -10,7 +10,7 @@ import AppointmentPopup from "../AppointmentPopup";
 import { useLocation } from "react-router-dom";
 import DataTable from "../DataTable";
 import dayjs from "dayjs";
-import filterEventArray, { indexOfEvent } from "@/utils/eventFunction";
+import { indexOfEvent } from "@/utils/eventFunction";
 import { ScheduleContext } from "@/contexts/scheduleContext";
 // Setup the localizer by providing the moment (or globalize, or Luxon) Object
 // to the correct localizer.

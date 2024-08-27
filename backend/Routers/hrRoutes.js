@@ -1,5 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const hrRoutes = express.Router();
+
+
 
 //http protol 5 types: GET, POST, PUT, PATCH, DELETE
 
@@ -184,3 +187,5 @@ router.post("/hr/fetch_department_history", (req, res) => {
 
 
 })
+
+module.exports = hrRoutes;
