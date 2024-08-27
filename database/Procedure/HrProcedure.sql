@@ -1,6 +1,6 @@
 DELIMITER $$
 
-DROP PROCEDURE IF EXISTS AddNewStaff$$
+DROP PROCEDURE IF EXISTS AddNewStaff; -- $$
 CREATE PROCEDURE AddNewStaff(
     para_full_name VARCHAR(50),               -- Parameter for the full name of the staff member
     para_ssn INT,                             -- Parameter for the Social Security Number (SSN) of the staff member
@@ -14,7 +14,6 @@ CREATE PROCEDURE AddNewStaff(
     para_email VARCHAR(50),                   -- Parameter for the email address of the staff member
     para_staff_password VARCHAR(12),          -- Parameter for the staff member's password
     para_wage DECIMAL(6,2),                   -- Parameter for the wage of the staff member
-    para_employment_type VARCHAR(50),         -- Parameter for the employment type (e.g., full-time, part-time)
     para_employment_document_id VARCHAR(24)   -- Parameter for the employment document ID
 )
 SQL SECURITY DEFINER
@@ -50,9 +49,9 @@ BEGIN
     END IF;
 
     -- Compare the input wage and the wage range of the job. Raise an exception if it does not fall within the correct wage range
-    SELECT Jobs.max_wage, Jobs.min_wage 
-    INTO max_job_wage, min_job_wage 
-    FROM Jobs 
+    SELECT Jobs.max_wage, Jobs.min_wage
+    INTO max_job_wage, min_job_wage
+    FROM Jobs
     WHERE Jobs.id = para_job_id;
 
     IF para_wage > max_job_wage OR para_wage < min_job_wage
@@ -75,7 +74,6 @@ BEGIN
         staff_password,                -- Password for the staff member's account
         wage,                          -- Wage of the staff member
         hire_date,                     -- Hire date (current date)
-        employment_type,               -- Employment type (e.g., full-time, part-time)
         employment_status,             -- Employment status (e.g., 'Active')
         employment_document_id         -- Employment document ID
     ) VALUES (
@@ -92,15 +90,15 @@ BEGIN
         para_staff_password,           -- Provided password
         para_wage,                     -- Provided wage
         CURDATE(),                     -- Current date as the hire date
-        para_employment_type,          -- Provided employment type
         'Active',                      -- Employment status set to 'Active'
         para_employment_document_id    -- Provided employment document ID
     );
-END$$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.AddNewStaff TO 'HR'@'host'$$
+END; -- $$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.AddNewStaff TO 'HR'@'host'; -- $$
 
 
-DROP PROCEDURE IF EXISTS FetchAllStaff$$
+
+DROP PROCEDURE IF EXISTS FetchAllStaff; -- $$
 CREATE PROCEDURE FetchAllStaff()
 SQL SECURITY DEFINER
 BEGIN
@@ -118,7 +116,6 @@ BEGIN
         Non_Manager.staff_password,           -- The password of the non-managerial staff member
         Non_Manager.wage,                     -- The wage of the non-managerial staff member
         Non_Manager.hire_date,                -- The hire date of the non-managerial staff member
-        Non_Manager.employment_type,          -- The employment type of the non-managerial staff member
         Non_Manager.employment_status,        -- The employment status of the non-managerial staff member
         Non_Manager.employment_document_id,   -- The employment document ID of the non-managerial staff member
         Manager.full_name AS manager_name     -- The full name of the manager associated with the non-managerial staff member
@@ -136,8 +133,9 @@ BEGIN
         Departments                           -- Joining with the Departments table to retrieve department names
     ON
         Departments.id = Non_Manager.department_id;  -- Matching the department_id in the Staff table with the id in the Departments table
-END$$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchAllStaff TO 'HR'@'host'$$
+END; -- $$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchAllStaff TO 'HR'@'host'; -- $$
+
 
 
 DROP PROCEDURE IF EXISTS ChangeWage$$

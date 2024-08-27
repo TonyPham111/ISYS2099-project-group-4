@@ -183,3 +183,51 @@ GRANT EXECUTE ON PROCEDURE hospital_management_system.UpdateTestDetail TO 'Docto
 GRANT EXECUTE ON PROCEDURE hospital_management_system.UpdateTestDetail TO 'Nurses'@'host'$$
 
 DELIMITER ;
+
+[
+    {
+        id,
+        full_name,
+        gender,
+        birth_date,
+        allergy_name,
+        allergy_type,
+        allergy_group,
+        allergen
+
+    },
+    {
+        id,
+        full_name,
+        gender,
+        birth_date,
+        allergy_name,
+        allergy_type,
+        allergy_group,
+        allergen
+
+    }
+
+]
+
+
+{
+    id,
+    full_name,
+    gender,
+    birth_date,
+    allergies: [
+        {
+            allergy_name,
+            allergy_type,
+            allergy_group,
+            allergen
+        },
+        {
+            allergy_name,
+            allergy_type,
+            allergy_group,
+            allergen
+        }
+    ]
+}

@@ -1,4 +1,4 @@
-DROP FUNCTION IF EXISTS ParsingAllergiesPatientsString;
+DROP FUNCTION IF EXISTS ParsingAllergiesPatientsString; -- $$
 CREATE FUNCTION ParsingAllergiesPatientsString(
     para_patient_id INT,             -- Parameter for the patient ID
     current_string_index TEXT,       -- Parameter representing the allergy ID or name
@@ -30,11 +30,10 @@ BEGIN
         -- If it's not the last allergy, finalize the SQL statement with just a closing parenthesis (no semicolon)
         RETURN CONCAT('(', para_patient_id, ',', para_allergy_id, ',', '\'', CURDATE(), '\'', '), ');
     END IF;
-END;
+END; -- $$
+GRANT EXECUTE ON FUNCTION hospital_management_system.ParsingAllergiesPatientsString TO 'Doctors'@'host';
 
-
-
-DROP FUNCTION IF EXISTS ParsingDiagnosisNameString;
+DROP FUNCTION IF EXISTS ParsingDiagnosisNameString; -- $$
 CREATE FUNCTION ParsingDiagnosisNameString(
     latest_diagnosis_id INT,         -- Parameter for the latest diagnosis ID
     current_string_code TEXT,        -- Parameter representing the diagnosis condition code
@@ -59,25 +58,17 @@ BEGIN
 
     -- If this is the last condition in the list, finalize the SQL statement with a closing parenthesis and semicolon
     IF last_string = 1 THEN
-        RETURN CONCAT('(', latest_diagnosis_id, ',', para_condition_code, ');');
+        RETURN CONCAT('(', latest_diagnosis_id, ',', '\'', para_condition_code, '\'', ');');
     ELSE
         -- If it's not the last condition, finalize the SQL statement with just a closing parenthesis (no semicolon)
-        RETURN CONCAT('(', latest_diagnosis_id, ',', para_condition_code, '), ');
+        RETURN CONCAT('(', latest_diagnosis_id, ',', '\'', para_condition_code, '\'', '), ');
     END IF;
-END;
+END; -- $$
+GRANT EXECUTE ON FUNCTION hospital_management_system.ParsingDiagnosisNameString TO 'Doctors'@'host';
 
 
-DROP FUNCTION IF EXISTS ParsingDrugsCodeAndQuantity;
+DROP FUNCTION IF EXISTS ParsingDrugsCodeAndQuantity; -- $$
 CREATE FUNCTION ParsingDrugsCodeAndQuantity(
-    current_string_code TEXT,
-    latest_prescription_id INT,
-    last_string INT
-)
-RETURNS TEXT
-READS SQL DATA
-SQL SECURITY DEFINER
-BEGIN
-    CREATE FUNCTION ParsingDrugsCodeAndQuantity(
     current_string_code TEXT,  -- The input string containing the drug code and quantity, separated by a colon.
     latest_prescription_id INT, -- The ID of the latest prescription, which will be used in the INSERT statement.
     last_string INT  -- A flag to determine if the current drug is the last one in the list (1 for last, 0 otherwise).
@@ -131,7 +122,7 @@ BEGIN
     WHERE drug_code = medicine_code;
 
     -- Construct the INSERT statement for adding the drug to the prescription
-    SET insert_statement = CONCAT('(', latest_prescription_id, ',', medicine_code, ')');
+    SET insert_statement = CONCAT('(', medicine_code, ',', latest_prescription_id, ',', prescription_quantity, ',', current_price, ')');
 
     -- Construct the CASE clause for the UPDATE statement, which updates the inventory
     SET update_case_statement = CONCAT('WHEN drug_code = ', medicine_code, ' THEN ', new_inventory, '\n');
@@ -153,11 +144,11 @@ BEGIN
 
     -- Return the concatenated SQL statements (INSERT, CASE, and WHERE) as the function result
     RETURN CONCAT(insert_statement, ';', update_case_statement, ',', update_where_statement);
-END;
+END; -- $$
+GRANT EXECUTE ON FUNCTION hospital_management_system.ParsingDrugsCodeAndQuantity TO 'Doctors'@'host';
 
 
-
-DROP FUNCTION IF EXIST ParsingTestTypeIdString;
+DROP FUNCTION IF EXISTS ParsingTestTypeIdString; -- $$
 CREATE FUNCTION ParsingTestTypeIdString(
     latest_test_order_id INT,        -- Parameter for the ID of the latest test order
     current_string_code TEXT,        -- Parameter for the test name (string representing the test type)
@@ -175,13 +166,14 @@ BEGIN
     -- Fetch the test type ID from the Test_Types table based on the test name
     SELECT Test_Types.id INTO para_test_type_id
     FROM Test_Types
-    WHERE Test_Types.test_name = current_string_code LIMIT 1;
+    WHERE Test_Types.id = current_string_code LIMIT 1;
 
     -- Raise an exception if no matching test type is found
     IF para_test_type_id IS NULL THEN
         SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Incorrect test name. Please try again';
+        SET MESSAGE_TEXT = 'Incorrect test id. Please try again';
     END IF;
+
 
     -- Fetch the price of the test type based on the test type ID
     SELECT price INTO current_price
@@ -198,9 +190,9 @@ BEGIN
                       para_administering_date, '\'', ',', '\'', para_administering_time, '\'', ',', current_price, '), ');
     END IF;
 
-END;
+END; -- $$
+GRANT EXECUTE ON FUNCTION hospital_management_system.ParsingTestTypeIdString TO 'Doctors'@'host';
 
-DROP FUNCTION ParsingTestNameString;
 
 
 
