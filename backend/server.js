@@ -7,12 +7,12 @@ const cookieParser = require("cookie-parser");
 
 
 //import  routes 
-const doctorRoutes = require("./Routers/doctorRoutes.js");
-const nurseRoutes = require("./Routers/hrRoutes.js");
-const frontDeskRoutes = require("./Routers/frontDeskRoutes.js");
-const hrRoutes = require("./Routers/hrRoutes.js");
-const businessOfficerRoutes = require("./Routers/bussinessOffcierRoutes.js");
-const authRouter = require("./Routers/authRoutes.js");
+// const doctorRoutes = require("./Routers/doctorRoutes.js");
+// const nurseRoutes = require("./Routers/hrRoutes.js");
+// const frontDeskRoutes = require("./Routers/frontDeskRoutes.js");
+// const hrRoutes = require("./Routers/hrRoutes.js");
+// const businessOfficerRoutes = require("./Routers/bussinessOffcierRoutes.js");
+// const authRouter = require("./Routers/authRoutes.js");
 const app = express();
 const SERVER_PORT = process.env.SERVER_PORT;
 
