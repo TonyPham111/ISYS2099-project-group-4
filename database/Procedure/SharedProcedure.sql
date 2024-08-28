@@ -1,4 +1,33 @@
 DELIMITER $$
+DROP PROCEDURE IF EXISTS FetchPatientsAllergies;
+CREATE PROCEDURE FetchPatientsAllergies(
+    patient_id INT
+)
+SQL SECURITY DEFINER
+BEGIN
+    SELECT
+        PatientAllergy.record_date,
+        Allergies.allergy_name,            
+        Allergies.allergy_type,
+        Allergies.allergen,
+        Allergies.allergy_group
+    FROM Patients
+    INNER JOIN
+        PatientAllergy                        
+    ON
+        Patients.id = PatientAllergy.id
+    INNER JOIN
+        Allergies                    
+    ON
+        PatientAllergy.allergy_id = Allergies.is 
+    INNER JOIN
+        Allergies                         
+    ON
+        PatientAllergy.allergy_id = Allergies.id 
+    WHERE Patients.id = patient_id;
+END;
+
+
 
 DROP PROCEDURE IF EXISTS FetchStaffInfoById; -- $$
 CREATE PROCEDURE FetchStaffInfoById(
@@ -148,6 +177,15 @@ GRANT EXECUTE ON PROCEDURE hospital_management_system.Reschedule TO 'Nurses'@'ho
 GRANT EXECUTE ON PROCEDURE hospital_management_system.Reschedule TO 'FrontDesk'@'host'; -- $$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.Reschedule TO 'BusinessOfficers'@'host'; -- $$
 
+DROP PROCEDURE IF EXISTS FetchPatientsAllergies;
+CREATE PROCEDURE FetchPatientsAllergies(
+    patient_id INT
+)
+SQL SECURITY DEFINER
+BEGIN
+    SELECT 
+END;
+
 DROP PROCEDURE IF EXISTS FetchTestDetailsByPatientId; -- $$
 CREATE PROCEDURE FetchTestDetailsByPatientId(
     patient_id INT    -- Parameter for the ID of the patient whose test details are to be fetched
@@ -285,37 +323,20 @@ BEGIN
     SELECT 
         s.id AS staff_id,
         s.full_name,
+        j.job_name,
+        d.department_name,
         s.gender,
         s.birth_date,
         s.email,
-        s.job_id,
-        s.department_id,
-        s.wage,
-        s.hire_date,
-        s.employment_type,
-        s.employment_status,
-        j.job_name,
-        d.department_name,
-        pe.id AS evaluation_id,
-        pe.evaluation_date,
-        ec.criteria_id,
-        c.criteria_name,
-        c.criteria_description,
-        ec.criteria_score
+        s.phone_number
     FROM 
         Staff s
     INNER JOIN 
         Jobs j ON s.job_id = j.id
     INNER JOIN 
         Departments d ON s.department_id = d.id
-    LEFT JOIN 
-        PerformanceEvaluation pe ON s.id = pe.evaluated_staff_id
-    LEFT JOIN 
-        EvaluationCriteria ec ON pe.id = ec.evaluation_id
-    LEFT JOIN 
-        Criteria c ON ec.criteria_id = c.id
     WHERE 
-        s.manager_id = managerId;
+        s.manager_id = managerId AND   s.employment_status = 'Active';
 END$$
 
 GRANT EXECUTE ON PROCEDURE hospital_management_system.GetStaffUnderManager TO 'HR'@'host'$$

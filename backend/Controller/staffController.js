@@ -1,6 +1,31 @@
+const hrRepo = require('../Models/HrModel')
+const doctorRepo = require('../Models/DoctorModel')
+const nurseRepo = require('../Models/NurseModel')
+const frontDeskRepo = require('../Models/FrontDeskModel')
+const businessOfficerRepo = require('../Models/BusinessOfficerModel')
+
 export async function getAllStaffsInfo(req, res) {
   try {
-    //job role = HR
+    const user_info = req.user
+    if (user_info.role === "Doctor"){
+        doctorRepo.GetSubordinates(user_info.id)
+    }
+    else if (user_info.role === "Nurse"){
+        nurseRepo.GetSubordinates(user_info.id)
+    }
+    else if (user_info.role === "FrontDesk"){
+        frontDeskRepo.GetSubordinates(user_info.id)
+    }
+    else if (user_info.role === "BusinessOfficer"){
+        businessOfficerRepo.GetSubordinates(user_info.id)
+    }
+    else if (user_info.role === "HR") {
+        hrRepo.getAllStaffsInfo()
+    }
+    else {
+        res.status(403).json({message: error.message})
+    }
+    
     //return all staff data
     //OR for loop
     //return staff data IN condtion:
@@ -12,18 +37,17 @@ export async function getAllStaffsInfo(req, res) {
         [
            {
              "id": INT,
-             "manager_id": INT,
+             "manager_id": INT, //HR only
              "full_name": String,
              "department": String --> department_name,
              "job": String --> job_name,
              "gender": String,
              "birth_date": String --> "DD/MM/YYYY",
-             "home_address": String, 
+             "home_address": String, // HR only
              "contact_phone_number": String, 
              "email": String, 
-             "wage": DECIMAL(6, 2),
-             "hire_date": String --> "DD/MM/YYYY",
-             "employment_type": String --> from ENUM (shift_based || fullTime)
+             "wage": DECIMAL(6, 2), // HR only
+             "hire_date": String --> "DD/MM/YYYY", // HR only
            },
        ]
        */
@@ -34,6 +58,30 @@ export async function getAllStaffsInfo(req, res) {
 
 export async function addNewStaff(req, res) {
   try {
+    const user_info = req.user
+    const {
+      full_name,
+      manager_id,
+      department_id,
+      job_id,
+      gender,
+      birth_date,
+      home_address,
+      contact_phone_number,
+      email,
+      password,
+      wage,
+      qualification_lists
+    } = req.body
+    
+    const qualification_document_id = '';
+
+    if (user_info.role === 'HR'){
+        hrRepo.AddNewStaff(full_name, job_id, department_id, manager_id, gender, birth_date, home_address, contact_phone_number, email, password, wage, qualification_document_id)
+    }
+    else {
+        res.status(403).json({message: error.message})
+    }
     //verify job role = HR
     /*
     input data: 
@@ -48,7 +96,7 @@ export async function addNewStaff(req, res) {
     - "email": String, 
     - "wage": DECIMAL(6, 2),
     - "hire_date": String --> "DD/MM/YYYY",
-    - "employment_type": String --> from ENUM (shift_based || fullTime) 
+
     */
     //return add new staff status
   } catch (error) {
@@ -56,9 +104,27 @@ export async function addNewStaff(req, res) {
   }
 }
 
-export async function getSpecificStaffInfo(req, res) {
+export async function getStaffPersonalInfo(req, res) {
   try {
-    //verify job role = HR || staff.manager_id = req user.id
+    const user_info = req.user
+    if (user_info.role === "Doctor"){
+      doctorRepo.FetchStaffInfoById(user_info.id)
+  }
+  else if (user_info.role === "Nurse"){
+      nurseRepo.FetchStaffInfoById(user_info.id)
+  }
+  else if (user_info.role === "FrontDesk"){
+      frontDeskRepo.FetchStaffInfoById(user_info.id)
+  }
+  else if (user_info.role === "BusinessOfficer"){
+      businessOfficerRepoRepo.FetchStaffInfoById(user_info.id) 
+  }
+  else if (user_info.role === "HR") {
+      hrRepo.FetchStaffInfoById(user_info.id)
+  }
+  else {
+      res.status(403).json({message: error.message})
+  }
     /*
        data structure: 
            {
@@ -74,7 +140,6 @@ export async function getSpecificStaffInfo(req, res) {
              "email": String, 
              "wage": DECIMAL(6, 2),
              "hire_date": String --> "DD/MM/YYYY",
-             "employment_type": String --> from ENUM (shift_based || fullTime)
            },
        */
   } catch (error) {
@@ -82,29 +147,51 @@ export async function getSpecificStaffInfo(req, res) {
   }
 }
 
-export async function updateSpecificStaffInfo(req, res) {
+export async function updateStaffPersonalInfo(req, res) {
   try {
+    const user_info = req.user
+    const staff_id = req.params.staffId
+    const {
+        home_address,
+        phone_number,
+        email,
+        password
+    } = req.body
+    if (user_info.role === 'HR'){
+      hrRepo.ChangeStaffPersonalInfo(staff_id, phone_number, email, password, home_address)
+    }
+    else {
+      res.status(403).json({message: error.message})
+    }
     //verify job role = HR
     /*
        data structure: 
            {
-             "manager_id": INT,
-             "full_name": String,
-             "department": String --> department_name,
-             "job": String --> job_name,
-             "gender": String,
-             "birth_date": String --> "DD/MM/YYYY",
              "home_address": String, 
              "contact_phone_number": String, 
              "email": String, 
-             "wage": DECIMAL(6, 2),
-             "hire_date": String --> "DD/MM/YYYY",
-             "employment_type": String --> from ENUM (shift_based || fullTime)
+             "password": String
            },
        */
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
+}
+
+export async function updateStaffWage(req, res){
+
+}
+
+export async function updateStaffJob(req, res){
+
+}
+
+export async function updateStaffDepartment(req, res){
+
+}
+
+export async function schedule(req, res){
+
 }
 
 export async function getStaffSchedule(req, res) {

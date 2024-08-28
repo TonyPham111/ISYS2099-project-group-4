@@ -1,4 +1,5 @@
 const {poolFrontDesk} = require('./dbConnectionConfiguration');
+const { GetPatientsInfo } = require('./DoctorModel');
 
 const queries = {
     FetchStaffInfoById: async (staff_id) => {
@@ -11,17 +12,27 @@ const queries = {
         return { error: "An error occurred while executing FetchStaffInfoById. Please try again later." };
     }
 },
-    AddNewPatients: async (ssn, full_name, gender, birth_date, phone_number, email, home_address) => {
+    AddNewPatients: async (full_name, gender, birth_date, phone_number, home_address) => {
         try {
             const sql = `CALL AddNewPatient(?, ?, ?, ?, ?, ?, ?)`;
-            const [results] = await poolFrontDesk.query(sql, [ssn, full_name, gender, birth_date, phone_number, email, home_address]);
+            const [results] = await poolFrontDesk.query(sql, [full_name, gender, birth_date, phone_number, home_address]);
             return results;
         } catch (error) {
             console.error("Error executing FetchStaffInfoById:", error);
             return { error: "An error occurred while executing FetchStaffInfoById. Please try again later." };
         }
     },
-    FetchPatientsPersonalInfo: async () => {
+    UpdatePatientsInfo: async (full_name, gender, birth_date, phone_number, home_address) => {
+        try {
+            const sql = `CALL UpdatePatient(?, ?, ?, ?, ?, ?, ?)`;
+            const [results] = await poolFrontDesk.query(sql, [full_name, gender, birth_date, phone_number, home_address]);
+            return results;
+        } catch (error) {
+            console.error("Error executing FetchStaffInfoById:", error);
+            return { error: "An error occurred while executing FetchStaffInfoById. Please try again later." };
+        }
+    },
+    GetPatientsInfo: async () => {
     try {
         const sql = `CALL FetchPatientsPersonalInfo()`;
         const [results] = await poolFrontDesk.query(sql, []);

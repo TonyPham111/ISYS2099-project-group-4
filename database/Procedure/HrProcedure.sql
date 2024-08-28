@@ -3,7 +3,6 @@ DELIMITER $$
 DROP PROCEDURE IF EXISTS AddNewStaff; -- $$
 CREATE PROCEDURE AddNewStaff(
     para_full_name VARCHAR(50),               -- Parameter for the full name of the staff member
-    para_ssn INT,                             -- Parameter for the Social Security Number (SSN) of the staff member
     para_job_id VARCHAR(50),                  -- Parameter for the job title of the staff member
     para_department_id VARCHAR(50),           -- Parameter for the department name where the staff member will work
     para_manager_id VARCHAR(50),              -- Parameter for the id of the staff member's manager

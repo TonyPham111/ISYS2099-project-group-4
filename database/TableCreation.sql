@@ -4,12 +4,10 @@ USE hospital_management_system;
 
 CREATE TABLE Patients (
 	id INT AUTO_INCREMENT PRIMARY KEY,
-    ssn INT UNIQUE NOT NULL,
     full_name VARCHAR(50) NOT NULL,
     birth_date DATE,
     gender ENUM('M', 'F') NOT NULL,
     phone_number VARCHAR(15) NOT NULL,
-    email VARCHAR(50),
     home_address VARCHAR(255) NOT NULL);
 
 
@@ -54,7 +52,6 @@ CREATE TABLE Jobs (
 
 CREATE TABLE Staff(
 	id INT AUTO_INCREMENT PRIMARY KEY,
-    ssn INT UNIQUE NOT NULL,
     manager_id INT,
     department_id INT,
     job_id INT,

@@ -1,12 +1,12 @@
 const {poolHR} = require('./dbConnectionConfiguration');
 
 const queries = {
-    AddNewStaff: async (full_name, ssn, job_name, department_name, manager_name, gender, birth_date, home_address, 
-        phone_number, email, password, wage, employment_type, employment_document_id) => {
+    AddNewStaff: async (full_name, job_id, department_id, manager_id, gender, birth_date, home_address, 
+        phone_number, email, password, wage, employment_document_id) => {
     try {
-        const sql = `CALL AddNewStaff(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-        const [results] = await poolHR.query(sql, [full_name, ssn, job_name, department_name, manager_name, gender, birth_date, home_address, phone_number, 
-            email, password, wage, employment_type, employment_document_id]);
+        const sql = `CALL AddNewStaff(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+        const [results] = await poolHR.query(sql, [full_name, job_id, department_id, manager_id, gender, birth_date, home_address, phone_number, 
+            email, password, wage, employment_document_id]);
         return results;
     } catch (error) {
         console.error("Error executing AddNewStaff:", error);
@@ -33,10 +33,10 @@ const queries = {
         return { error: "An error occurred while executing ChangeWage. Please try again later." };
     }
 },
-    ChangeJob: async (staff_id, new_job_name, new_wage, new_manager_id, new_department_id) => {
+    ChangeJob: async (staff_id, new_job_id, new_wage, new_manager_id, new_department_id) => {
     try {
         const sql = `CALL ChangeJob(?, ?, ?, ?, ?)`;
-        const [results] = await poolHR.query(sql, [staff_id, new_job_name, new_wage, new_manager_id, new_department_id]);
+        const [results] = await poolHR.query(sql, [staff_id, new_job_id, new_wage, new_manager_id, new_department_id]);
         return results;
     } catch (error) {
         console.error("Error executing ChangeJob:", error);
@@ -46,7 +46,7 @@ const queries = {
 ChangeDepartment: async (staff_id, new_manager_id, new_department_id) => {
     try {
         const sql = `CALL ChangeDepartment(?, ?, ?)`;
-        const [results] = await poolHR.query(sql, [staff_id, new_manager_name, new_department_name]);
+        const [results] = await poolHR.query(sql, [staff_id, new_manager_id, new_department_id]);
         return results;
     } catch (error) {
         console.error("Error executing ChangeJob:", error);

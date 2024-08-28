@@ -4,33 +4,17 @@ CREATE PROCEDURE GetPatientsInfo(
 )
 SQL SECURITY DEFINER
 BEGIN
-    IF CheckDoctorExists(para_doctor_id) = 0 THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Incorrect doctor id. Please try again';
-    end if;
     -- Select various fields from the Patients and Allergies tables
     SELECT
         Patients.id,                      -- The ID of the patient
         Patients.full_name,               -- The full name of the patient
         Patients.gender,                  -- The gender of the patient
         Patients.birth_date,              -- The birth date of the patient
-        Allergies.allergy_name,            -- The name of the allergy associated with the patient
-        Allergies.allergy_type,
-        Allergies.allergen,
-        Allergies.allergy_group
     FROM Appointments
     INNER JOIN
         Patients                          -- The Patients table
     ON
         Appointments.patient_id = Patients.id
-    INNER JOIN
-        PatientAllergy                    -- The PatientAllergy table, which links patients with allergies
-    ON
-        Patients.id = PatientAllergy.patient_id -- Match patient_id with the Patients table
-    INNER JOIN
-        Allergies                         -- The Allergies table, which contains allergy details
-    ON
-        PatientAllergy.allergy_id = Allergies.id -- Match allergy_id with the Allergies table
     WHERE doctor_id = para_doctor_id
       AND appointment_date = CURDATE();
 

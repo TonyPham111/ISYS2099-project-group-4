@@ -2,19 +2,41 @@ DELIMITER $$
 
 DROP PROCEDURE IF EXISTS AddNewPatient; -- $$ 
 CREATE PROCEDURE AddNewPatient(
-    para_ssn INT,                         -- Parameter for the patient's SSN (Social Security Number)
     para_full_name VARCHAR(50),           -- Parameter for the full name of the patient
     para_gender CHAR(1),                  -- Parameter for the patient's gender (e.g., 'M' or 'F')
     para_birth_date DATE,                 -- Parameter for the patient's birth date
     para_phone_number VARCHAR(15),        -- Parameter for the patient's phone number
-    para_email VARCHAR(50),               -- Parameter for the patient's email address
     para_home_address VARCHAR(155)       -- Parameter for the patient's home address
 )
 SQL SECURITY DEFINER
 BEGIN
     -- Insert a new record into the Patients table with the provided parameters
-    INSERT INTO Patients (ssn, full_name, birth_date, phone_number, email, home_address, gender)
-    VALUES (para_ssn, para_full_name, para_birth_date, para_phone_number, para_email, para_home_address, para_gender);
+    INSERT INTO Patients (full_name, birth_date, phone_number, email, home_address, gender)
+    VALUES (para_ssn, para_full_name, para_birth_date, para_phone_number, para_home_address, para_gender);
+END; -- $$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.AddNewPatient TO 'FrontDesk'@'host';
+
+
+DROP PROCEDURE IF EXISTS UpdatePatient; -- $$ 
+CREATE PROCEDURE UpdatePatient(
+    patient_id,
+    para_full_name VARCHAR(50),           -- Parameter for the full name of the patient
+    para_gender CHAR(1),                  -- Parameter for the patient's gender (e.g., 'M' or 'F')
+    para_birth_date DATE,                 -- Parameter for the patient's birth date
+    para_phone_number VARCHAR(15),        -- Parameter for the patient's phone number
+    para_home_address VARCHAR(155)       -- Parameter for the patient's home address
+)
+SQL SECURITY DEFINER
+BEGIN
+    -- Insert a new record into the Patients table with the provided parameters
+    UPDATE Patients SET
+            full_name = para_full_name,
+            gender = para_gender,
+            birth_date = para_birth_date,
+            phone_number = para_phone_number,
+            home_address = para_home_address
+
+    WHERE id = patient_id
 END; -- $$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.AddNewPatient TO 'FrontDesk'@'host';
 
