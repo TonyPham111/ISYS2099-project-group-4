@@ -469,3 +469,48 @@ BEGIN
         appointment_status = 'Active' OR appointment_status = 'Finished';
 END; -- $$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchDoctorScheduleById TO 'Doctors'@'host'; -- $$
+
+DROP PROCEDURE IF EXISTS GetAllAllergies; -- $$
+CREATE PROCEDURE GetAllAllergies(
+)
+SQL SECURITY DEFINER
+BEGIN
+    -- Select various fields from the Patients and Allergies tables
+    SELECT
+        Allergies.id,
+        Allergies.icd9_code,
+        Allergies.allergy_name
+    FROM Allergies
+
+END; -- $$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.GetAllAllergies TO 'Doctors'@'host'; -- $$
+
+DROP PROCEDURE IF EXISTS GetAllDrugs; -- $$
+CREATE PROCEDURE GetAllDrugs(
+)
+SQL SECURITY DEFINER
+BEGIN
+    -- Select various fields from the Patients and Allergies tables
+    SELECT
+        Drugs.drug_code,
+        Drugs.drug_name,
+        Drugs.unit
+        
+    FROM Drugs
+
+END; -- $$
+
+DROP PROCEDURE IF EXISTS GetAllConditions; -- $$
+CREATE PROCEDURE GetAllConditions(
+)
+SQL SECURITY DEFINER
+BEGIN
+    -- Select various fields from the Patients and Allergies tables
+    SELECT
+        Conditions.code,
+        Conditin
+        
+    FROM Drugs
+
+END; -- $$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.GetAllDrugs TO 'Doctors'@'host'; -- $$

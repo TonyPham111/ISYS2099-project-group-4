@@ -128,7 +128,7 @@ FetchStaffInfoById: async (staff_id) => {
     GetSubordinates: async (manager_id) => {
         try {
             const sql = `CALL GetStaffUnderManager(?)`;
-            const [results] = await poolDoctors.query(sql, [manager_id]);
+            const [results] = await poolHR.query(sql, [manager_id]);
             return results;
         } catch (error) {
             console.error("Error executing FetchStaffInfoById:", error);
@@ -139,10 +139,30 @@ FetchStaffInfoById: async (staff_id) => {
     GetSubordinates: async (manager_id, staff_id, evaluation_string) => {
         try {
             const sql = `CALL CreateNewEvaluation(?, ?, ?)`;
-            const [results] = await poolDoctors.query(sql, [manager_id, staff_id, evaluation_string]);
+            const [results] = await poolHR.query(sql, [manager_id, staff_id, evaluation_string]);
             return results;
         } catch (error) {
             console.error("Error executing FetchStaffInfoById:", error);
+            return { error: "An error occurred while executing FetchStaffInfoById. Please try again later." };
+        }
+    },
+    GetAllDepartments: async () => {
+        try {
+            const sql = `CALL GetAllDepartments()`;
+            const [results] = await poolHR.query(sql, []);
+            return results;
+        } catch (error) {
+            console.error("Error executing GetAppointmentsAndSchedulesByStaff:", error);
+            return { error: "An error occurred while executing FetchStaffInfoById. Please try again later." };
+        }
+    },
+    GetSubordinatesSchedule: async (manager_id, staff_id) => {
+        try {
+            const sql = `CALL GetAppointmentsAndSchedulesByStaff(?, ?)`;
+            const [results] = await poolHR.query(sql, [staff_id, manager_id]);
+            return results;
+        } catch (error) {
+            console.error("Error executing GetAppointmentsAndSchedulesByStaff:", error);
             return { error: "An error occurred while executing FetchStaffInfoById. Please try again later." };
         }
     }

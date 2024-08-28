@@ -40,6 +40,14 @@ BEGIN
 END; -- $$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.AddNewPatient TO 'FrontDesk'@'host';
 
+
+DROP PROCEDURE IF EXISTS GetAllAppointments;
+CREATE PROCEDURE GetAllAppointments()
+SQL SECURITY DEFINER
+BEGIN
+    SELECT * FROM Appointments;
+END;
+
 DROP PROCEDURE IF EXISTS CheckAvailability; -- $$
 CREATE PROCEDURE CheckAvailability(
     booked_date DATE,                      -- Parameter for the date when the booking is intended

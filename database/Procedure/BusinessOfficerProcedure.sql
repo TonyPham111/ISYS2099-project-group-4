@@ -1,19 +1,26 @@
 DELIMITER $$
 
+DROP PROCEDURE IF EXISTS GetAllBillings
+CREATE PROCEDURE GetAllBillings()
+SQL SECURITY DEFINER
+BEGIN
+    SELECT Billing.id, Billings.patient_id, Billings.billing_date, Billings.total_amount FROM Billings
+END
+
 DROP PROCEDURE IF EXISTS GetBillingDetails$$
 CREATE PROCEDURE GetBillingDetails(
-    presID INT,          -- Parameter for the prescription ID
-    testID INT,          -- Parameter for the test ID
-    appointmentID INT    -- Parameter for the appointment ID
+    billing_id INT
 )
 SQL SECURITY DEFINER
 BEGIN
+    DECLARE appointmentID INT,
+    DECLARE presID INT,
+    DECLARE testID INT,
+    
+    SELECT appointment_id, prescription_id, test_id INTO appointmentID, presID, testID FROM Billings WHERE Billings.id = billing_id
     -- Fetch appointment details
     SELECT 
-        id AS appointment_id,
-        appointment_date,
-        start_time,
-        end_time
+        appointment_charge
     FROM 
         Appointments
     WHERE 

@@ -1,5 +1,5 @@
 const {poolFrontDesk} = require('./dbConnectionConfiguration');
-const { GetPatientsInfo } = require('./DoctorModel');
+const { GetPatientsInfo, CreateNewEvaluation } = require('./DoctorModel');
 
 const queries = {
     FetchStaffInfoById: async (staff_id) => {
@@ -97,7 +97,7 @@ const queries = {
     GetSubordinates: async (manager_id) => {
         try {
             const sql = `CALL GetStaffUnderManager(?)`;
-            const [results] = await poolDoctors.query(sql, [manager_id]);
+            const [results] = await poolFrontDesk.query(sql, [manager_id]);
             return results;
         } catch (error) {
             console.error("Error executing FetchStaffInfoById:", error);
@@ -105,13 +105,34 @@ const queries = {
         }
     },
 
-    GetSubordinates: async (manager_id, staff_id, evaluation_string) => {
+    CreateNewEvaluation: async (manager_id, staff_id, evaluation_string) => {
         try {
             const sql = `CALL CreateNewEvaluation(?, ?, ?)`;
-            const [results] = await poolDoctors.query(sql, [manager_id, staff_id, evaluation_string]);
+            const [results] = await poolFrontDesk.query(sql, [manager_id, staff_id, evaluation_string]);
             return results;
         } catch (error) {
             console.error("Error executing FetchStaffInfoById:", error);
+            return { error: "An error occurred while executing FetchStaffInfoById. Please try again later." };
+        }
+    },
+    GetSubordinatesSchedule: async (manager_id, staff_id) => {
+        try {
+            const sql = `CALL GetAppointmentsAndSchedulesByStaff(?, ?)`;
+            const [results] = await poolFrontDesk.query(sql, [staff_id, manager_id]);
+            return results;
+        } catch (error) {
+            console.error("Error executing GetAppointmentsAndSchedulesByStaff:", error);
+            return { error: "An error occurred while executing FetchStaffInfoById. Please try again later." };
+        }
+    },
+
+    GetAllAppointments: async () => {
+        try {
+            const sql = `CALL GetAllAppointments()`;
+            const [results] = await poolFrontDesk.query(sql, []);
+            return results;
+        } catch (error) {
+            console.error("Error executing GetAppointmentsAndSchedulesByStaff:", error);
             return { error: "An error occurred while executing FetchStaffInfoById. Please try again later." };
         }
     }

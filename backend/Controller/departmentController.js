@@ -1,5 +1,12 @@
 export async function getAllDepartment(req, res) {
   try {
+    const user_info = req.user_info
+    if (user_info === 'HR'){
+        doctorRepo.GetAllAllergies()
+    }
+    else {
+        res.status(403).json({message: error.message})
+    }
     //verify job role = HR
     //return data
     /*
@@ -8,7 +15,7 @@ export async function getAllDepartment(req, res) {
        {
         id: INT, 
         name: String, 
-        manager_id: INT ??
+        manager_id: INT ?? // cái này không cần em nha
        }
     ]
        */

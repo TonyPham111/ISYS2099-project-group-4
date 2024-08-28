@@ -12,11 +12,28 @@ staffRouter
   .put(verifyToken, staffController.updateStaffPersonalInfo);//HR
 
 staffRouter
-.route("/staff_personal_info")
-.get(verifyToken, staffController.getStaffPersonalInfo)
+.route("/:staffId/staff_personal_info")
+.get(verifyToken, staffController.getStaffPersonalInfo) //HR
+.put(verifyToken, staffController.updateStaffPersonalInfo) //HR
+
+staffRouter
+.route("/:staffId/wage_change")
+.get(verifyToken, staffController.getWageChangeHistory) // HR // Cái này để view lịch sử thay đổi lương
+.put(verifyToken, staffController.updateStaffWage) //HR
+
+staffRouter
+.route("/:staffId/job_change")
+.get(verifyToken, staffController.getStaffPersonalInfo) //HR //Cái này để view lịch sử thay đổi công việc
+.put(verifyToken, staffController.updateStaffJob) //HR
+
+staffRouter
+.route("/:staffId/department_change")
+.get(verifyToken, staffController.getDepartmentChangeHistory) //HR cái này để view lịch sử thay đổi department
+.post(verifyToken, staffController.updateStaffDepartment) //HR
 
 staffRouter
   .route("/:staffId/schedule")
+  .post(verifyToken, staffController.schedule)
   .get(verifyToken, staffController.getStaffSchedule)//manager of that staff
   .put(verifyToken, staffController.updateSpecificStaffSchedule);//manager of that staff
 export default staffRouter;

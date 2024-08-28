@@ -435,4 +435,19 @@ BEGIN
 END$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchDepartmentChangeByStaffId TO 'HR'@'host'$$
 
+DROP PROCEDURE IF EXISTS GetAllDepartments; -- $$
+CREATE PROCEDURE GetAllDepartments(
+)
+SQL SECURITY DEFINER
+BEGIN
+    -- Select various fields from the Patients and Allergies tables
+    SELECT
+        Departments.id,
+        Departments.department_name,
+        
+    FROM Drugs
+
+END; -- $$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.GetAllDepartments TO 'HR'@'host'$$
+
 DELIMITER ;

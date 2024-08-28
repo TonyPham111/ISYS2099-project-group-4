@@ -1,5 +1,13 @@
+const doctorRepo = require('../Models/DoctorModel')
 export async function getAllDrug(req, res) {
   try {
+    const user_info = req.user_info
+    if (user_info === 'Doctor'){
+        doctorRepo.GetAllDrug()
+    }
+    else {
+        res.status(403).json({message: error.message})
+    }
     //verify job role = doctor
     //return data
     /*
@@ -8,9 +16,7 @@ export async function getAllDrug(req, res) {
         {
             drug_code: INT,
             drug_name: String,
-            inventory: INT,
             unit: String,
-            price_per_unit: DECIMAL(6, 2)
         }
        ]
        */

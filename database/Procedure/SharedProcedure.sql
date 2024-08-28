@@ -324,7 +324,6 @@ BEGIN
         s.id AS staff_id,
         s.full_name,
         j.job_name,
-        d.department_name,
         s.gender,
         s.birth_date,
         s.email,
@@ -415,7 +414,33 @@ GRANT EXECUTE ON PROCEDURE hospital_management_system.CreateNewEvaluation TO 'Do
 GRANT EXECUTE ON PROCEDURE hospital_management_system.CreateNewEvaluation TO 'Nurses'@'host'$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.CreateNewEvaluation TO 'FrontDesk'@'host'$$
 
+DROP PROCEDURE IF EXISTS GetAppointmentsAndSchedulesByStaff;
+CREATE PROCEDURE GetAppointmentsAndSchedulesByStaff(
+    para_management_id INT,
+    para_staff_id INT
+)
+SQL SECURITY DEFINER
+BEGIN
+    IF NOT CheckManagementRelationship(para_staff_id, para_management_id) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'You are not allowed to view this staff';
+    END IF;
+    SELECT Staff_Schedule.id,
+           Staff_Schedule.schedule_date,
+           Staff_Schedule.start_time,
+           Staff_Schedule.end_time
+    FROM Staff_Schedule
+    WHERE Staff_Schedule.staff_id = para_staff_id;
 
+    SELECT Appointments.id,
+           Appointments.patient_id,
+           Appointments.appointment_date,
+           Appointments.start_time,
+           Appointments.end_time
+    FROM Appointments
+    WHERE doctor_id = para_staff_id;
+
+end $$
 
 
 DELIMITER ;

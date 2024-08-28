@@ -1,6 +1,36 @@
 const {poolDoctors} = require('./dbConnectionConfiguration');
 
 const queries = {
+    GetAllAllergies: async (patient_id) => {
+        try {
+            const sql = `CALL FetchPatientsAllergies(?)`;
+            const [results] = await poolDoctors.query(sql, [patient_id]);
+            return results;
+        } catch (error) {
+            console.error("Error executing FetchPatientsAllergies:", error);
+            return { error: "An error occurred while executing AddNewDiagnosis. Please try again later." };
+        }
+    },
+    GetAllDrugs: async (patient_id) => {
+        try {
+            const sql = `CALL FetchPatientsAllergies(?)`;
+            const [results] = await poolDoctors.query(sql, [patient_id]);
+            return results;
+        } catch (error) {
+            console.error("Error executing FetchPatientsAllergies:", error);
+            return { error: "An error occurred while executing AddNewDiagnosis. Please try again later." };
+        }
+    },
+    GetAllConditions: async (patient_id) => {
+        try {
+            const sql = `CALL FetchPatientsAllergies(?)`;
+            const [results] = await poolDoctors.query(sql, [patient_id]);
+            return results;
+        } catch (error) {
+            console.error("Error executing FetchPatientsAllergies:", error);
+            return { error: "An error occurred while executing AddNewDiagnosis. Please try again later." };
+        }
+    },
     GetPatientsAllergies: async (patient_id) => {
         try {
             const sql = `CALL FetchPatientsAllergies(?)`;
@@ -21,6 +51,7 @@ const queries = {
             return { error: "An error occurred while executing AddNewDiagnosis. Please try again later." };
         }
     },
+
     AddNewDiagnosis: async (doctor_id, patient_id, diagnosis_date, diagnosis_note, condition_code_string) => {
     try {
         const sql = `CALL AddNewDiagnosis(?)`;
@@ -144,13 +175,24 @@ const queries = {
         }
     },
 
-    GetSubordinates: async (manager_id, staff_id, evaluation_string) => {
+    CreateNewEvaluation: async (manager_id, staff_id, evaluation_string) => {
         try {
             const sql = `CALL CreateNewEvaluation(?, ?, ?)`;
             const [results] = await poolDoctors.query(sql, [manager_id, staff_id, evaluation_string]);
             return results;
         } catch (error) {
             console.error("Error executing FetchStaffInfoById:", error);
+            return { error: "An error occurred while executing FetchStaffInfoById. Please try again later." };
+        }
+    },
+
+    GetSubordinatesSchedule: async (manager_id, staff_id) => {
+        try {
+            const sql = `CALL GetAppointmentsAndSchedulesByStaff(?, ?)`;
+            const [results] = await poolDoctors.query(sql, [staff_id, manager_id]);
+            return results;
+        } catch (error) {
+            console.error("Error executing GetAppointmentsAndSchedulesByStaff:", error);
             return { error: "An error occurred while executing FetchStaffInfoById. Please try again later." };
         }
     }
