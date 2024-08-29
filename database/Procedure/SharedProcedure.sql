@@ -177,14 +177,7 @@ GRANT EXECUTE ON PROCEDURE hospital_management_system.Reschedule TO 'Nurses'@'ho
 GRANT EXECUTE ON PROCEDURE hospital_management_system.Reschedule TO 'FrontDesk'@'host'; -- $$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.Reschedule TO 'BusinessOfficers'@'host'; -- $$
 
-DROP PROCEDURE IF EXISTS FetchPatientsAllergies;
-CREATE PROCEDURE FetchPatientsAllergies(
-    patient_id INT
-)
-SQL SECURITY DEFINER
-BEGIN
-    SELECT 
-END;
+
 
 DROP PROCEDURE IF EXISTS FetchTestDetailsByPatientId; -- $$
 CREATE PROCEDURE FetchTestDetailsByPatientId(

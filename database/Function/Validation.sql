@@ -3,7 +3,7 @@ DELIMITER $$
 DROP FUNCTION IF EXISTS CheckStaffExists; -- $$
 CREATE FUNCTION CheckStaffExists(para_staff_id INT)
 RETURNS BIT
-DETERMINISTIC
+READ SQL DATA
 BEGIN
     DECLARE staff_exists BIT;
 
@@ -22,7 +22,7 @@ GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'HR'@'h
 DROP FUNCTION IF EXISTS CheckManagementRelationship; -- $$
 CREATE FUNCTION CheckManagementRelationship(para_staff_id INT, para_manager_id INT)
 RETURNS BIT
-DETERMINISTIC
+READ SQL DATA
 BEGIN
     DECLARE staff_exists BIT;
 
@@ -37,7 +37,7 @@ END; -- $$
 DROP FUNCTION IF EXISTS CheckPatientExists; -- $$
 CREATE FUNCTION CheckPatientExists(para_patient_id INT)
 RETURNS BIT
-DETERMINISTIC
+READ SQL DATA
 BEGIN
 	DECLARE patient_exists BIT;
 
@@ -55,7 +55,7 @@ GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'HR'@'h
 DROP FUNCTION IF EXISTS CheckDoctorExists; -- $$
 CREATE FUNCTION CheckDoctorExists(para_doctor_id INT)
 RETURNS BIT
-DETERMINISTIC
+READ SQL DATA
 BEGIN
     DECLARE doctor_exists BIT;
 	DECLARE para_doctor_job_id INT;
@@ -77,7 +77,7 @@ GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'HR'@'h
 DROP FUNCTION IF EXISTS CheckDoctorExistsInDepartment; -- $$
 CREATE FUNCTION CheckDoctorExistsInDepartment(para_doctor_id INT, para_department_id INT)
 RETURNS BIT
-DETERMINISTIC
+READ SQL DATA
 BEGIN
     DECLARE doctor_exists BIT;
 	DECLARE para_doctor_job_id INT;
@@ -99,7 +99,7 @@ GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'HR'@'h
 DROP FUNCTION IF EXISTS CheckJobExists; -- $$
 CREATE FUNCTION CheckJobExists(para_job_id INT)
 RETURNS BIT
-DETERMINISTIC
+READ SQL DATA
 BEGIN
     DECLARE job_exists BIT;
 
@@ -117,7 +117,7 @@ GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'HR'@'h
 DROP FUNCTION IF EXISTS CheckDepartmentExists; -- $$
 CREATE FUNCTION CheckDepartmentExists(para_department_id INT)
 RETURNS BIT
-DETERMINISTIC
+READ SQL DATA
 BEGIN
     DECLARE department_exists BIT;
 
@@ -135,7 +135,7 @@ GRANT EXECUTE ON FUNCTION hospital_management_system.CheckStaffExists TO 'HR'@'h
 DROP FUNCTION IF EXISTS CheckTestOrderExists; -- $$
 CREATE FUNCTION CheckTestOrderExists(para_test_order_id INT)
 RETURNS BIT
-DETERMINISTIC
+READ SQL DATA
 BEGIN
 	DECLARE test_order_exists BIT;
 
