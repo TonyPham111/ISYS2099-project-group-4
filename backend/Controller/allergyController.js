@@ -1,4 +1,7 @@
-const doctorRepo = require('../Models/DoctorModel')
+import { poolDoctors, poolNurses, poolFrontDesk, poolBusinessOfficers, poolHR } from "../Models/dbConnectionConfiguration.js";
+
+const doctorRepo = poolDoctors;
+
 export async function getAllAllergy(req, res){
     try {
         const user_info = req.user_info

@@ -55,3 +55,9 @@ class Database {
 }
 
 module.exports = new Database();
+// dbConnectionConfiguration.js
+export const poolDoctors = poolDoctors;
+export const poolNurses = poolNurses;
+export const poolFrontDesk = poolFrontDesk;
+export const poolBusinessOfficers = poolBusinessOfficers;
+export const poolHR = poolHR;
