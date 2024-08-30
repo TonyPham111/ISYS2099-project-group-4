@@ -31,23 +31,23 @@ class Database {
 
     this.poolFrontDesk = mysql.createPool({
       host: process.env.DB_HOST,
-      user: process.env.DB_USER_SELLER,
-      password: process.env.DB_PASS_SELLER,
+      user: process.env.DB_FRONTDESK_USERNAME,
+      password: process.env.DB_FRONTDESK_PASSWORD,
       database: process.env.MYSQL_DB,
       connectionLimit: process.env.CONNECTION_LIMIT,
     });
     this.poolHR = mysql.createPool({
       host: process.env.DB_HOST,
-      user: process.env.DB_USER_SELLER,
-      password: process.env.DB_PASS_SELLER,
+      user: process.env.DB_HR_USERNAME,
+      password: process.env.DB_HR_PASSWORD,
       database: process.env.MYSQL_DB,
       connectionLimit: process.env.CONNECTION_LIMIT,
     });
 
     this.poolBusinessOfficers = mysql.createPool({
       host: process.env.DB_HOST,
-      user: process.env.DB_USER_SELLER,
-      password: process.env.DB_PASS_SELLER,
+      user: process.env.DB_BUSINESSOFFICER_USERNAME,
+      password: process.env.DB_BUSINESSOFFICER_PASSWORD,
       database: process.env.MYSQL_DB,
       connectionLimit: process.env.CONNECTION_LIMIT,
     });
