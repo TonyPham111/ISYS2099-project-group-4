@@ -8,7 +8,6 @@ patientRouter
   .post(verifyToken, patientController.registerNewPatient); //frontdesk
 patientRouter
   .route("/:patientId")
-  .get(verifyToken, patientController.getSpecificPatientInfo) //doctor, nurse, hr, frontdesk, business officer
   .put(verifyToken, patientController.updateSpecificPatientInfo); //frontdesk
 patientRouter
   .route("/:patientId/diagnosis")

@@ -9,7 +9,7 @@
     "scripts": {
   
       
-    "start": "nodemon -r esm index.js"
+    "start": "nodemon index.js"
   
     },
   

@@ -1,5 +1,8 @@
-const mysql = require("mysql2/promise");
-require('dotenv').config();
+import mysql from 'mysql2/promise';
+import dotenv from 'dotenv';
+
+// Load environment variables from .env file
+dotenv.config();
 
 class Database {
   constructor() {
@@ -36,6 +39,7 @@ class Database {
       database: process.env.MYSQL_DB,
       connectionLimit: process.env.CONNECTION_LIMIT,
     });
+
     this.poolHR = mysql.createPool({
       host: process.env.DB_HOST,
       user: process.env.DB_HR_USERNAME,
@@ -54,10 +58,14 @@ class Database {
   }
 }
 
-module.exports = new Database();
-// dbConnectionConfiguration.js
-export const poolDoctors = poolDoctors;
-export const poolNurses = poolNurses;
-export const poolFrontDesk = poolFrontDesk;
-export const poolBusinessOfficers = poolBusinessOfficers;
-export const poolHR = poolHR;
+// Export an instance of the Database class
+const databaseInstance = new Database();
+export default databaseInstance;
+
+
+// Export the pools individually
+export const poolNurses = databaseInstance.poolNurses;
+export const poolDoctors = databaseInstance.poolDoctors;
+export const poolFrontDesk = databaseInstance.poolFrontDesk;
+export const poolHR = databaseInstance.poolHR;
+export const poolBusinessOfficers = databaseInstance.poolBusinessOfficers;
