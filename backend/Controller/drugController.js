@@ -1,4 +1,11 @@
-const doctorRepo = require('../Models/DoctorModel')
+import { poolDoctors, poolNurses, poolFrontDesk, poolBusinessOfficers, poolHR } from "../Models/dbConnectionConfiguration.js";
+
+const doctorRepo = poolDoctors;
+const nurseRepo = poolNurses;
+const frontDeskRepo = poolFrontDesk;
+const businessOfficerRepo = poolBusinessOfficers;
+const hrRepo = poolHR;
+
 export async function getAllDrug(req, res) {
   try {
     const user_info = req.user_info

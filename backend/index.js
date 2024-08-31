@@ -19,8 +19,14 @@ app.use("/conditions", conditionRouter);
 app.use("/departments", departmentRouter);
 app.use("/drugs", drugRouter);
 app.use("/allergies", allergyRouter);
+
 // app.use("/user");
-app.use("/")
+// app.use("/")
+
+app.get("/", (req, res) => {
+  res.send("Welcome to the API!");
+});
+
 app.listen(8000, () => {
   console.log(`SERVER IS RUNNING ON http://localhost:${8000}`);
 });
