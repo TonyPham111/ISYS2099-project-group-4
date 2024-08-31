@@ -103,6 +103,13 @@ DROP PROCEDURE IF EXISTS FetchAllStaff$$
 CREATE PROCEDURE FetchAllStaff()
 SQL SECURITY DEFINER
 BEGIN
+	DECLARE error_message TEXT;
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+		BEGIN
+			GET DIAGNOSTICS CONDITION 1 error_message = MESSAGE_TEXT;  -- Get the error message from the diagnostics
+			ROLLBACK;  -- Rollback the transaction to undo any changes made before the error occurred
+			SELECT error_message;
+		END;
     -- Select various fields from the Staff, Jobs, and Departments tables
     SELECT
         Non_Manager.id,                       -- The ID of the non-managerial staff member
@@ -145,9 +152,11 @@ CREATE PROCEDURE ChangeWageProcedure(
 )
 SQL SECURITY DEFINER
 BEGIN
+	
     DECLARE para_old_wage DECIMAL(6,2);
     DECLARE max_job_wage DECIMAL(6,2);
     DECLARE min_job_wage DECIMAL(6,2);
+    
 
     SELECT wage 
 	INTO para_old_wage 
@@ -324,6 +333,13 @@ CREATE PROCEDURE ChangeStaffPersonalInfo(
 )
 SQL SECURITY DEFINER
 BEGIN
+	DECLARE error_message TEXT;
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+		BEGIN
+			GET DIAGNOSTICS CONDITION 1 error_message = MESSAGE_TEXT;  -- Get the error message from the diagnostics
+			ROLLBACK;  -- Rollback the transaction to undo any changes made before the error occurred
+			SELECT error_message;
+		END;
     -- Update the Staff table with the new personal information for the staff member with the given staff_id
     UPDATE Staff
     SET
@@ -342,6 +358,13 @@ CREATE PROCEDURE FetchWageChangeByStaffId(
 )
 SQL SECURITY DEFINER
 BEGIN
+	DECLARE error_message TEXT;
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+		BEGIN
+			GET DIAGNOSTICS CONDITION 1 error_message = MESSAGE_TEXT;  -- Get the error message from the diagnostics
+			ROLLBACK;  -- Rollback the transaction to undo any changes made before the error occurred
+			SELECT error_message;
+		END;
    SELECT
        Staff.full_name,
        Salary_Change.old_wage,
@@ -362,6 +385,13 @@ CREATE PROCEDURE FetchDepartmentChangeByStaffId(
 )
 SQL SECURITY DEFINER
 BEGIN
+	DECLARE error_message TEXT;
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+		BEGIN
+			GET DIAGNOSTICS CONDITION 1 error_message = MESSAGE_TEXT;  -- Get the error message from the diagnostics
+			ROLLBACK;  -- Rollback the transaction to undo any changes made before the error occurred
+			SELECT error_message;
+		END;
     -- Select the full name, old department, and new department for the specified staff member
     SELECT
         Staff.full_name,                -- Retrieve the full name of the staff member
@@ -392,6 +422,13 @@ CREATE PROCEDURE GetAllDepartments(
 )
 SQL SECURITY DEFINER
 BEGIN
+	DECLARE error_message TEXT;
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+		BEGIN
+			GET DIAGNOSTICS CONDITION 1 error_message = MESSAGE_TEXT;  -- Get the error message from the diagnostics
+			ROLLBACK;  -- Rollback the transaction to undo any changes made before the error occurred
+			SELECT error_message;
+		END;
     -- Select various fields from the Patients and Allergies tables
     SELECT
         Departments.id,
@@ -511,6 +548,13 @@ CREATE PROCEDURE FetchJobChangeByStaffId(
 )
 SQL SECURITY DEFINER
 BEGIN
+	DECLARE error_message TEXT;
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+		BEGIN
+			GET DIAGNOSTICS CONDITION 1 error_message = MESSAGE_TEXT;  -- Get the error message from the diagnostics
+			ROLLBACK;  -- Rollback the transaction to undo any changes made before the error occurred
+			SELECT error_message;
+		END;
     -- Select the full name, old job, and new job for the specified staff member
     SELECT
         Staff.full_name,                -- Retrieve the full name of the staff member

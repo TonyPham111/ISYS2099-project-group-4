@@ -78,10 +78,13 @@ CREATE TABLE Staff_Schedule (
     schedule_date DATE NOT NULL,
     start_time TIME NOT NULL,
     end_time TIME NOT NULL,
-    note TEXT NOT NULL,
     FOREIGN KEY (staff_id) REFERENCES Staff(id),
     CONSTRAINT schedule_time_checker CHECK (start_time < end_time)
 );
+
+
+
+
 
 CREATE TABLE Appointments (
 	id INT AUTO_INCREMENT PRIMARY KEY,
@@ -131,10 +134,6 @@ CREATE TABLE TreatmentHistory (
     FOREIGN KEY (patient_id) REFERENCES Patients (id),
     FOREIGN KEY (doctor_id) REFERENCES Staff (id)
 );
-
-
-ALTER TABLE TreatmentHistory MODIFY COLUMN treatment_start_date DATE;
-ALTER TABLE TreatmentHistory MODIFY COLUMN treatment_end_date DATE;
 
 
 

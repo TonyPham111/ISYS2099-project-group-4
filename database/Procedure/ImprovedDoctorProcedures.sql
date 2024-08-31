@@ -6,6 +6,13 @@ CREATE PROCEDURE GetPatientsInfoForDoctor(
 )
 SQL SECURITY DEFINER
 BEGIN
+	DECLARE error_message TEXT;
+     DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        GET DIAGNOSTICS CONDITION 1 error_message = MESSAGE_TEXT;  -- Get the error message from the diagnostics
+        SELECT error_message AS ErrorMessage;  -- Return the error message to the caller
+    END;
+    
     -- Select various fields from the Patients and Allergies tables
     SELECT
         Patients.id,                      -- The ID of the patient
@@ -139,7 +146,7 @@ BEGIN
     BEGIN
         GET DIAGNOSTICS CONDITION 1 error_message = MESSAGE_TEXT; -- Capture the error message
         ROLLBACK;  -- Rollback any changes made during the transaction
-        SELECT error_message AS ErrorMessage;  -- Return the error message to the caller
+
     END;
 
     -- Initialize the base SQL INSERT statement for the DiagnosesDetails table
@@ -237,7 +244,6 @@ BEGIN
             GET DIAGNOSTICS CONDITION 1
                 error_message = MESSAGE_TEXT;
             ROLLBACK;  -- Rollback any changes made during the transaction
-            SELECT error_message AS ErrorMessage;  -- Return an error message
         END;
 
 
@@ -273,7 +279,7 @@ BEGIN
 
     -- Insert a new record into the TreatmentHistory table with the provided parameters
     INSERT INTO TreatmentHistory(doctor_id, patient_id, diagnosis_id, treatment_start_date, prescription_note)
-    VALUES (para_doctor_id, checked_patient_id, para_diagnosis_id, CURDATE(), para_prescription_note);
+    VALUES (para_doctor_id, para_patient_id, para_diagnosis_id, CURDATE(), para_prescription_note);
 
     -- Retrieve the ID of the newly inserted record in TreatmentHistory
     SELECT LAST_INSERT_ID() INTO latest_prescription_id;
@@ -314,7 +320,6 @@ BEGIN
     -- Finalize the INSERT query with the last drug's data
 
     SET @insert_query = CONCAT(@insert_query, SUBSTRING_INDEX(returned_statement, ';', 1));
-    SELECT SUBSTRING_INDEX(returned_statement, ';', 1);
 
     -- Finalize the CASE clause and WHERE clause with the last drug's data
      -- Update the CASE clause for the UPDATE query with the returned CASE statement for the current drug
@@ -363,7 +368,6 @@ BEGIN
     BEGIN
         GET DIAGNOSTICS CONDITION 1 error_message = MESSAGE_TEXT; -- Capture the error message
         ROLLBACK;  -- Rollback the transaction to undo any changes made during the process
-        SELECT error_message AS ErrorMessage;  -- Return the error message to the caller
     END;
 
     -- Initialize the base SQL INSERT statement for the Test_Details table
@@ -447,6 +451,12 @@ DROP PROCEDURE IF EXISTS FetchAppointmentById$$
 CREATE PROCEDURE FetchAppointmentById(para_doctor_id INT)  -- Procedure to fetch a doctor's schedule by their ID
 SQL SECURITY DEFINER
 BEGIN
+	DECLARE error_message TEXT;
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        GET DIAGNOSTICS CONDITION 1 error_message = MESSAGE_TEXT;  -- Get the error message from the diagnostics
+        SELECT error_message AS ErrorMessage;  -- Return the error message to the caller
+    END;
     -- Select the schedule details for the specified doctor
     SELECT
         Appointments.appointment_date,
@@ -459,7 +469,7 @@ BEGIN
         Patients.gender AS patient_gender,                   -- The gender of the patient
         Patients.birth_date AS patient_birth_date            -- The birth date of the patient
     FROM
-        Appointments                                       -- The table containing staff schedules
+        Appointments                                       
     INNER JOIN
         Patients                                             -- Joining with the Patients table to get patient details
     ON
@@ -469,14 +479,19 @@ BEGIN
             AND
         appointment_status = 'Active' OR appointment_status = 'Finished';
 END$$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchDoctorScheduleById TO 'Doctors'@'host'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchAppointmentById TO 'Doctors'@'IP'$$
 
 DROP PROCEDURE IF EXISTS GetAllAllergies$$
 CREATE PROCEDURE GetAllAllergies(
 )
 SQL SECURITY DEFINER
 BEGIN
-    -- Select various fields from the Patients and Allergies tables
+	DECLARE error_message TEXT;
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        GET DIAGNOSTICS CONDITION 1 error_message = MESSAGE_TEXT;  -- Get the error message from the diagnostics
+        SELECT error_message AS ErrorMessage;  -- Return the error message to the caller
+    END;
     SELECT
         Allergies.id,
         Allergies.icd9_code,
@@ -488,16 +503,24 @@ GRANT EXECUTE ON PROCEDURE hospital_management_system.GetAllAllergies TO 'Doctor
 
 DROP PROCEDURE IF EXISTS GetAllDrugs$$
 CREATE PROCEDURE GetAllDrugs(
+	number_of_entries INT,
+    starting_index INT
 )
 SQL SECURITY DEFINER
 BEGIN
-    -- Select various fields from the Patients and Allergies tables
+	DECLARE error_message TEXT;
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        GET DIAGNOSTICS CONDITION 1 error_message = MESSAGE_TEXT;  -- Get the error message from the diagnostics
+        SELECT error_message AS ErrorMessage;  -- Return the error message to the caller
+    END;
     SELECT
         Drugs.drug_code,
         Drugs.drug_name,
         Drugs.unit
-        
-    FROM Drugs;
+    FROM Drugs
+    LIMIT number_of_entries OFFSET starting_index;
+    
 
 END$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.GetAllAllergies TO 'Doctors'@'IP'$$
@@ -507,7 +530,12 @@ CREATE PROCEDURE GetAllConditions(
 )
 SQL SECURITY DEFINER
 BEGIN
-    -- Select various fields from the Patients and Allergies tables
+	DECLARE error_message TEXT;
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        GET DIAGNOSTICS CONDITION 1 error_message = MESSAGE_TEXT;  -- Get the error message from the diagnostics
+        SELECT error_message AS ErrorMessage;  -- Return the error message to the caller
+    END;
     SELECT
         Conditions.code,
         Conditions.condition_name,

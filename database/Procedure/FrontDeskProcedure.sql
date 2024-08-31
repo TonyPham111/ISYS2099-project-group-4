@@ -1,6 +1,5 @@
 DELIMITER $$
-
-DROP PROCEDURE IF EXISTS AddNewPatient; -- $$ 
+DROP PROCEDURE IF EXISTS AddNewPatient$$ 
 CREATE PROCEDURE AddNewPatient(
     para_full_name VARCHAR(50),           -- Parameter for the full name of the patient
     para_gender CHAR(1),                  -- Parameter for the patient's gender (e.g., 'M' or 'F')
@@ -10,16 +9,22 @@ CREATE PROCEDURE AddNewPatient(
 )
 SQL SECURITY DEFINER
 BEGIN
+	DECLARE error_message TEXT;
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+		BEGIN
+			GET DIAGNOSTICS CONDITION 1 error_message = MESSAGE_TEXT;  -- Get the error message from the diagnostics
+			ROLLBACK;  -- Rollback the transaction to undo any changes made before the error occurred
+			SELECT error_message;
+		END;
     -- Insert a new record into the Patients table with the provided parameters
-    INSERT INTO Patients (full_name, birth_date, phone_number, email, home_address, gender)
-    VALUES (para_ssn, para_full_name, para_birth_date, para_phone_number, para_home_address, para_gender);
-END; -- $$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.AddNewPatient TO 'FrontDesk'@'host';
+    INSERT INTO Patients (full_name, birth_date, phone_number, home_address, gender)
+    VALUES (para_full_name, para_birth_date, para_phone_number, para_home_address, para_gender);
+END$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.AddNewPatient TO 'FrontDesk'@'IP';
 
-
-DROP PROCEDURE IF EXISTS UpdatePatient; -- $$ 
+DROP PROCEDURE IF EXISTS UpdatePatient$$ 
 CREATE PROCEDURE UpdatePatient(
-    patient_id,
+    patient_id INT,
     para_full_name VARCHAR(50),           -- Parameter for the full name of the patient
     para_gender CHAR(1),                  -- Parameter for the patient's gender (e.g., 'M' or 'F')
     para_birth_date DATE,                 -- Parameter for the patient's birth date
@@ -28,6 +33,13 @@ CREATE PROCEDURE UpdatePatient(
 )
 SQL SECURITY DEFINER
 BEGIN
+	DECLARE error_message TEXT;
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+		BEGIN
+			GET DIAGNOSTICS CONDITION 1 error_message = MESSAGE_TEXT;  -- Get the error message from the diagnostics
+			ROLLBACK;  -- Rollback the transaction to undo any changes made before the error occurred
+			SELECT error_message;
+		END;
     -- Insert a new record into the Patients table with the provided parameters
     UPDATE Patients SET
             full_name = para_full_name,
@@ -36,9 +48,9 @@ BEGIN
             phone_number = para_phone_number,
             home_address = para_home_address
 
-    WHERE id = patient_id
-END; -- $$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.AddNewPatient TO 'FrontDesk'@'host';
+    WHERE id = patient_id;
+END$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.AddNewPatient TO 'FrontDesk'@'IP'$$
 
 
 DROP PROCEDURE IF EXISTS GetAllAppointments;
@@ -48,7 +60,7 @@ BEGIN
     SELECT * FROM Appointments;
 END;
 
-DROP PROCEDURE IF EXISTS CheckAvailability; -- $$
+DROP PROCEDURE IF EXISTS CheckAvailability$$
 CREATE PROCEDURE CheckAvailability(
     booked_date DATE,                      -- Parameter for the date when the booking is intended
     booked_start_time TIME,                -- Parameter for the start time of the booking
@@ -59,6 +71,13 @@ SQL SECURITY DEFINER
 BEGIN
     -- Declare a variable to store the department ID
     DECLARE para_department_id INT;
+    DECLARE error_message TEXT;
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+		BEGIN
+			GET DIAGNOSTICS CONDITION 1 error_message = MESSAGE_TEXT;  -- Get the error message from the diagnostics
+			ROLLBACK;  -- Rollback the transaction to undo any changes made before the error occurred
+			SELECT error_message;
+		END;
     -- Retrieve the department ID based on the provided department name
     SELECT id INTO para_department_id
     FROM Departments
@@ -69,18 +88,18 @@ BEGIN
            Staff.full_name,
             CASE
                 WHEN CheckIfBookingTimeOutsideSchedule(Staff.id, booked_date,
-                                                       booked_start_time, booked_end_time) = 0 THEN 'Occupied'
+                                                       booked_start_time, booked_end_time) = 0 THEN 'Unavailable'
                 WHEN CheckAppointmentClash(Staff.id, booked_date,
-                                      booked_start_time, booked_end_time) <> 0 THEN 'Occupied'
+                                      booked_start_time, booked_end_time) <> 0 THEN 'Unavailable'
                 ELSE 'Available'
             END AS 'Availability'
     FROM Staff
         WHERE Staff.department_id = para_department_id;
-END; -- $$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.CheckAvailability TO 'FrontDesk'@'host'; -- $$
+END$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.CheckAvailability TO 'FrontDesk'@'IP'$$
 
 
-DROP PROCEDURE IF EXISTS AddNewAppointment; -- $$
+DROP PROCEDURE IF EXISTS AddNewAppointment$$
 CREATE PROCEDURE AddNewAppointment(
     para_department_id INT,
     para_doctor_id INT,                        -- Parameter for the doctor ID who will handle the appointment
@@ -113,7 +132,7 @@ BEGIN
     -- Check if the doctor still belongs to the department the patient is booking
     IF NOT CheckDoctorExistsInDepartment(para_doctor_id, para_department_id) THEN
         SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Incorrect doctor id. Please check your input'
+        SET MESSAGE_TEXT = 'Incorrect doctor id. Please check your input';
     END IF;
 
 	-- Raise an exception if no patient is found
@@ -181,17 +200,24 @@ BEGIN
 
     -- Commit the transaction to save all changes
     COMMIT;
-END; -- $$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.AddNewAppointment TO 'FrontDesk'@'host'; -- $$
+END$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.AddNewAppointment TO 'FrontDesk'@'IP'$$
 
 
 
-DROP PROCEDURE IF EXISTS CancelAnAppointment; -- $$
+DROP PROCEDURE IF EXISTS CancelAnAppointment$$
 CREATE PROCEDURE CancelAnAppointment(appointment_id INT)  -- Procedure to cancel an appointment by its ID
 SQL SECURITY DEFINER
 BEGIN
     -- Declare a variable to store the schedule ID linked to the appointment
     DECLARE schedule_id INT;
+    DECLARE error_message TEXT;
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+		BEGIN
+			GET DIAGNOSTICS CONDITION 1 error_message = MESSAGE_TEXT;  -- Get the error message from the diagnostics
+			ROLLBACK;  -- Rollback the transaction to undo any changes made before the error occurred
+			SELECT error_message;
+		END;
 
     -- Error handling: In case of any SQL exception, rollback the transaction and return an error message
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
@@ -210,9 +236,7 @@ BEGIN
 
     -- Commit the transaction to save all changes
     COMMIT;
-END; -- $$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.CancelAnAppointment TO 'FrontDesk'@'host'; -- $$
-
-
+END$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.CancelAnAppointment TO 'FrontDesk'@'IP'$$
 
 DELIMITER ;

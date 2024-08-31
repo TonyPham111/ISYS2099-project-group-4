@@ -1,11 +1,19 @@
 DELIMITER $$
 
-DROP PROCEDURE IF EXISTS GetAllBillings
+
+DROP PROCEDURE IF EXISTS GetAllBillings$$
 CREATE PROCEDURE GetAllBillings()
 SQL SECURITY DEFINER
 BEGIN
-    SELECT Billing.id, Billings.patient_id, Billings.billing_date, Billings.total_amount FROM Billings
-END
+	DECLARE error_message TEXT;
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+		BEGIN
+			GET DIAGNOSTICS CONDITION 1 error_message = MESSAGE_TEXT;  -- Get the error message from the diagnostics
+			ROLLBACK;  -- Rollback the transaction to undo any changes made before the error occurred
+			SELECT error_message;
+		END;
+    SELECT Billings.id, Billings.patient_id, Billings.billing_date, Billings.total_amount FROM Billings;
+END$$
 
 DROP PROCEDURE IF EXISTS GetBillingDetails$$
 CREATE PROCEDURE GetBillingDetails(
@@ -13,11 +21,17 @@ CREATE PROCEDURE GetBillingDetails(
 )
 SQL SECURITY DEFINER
 BEGIN
-    DECLARE appointmentID INT,
-    DECLARE presID INT,
-    DECLARE testID INT,
+    DECLARE appointmentID INT;
+    DECLARE presID INT;
+    DECLARE testID INT;
+    DECLARE error_message TEXT;
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+		BEGIN
+			GET DIAGNOSTICS CONDITION 1 error_message = MESSAGE_TEXT;  -- Get the error message from the diagnostics
+			SELECT error_message;
+		END;
     
-    SELECT appointment_id, prescription_id, test_id INTO appointmentID, presID, testID FROM Billings WHERE Billings.id = billing_id
+    SELECT appointment_id, prescription_id, test_id INTO appointmentID, presID, testID FROM Billings WHERE Billings.id = billing_id;
     -- Fetch appointment details
     SELECT 
         appointment_charge
@@ -53,7 +67,6 @@ BEGIN
 END$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.GetBillingDetails TO 'BusinessOfficers'@'host'$$
 
-
 -- Removed the 'BillingID' parameter since it's automatically incremented
 DROP PROCEDURE IF EXISTS InsertNewBilling$$
 CREATE PROCEDURE InsertNewBilling(
@@ -68,6 +81,13 @@ BEGIN
     DECLARE appointment_fee DECIMAL(6,2);
     DECLARE total_prescription_fee DECIMAL(8,2);
     DECLARE total_test_fee DECIMAL(8,2);
+    DECLARE error_message TEXT;
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+		BEGIN
+			GET DIAGNOSTICS CONDITION 1 error_message = MESSAGE_TEXT;  -- Get the error message from the diagnostics
+			ROLLBACK;  -- Rollback the transaction to undo any changes made before the error occurred
+			SELECT error_message;
+		END;
     
 	-- Validate inputs
 	IF NOT CheckPatientExists(para_patient_id) THEN
@@ -89,7 +109,7 @@ BEGIN
 	END IF;
     
 	IF para_test_id IS NOT NULL THEN
-		IF NOT CheckTestDetailsExists(para_test_id) THEN
+		IF NOT CheckTestOrderExists(para_test_id) THEN
 			SIGNAL SQLSTATE '45000'
 			SET MESSAGE_TEXT = 'Test details does not exist';
 		END IF;
@@ -139,6 +159,4 @@ BEGIN
         para_test_id
     );
 END$$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.InsertNewBilling TO 'BusinessOfficers'@'host'$$
-
-DELIMITER ;
+GRANT EXECUTE ON PROCEDURE hospital_management_system.InsertNewBilling TO 'BusinessOfficers'@'IP'$$

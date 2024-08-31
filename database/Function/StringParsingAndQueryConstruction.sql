@@ -195,4 +195,83 @@ BEGIN
 END$$
 GRANT EXECUTE ON FUNCTION hospital_management_system.ParsingTestTypeIdString TO 'Doctors'@'IP'$$
 
+DROP FUNCTION IF EXISTS ParseScheduleString$$
+CREATE FUNCTION ParseScheduleString(
+	para_staff_id INT,
+    current_string_code TEXT,
+    last_string BIT
+)
+RETURNS TEXT
+READS SQL DATA
+SQL SECURITY DEFINER
+BEGIN
+	DECLARE time_check INT;
+	DECLARE existing_schedule_id INT;
+	DECLARE para_schedule_date DATE;
+    DECLARE para_schedule_start_time TIME;
+    DECLARE para_schedule_end_time TIME;
+    DECLARE para_schedule_note TEXT;
+    DECLARE update_case_clause_start_time TEXT;
+	DECLARE update_case_clause_end_time TEXT;
+	DECLARE update_case_clause_note TEXT;
+    DECLARE update_where_clause TEXT;
+    
+   
+    
+    SET para_schedule_date = substring_index(current_string_code, ";",  1); 
+    SET para_schedule_start_time = substring_index(substring_index(current_string_code, ";", -1), "-", 1);
+    SET para_schedule_end_time = substring_index(substring_index(substring_index(current_string_code,";", -1), "-", -1), "_", 1);
+    
+	SELECT id INTO existing_schedule_id FROM Staff_Schedule WHERE staff_id = para_staff_id AND schedule_date = para_schedule_date;
+    
+    SELECT TimeFormatCheck(para_schedule_start_time, para_schedule_end_time) INTO time_check;
+    
+    IF existing_schedule_id IS NULL THEN
+		RETURN CONCAT('1/(',para_staff_id,', ', '\'', para_schedule_date, '\'', ', ', '\'', para_schedule_start_time, '\'', ', ', '\'', para_schedule_end_time, '\'');
+	ELSE 
+		SET update_case_clause_start_time = CONCAT('WHEN id = ', existing_schedule_id, ' THEN ', '\'', para_schedule_start_time, '\'');
+		SET update_case_clause_end_time = CONCAT('WHEN id = ', existing_schedule_id, ' THEN ', '\'', para_schedule_end_time, '\'');
+		SET update_where_clause = existing_schedule_id;
+		RETURN CONCAT('0/',update_where_clause, ";", update_case_clause_start_time, "-", update_case_clause_end_time);
+    END IF;
+		
+END$$
+GRANT EXECUTE ON FUNCTION hospital_management_system.ParseScheduleString TO 'Doctors'@'IP'$$
+GRANT EXECUTE ON FUNCTION hospital_management_system.ParseScheduleString TO 'Nurses'@'IP'$$
+GRANT EXECUTE ON FUNCTION hospital_management_system.ParseScheduleString TO 'FrontDesk'@'IP'$$
+GRANT EXECUTE ON FUNCTION hospital_management_system.ParseScheduleString TO 'BusinessOfficers'@'IP'$$
+GRANT EXECUTE ON FUNCTION hospital_management_system.ParseScheduleString TO 'HR'@'IP'$$
+
+DROP FUNCTION IF EXISTS ParsingScheduleIdString$$
+CREATE FUNCTION ParsingScheduleIdString(
+    current_string_index TEXT,      
+    last_string INT
+)
+RETURNS TEXT                         
+READS SQL DATA
+SQL SECURITY DEFINER
+BEGIN
+    DECLARE schedule_id INT;     
+    SELECT id INTO schedule_id
+    FROM Staff_Schedule
+    WHERE id = CAST(current_string_index AS UNSIGNED);
+
+
+    IF schedule_id IS NULL THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Cannot find schedule. Please check your input';
+    END IF;
+    
+    IF last_string = 1 THEN
+        RETURN CONCAT(schedule_id, ');');
+    ELSE
+        RETURN CONCAT('', schedule_id);
+    END IF;
+END$$
+GRANT EXECUTE ON FUNCTION hospital_management_system.ParsingScheduleIdString TO 'Doctors'@'IP'$$
+GRANT EXECUTE ON FUNCTION hospital_management_system.ParsingScheduleIdString TO 'Nurses'@'IP'$$
+GRANT EXECUTE ON FUNCTION hospital_management_system.ParsingScheduleIdString TO 'FrontDesk'@'IP'$$
+GRANT EXECUTE ON FUNCTION hospital_management_system.ParsingScheduleIdString TO 'BusinessOfficers'@'IP'$$
+GRANT EXECUTE ON FUNCTION hospital_management_system.ParsingScheduleIdString TO 'HR'@'IP'$$
+
 DELIMITER ;
