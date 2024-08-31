@@ -30,44 +30,25 @@ const queries = {
     }
   },
 
-  Schedule: async (manager_id, staff_id, schedule_date, start_time, end_time, note) => {
+  Scheduling: async (manager_id, staff_id, schedule_string) => {
     try {
-      const sql = `CALL Schedule(?, ?, ?, ?, ?, ?)`;
-      const [results] = await poolBusinessOfficers.query(sql, [
-        manager_id,
-        staff_id,
-        schedule_date,
-        start_time,
-        end_time,
-        note,
-      ]);
+      const sql = `CALL Scheduling(?, ?, ?, ?, ?)`;
+      const [results] = await poolDoctors.query(sql, [manager_id, staff_id, schedule_string]);
       return results;
     } catch (error) {
       console.error("Error executing Schedule:", error);
-      return {
-        error: "An error occurred while executing Schedule. Please try again later.",
-      };
+      return { error: "An error occurred while executing Schedule. Please try again later." };
     }
   },
 
-  ReSchedule: async (manager_id, staff_id, schedule_id, schedule_date, start_time, end_time, note) => {
+  DeleteSchedule: async (manager_id, staff_id, schedule_string) => {
     try {
-      const sql = `CALL ReSchedule(?, ?, ?, ?, ?, ?, ?)`;
-      const [results] = await poolBusinessOfficers.query(sql, [
-        manager_id,
-        staff_id,
-        schedule_id,
-        schedule_date,
-        start_time,
-        end_time,
-        note,
-      ]);
+      const sql = `CALL DeleteSchedule(?, ?, ?)`;
+      const [results] = await poolDoctors.query(sql, [manager_id, staff_id, schedule_string]);
       return results;
     } catch (error) {
-      console.error("Error executing ReSchedule:", error);
-      return {
-        error: "An error occurred while executing ReSchedule. Please try again later.",
-      };
+      console.error("Error executing Schedule:", error);
+      return { error: "An error occurred while executing Schedule. Please try again later." };
     }
   },
 

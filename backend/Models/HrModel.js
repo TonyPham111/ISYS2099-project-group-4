@@ -103,26 +103,29 @@ const queries = {
             return { error: "An error occurred while executing FetchStaffInfoById. Please try again later." };
         }
     },
-    Schedule: async (manager_id, staff_id, schedule_date, start_time, end_time, note) => {
+
+    Scheduling: async (manager_id, staff_id, schedule_string) => {
         try {
-            const sql = `CALL Schedule(?, ?, ?, ?, ?, ?)`;
-            const [results] = await poolDoctors.query(sql, [manager_id, staff_id, schedule_date, start_time, end_time, note]);
-            return results;
+          const sql = `CALL Scheduling(?, ?, ?, ?, ?)`;
+          const [results] = await poolHR.query(sql, [manager_id, staff_id, schedule_string]);
+          return results;
         } catch (error) {
-            console.error("Error executing Schedule:", error);
-            return { error: "An error occurred while executing Schedule. Please try again later." };
+          console.error("Error executing Schedule:", error);
+          return { error: "An error occurred while executing Schedule. Please try again later." };
         }
-    },
-    ReSchedule: async (manager_id, staff_id, schedule_date, start_time, end_time, note) => {
+      },
+    
+      DeleteSchedule: async (manager_id, staff_id, schedule_string) => {
         try {
-            const sql = `CALL ReSchedule(?, ?, ?, ?, ?, ?)`;
-            const [results] = await poolDoctors.query(sql, [manager_id, staff_id, schedule_date, start_time, end_time, note]);
-            return results;
+          const sql = `CALL DeleteSchedule(?, ?, ?)`;
+          const [results] = await poolHR.query(sql, [manager_id, staff_id, schedule_string]);
+          return results;
         } catch (error) {
-            console.error("Error executing ReSchedule:", error);
-            return { error: "An error occurred while executing ReSchedule. Please try again later." };
+          console.error("Error executing Schedule:", error);
+          return { error: "An error occurred while executing Schedule. Please try again later." };
         }
-    },
+      },
+
     GetSubordinates: async (manager_id) => {
         try {
             const sql = `CALL GetStaffUnderManager(?)`;
@@ -133,6 +136,7 @@ const queries = {
             return { error: "An error occurred while executing GetSubordinates. Please try again later." };
         }
     },
+    //Not Finished
     CreateNewEvaluation: async (manager_id, staff_id, evaluation_string) => {
         try {
             const sql = `CALL CreateNewEvaluation(?, ?, ?)`;

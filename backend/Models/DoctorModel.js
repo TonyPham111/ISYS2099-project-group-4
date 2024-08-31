@@ -3,7 +3,7 @@ import { poolDoctors } from './dbConnectionConfiguration.js';
 const queries = {
   GetAllAllergies: async (patient_id) => {
     try {
-      const sql = `CALL FetchPatientsAllergies(?)`;
+      const sql = `CALL FetchPatientsAllergies(?, 1)`;
       const [results] = await poolDoctors.query(sql, [patient_id]);
       return results;
     } catch (error) {
@@ -47,7 +47,7 @@ const queries = {
 
   AddAllergyToPatient: async (doctor_id, patient_id, allergy_name_string) => {
     try {
-      const sql = `CALL AddAllergiesToPatients(?, ?)`;
+      const sql = `CALL AddAllergiesToPatients(?, ?, 1)`;
       const [results] = await poolDoctors.query(sql, [doctor_id, patient_id, allergy_name_string]);
       return results;
     } catch (error) {
@@ -58,7 +58,7 @@ const queries = {
 
   AddNewDiagnosis: async (doctor_id, patient_id, diagnosis_date, diagnosis_note, condition_code_string) => {
     try {
-      const sql = `CALL AddNewDiagnosis(?, ?, ?, ?, ?)`;
+      const sql = `CALL AddNewDiagnosis(?, ?, ?, ?, ?, 1)`;
       const [results] = await poolDoctors.query(sql, [doctor_id, patient_id, diagnosis_date, diagnosis_note, condition_code_string]);
       return results;
     } catch (error) {
@@ -69,7 +69,7 @@ const queries = {
 
   AddNewPrescription: async (doctor_id, patient_id, diagnosis_id, prescription_note, medicine_quantity_string) => {
     try {
-      const sql = `CALL AddNewPrescription(?, ?, ?, ?, ?)`;
+      const sql = `CALL AddNewPrescription(?, ?, ?, ?, ?, 1)`;
       const [results] = await poolDoctors.query(sql, [doctor_id, patient_id, diagnosis_id, prescription_note, medicine_quantity_string]);
       return results;
     } catch (error) {
@@ -80,7 +80,7 @@ const queries = {
 
   OrderTest: async (doctor_id, patient_id, administer_date, administer_time, test_code_string) => {
     try {
-      const sql = `CALL OrderTest(?, ?, ?, ?, ?)`;
+      const sql = `CALL OrderTest(?, ?, ?, ?, ?, 1)`;
       const [results] = await poolDoctors.query(sql, [doctor_id, patient_id, administer_date, administer_time, test_code_string]);
       return results;
     } catch (error) {
@@ -102,7 +102,7 @@ const queries = {
 
   GetPatientsInfo: async (doctor_id) => {
     try {
-      const sql = `CALL GetPatientsInfo(?)`;
+      const sql = `CALL GetPatientsInfoForDoctor(?)`;
       const [results] = await poolDoctors.query(sql, [doctor_id]);
       return results;
     } catch (error) {
@@ -155,10 +155,10 @@ const queries = {
     }
   },
 
-  Schedule: async (manager_id, staff_id, schedule_date, start_time, end_time, note) => {
+  Scheduling: async (manager_id, staff_id, schedule_string) => {
     try {
-      const sql = `CALL Schedule(?, ?, ?, ?, ?, ?)`;
-      const [results] = await poolDoctors.query(sql, [manager_id, staff_id, schedule_date, start_time, end_time, note]);
+      const sql = `CALL Scheduling(?, ?, ?, ?, ?)`;
+      const [results] = await poolDoctors.query(sql, [manager_id, staff_id, schedule_string]);
       return results;
     } catch (error) {
       console.error("Error executing Schedule:", error);
@@ -166,16 +166,18 @@ const queries = {
     }
   },
 
-  ReSchedule: async (manager_id, staff_id, schedule_id, schedule_date, start_time, end_time, note) => {
+  DeleteSchedule: async (manager_id, staff_id, schedule_string) => {
     try {
-      const sql = `CALL ReSchedule(?, ?, ?, ?, ?, ?, ?)`;
-      const [results] = await poolDoctors.query(sql, [manager_id, staff_id, schedule_id, schedule_date, start_time, end_time, note]);
+      const sql = `CALL DeleteSchedule(?, ?, ?)`;
+      const [results] = await poolDoctors.query(sql, [manager_id, staff_id, schedule_string]);
       return results;
     } catch (error) {
-      console.error("Error executing ReSchedule:", error);
-      return { error: "An error occurred while executing ReSchedule. Please try again later." };
+      console.error("Error executing Schedule:", error);
+      return { error: "An error occurred while executing Schedule. Please try again later." };
     }
   },
+
+
 
   GetSubordinates: async (manager_id) => {
     try {
@@ -188,6 +190,7 @@ const queries = {
     }
   },
 
+  // Not Finished
   CreateNewEvaluation: async (manager_id, staff_id, evaluation_string) => {
     try {
       const sql = `CALL CreateNewEvaluation(?, ?, ?)`;

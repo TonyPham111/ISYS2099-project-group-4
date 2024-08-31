@@ -316,36 +316,79 @@ export async function schedule(req, res){
   try{
     const user_info = req.user
     const staff_id = req.params.staffId
-    const {
+    const [{
       schedule_date,
       schedule_start_time,
       schedule_end_time,
-      schedule_note
     
-    } = req.body
+    }] = req.body
+    const schedule_string = ''; // Định dạng của schedule_string: schedule_date;start_time-end_time
     if (user_info === 'Doctor'){
-        doctorRepo.Schedule(
-          user_info.id, staff_id, schedule_date, schedule_start_time, schedule_end_time, schedule_note
+        doctorRepo.Scheduling(
+          user_info.id, staff_id, schedule_string
         )
     }
     if (user_info === 'Nurse'){
-      nurseRepo.Schedule(
-        user_info.id, staff_id, schedule_date, schedule_start_time, schedule_end_time, schedule_note
+      nurseRepo.Scheduling(
+        user_info.id, staff_id, schedule_string
       )
   }
     else if (user_info === 'FrontEnd'){
-      doctorRepo.Schedule(
-        user_info.id, staff_id, schedule_date, schedule_start_time, schedule_end_time, schedule_note
+      doctorRepo.Scheduling(
+        user_info.id, staff_id, schedule_string
       )
   }
     else if (user_info === 'Doctor'){
       doctorRepo.Schedule(
-        user_info.id, staff_id, schedule_date, schedule_start_time, schedule_end_time, schedule_note
+        user_info.id, staff_id, schedule_date, schedule_string
       )
     }
     else if (user_info === 'Doctor'){
       doctorRepo.Schedule(
-        user_info.id, staff_id, schedule_date, schedule_start_time, schedule_end_time, schedule_note
+        user_info.id, staff_id, schedule_string
+      )
+    }
+    else {
+      res.status(403).json({message: error.message})
+    }
+} catch(error){
+  res.status(500).json({message: error.message})
+}
+}
+
+// Anh vừa add thêm cái controller này vào để manager set schedule cho nhân viên
+export async function deleteSchedule(req, res){
+  try{
+    const user_info = req.user
+    const staff_id = req.params.staffId
+    const [{
+      //Schedule-id, schedule-id, schedule-id
+    
+    }] = req.body
+    const schedule_string = ''; // Định dạng của schedule_string: '1,2,3,4,5'
+    if (user_info === 'Doctor'){
+        doctorRepo.DeleteSchedule(
+          user_info.id, staff_id, schedule_string
+        )
+    }
+    if (user_info === 'Nurse'){
+      nurseRepo.DeleteSchedule(
+        user_info.id, staff_id, schedule_string
+      )
+  }
+    else if (user_info === 'FrontEnd'){
+      doctorRepo.DeleteSchedule(
+        user_info.id, staff_id, schedule_string
+      )
+  }
+    else if (user_info === 'Doctor'){
+      doctorRepo.DeleteSchedule(
+        user_info.id, staff_id, schedule_date, schedule_string
+      )
+    }
+    else if (user_info === 'Doctor'){
+      doctorRepo.DeleteSchedule(
+        user_info.id, staff_id, schedule_string
       )
     }
     else {
@@ -414,27 +457,4 @@ export async function getStaffSchedule(req, res) {
 }
 
 
-//Anh vẫn chưa hiểu. Cái procedure reschedule của anh chỉ nhận schedule id, new start time, new end time thôi
-export async function updateSpecificStaffSchedule(req, res) {
-  try {
 
-    //verify staff id have manager_id == req user.id
-    /*
-    update data: 
-    - deleted schedule --> array of schedule id
-    -- add schedule 
-    ---> ARRAY [schedule_input]
-    schedule input:
-     {
-        "start_time": String --> "HH:mm:ss",
-        "end_time": String --> "HH:mm:ss",
-        attachments: [
-            BLOB?
-            text?
-        ]?
-     }
-    */
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-}
