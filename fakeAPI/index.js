@@ -6,6 +6,9 @@ import patientTreatmentHistoryRouter from "./router/PatientTreatmentHistoryRoute
 import conditionData from "./data/condition_data.json" with {type: 'json'};
 import drugData from "./data/drug_data.json" with {type: 'json'};
 import departmentData from "./data/department_data.json" with {type: 'json'};
+import testTypesData from "./data/test_type_data.json" with {type: 'json'};
+import allergiesData from "./data/allergies_data.json" with {type: 'json'};
+
 import cors from "cors";
 const app = express();
 
@@ -23,6 +26,12 @@ app.get("/drugs", (req, res)=>{
 })
 app.get("/deparments", (req, res)=>{
   res.status(200).json(departmentData);
+})
+app.get("/test_types", (req, res)=>{
+  res.status(200).json(testTypesData);
+})
+app.get("/allergies",(req, res)=>{
+  res.status(200).json(allergiesData);
 })
 app.listen(8000, () => {
   console.log(`SERVER IS RUNNING ON http://localhost:${8000}`);

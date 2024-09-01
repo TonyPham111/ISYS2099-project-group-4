@@ -1,7 +1,7 @@
 import express, { json } from "express";
 import patientData from "../data/patient_data.json" with {type: 'json'};
 import patientDiagnosisData from "../data/patient_diagnosis_data.json" with {type: "json"};
-
+import patientTestingData from "../data/patient_test_data.json" with {type: 'json'};
 const patientRouter = express.Router();
 patientRouter
   .route("/")
@@ -112,52 +112,82 @@ patientRouter.route("/:patientId/diagnosis").get((req, res) => {
     res.status(500).json({ error: "Server Error" });
   }
 });
-patientRouter.route("/:patientId/diagnosis/:diagnosisId").get((req, res) => {
-  //get specific diagnosis data of specific patient
+
+patientRouter.route("/:patientId/testings").get((req, res) => {
+  //get all diagnosis data of specific patient
   /*
   structure data:
-  {
-    diagnosis_id: INT, 
-    condition: [
+  [
+      {
+        diagnosis_id: INT,
+        patient_id: INT, 
+        doctor_id: INT, 
+        diagnosis_date: "DD/MM/YYYY",
+         condition: [
       {
         code: String, 
         name: String, 
         description: String, 
-        Diagnosis_note: String
+        diagnosis_note: String
       }
     ],
     doctor_note: JSON
-  }
+        
+      }
+    ]
   */
   try {
-    let result;
     const patientId = req.params.patientId;
-    const diagnosisId = req.params.diagnosisId;
-    if (!patientId) {
-      res
-        .status(400)
-        .send({ error: "not include patient id to get patient data" });
+    let result = [];
+    
+    result = patientTestingData.filter((item)=>{
+      return item.patient_id == patientId;
+    }) 
+    if(result.length === 0){
+      res.status(404).json({error: "this patient don't have diagnosis data"});
     }
-    for (let i = 0; i < patientDiagnosisData.length; ++i) {
-      if (
-        patientDiagnosisData[i].diagnosis_id == Number(diagnosisId) &&
-        patientDiagnosisData[i].patient_id === Number(patientId)
-      ) {
-        result = patientDiagnosisData[i];
-        res.status(200).json(result);
-      }
-    }
-    if(!result){
-    res
-      .status(404)
-      .json({
-        error: "cannot find patient diagnosis data or input is invalid",
-      });
-
-    }
+    res.status(200).json(result);
   } catch (error) {
     res.status(500).json({ error: "Server Error" });
   }
 });
 
+patientRouter.route("/:patientId/allergies").get((req, res) => {
+  //get all diagnosis data of specific patient
+  /*
+  structure data:
+  [
+      {
+        allergies_id: INT,
+        patient_id: INT, 
+        doctor_id: INT, 
+        diagnosis_date: "DD/MM/YYYY",
+         condition: [
+      {
+        code: String, 
+        name: String, 
+        description: String, 
+        diagnosis_note: String
+      }
+    ],
+    doctor_note: JSON
+        
+      }
+    ]
+  */
+  try {
+    const patientId = req.params.patientId;
+    let result = [];
+    
+    result = patientDiagnosisData.filter((item)=>{
+      return item.patient_id == patientId;
+    }) 
+    if(result.length === 0){
+      res.status(404).json({error: "this patient don't have diagnosis data"});
+    }
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ error: "Server Error" });
+  }
+});
 export default patientRouter;

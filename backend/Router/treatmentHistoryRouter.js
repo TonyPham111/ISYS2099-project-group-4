@@ -6,7 +6,7 @@ treatmentHistoryRouter
   .route("/")
   .get(verifyToken, treatmentHistoryController.getAllTreatmentHistory)//doctor, nurse
   .post(verifyToken, treatmentHistoryController.createNewTreatment);//doctor
-treatmentHistoryRouter
-  .route("/:treatmentId")
-  .get(verifyToken, treatmentHistoryController.getSpecificTreatmentHistory);//doctor, nurse
+// treatmentHistoryRouter
+//   .route("/:treatmentId")
+//   .get(verifyToken, treatmentHistoryController.getSpecificTreatmentHistory);//doctor, nurse
 export default treatmentHistoryRouter;

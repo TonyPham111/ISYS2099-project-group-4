@@ -28,7 +28,20 @@ staffRouter
       }
     ]
     */
-   res.status(200).json(staffData);
+      const {manager_id, job_role} = req.query;
+      console.log(`manger_id: ${manager_id}`);
+      let result = staffData;
+      if(manager_id){
+        result = staffData.filter((item)=>{
+          return item.manager_id == Number(manager_id);
+        })
+      }
+      if(job_role){
+        result = staffData.filter((item)=>{
+          return item.job== job_role;
+        })
+      }
+   res.status(200).json(result);
   })
   .post((req, res) => {
     //add new staff
@@ -59,6 +72,7 @@ staffRouter
     */
       let result;
       const staffId = req.params.staffId;
+      
       if(!staffId){
         res.status(400).json({error: "Staff Id is not provided"});
       }
@@ -133,11 +147,14 @@ staffRouter
       return item.doctor_id == Number(staffId);
     });
     for(let i = 0; i < staffSChedule.length; ++i){
-      delete staffSChedule[i].staff_id
+      // delete staffSChedule[i].staff_id;
+      // console.log(staffSChedule[i]);
     }
     for(let i = 0; i < staffAppointment.length; ++i){
       delete staffAppointment[i].staff_id
     }
+    console.log(`check input data: \n id: ${staffId}`)
+    console.log(`check staff Scheudlew: ${(staffSChedule)}`);
     res.status(200).json(
       {
         staff_id: staffId,
