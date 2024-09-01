@@ -1,6 +1,8 @@
-import { useEffect, useState } from "react";
+import { UserContext } from "@/contexts/userContext";
+import { useContext, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-export default function StaffDetailNavbar() {
+export default function StaffDetailNavbar({ data }) {
+  const { userData } = useContext(UserContext);
   const [activeItem, setActiveItem] = useState();
   const location = useLocation();
   useEffect(() => {
@@ -10,28 +12,34 @@ export default function StaffDetailNavbar() {
     }
   }, [location]);
   return (
-    <nav className="flex gap-[30px]">
-      <Link
-        className={`${
-          activeItem == "personal-information"
-            ? "text-custom-blue border-b-2 border-solid border-custom-blue"
-            : "text-custom-dark-300"
-        }`}
-        to={"./personal-information"}
-      >
-        <h4>Personal Information</h4>
-      </Link>
-
-      <Link
-        className={`${
-          activeItem === "schedule"
-            ? "text-custom-blue border-b-2 border-solid border-custom-blue"
-            : "text-custom-dark-300"
-        }`}
-        to={"./schedule"}
-      >
-        <h4>Schedule</h4>
-      </Link>
-    </nav>
+    <>
+      <nav className="flex gap-[30px]">
+        <Link
+          className={`${
+            activeItem == "personal-information"
+              ? "text-custom-blue border-b-2 border-solid border-custom-blue"
+              : "text-custom-dark-300"
+          }`}
+          to={"./personal-information"}
+        >
+          <h4>Personal Information</h4>
+        </Link>
+        {userData.id == data.manager_id && (
+          <Link
+            className={`${
+              activeItem === "schedule"
+                ? "text-custom-blue border-b-2 border-solid border-custom-blue"
+                : "text-custom-dark-300"
+            }`}
+            to={"./schedule"}
+          >
+            <h4>Schedule</h4>
+          </Link>
+        )}
+      </nav>
+      <h5 className="text-custom-dark-300">
+        {/*--user info----*/}#{data.id} {data.last_name} {data.first_name}
+      </h5>
+    </>
   );
 }

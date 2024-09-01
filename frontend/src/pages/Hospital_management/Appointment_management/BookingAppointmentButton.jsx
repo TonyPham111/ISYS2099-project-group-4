@@ -1,4 +1,4 @@
-import Popup from "@/component/ui/Popup";
+import Popup from "@/component/ui/Popup/Popup";
 import { PopupContext } from "@/contexts/popupContext";
 import { useContext } from "react";
 import BookingForm from "./BookingForm";

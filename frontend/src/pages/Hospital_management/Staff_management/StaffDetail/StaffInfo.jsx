@@ -1,12 +1,14 @@
 import dayjs from "dayjs";
-import CustomDatePicker from "@/component/ui/CustomDatePicker";
+import CustomDatePicker from "@/component/ui/DateTime/CustomDatePicker";
 import * as staffService from "@/services/staffService";
 import { useParams } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
-import DiscardAndSaveButton from "@/component/ui/DiscardAndSaveButton";
+import { useContext, useEffect, useRef, useState } from "react";
+import DiscardAndSaveButton from "@/component/ui/Button/DiscardAndSaveButton";
 import useSWR from "swr";
 import fetcher from "@/utils/fetcher";
+import { UserContext } from "@/contexts/userContext";
 export default function StaffInfo() {
+  const { userData } = useContext(UserContext);
   const { id } = useParams();
   const { data, error, isLoading } = useSWR(
     `http://localhost:8000/staffs/${id}`,
@@ -68,6 +70,7 @@ export default function StaffInfo() {
             <div>
               <h4>First name</h4>
               <input
+                readOnly={userData.job_role !== "HR"}
                 onChange={(e) => {
                   setFirstName(e.target.value);
                 }}
@@ -78,6 +81,7 @@ export default function StaffInfo() {
             <div>
               <h4>Last name</h4>
               <input
+                readOnly={userData.job_role !== "HR"}
                 onChange={(e) => {
                   setLastName(e.target.value);
                 }}
@@ -88,6 +92,7 @@ export default function StaffInfo() {
             <div>
               <h4>gender</h4>
               <select
+                disabled={userData.job_role !== "HR"}
                 onChange={(e) => {
                   setGender(e.target.value);
                 }}
@@ -103,31 +108,36 @@ export default function StaffInfo() {
             <div>
               <h4>Date of Birth</h4>
               <CustomDatePicker
+                readOnly={userData.job_role !== "HR"}
                 value={birthDate}
                 setValue={setBirthDate}
                 size={"lg"}
               />
             </div>
-            <div>
-              <h4>Home Address</h4>
-              <input
-                onChange={(e) => {
-                  setHomeAddress(e.target.value);
-                }}
-                value={homeAddress}
-                className="mt-[8px] border-[1px]"
-              />
-            </div>
-            <div>
-              <h4>Contact phone number</h4>
-              <input
-                onChange={(e) => {
-                  setContactPhoneNumber(e.target.value);
-                }}
-                value={contactPhoneNumber}
-                className="mt-[8px] border-[1px]"
-              />
-            </div>
+            {userData.job_role == "HR" && (
+              <>
+                <div>
+                  <h4>Home Address</h4>
+                  <input
+                    onChange={(e) => {
+                      setHomeAddress(e.target.value);
+                    }}
+                    value={homeAddress}
+                    className="mt-[8px] border-[1px]"
+                  />
+                </div>
+                <div>
+                  <h4>Contact phone number</h4>
+                  <input
+                    onChange={(e) => {
+                      setContactPhoneNumber(e.target.value);
+                    }}
+                    value={contactPhoneNumber}
+                    className="mt-[8px] border-[1px]"
+                  />
+                </div>
+              </>
+            )}
             <div>
               <h4>wage</h4>
               <input
@@ -139,20 +149,9 @@ export default function StaffInfo() {
               />
             </div>
             <div>
-              <h4>employment type</h4>
-              <select
-                onChange={(e) => {
-                  setEmploymentType(e.target.value);
-                }}
-                className="mt-[8px] p-[3px] border-[1.1px]"
-              >
-                <option value="Fulltime">fulltime</option>
-                <option value="shiftBased">shift based</option>
-              </select>
-            </div>
-            <div>
               <h4>hire date</h4>
               <CustomDatePicker
+                readOnly={userData.job_role !== "HR"}
                 value={hireDate}
                 setValue={setHireDate}
                 size={"lg"}
@@ -161,6 +160,7 @@ export default function StaffInfo() {
             <div>
               <h4>job position</h4>
               <select
+                readOnly={userData.job_role !== "HR"}
                 onChange={(e) => {
                   setJob(e.target.value);
                 }}
@@ -173,10 +173,12 @@ export default function StaffInfo() {
             </div>
           </div>
           {/*-------------------------------------- lower part --------------------------------*/}
-          <DiscardAndSaveButton
-            handleDiscardChange={handleDiscardChange}
-            handleSaveInformation={handleSaveInformation}
-          />
+          {userData.job_role == "HR" && (
+            <DiscardAndSaveButton
+              handleDiscardChange={handleDiscardChange}
+              handleSaveInformation={handleSaveInformation}
+            />
+          )}
         </div>
       </>
     );

@@ -1,22 +1,39 @@
 import Schedule from "@/component/ui/schedule/Schedule";
 import { useContext, useEffect, useRef, useState, createContext } from "react";
-import * as staffService from "@/services/staffService";
-import { useParams } from "react-router-dom";
+import { json, useNavigate, useParams } from "react-router-dom";
 import convertStringFormatToDate from "@/utils/convertStringFormatToDate";
 import { PopupContextProvider } from "@/contexts/popupContext";
-import DiscardAndSaveButton from "@/component/ui/DiscardAndSaveButton";
+import DiscardAndSaveButton from "@/component/ui/Button/DiscardAndSaveButton";
 import filterEventArray, {
   detectAppointmentNotCover,
 } from "@/utils/eventFunction";
 import { ScheduleContext } from "@/contexts/scheduleContext";
 import useSWR from "swr";
 import fetcher from "@/utils/fetcher";
+import { UserContext } from "@/contexts/userContext";
+import PopupButton from "@/component/ui/Button/PopupButton";
+import UpdateScheduleForm from "@/component/ui/Form/Create/UpdateScheduleForm";
 export default function StaffSchedule() {
+  const navigate = useNavigate();
   const { id } = useParams();
-  const { error, isLoading, data } = useSWR(
+  const { userData } = useContext(UserContext);
+  const [isSettingData, setIsSettingData] = useState(false);
+  const { data: staffData, isLoading, error } = useSWR(
+    `http://localhost:8000/staffs/${id}`,
+    fetcher
+  );
+  const { data: scheduleData } = useSWR(
     `http://localhost:8000/staffs/${id}/schedule`,
     fetcher
   );
+  useEffect(() => {
+    if (
+      staffData &&
+      (userData.id !== staffData.manager_id || userData.job_role == "HR")
+    ) {
+      navigate("/dashboard");
+    }
+  }, [userData, staffData]);
   const {
     events,
     setEvents,
@@ -26,13 +43,11 @@ export default function StaffSchedule() {
     setFilterBackgroundEvents,
   } = useContext(ScheduleContext);
 
-  const isSettingData = useRef(false);
-
   //load data when it already get data from api
-  useEffect(() => {
-    if (data && isSettingData.current == false) {
-      setEvents(data.staff_appointment);
-      const staffScheduleData = data.staff_schedule.map((item) => {
+  // useEffect(() => {
+    if (scheduleData && isSettingData == false) {
+      setEvents(scheduleData.staff_appointment);
+      const staffScheduleData = scheduleData.staff_schedule.map((item) => {
         return {
           title: "working time",
           start: convertStringFormatToDate(item.date, item.start_time),
@@ -41,9 +56,9 @@ export default function StaffSchedule() {
       });
       setBackgroundEvents(staffScheduleData);
       setFilterBackgroundEvents(staffScheduleData);
-      isSettingData.current = true;
+      setIsSettingData(true);
     }
-  }, [data]);
+  // }, [staffData]);
 
   //set filter background event when add background events array change or delete background events array change
 
@@ -78,10 +93,10 @@ export default function StaffSchedule() {
     }
   }
   function handleDiscardChange() {
-    if (data) {
-      setEvents(data.staff_appointment);
+    if (scheduleData) {
+      setEvents(scheduleData.staff_appointment);
     }
-    const staffScheduleData= data.staff_schedule.map((item) => {
+    const staffScheduleData = scheduleData.staff_schedule.map((item) => {
       return {
         title: "working time",
         start: convertStringFormatToDate(item.date, item.start_time),
@@ -90,13 +105,21 @@ export default function StaffSchedule() {
     });
     setBackgroundEvents(staffScheduleData);
   }
-  if (error) {
-    return <div>error when loading data</div>;
-  } else if (isLoading) {
-    return <div>isLoading</div>;
-  } else if (data) {
+  if (isLoading || !isSettingData) {
+    return <></>;
+  } 
     return (
       <div className="w-full h-full flex flex-col gap-[10px]">
+        <div className="w-full flex justify-end">
+          <PopupContextProvider>
+            <PopupButton
+            popupWidthSize={'w-[600px]'}
+           popupHeightSize={'h-[45vw]'} 
+              PopupComponent={<UpdateScheduleForm/>}
+              text={"update schedule +"}
+            />
+          </PopupContextProvider>
+        </div>
         {/*----when click appointment, it need to popup to show detail, show we need this context provider----*/}
         <PopupContextProvider>
           <Schedule auditable={true} />
@@ -107,5 +130,4 @@ export default function StaffSchedule() {
         />
       </div>
     );
-  }
 }

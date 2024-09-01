@@ -5,20 +5,14 @@ export default function filterEventArray(targetArray, conditionArray) {
     )}\n conditionArray: ${JSON.stringify(conditionArray)}\n`
   );
   const newArray = targetArray.filter((item) => {
-    console.log(`check target event item:\n: ${JSON.stringify(item)}`);
     for (let i = 0; i < conditionArray.length; ++i) {
-      console.log(
-        `check condition event item:\n start: ${conditionArray[i].start} + end: ${conditionArray[i].end}`
-      );
       if (
         conditionArray[i].start == item.start &&
         conditionArray[i].end == item.end
       ) {
-        console.log(`this target event item appear in condition event array`);
         return false;
       }
       //if not appear, return true
-      console.log(`avaialble`);
     }
     return true;
   });
@@ -26,7 +20,6 @@ export default function filterEventArray(targetArray, conditionArray) {
 }
 
 export function indexOfEvent(targetEvent, eventArray) {
-  console.log(`eventArray: ${JSON.stringify(eventArray)}`);
   for (let i = 0; i < eventArray.length; ++i) {
     if (
       eventArray[i].start == targetEvent.start &&
@@ -41,7 +34,6 @@ export function indexOfEvent(targetEvent, eventArray) {
 export function detectAppointmentNotCover(appointArray, backgroundEventArray) {
   //return array of appointment that not fully cover
   if (backgroundEventArray.length === 0) {
-    console.log(`return array: ${appointArray}`);
     return appointArray;
   }
   const notFullyCoverAppointmentArray = appointArray.filter(
@@ -82,7 +74,6 @@ export function detectAppointmentNotCover(appointArray, backgroundEventArray) {
         //     appointmentItem.end >= backgroundEventArray[i].start) ||
         //   (appointmentItem.start <= backgroundEventArray[i].end &&
         //     appointmentItem.end > backgroundEventArray[i].end);
-        console.log(`is fully conver: ${isFullyCover}`);
         if (isFullyCover) {
           return false;
         }
@@ -90,6 +81,5 @@ export function detectAppointmentNotCover(appointArray, backgroundEventArray) {
       return true;
     }
   );
-  // console.log(`return array: ${notFullyCoverAppointmentArray}`);
   return notFullyCoverAppointmentArray;
 }
