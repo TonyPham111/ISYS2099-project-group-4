@@ -1,10 +1,18 @@
 DELIMITER $$
-DROP PROCEDURE IF EXISTS FetchPatientsAllergies;
+DROP PROCEDURE IF EXISTS FetchPatientsAllergies$$
+
 CREATE PROCEDURE FetchPatientsAllergies(
     patient_id INT
 )
 SQL SECURITY DEFINER
 BEGIN
+	DECLARE error_message TEXT;
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+		BEGIN
+			GET DIAGNOSTICS CONDITION 1 error_message = MESSAGE_TEXT;  -- Get the error message from the diagnostics
+			ROLLBACK;  -- Rollback the transaction to undo any changes made before the error occurred
+			SELECT error_message;
+		END;
     SELECT
         PatientAllergy.record_date,
         Allergies.allergy_name,            
@@ -19,22 +27,51 @@ BEGIN
     INNER JOIN
         Allergies                    
     ON
-        PatientAllergy.allergy_id = Allergies.is 
-    INNER JOIN
-        Allergies                         
-    ON
-        PatientAllergy.allergy_id = Allergies.id 
+        PatientAllergy.allergy_id = Allergies.id
     WHERE Patients.id = patient_id;
-END;
+END$$
+
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchPatientsAllergies TO 'Doctors'@'IP'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchPatientsAllergies TO 'Nurses'@'IP'$$
 
 
+DROP PROCEDURE IF EXISTS FetchPatientsPersonalInfo$$
+CREATE PROCEDURE FetchPatientsPersonalInfo()
+SQL SECURITY DEFINER
+BEGIN
+	DECLARE error_message TEXT;		
+	 DECLARE EXIT HANDLER FOR SQLEXCEPTION
+		BEGIN
+			GET DIAGNOSTICS CONDITION 1 error_message = MESSAGE_TEXT;  -- Get the error message from the diagnostics
+			ROLLBACK;  -- Rollback the transaction to undo any changes made before the error occurred
+			SELECT error_message;
+		END;
+    SELECT
+        id,
+        full_name,
+        birth_date,
+        gender,
+        phone_number,
+        home_address
+    FROM Patients;
+END$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchPatientsPersonalInfo TO 'FrontDesk'@'IP'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchPatientsPersonalInfo TO 'BusinessOfficers'@'IP'$$
 
-DROP PROCEDURE IF EXISTS FetchStaffInfoById; -- $$
+
+DROP PROCEDURE IF EXISTS FetchStaffInfoById$$
 CREATE PROCEDURE FetchStaffInfoById(
     staff_id INT                      -- Parameter for the ID of the staff member whose details are to be fetched
 )
 SQL SECURITY DEFINER
 BEGIN
+	DECLARE error_message TEXT;
+	 DECLARE EXIT HANDLER FOR SQLEXCEPTION
+		BEGIN
+			GET DIAGNOSTICS CONDITION 1 error_message = MESSAGE_TEXT;  -- Get the error message from the diagnostics
+			ROLLBACK;  -- Rollback the transaction to undo any changes made before the error occurred
+			SELECT error_message;
+		END;
     -- Select various fields from the Staff, Jobs, and Departments tables
     SELECT
         Non_Manager.id,                     -- The ID of the staff member
@@ -70,128 +107,68 @@ BEGIN
         Non_Manager.id = staff_id;           -- Filter to include only the specified staff member
 
 END;
-GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchStaffInfoById TO 'HR'@'host'; -- $$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchStaffInfoById TO 'Doctors'@'host'; -- $$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchStaffInfoById TO 'Nurses'@'host'; -- $$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchStaffInfoById TO 'FrontDesk'@'host'; -- $$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchStaffInfoById TO 'BusinessOfficers'@'host'; -- $$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchStaffInfoById TO 'HR'@'IP'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchStaffInfoById TO 'Doctors'@'IP'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchStaffInfoById TO 'Nurses'@'IP'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchStaffInfoById TO 'FrontDesk'@'IP'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchStaffInfoById TO 'BusinessOfficers'@'IP'$$
 
-
-DROP PROCEDURE IF EXISTS FetchPatientsPersonalInfo; -- $$
-CREATE PROCEDURE FetchPatientsPersonalInfo()
+DROP PROCEDURE IF EXISTS FetchDiagnosesByPatientId$$
+CREATE PROCEDURE FetchDiagnosesByPatientId(
+    patient_id INT  -- Parameter for the ID of the patient whose diagnoses are to be fetched
+)
 SQL SECURITY DEFINER
 BEGIN
+	DECLARE error_message TEXT;
+	 DECLARE EXIT HANDLER FOR SQLEXCEPTION
+		BEGIN
+			GET DIAGNOSTICS CONDITION 1 error_message = MESSAGE_TEXT;  -- Get the error message from the diagnostics
+			SELECT error_message;
+		END;
+    -- Select various fields related to diagnoses for the specified patient
     SELECT
-        id,
-        ssn,
-        full_name,
-        birth_date,
-        gender,
-        phone_number,
-        email
-    FROM Patients;
-END; -- $$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchPatientsPersonalInfo TO 'FrontDesk'@'host'; -- $$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchPatientsPersonalInfo TO 'BusinessOfficers'@'host'; -- $$
 
-DROP PROCEDURE IF EXISTS Schedule; -- $$
-CREATE PROCEDURE Schedule (
-    para_manager_id INT,
-    staff_id INT,
-    para_schedule_date DATE,
-    schedule_start_time TIME,
-    schedule_end_time TIME,
-    schedule_note TEXT
-)
-SQL SECURITY DEFINER
-BEGIN
-    DECLARE checked_staff_id INT;
+        Diagnoses.id AS diagnosis_id,         -- The ID of the diagnosis
+        Staff.full_name AS doctor_name,       -- The full name of the doctor who made the diagnosis
+        Diagnoses.diagnosis_date,             -- The date when the diagnosis was made
+        Diagnoses.diagnosis_note,              -- Any notes related to the diagnosis
+        Conditions.condition_code,
+        Conditions.condition_name,            -- The name of the diagnosed condition
+        Conditions.condition_description
+    FROM
+        Conditions                            -- The Conditions table, which contains information about medical conditions
+    INNER JOIN
+        DiagnosesDetails                      -- The DiagnosesDetails table, linking diagnoses with conditions
+    ON
+        Conditions.condition_code = DiagnosesDetails.condition_code -- Join on condition_code to link with DiagnosesDetails
+    INNER JOIN
+        Diagnoses                             -- The Diagnoses table, containing details about each diagnosis
+    ON
+        Diagnoses.id = DiagnosesDetails.diagnosis_id -- Join on diagnosis_id to link DiagnosesDetails with Diagnoses
+    INNER JOIN
+        Staff                                 -- The Staff table, to retrieve the name of the doctor who made the diagnosis
+    ON
+        Diagnoses.doctor_id = Staff.id        -- Join on doctor_id to link Diagnoses with Staff
+    WHERE
+        Diagnoses.patient_id = patient_id;    -- Filter to include only the diagnoses for the specified patient
 
-       -- Check if the staff has the authority to schedule for the other staff
-    IF NOT CheckManagementRelationship(manager_id, staff_id) THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Do not have the authority to schedule for this staff.'
-    END IF;
+END$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchDiagnosesByPatientId TO 'Doctors'@'IP'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchDiagnosesByPatientId TO 'Nurses'@'IP'$$
 
-    SELECT ScheduleCheck(checked_staff_id, para_schedule_date,
-                       schedule_start_time, schedule_end_time);
 
-    INSERT INTO Staff_Schedule (staff_id, schedule_date, start_time, end_time, note)
-        VALUES (checked_staff_id, para_schedule_date, schedule_start_time, schedule_end_time, schedule_note);
-
-END; -- $$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.Schedule TO 'HR'@'host'; -- $$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.Schedule TO 'Doctors'@'host'; -- $$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.Schedule TO 'Nurses'@'host'; -- $$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.Schedule TO 'FrontDesk'@'host'; -- $$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.Schedule TO 'BusinessOfficers'@'host'; -- $$
-
-DROP PROCEDURE IF EXISTS Reschedule; -- $$
-CREATE PROCEDURE Reschedule(
-    manager_id INT,
-    staff_id INT,
-    schedule_id INT,          -- Parameter for the ID of the appointment to be rescheduled
-    para_schedule_date DATE,       -- Parameter for the new date of the appointment
-    para_start_time TIME,             -- Parameter for the new start time of the appointment
-    para_end_time TIME                -- Parameter for the new end time of the appointment
-)
-SQL SECURITY DEFINER
-BEGIN
-    -- Declare variables to be used in the procedure
-    DECLARE para_schedule_id INT;                 -- Variable to store the schedule ID associated with the appointment
-
-    -- Error handling: In case of any SQL exception, rollback the transaction and return an error message
-    DECLARE EXIT HANDLER FOR SQLEXCEPTION
-    BEGIN
-        ROLLBACK;  -- Rollback any changes made during the transaction
-        SELECT 'An error occurred. Transaction rolled back.' AS ErrorMessage;  -- Return an error message
-    END;
-
-    -- Check if the staff has the authority to schedule for the other staff
-    IF NOT CheckManagementRelationship(manager_id, staff_id) THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Do not have the authority to schedule for this staff.'
-    END IF;
-
-    -- Check if schedule_id belongs to the doctor_id
-    SELECT Staff_Schedule.id INTO para_schedule_id
-            FROM Staff_Schedule
-            WHERE Staff_Schedule.id = schedule_id
-              AND Staff_Schedule.staff_id = staff_id LIMIT 1;
-
-    IF para_schedule_id IS NULL THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Incorrect schedule id. Please try again';
-    END IF;
-
-    UPDATE Staff_Schedule
-        SET schedule_date = para_schedule_date,        -- Update the schedule date
-            start_time = para_start_time,                 -- Update the start time
-            end_time = para_end_time                      -- Update the end time
-        WHERE id = schedule_id;                      -- Specify the schedule to update by its ID
-
-END; -- $$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.Reschedule TO 'HR'@'host'; -- $$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.Reschedule TO 'Doctors'@'host'; -- $$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.Reschedule TO 'Nurses'@'host'; -- $$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.Reschedule TO 'FrontDesk'@'host'; -- $$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.Reschedule TO 'BusinessOfficers'@'host'; -- $$
-
-DROP PROCEDURE IF EXISTS FetchPatientsAllergies;
-CREATE PROCEDURE FetchPatientsAllergies(
-    patient_id INT
-)
-SQL SECURITY DEFINER
-BEGIN
-    SELECT 
-END;
-
-DROP PROCEDURE IF EXISTS FetchTestDetailsByPatientId; -- $$
+DROP PROCEDURE IF EXISTS FetchTestDetailsByPatientId$$
 CREATE PROCEDURE FetchTestDetailsByPatientId(
     patient_id INT    -- Parameter for the ID of the patient whose test details are to be fetched
 )
 SQL SECURITY DEFINER
 BEGIN
+	DECLARE error_message TEXT;
+	 DECLARE EXIT HANDLER FOR SQLEXCEPTION
+		BEGIN
+			GET DIAGNOSTICS CONDITION 1 error_message = MESSAGE_TEXT;  -- Get the error message from the diagnostics
+			SELECT error_message;
+		END;
     -- Common Table Expression (CTE) to gather test order details along with the ordering doctor's name
     WITH Test_Orders_Details AS (
         SELECT
@@ -235,53 +212,21 @@ BEGIN
     WHERE
         Test_Orders_Details.patient_id = patient_id;  -- Filter to include only the tests for the specified patient
 
-END; -- $$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchTestDetailsByPatientId TO 'Doctors'@'host'; -- $$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchTestDetailsByPatientId TO 'Nurses'@'host'; -- $$
+END$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchTestDetailsByPatientId TO 'Doctors'@'IP'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchTestDetailsByPatientId TO 'Nurses'@'IP'$$
 
-DROP PROCEDURE IF EXISTS FetchDiagnosesByPatientId; -- $$
-CREATE PROCEDURE FetchDiagnosesByPatientId(
-    patient_id INT  -- Parameter for the ID of the patient whose diagnoses are to be fetched
-)
-SQL SECURITY DEFINER
-BEGIN
-    -- Select various fields related to diagnoses for the specified patient
-    SELECT
-
-        Diagnoses.id AS diagnosis_id,         -- The ID of the diagnosis
-        Staff.full_name AS doctor_name,       -- The full name of the doctor who made the diagnosis
-        Diagnoses.diagnosis_date,             -- The date when the diagnosis was made
-        Diagnoses.diagnosis_note,              -- Any notes related to the diagnosis
-        Conditions.condition_code,
-        Conditions.condition_name,            -- The name of the diagnosed condition
-        Conditions.condition_description
-    FROM
-        Conditions                            -- The Conditions table, which contains information about medical conditions
-    INNER JOIN
-        DiagnosesDetails                      -- The DiagnosesDetails table, linking diagnoses with conditions
-    ON
-        Conditions.condition_code = DiagnosesDetails.condition_code -- Join on condition_code to link with DiagnosesDetails
-    INNER JOIN
-        Diagnoses                             -- The Diagnoses table, containing details about each diagnosis
-    ON
-        Diagnoses.id = DiagnosesDetails.diagnosis_id -- Join on diagnosis_id to link DiagnosesDetails with Diagnoses
-    INNER JOIN
-        Staff                                 -- The Staff table, to retrieve the name of the doctor who made the diagnosis
-    ON
-        Diagnoses.doctor_id = Staff.id        -- Join on doctor_id to link Diagnoses with Staff
-    WHERE
-        Diagnoses.patient_id = patient_id;    -- Filter to include only the diagnoses for the specified patient
-
-END; -- $$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchDiagnosesByPatientId TO 'Doctors'@'host'; -- $$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchDiagnosesByPatientId TO 'Nurses'@'host'; -- $$
-
-
-DROP PROCEDURE IF EXISTS FetchPrescriptionsByPatientId; -- $$
+DROP PROCEDURE IF EXISTS FetchPrescriptionsByPatientId$$
 CREATE PROCEDURE FetchPrescriptionsByPatientId(
     para_patient_id INT  -- Parameter for the ID of the patient whose prescriptions are to be fetched
 )
 BEGIN
+	DECLARE error_message TEXT;
+	 DECLARE EXIT HANDLER FOR SQLEXCEPTION
+		BEGIN
+			GET DIAGNOSTICS CONDITION 1 error_message = MESSAGE_TEXT;  -- Get the error message from the diagnostics
+			SELECT error_message;
+		END;
     -- Select various fields related to the prescriptions for the specified patient
     SELECT
         TreatmentHistory.id,
@@ -310,16 +255,23 @@ BEGIN
     WHERE
         TreatmentHistory.patient_id = para_patient_id; -- Filter to include only the prescriptions for the specified patient
 
-END; -- $$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchPrescriptionsByPatientId TO 'Doctors'@'host'; -- $$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchPrescriptionsByPatientId TO 'Nurses'@'host'; -- $$
+END$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchPrescriptionsByPatientId TO 'Doctors'@'IP'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchPrescriptionsByPatientId TO 'Nurses'@'IP'$$
 
-
+DROP PROCEDURE IF EXISTS GetStaffUnderManager;
 -- procedure to get all staff under a manager
 CREATE PROCEDURE GetStaffUnderManager(
     IN managerId INT
 )
 BEGIN
+	DECLARE error_message TEXT;
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+		BEGIN
+			GET DIAGNOSTICS CONDITION 1 error_message = MESSAGE_TEXT;  -- Get the error message from the diagnostics
+			SELECT error_message;
+		END;
+    
     SELECT 
         s.id AS staff_id,
         s.full_name,
@@ -338,89 +290,199 @@ BEGIN
         s.manager_id = managerId AND   s.employment_status = 'Active';
 END$$
 
-GRANT EXECUTE ON PROCEDURE hospital_management_system.GetStaffUnderManager TO 'HR'@'host'$$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.GetStaffUnderManager TO 'BusinessOfficers'@'host'$$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.GetStaffUnderManager TO 'Doctors'@'host'$$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.GetStaffUnderManager TO 'Nurses'@'host'$$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.GetStaffUnderManager TO 'FrontDesk'@'host'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.GetStaffUnderManager TO 'HR'@'IP'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.GetStaffUnderManager TO 'BusinessOfficers'@'IP'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.GetStaffUnderManager TO 'Doctors'@'IP'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.GetStaffUnderManager TO 'Nurses'@'IP'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.GetStaffUnderManager TO 'FrontDesk'@'IP'$$
 
 
--- Procedure for creating new evaluation
-CREATE PROCEDURE CreateNewEvaluation(
-    IN para_manager_id INT,               -- Manager ID (who is logged in)
-    IN para_staff_id INT,                 -- Staff ID (who is being evaluated)
-    IN para_evaluation_string TEXT        -- Evaluation string (scores for criteria)
+DROP PROCEDURE IF EXISTS Scheduling$$
+CREATE PROCEDURE Scheduling(
+	manager_id INT,
+    para_staff_id INT,
+    schedule_string TEXT
+)
+BEGIN
+	DECLARE current_index INT DEFAULT 1;          -- Variable to track the current position in the allergy string
+    DECLARE current_string_index TEXT DEFAULT ''; -- Variable to accumulate the current allergy ID being processed
+    DECLARE error_message TEXT;                   -- Variable to store error messages
+    DECLARE returned TEXT;
+    DECLARE returned_statement TEXT;
+    DECLARE original_insert_statement TEXT DEFAULT 'INSERT INTO Staff_Schedule (staff_id, schedule_date, start_time, end_time) VALUES ';
+    DECLARE original_update_statement TEXT DEFAULT 'Update Staff_Schedule SET ';
+
+    -- Error handling: If an SQL exception occurs, rollback the transaction and return the error message
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        GET DIAGNOSTICS CONDITION 1 error_message = MESSAGE_TEXT;  -- Get the error message from the diagnostics
+        ROLLBACK;  -- Rollback the transaction to undo any changes made before the error occurred
+        SELECT error_message;
+    END;
+    IF NOT CheckManagementRelationship(para_staff_id, manager_id) THEN
+		SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'You do not have the authority to schedule for this staff';
+    END IF;
+	
+    SET @insert_statement = 'INSERT INTO Staff_Schedule (staff_id, schedule_date, start_time, end_time) VALUES ';
+    SELECT @insert_statement;
+    SET @update_statement = 'Update Staff_Schedule SET ';
+    SET @update_statement_start_time = 'start_time = CASE \n';
+    SET @update_statement_end_time = 'end_time = CASE \n';
+    SET @update_where_statement = 'WHERE id IN (';
+     -- Start a transaction to ensure that all operations succeed or fail together
+    START TRANSACTION;
+    -- Loop through each character in the para_allergy_index_string
+    WHILE current_index <= LENGTH(schedule_string) DO
+        -- Check if the current character is a comma, indicating the end of an allergy ID
+        IF SUBSTRING(schedule_string, current_index, 1) = ',' THEN
+			SELECT ParseScheduleString(para_staff_id, current_string_index, 0) INTO returned;
+            SET returned_statement = SUBSTRING_INDEX(returned, '/', -1);
+            IF substring_INDEX(returned, '/', 1) = '1' THEN
+				 SET @insert_statement = CONCAT(@insert_statement,returned_statement, '),');
+            ELSE
+				SELECT('Hello');
+				SET @update_where_statement = CONCAT(@update_where_statement, SUBSTRING_INDEX(returned_statement, ';', 1), ', ');
+				SET @update_statement_start_time = CONCAT(@update_statement_start_time, SUBSTRING_INDEX(SUBSTRING_INDEX(returned_statement, ';', -1), '-', 1), '\n');
+				SET @update_statement_end_time = CONCAT(@update_statement_end_time, SUBSTRING_INDEX(SUBSTRING_INDEX(returned_statement, ';', -1), '-', -1), '\n');
+            END IF;
+            -- Reset the accumulated allergy ID string for the next iteration
+            SET current_string_index = '';
+        ELSE
+            -- If the current character is not a comma, accumulate it as part of the allergy ID
+            SET current_string_index = CONCAT(current_string_index, SUBSTRING(schedule_string, current_index, 1));
+        END IF;
+
+        -- Move to the next character in the string
+        SET current_index = current_index + 1;
+    END WHILE;
+    
+    SELECT current_string_index;
+	SELECT ParseScheduleString(para_staff_id, current_string_index, 1) INTO returned;
+    SET returned_statement = SUBSTRING_INDEX(returned, '/', -1);
+    SELECT returned;
+    IF substring_INDEX(returned, '/', 1) = '1' THEN
+		SET @insert_statement = CONCAT(@insert_statement,returned_statement, ');');
+    ELSE
+		SET @update_where_statement = CONCAT(@update_where_statement, SUBSTRING_INDEX(returned_statement, ';', 1), ');');
+		SET @update_statement_start_time = CONCAT(@update_statement_start_time, SUBSTRING_INDEX(SUBSTRING_INDEX(returned_statement, ';', -1), '-', 1), '\n', 'ELSE start_time \n END,\n');
+		SET @update_statement_end_time = CONCAT(@update_statement_end_time, SUBSTRING_INDEX(SUBSTRING_INDEX(returned_statement, ';', -1), '-', -1), '\n', 'ELSE end_time \n END\n');
+		SET @update_statement = CONCAT(@update_statement, @update_statement_start_time, @update_statement_end_time, @update_where_statement);
+    END IF;
+    
+	SELECT @update_statement_start_time;
+    SELECT @update_statement_end_time;
+    SELECT @update_where_statement;
+    SELECT @update_statement;
+	
+    if original_insert_statement <> @insert_statement THEN
+		SELECT @insert_statement;
+		PREPARE insert_statement FROM @insert_statement;
+		EXECUTE insert_statement;
+		DEALLOCATE PREPARE insert_statement;
+    END IF;
+    
+    IF original_update_statement <> @update_statement THEN
+		PREPARE update_statement FROM @update_statement;
+		EXECUTE update_statement;
+		DEALLOCATE PREPARE update_statement;
+    END IF;
+    
+    COMMIT;
+END$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.Scheduling TO 'Doctors'@'IP'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.Scheduling TO 'BusinessOfficers'@'IP'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.Scheduling TO 'Nurses'@'IP'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.Scheduling TO 'FrontDesk'@'IP'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.Scheduling TO 'HR'@'IP'$$
+
+DROP PROCEDURE IF EXISTS DeleteSchedules$$
+CREATE PROCEDURE DeleteSchedules (
+	para_staff_id INT,
+    para_manager_id INT,
+    schedule_id_string TEXT
 )
 SQL SECURITY DEFINER
 BEGIN
-    DECLARE current_index INT DEFAULT 1;             -- Variable to keep track of the current index in the string
-    DECLARE current_string_index TEXT DEFAULT '';    -- Variable to accumulate the current score being processed
-    DECLARE error_message TEXT;
-    DECLARE eval_id INT;                             -- Variable to store the newly created evaluation ID
-    DECLARE crit_id INT DEFAULT 1;                   -- Variable to track the criteria ID
+    DECLARE current_index INT DEFAULT 1;          -- Variable to track the current position in the allergy string
+    DECLARE current_string_index TEXT DEFAULT ''; -- Variable to accumulate the current allergy ID being processed
+    DECLARE error_message TEXT;                   -- Variable to store error messages
+
+    -- Error handling: If an SQL exception occurs, rollback the transaction and return the error message
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
     BEGIN
-        GET DIAGNOSTICS CONDITION 1 error_message = MESSAGE_TEXT;
-        ROLLBACK;  -- Rollback any changes made during the transaction
-        SELECT error_message AS ErrorMessage;  -- Return an error message
+        GET DIAGNOSTICS CONDITION 1 error_message = MESSAGE_TEXT;  -- Get the error message from the diagnostics
+        ROLLBACK;  -- Rollback the transaction to undo any changes made before the error occurred
+        SELECT error_message AS ErrorMessage;  -- Return the error message to the caller
     END;
-
-    -- Validate that the staff ID exists and is managed by the manager
-    IF NOT EXISTS (SELECT 1 FROM Staff WHERE id = para_staff_id AND manager_id = para_manager_id) THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Staff does not exist or is not managed by this manager';
+	IF NOT CheckManagementRelationship(para_staff_id, para_management_id) THEN
+		SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'You do not have the authority to make change to this staff schedule';
+	
     END IF;
-
-    -- Start a transaction
+    -- Initialize the base SQL INSERT statement
+    SET @delete_query = 'DELETE FROM Staff_Schedule WHERE id IN ( ';
+    SET @single_value = '';  -- Variable to store the partial SQL statement for each allergy
+	
+ 
+    -- Start a transaction to ensure that all operations succeed or fail together
     START TRANSACTION;
-    
-    -- Insert a new record into the PerformanceEvaluation table
-    INSERT INTO PerformanceEvaluation (evaluated_staff_id, evaluation_date)
-    VALUES (para_staff_id, NOW());
-    
-    -- Get the last inserted ID to use for the EvaluationCriteria table
-    SET eval_id = LAST_INSERT_ID();
+    -- Loop through each character in the para_allergy_index_string
+    WHILE current_index <= LENGTH(schedule_id_string) DO
+        -- Check if the current character is a comma, indicating the end of an allergy ID
+        IF SUBSTRING(schedule_id_string, current_index, 1) = ',' THEN
+            -- Process the current allergy ID
+            SELECT ParsingScheduleIdString(current_string_index, 0) INTO @single_value;
 
-    -- Begin a loop to process the comma-separated scores in para_evaluation_string
-    WHILE current_index <= LENGTH(para_evaluation_string) DO
-        -- Check if the current character is a comma, indicating the end of a score
-        IF SUBSTRING(para_evaluation_string, current_index, 1) = ',' THEN
-            -- Insert the score into the EvaluationCriteria table
-            INSERT INTO EvaluationCriteria (evaluation_id, criteria_id, criteria_score)
-            VALUES (eval_id, crit_id, current_string_index);
-        
-            -- Reset the current_string_index for the next score
+            -- Append the processed value to the INSERT query
+            SET @delete_query = CONCAT(@delete_query, @single_value);
+
+            -- Reset the accumulated allergy ID string for the next iteration
             SET current_string_index = '';
-            SET crit_id = crit_id + 1;  -- Move to the next criteria ID
         ELSE
-            -- Accumulate the current character to build the score
-            SET current_string_index = CONCAT(current_string_index, SUBSTRING(para_evaluation_string, current_index, 1));
+            -- If the current character is not a comma, accumulate it as part of the allergy ID
+            SET current_string_index = CONCAT(current_string_index, SUBSTRING(para_allergy_index_string, current_index, 1));
         END IF;
 
         -- Move to the next character in the string
         SET current_index = current_index + 1;
     END WHILE;
 
-    -- After exiting the loop, handle the last score in the string
-    INSERT INTO EvaluationCriteria (evaluation_id, criteria_id, criteria_score)
-    VALUES (eval_id, crit_id, current_string_index);
-    
+    -- Handle the last allergy ID (if any) after the loop ends
+    IF current_string_index != '' THEN
+        -- Process the current allergy ID
+		SELECT ParsingScheduleIdString(current_string_index, 1) INTO @single_value;
+		-- Append the processed value to the INSERT query
+		SET @delete_query = CONCAT(@delete_query, @single_value);
+    END IF;
+
+    -- Prepare and execute the final INSERT query to add all allergies for the patient
+    PREPARE statement FROM @delete_query;
+    EXECUTE statement;
+    DEALLOCATE PREPARE statement;
+
+    -- Commit the transaction to finalize the changes in the database
     COMMIT;
 END$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.DeleteSchedules TO 'Doctors'@'IP'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.DeleteSchedules TO 'BusinessOfficers'@'IP'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.DeleteSchedules TO 'Nurses'@'IP'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.DeleteSchedules TO 'FrontDesk'@'IP'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.DeleteSchedules TO 'HR'@'IP'$$
 
-GRANT EXECUTE ON PROCEDURE hospital_management_system.CreateNewEvaluation TO 'HR'@'host'$$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.CreateNewEvaluation TO 'BusinessOfficers'@'host'$$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.CreateNewEvaluation TO 'Doctors'@'host'$$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.CreateNewEvaluation TO 'Nurses'@'host'$$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.CreateNewEvaluation TO 'FrontDesk'@'host'$$
 
-DROP PROCEDURE IF EXISTS GetAppointmentsAndSchedulesByStaff;
+DROP PROCEDURE IF EXISTS GetAppointmentsAndSchedulesByStaff$$
 CREATE PROCEDURE GetAppointmentsAndSchedulesByStaff(
     para_management_id INT,
     para_staff_id INT
 )
 SQL SECURITY DEFINER
 BEGIN
+  DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        GET DIAGNOSTICS CONDITION 1 error_message = MESSAGE_TEXT;  -- Get the error message from the diagnostics
+        SELECT error_message AS ErrorMessage;  -- Return the error message to the caller
+    END;
     IF NOT CheckManagementRelationship(para_staff_id, para_management_id) THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'You are not allowed to view this staff';
@@ -441,6 +503,5 @@ BEGIN
     WHERE doctor_id = para_staff_id;
 
 end $$
-
 
 DELIMITER ;

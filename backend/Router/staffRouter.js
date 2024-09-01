@@ -35,5 +35,8 @@ staffRouter
   .route("/:staffId/schedule")
   .post(verifyToken, staffController.schedule)
   .get(verifyToken, staffController.getStaffSchedule)//manager of that staff
-  .put(verifyToken, staffController.updateSpecificStaffSchedule);//manager of that staff
+
+staffRouter
+  .route("/:staffId/deleteschedule")
+  .post(verifyToken, staffController.deleteSchedule)
 export default staffRouter;

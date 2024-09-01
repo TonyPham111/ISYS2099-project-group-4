@@ -1,5 +1,6 @@
--- DELIMITER $$
-DROP FUNCTION TimeFormatCheck; -- $$
+DELIMITER $$
+
+DROP FUNCTION IF EXISTS TimeFormatCheck$$
 
 -- Create a function named TimeFormatCheck
 CREATE FUNCTION TimeFormatCheck(
@@ -17,20 +18,22 @@ BEGIN
        OR MOD(MINUTE(para_end_time), 30) <> 0 
        OR para_end_time < para_start_time THEN
        
-        -- If any of the above conditions are not met, trigger an error with a custom message
+        -- If any of the above conditions are met, trigger an error with a custom message
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Incorrect time format. Please check again';
     END IF;
 
-    -- If all checks pass, return 0 indicating success
-    RETURN 0;
-END; -- $$
-
--- Grant execution privilege for the TimeFormatCheck function to the 'FrontDesk' role
-GRANT EXECUTE ON FUNCTION hospital_management_system.TimeFormatCheck TO 'FrontDesk'@'host';
+    -- If all checks pass, return 1 indicating success
+    RETURN 1;
+END$$
+GRANT EXECUTE ON FUNCTION hospital_management_system.TimeFormatCheck TO 'Doctors'@'IP'$$
+GRANT EXECUTE ON FUNCTION hospital_management_system.TimeFormatCheck  TO 'Nurses'@'IP'$$
+GRANT EXECUTE ON FUNCTION hospital_management_system.TimeFormatCheck  TO 'FrontDesk'@'IP'$$
+GRANT EXECUTE ON FUNCTION hospital_management_system.TimeFormatCheck  TO 'BusinessOfficers'@'IP'$$
+GRANT EXECUTE ON FUNCTION hospital_management_system.TimeFormatCheck  TO 'HR'@'IP'$$
 
 -- Drop the function ScheduleCheck if it already exists
-DROP FUNCTION IF EXISTS ScheduleCheck;
+DROP FUNCTION IF EXISTS ScheduleCheck$$
 
 -- Create a function named ScheduleCheck
 CREATE FUNCTION ScheduleCheck (
@@ -67,13 +70,15 @@ BEGIN
 
     -- If no existing schedule is found, return 0 indicating success
     RETURN 0;
-END; -- $$
-
--- Grant execution privilege for the ScheduleCheck function to the 'FrontDesk' role
-GRANT EXECUTE ON FUNCTION hospital_management_system.ScheduleCheck TO 'FrontDesk'@'host';
+END$$
+GRANT EXECUTE ON FUNCTION hospital_management_system.ScheduleCheck TO 'Doctors'@'IP'$$
+GRANT EXECUTE ON FUNCTION hospital_management_system.ScheduleCheck  TO 'Nurses'@'IP'$$
+GRANT EXECUTE ON FUNCTION hospital_management_system.ScheduleCheck  TO 'FrontDesk'@'IP'$$
+GRANT EXECUTE ON FUNCTION hospital_management_system.ScheduleCheck  TO 'BusinessOfficers'@'IP'$$
+GRANT EXECUTE ON FUNCTION hospital_management_system.ScheduleCheck  TO 'HR'@'IP'$$
 
 -- Drop the function CheckIfBookingTimeOutsideSchedule if it already exists
-DROP FUNCTION IF EXISTS CheckIfBookingTimeOutsideSchedule; -- $$
+DROP FUNCTION IF EXISTS CheckIfBookingTimeOutsideSchedule$$
 
 -- Create a function named CheckIfBookingTimeOutsideSchedule
 CREATE FUNCTION CheckIfBookingTimeOutsideSchedule(
@@ -99,10 +104,13 @@ BEGIN
     FROM Staff_Schedule
     WHERE staff_id = para_doctor_id AND schedule_date = para_appointment_date
     FOR UPDATE;
+    
 
     -- Check if the appointment time is within the doctor's schedule
     -- Return 0 if the appointment time is outside the doctor's schedule
     IF
+		shift_start IS NULL 
+			OR
         (para_start_time > shift_start
             AND
         para_start_time > shift_end
@@ -118,13 +126,13 @@ BEGIN
         -- Return 1 if the appointment time is within the doctor's schedule
         RETURN 1;
     END IF;
-END; -- $$
+END$$
 
--- Grant execution privilege for the CheckIfBookingTimeOutsideSchedule function to the 'FrontDesk' role
-GRANT EXECUTE ON FUNCTION hospital_management_system.CheckIfBookingTimeOutsideSchedule TO 'FrontDesk'@'host';
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckIfBookingTimeOutsideSchedule  TO 'FrontDesk'@'IP'$$
+
 
 -- Drop the function CheckAppointmentClash if it already exists
-DROP FUNCTION IF EXISTS CheckAppointmentClash; -- $$
+DROP FUNCTION IF EXISTS CheckAppointmentClash$$
 
 -- Create a function named CheckAppointmentClash
 CREATE FUNCTION CheckAppointmentClash(
@@ -161,12 +169,7 @@ BEGIN
 
     -- Return the count of appointment clashes
     RETURN clash_count;
-END; -- $$
+END$$
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckAppointmentClash TO 'FrontDesk'@'IP'$$
 
--- Grant execution privilege for the CheckAppointmentClash function to the 'FrontDesk' role
-GRANT EXECUTE ON FUNCTION hospital_management_system.CheckAppointmentClash TO 'FrontDesk'@'host';
-
--- DELIMITER ;
-
-
-
+DELIMITER ;

@@ -1,7 +1,9 @@
-import { poolDoctors } from "../Models/dbConnectionConfiguration"
+import { poolDoctors, poolNurses} from "../Models/dbConnectionConfiguration.js";
 
-const doctorRepo = require("../Models/DoctorModel")
-const nurseRepo = require("../Models/NurseModel")
+const doctorRepo = poolDoctors;
+const nurseRepo = poolNurses;
+
+
 export async function getAllTreatmentHistory(req, res) {
   try {
     const user_info = req.user

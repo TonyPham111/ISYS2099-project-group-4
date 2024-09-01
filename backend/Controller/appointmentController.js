@@ -1,4 +1,10 @@
-const frontDeskRepo = require("../Models/FrontDeskModel")
+import { poolDoctors, poolNurses, poolFrontDesk, poolBusinessOfficers, poolHR } from "../Models/dbConnectionConfiguration.js";
+
+const doctorRepo = poolDoctors;
+const nurseRepo = poolNurses;
+const frontDeskRepo = poolFrontDesk;
+const businessOfficerRepo = poolBusinessOfficers;
+const hrRepo = poolHR;
 
 export async function getAllAppointment(req, res) {
   try {
