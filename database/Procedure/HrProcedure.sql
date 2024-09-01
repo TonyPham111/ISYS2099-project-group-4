@@ -5,7 +5,7 @@ CREATE PROCEDURE AddNewStaff(
     para_full_name VARCHAR(50),               -- Parameter for the full name of the staff member
     para_job_id VARCHAR(50),                  -- Parameter for the job title of the staff member
     para_department_id VARCHAR(50),           -- Parameter for the department name where the staff member will work
-    para_manager_id VARCHAR(50),              -- Parameter for the id of the staff member's manager
+    para_manager_id INT,              -- Parameter for the id of the staff member's manager
     para_gender CHAR(1),                      -- Parameter for the gender of the staff member
     para_birth_date DATE,                     -- Parameter for the birth date of the staff member
     para_home_address VARCHAR(255),           -- Parameter for the home address of the staff member
@@ -157,7 +157,7 @@ BEGIN
     DECLARE max_job_wage DECIMAL(6,2);
     DECLARE min_job_wage DECIMAL(6,2);
     
-
+    
     SELECT wage 
 	INTO para_old_wage 
 	FROM Staff 
@@ -239,7 +239,7 @@ CREATE PROCEDURE ChangeDepartmentProcedure(
 SQL SECURITY DEFINER
 BEGIN
     DECLARE current_department_id INT;
-
+	
     SELECT Staff.department_id 
 	INTO current_department_id 
 	FROM Staff 
@@ -298,12 +298,6 @@ BEGIN
         END IF;
     END IF;
 	
-	-- Check if new department exists
-    IF NOT CheckDepartmentExists(para_new_department_id) THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Department does not exist';
-    END IF;
-
     -- Retrieve the current job ID of the staff member and store it in local_old_job
     SELECT job_id INTO local_old_job FROM Staff WHERE id = para_staff_id;
 

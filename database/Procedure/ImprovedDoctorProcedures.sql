@@ -146,6 +146,7 @@ BEGIN
     BEGIN
         GET DIAGNOSTICS CONDITION 1 error_message = MESSAGE_TEXT; -- Capture the error message
         ROLLBACK;  -- Rollback any changes made during the transaction
+        SELECT error_message;
 
     END;
 
@@ -224,6 +225,7 @@ CREATE PROCEDURE AddNewPrescription(
     para_doctor_id INT,                       -- Parameter for the doctor ID who issued the prescription
     para_patient_id INT,                      -- Parameter for the patient ID to whom the prescription is given
     para_diagnosis_id INT,                    -- Parameter for the diagnosis ID associated with the prescription
+    para_treatment_end_date DATE,
     para_prescription_note TEXT,              -- Parameter for any notes related to the prescription
     para_drug_code_quantity_string TEXT,       -- Parameter for a comma-separated string of drug names and their quantities
     testing INT
@@ -243,6 +245,7 @@ BEGIN
         BEGIN
             GET DIAGNOSTICS CONDITION 1
                 error_message = MESSAGE_TEXT;
+				SELECT error_message;
             ROLLBACK;  -- Rollback any changes made during the transaction
         END;
 
@@ -278,9 +281,8 @@ BEGIN
     START TRANSACTION;
 
     -- Insert a new record into the TreatmentHistory table with the provided parameters
-    INSERT INTO TreatmentHistory(doctor_id, patient_id, diagnosis_id, treatment_start_date, prescription_note)
-    VALUES (para_doctor_id, para_patient_id, para_diagnosis_id, CURDATE(), para_prescription_note);
-
+    INSERT INTO TreatmentHistory(doctor_id, patient_id, diagnosis_id, treatment_start_date, treatment_end_date, prescription_note)
+    VALUES (para_doctor_id, para_patient_id, para_diagnosis_id, CURDATE(), para_treatment_end_date, para_prescription_note);
     -- Retrieve the ID of the newly inserted record in TreatmentHistory
     SELECT LAST_INSERT_ID() INTO latest_prescription_id;
 
@@ -288,17 +290,16 @@ BEGIN
     WHILE current_index <= LENGTH(para_drug_code_quantity_string) DO
         -- Check if the current character is a comma, indicating the end of a drug code and quantity pair
         IF SUBSTRING(para_drug_code_quantity_string, current_index, 1) = ',' THEN
+			SELECT current_string_code;
             -- Call the function ParsingDrugsCodeAndQuantity to process the current drug code and quantity
             SELECT ParsingDrugsCodeAndQuantity(current_string_code, latest_prescription_id, 0)
             INTO returned_statement;
-            select returned_statement;
 
             -- Update the INSERT query with the returned INSERT statement for the current drug
             SET @insert_query = CONCAT(@insert_query, SUBSTRING_INDEX(returned_statement, ';', 1), ',');
 
             -- Update the CASE clause for the UPDATE query with the returned CASE statement for the current drug
             SET @case_clause = CONCAT(@case_clause, SUBSTRING_INDEX(SUBSTRING_INDEX(returned_statement, ';', -1 ), '-', 1));
-			
             -- Update the WHERE clause for the UPDATE query with the returned WHERE condition for the current drug
             SET @where_clause = CONCAT(@where_clause, SUBSTRING_INDEX(SUBSTRING_INDEX(returned_statement, ';', -1 ), '-', -1));
 
@@ -312,10 +313,12 @@ BEGIN
         -- Move to the next character in the string
         SET current_index = current_index + 1;
     END WHILE;
-
+	
+    SELECT current_string_code;
     -- After exiting the loop, handle the last drug code and quantity pair in the string (as it won't be followed by a comma)
     SELECT ParsingDrugsCodeAndQuantity(current_string_code, latest_prescription_id, 1)
 	INTO returned_statement;
+
 
     -- Finalize the INSERT query with the last drug's data
 
@@ -337,6 +340,7 @@ BEGIN
     DEALLOCATE PREPARE insert_statement;
 
     -- Prepare and execute the final UPDATE statement for the Drugs inventory
+    SELECT @update_query;
     PREPARE update_statement FROM @update_query;
     EXECUTE update_statement;
     DEALLOCATE PREPARE update_statement;

@@ -25,7 +25,7 @@ BEGIN
 	DECLARE manager_exist BIT;
     
     -- Check if the input manager id belongs to the input department and job
-    SELECT EXISTS (SELECT 1 FROM Staff WHERE id = manager_id AND job_id = para_job_id AND department_id = para_department_id) INTO manager_exist;
+    SELECT EXISTS (SELECT 1 FROM Staff WHERE id = para_manager_id AND job_id = para_job_id AND department_id = para_department_id) INTO manager_exist;
     RETURN manager_exist;
 END$$
 
@@ -104,7 +104,7 @@ BEGIN
 END$$
 
 GRANT EXECUTE ON FUNCTION hospital_management_system.CheckNurseExists TO 'HR'@'IP'$$
-GRANT EXECUTE ON FUNCTION hospital_management_system.CheckNurseExists TO 'Nurse'@'IP'$$
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckNurseExists TO 'Nurses'@'IP'$$
 
 
 DROP FUNCTION IF EXISTS CheckDoctorExistsInDepartment$$
@@ -227,6 +227,27 @@ GRANT EXECUTE ON FUNCTION hospital_management_system.CheckPrescriptionExists TO 
 
 
 
+DROP FUNCTION IF EXISTS CheckEvaluationExists$$
+CREATE FUNCTION CheckEvaluationExists(
+	evaluation_id INT
+)
+RETURNS BIT
+READS SQL DATA
+BEGIN
+	DECLARE evaluation_exists BIT;
+    SELECT EXISTS(SELECT 1 FROM PerformanceEvaluation WHERE id = evaluation_id) INTO evaluation_exists;
+    RETURN evaluation_exists;
+END$$
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckEvaluationExists TO 'HR'@'IP'$$
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckEvaluationExists TO 'FrontDesk'@'IP'$$
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckEvaluationExists TO 'Doctors'@'IP'$$
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckEvaluationExists TO 'Nurses'@'IP'$$
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckEvaluationExists TO 'BusinessOfficers'@'IP'$$
+    
+
+
+
+
 -- Drop the function if it already exists to avoid errors when creating it
 DROP FUNCTION IF EXISTS FindPatientWithAppointmentCurrently$$
 -- Create a new function named FindPatientWithAccommodationCurrently
@@ -235,7 +256,7 @@ CREATE FUNCTION FindPatientWithAppointmentCurrently(
     para_doctor_id INT    -- Input parameter: ID of the doctor to check
 )
 RETURNS INT               -- The function returns an integer value
-DETERMINISTIC             -- Indicates that the function will always produce the same result for the same input parameters
+READS SQL DATA             -- Indicates that the function will always produce the same result for the same input parameters
 SQL SECURITY DEFINER      -- Specifies that the function executes with the privileges of the user who defined it
 BEGIN
     -- Declare a variable to store the checked patient ID, initialized to 0
@@ -264,6 +285,10 @@ BEGIN
 
 END$$
 GRANT EXECUTE ON FUNCTION hospital_management_system.FindPatientWithAppointmentCurrently TO 'Doctors'@'IP'$$
+
+
+
+
 
 
 DELIMITER ;
