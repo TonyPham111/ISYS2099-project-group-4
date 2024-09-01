@@ -215,3 +215,14 @@ const queries = {
 };
 
 export default queries;
+
+export const GetPatientsInfo = async (doctor_id) => {
+  try {
+    const sql = `CALL GetPatientsInfoForDoctor(?)`;
+    const [results] = await poolDoctors.query(sql, [doctor_id]);
+    return results;
+  } catch (error) {
+    console.error("Error executing GetPatientsInfo:", error);
+    return { error: "An error occurred while executing GetPatientsInfo. Please try again later." };
+  }
+}

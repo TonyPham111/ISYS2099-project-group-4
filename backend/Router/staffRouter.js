@@ -8,12 +8,12 @@ staffRouter
   .post(verifyToken, staffController.addNewStaff);//HR
 staffRouter
   .route("/:staffId")
-  //.get(verifyToken, staffController.getStaffPersonalInfo)//manager of that staff,HR
+  .get(verifyToken, staffController.getStaffPersonalInfo)//manager of that staff,HR
   .put(verifyToken, staffController.updateStaffPersonalInfo);//HR
 
 staffRouter
 .route("/:staffId/staff_personal_info")
-.get(verifyToken, staffController.getStaffPersonalInfo) //HR, manager of that staff 
+.get( staffController.getStaffPersonalInfo) //HR, manager of that staff 
 .put(verifyToken, staffController.updateStaffPersonalInfo) //HR
 
 staffRouter
