@@ -28,7 +28,20 @@ staffRouter
       }
     ]
     */
-   res.status(200).json(staffData);
+    const {manager_id, job_role} = req.query;
+      console.log(`manger_id: ${manager_id}`);
+      let result = staffData;
+      if(manager_id){
+        result = staffData.filter((item)=>{
+          return item.manager_id == Number(manager_id);
+        })
+      }
+      if(job_role){
+        result = staffData.filter((item)=>{
+          return item.job== job_role;
+        })
+      }
+   res.status(200).json(result);
   })
   .post((req, res) => {
     //add new staff

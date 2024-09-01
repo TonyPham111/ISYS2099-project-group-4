@@ -21,7 +21,14 @@ appointmentRouter
       },
     ]
     */
-   res.status(200).json(appointmentData);
+    let result = appointmentData;
+    const {doctorId} = req.query;
+    if(doctorId){
+     result = appointmentData.filter((item)=>{
+       return item.doctor_id == doctorId;
+     });
+    }
+    res.status(200).json(result);
   })
   .post((req, res) => {});
 

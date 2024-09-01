@@ -1,0 +1,33 @@
+[
+    {"id":1,"test_name":"CBC","price":15.0,"duration":30,"test_description":"Complete Blood Count"},
+    {"id":2,"test_name":"MRI","price":200.0,"duration":60,"test_description":"Magnetic Resonance Imaging"},
+    {"id":3,"test_name":"XRay","price":50.0,"duration":30,"test_description":"X-Ray Imaging"},
+    {"id":4,"test_name":"CT","price":180.0,"duration":60,"test_description":"Computed Tomography"},
+    {"id":5,"test_name":"Echo","price":120.0,"duration":30,"test_description":"Echocardiogram"},
+    {"id":6,"test_name":"LFT","price":60.0,"duration":30,"test_description":"Liver Function Test"},
+    {"id":7,"test_name":"RFT","price":55.0,"duration":30,"test_description":"Renal Function Test"},
+    {"id":8,"test_name":"Lipid","price":70.0,"duration":30,"test_description":"Lipid Profile"},
+    {"id":9,"test_name":"ECG","price":80.0,"duration":30,"test_description":"Electrocardiogram"},
+    {"id":10,"test_name":"BP","price":20.0,"duration":30,"test_description":"Blood Pressure Measurement"},
+    {"id":11,"test_name":"PT","price":40.0,"duration":30,"test_description":"Prothrombin Time"},
+    {"id":12,"test_name":"A1C","price":30.0,"duration":30,"test_description":"Hemoglobin A1C"},
+    {"id":13,"test_name":"TSH","price":25.0,"duration":30,"test_description":"Thyroid Stimulating Hormone"},
+    {"id":14,"test_name":"VITD","price":65.0,"duration":60,"test_description":"Vitamin D Test"},
+    {"id":15,"test_name":"BMD","price":110.0,"duration":60,"test_description":"Bone Mineral Density"},
+    {"id":16,"test_name":"USG","price":90.0,"duration":30,"test_description":"Ultrasound"},
+    {"id":17,"test_name":"TFT","price":35.0,"duration":30,"test_description":"Thyroid Function Test"},
+    {"id":18,"test_name":"EEG","price":140.0,"duration":60,"test_description":"Electroencephalogram"},
+    {"id":19,"test_name":"Urine","price":10.0,"duration":30,"test_description":"Urine Analysis"},
+    {"id":20,"test_name":"CRP","price":75.0,"duration":60,"test_description":"C-Reactive Protein"}
+  ]
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
