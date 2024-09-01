@@ -49,6 +49,14 @@ CREATE TABLE Jobs (
     job_document_id VARCHAR(24)
 );
 
+CREATE TABLE Qualifications(
+	id INT AUTO_INCREMENT PRIMARY KEY,
+    staff_id INT NOT NULL,
+    type ENUM('Education','License', 'Experience') NOT NULL,
+    document_id VARCHAR(24) NOT NULL,
+    FOREIGN KEY (staff_id) REFERENCES Staff(id)
+);
+
 
 CREATE TABLE Staff(
 	id INT AUTO_INCREMENT PRIMARY KEY,
@@ -198,14 +206,15 @@ CREATE TABLE Billings (
     patient_id INT,
     billing_date DATE NOT NULL,
     total_amount DECIMAL(8,2) NOT NULL,
-    appointment_id INT,
-    test_id INT,
-    prescription_id INT,
+    appointment_id INT UNIQUE,
+    test_id INT UNIQUE,
+    prescription_id INT UNIQUE,
     FOREIGN KEY (appointment_id) REFERENCES Appointments (id),
     FOREIGN KEY (prescription_id) REFERENCES TreatmentHistory (id),
     FOREIGN KEY (test_id) REFERENCES Test_Orders(id),
 	FOREIGN KEY (patient_id) REFERENCES Patients (id)
 );
+
 
 CREATE TABLE Salary_Change(
     staff_id INT,

@@ -52,7 +52,7 @@ BEGIN
     -- If the condition code is not found, raise an error
     IF para_condition_code IS NULL THEN
         SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Incorrect Condition Name. Please try again';
+        SET MESSAGE_TEXT = 'Incorrect condition id. Please try again';
     END IF;
 
 	-- Added single quotes around para_condition_code so that it is recognized as an inserted string value
@@ -100,7 +100,7 @@ BEGIN
     -- If the drug code is not found, raise an error
     IF medicine_code IS NULL THEN
         SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Incorrect medicine name. Please try again';
+        SET MESSAGE_TEXT = 'Incorrect medicine id. Please try again';
     END IF;
 
     -- Extract the quantity of the drug from the input string (portion after the colon) and convert it to an unsigned integer
@@ -273,5 +273,52 @@ GRANT EXECUTE ON FUNCTION hospital_management_system.ParsingScheduleIdString TO 
 GRANT EXECUTE ON FUNCTION hospital_management_system.ParsingScheduleIdString TO 'FrontDesk'@'IP'$$
 GRANT EXECUTE ON FUNCTION hospital_management_system.ParsingScheduleIdString TO 'BusinessOfficers'@'IP'$$
 GRANT EXECUTE ON FUNCTION hospital_management_system.ParsingScheduleIdString TO 'HR'@'IP'$$
+
+DROP FUNCTION IF EXISTS ParsingCriteriaScoreString$$
+CREATE FUNCTION ParsingCriteriaScoreString(
+    latest_evaluation_id INT,         -- Parameter for the latest diagnosis ID
+    current_string_code TEXT,        -- Parameter representing the diagnosis condition code
+    last_string INT                  -- Parameter to indicate if this is the last string in a list (1 for last, 0 otherwise)
+)
+RETURNS TEXT                         -- The function returns a TEXT value, which is an SQL statement
+READS SQL DATA
+SQL SECURITY DEFINER
+BEGIN
+    DECLARE para_criteria_id INT;  
+    DECLARE para_criteria_score INT;
+    SELECT CAST(SUBSTRING_INDEX(current_string_code, ':', -1) AS UNSIGNED INTEGER) INTO para_criteria_score;
+    
+    IF para_criteria_score > 5 THEN
+		SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Invalid score. Please try again';
+    END IF;
+    
+    -- Fetch the condition code corresponding to the accumulated condition name
+    SELECT Criteria.id INTO para_criteria_id
+    FROM Criteria
+    WHERE Criteria.id = CAST(SUBSTRING_INDEX(current_string_code, ':', 1) AS UNSIGNED INTEGER);
+
+    -- If the criteria code is not found, raise an error
+    IF para_criteria_id IS NULL THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Incorrect criteria id. Please try again';
+    END IF;
+    
+
+	-- Added single quotes around para_condition_code so that it is recognized as an inserted string value
+    -- If this is the last condition in the list, finalize the SQL statement with a closing parenthesis and semicolon
+    IF last_string = 1 THEN
+         RETURN CONCAT('(', latest_evaluation_id, ',', para_criteria_id, ',', para_criteria_score, ');');
+    ELSE
+        -- If it's not the last condition, finalize the SQL statement with just a closing parenthesis (no semicolon)
+         RETURN CONCAT('(', latest_evaluation_id, ',', para_criteria_id, ',', para_criteria_score, '),');
+
+    END IF;
+END$$
+GRANT EXECUTE ON FUNCTION hospital_management_system.ParsingCriteriaScoreString TO 'Doctors'@'IP'$$
+GRANT EXECUTE ON FUNCTION hospital_management_system.ParsingCriteriaScoreString TO 'Nurses'@'IP'$$
+GRANT EXECUTE ON FUNCTION hospital_management_system.ParsingCriteriaScoreString TO 'BusinessOfficers'@'IP'$$
+GRANT EXECUTE ON FUNCTION hospital_management_system.ParsingCriteriaScoreString TO 'FrontDesk'@'IP'$$
+GRANT EXECUTE ON FUNCTION hospital_management_system.ParsingCriteriaScoreString TO 'HR'@'IP'$$
 
 DELIMITER ;

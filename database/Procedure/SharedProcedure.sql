@@ -23,7 +23,7 @@ BEGIN
     INNER JOIN
         PatientAllergy                        
     ON
-        Patients.id = PatientAllergy.id
+        Patients.id = PatientAllergy.allergy_id
     INNER JOIN
         Allergies                    
     ON
@@ -478,11 +478,12 @@ CREATE PROCEDURE GetAppointmentsAndSchedulesByStaff(
 )
 SQL SECURITY DEFINER
 BEGIN
-  DECLARE EXIT HANDLER FOR SQLEXCEPTION
-    BEGIN
-        GET DIAGNOSTICS CONDITION 1 error_message = MESSAGE_TEXT;  -- Get the error message from the diagnostics
-        SELECT error_message AS ErrorMessage;  -- Return the error message to the caller
-    END;
+	DECLARE error_message TEXT;
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+		BEGIN
+			GET DIAGNOSTICS CONDITION 1 error_message = MESSAGE_TEXT;  -- Get the error message from the diagnostics
+			SELECT error_message AS ErrorMessage;  -- Return the error message to the caller
+		END;
     IF NOT CheckManagementRelationship(para_staff_id, para_management_id) THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'You are not allowed to view this staff';
@@ -503,5 +504,136 @@ BEGIN
     WHERE doctor_id = para_staff_id;
 
 end $$
+
+DROP PROCEDURE IF EXISTS GetAllPerformanceEvaluationByStaff$$
+CREATE PROCEDURE GetAllPerformanceEvaluationByStaff(
+	para_manager_id INT,
+    para_staff_id INT
+)
+SQL SECURITY DEFINER
+BEGIN
+	DECLARE error_message TEXT;
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+		BEGIN
+			GET DIAGNOSTICS CONDITION 1 error_message = MESSAGE_TEXT;  -- Get the error message from the diagnostics
+			SELECT error_message AS ErrorMessage;  -- Return the error message to the caller
+		END;
+	IF NOT CheckManagementRelationship(para_staff_id, para_manager_id) THEN
+		SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'You do not have the authority to view this staff';
+    END IF;
+    WITH subquery AS (
+		SELECT PerformanceEvaluation.id, 
+				Staff.full_name AS manager,
+				PerformanceEvaluation.evaluated_staff_id,
+                PerformanceEvaluation.evaluation_date
+		FROM PerformanceEvaluation
+        INNER JOIN Staff
+        ON PerformanceEvaluation.evaluator_staff_id = Staff.id
+        WHERE evaluated_staff_id = para_staff_id
+    )
+    SELECT 
+		subquery.id, subquery.manager, 
+		Staff.full_name AS evaluated_staff, 
+        subsquery.evaluation_date 
+        FROM subquery 
+        INNER JOIN Staff 
+        ON subquery.evaluated_staff_id = Staff.id;
+END$$
+
+DROP PROCEDURE IF EXISTS GetEvaluationDetails$$
+CREATE PROCEDURE GetEvaluationDetails(
+	para_manager_id INT,
+    para_staff_id INT,
+	para_evaluation_id INT
+)
+SQL SECURITY DEFINER
+BEGIN
+	DECLARE error_message TEXT;
+	 DECLARE EXIT HANDLER FOR SQLEXCEPTION
+		BEGIN
+			GET DIAGNOSTICS CONDITION 1 error_message = MESSAGE_TEXT;  -- Get the error message from the diagnostics
+			SELECT error_message AS ErrorMessage;  -- Return the error message to the caller
+		END;
+	IF NOT CheckEvaluationExists(para_evaluation_id) THEN
+		SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Evaluation does not exist. Please try again';
+    END IF;
+    IF NOT CheckManagementRelationship(para_staff_id, para_manager_id) THEN
+		SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'You do not have the authority to view this staff';
+    END IF;
+    SELECT EvaluationCriteria.evaluation_id,
+			Criteria.id,
+            Criteria.criteria_name,
+            Criteria.criteria_description,
+            EvaluationCriteria.criteria_score
+	FROM EvaluationCriteria 
+    INNER JOIN Criteria
+    ON EvaluationCriteria.criteria_id = Criteria.id;
+		
+END$$
+
+DROP PROCEDURE IF EXISTS StaffEvaluate$$
+CREATE PROCEDURE StaffEvaluate(
+	para_manager_id INT,
+    para_staff_id INT,
+    evaluation_string TEXT
+)
+SQL SECURITY DEFINER
+BEGIN
+	    -- Declare variables to be used in the procedure
+    DECLARE latest_evaluation_id INT;             -- Variable to store the ID of the newly inserted evaluation
+    DECLARE current_index INT DEFAULT 1;         -- Variable to keep track of the current position in the condition code string
+    DECLARE current_string_code TEXT DEFAULT ''; -- Variable to accumulate the current condition code being processed
+    DECLARE error_message TEXT;                  -- Variable to store any error messages
+
+    -- Error handling: In case of any SQL exception, rollback the transaction and return an error message
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        GET DIAGNOSTICS CONDITION 1 error_message = MESSAGE_TEXT; -- Capture the error message
+        ROLLBACK;  -- Rollback any changes made during the transaction
+        SELECT error_message AS ErrorMessage;
+    END;
+
+    -- Initialize the base SQL INSERT statement for the EvaluationCriteria table
+    SET @insert_query = 'INSERT INTO EvaluationCriteria (evaluation_id, criteria_id, criteria_score) VALUES ';
+    SET @single_value = '';  -- Variable to store the SQL insert statement for each condition
+	
+	
+	IF NOT CheckManagementRelationship(para_staff_id, para_manager_id) THEN
+		SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'You do not have the authority to view this staff';
+    END IF;
+   
+
+    -- Start a transaction to ensure that all operations either succeed or fail together
+    START TRANSACTION;
+
+    -- Insert a new record into the PerformanceEvaluation table with the provided parameters
+    INSERT INTO PerformanceEvaluation (evaluator_staff_id, evaluated_staff_id, evaluation_date)
+    VALUES (para_manager_id, para_staff_id, curdate());
+    SELECT LAST_INSERT_ID() INTO latest_evaluation_id;
+    WHILE current_index <= LENGTH(evaluation_string) DO
+        IF SUBSTRING(evaluation_string, current_index, 1) = ',' THEN
+            SELECT ParsingCriteriaScoreString(latest_evaluation_id, current_string_code, 0) INTO @single_value;
+            SET @insert_query = CONCAT(@insert_query, @single_value);
+            SET current_string_code = '';
+        ELSE
+            SET current_string_code = CONCAT(current_string_code, SUBSTRING(evaluation_string, current_index, 1));
+        END IF;
+        SET current_index = current_index + 1;
+    END WHILE;
+    SELECT ParsingCriteriaScoreString(latest_evaluation_id, current_string_code, 1) INTO @single_value;
+    SET @insert_query = CONCAT(@insert_query, @single_value);
+    PREPARE statement FROM @insert_query;
+    EXECUTE statement;
+    DEALLOCATE PREPARE statement;
+
+    -- Commit the transaction to save all changes
+    COMMIT;
+END$$
+
+
 
 DELIMITER ;
