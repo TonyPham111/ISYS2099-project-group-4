@@ -1,18 +1,16 @@
-import DiscardAndSaveButton from "@/component/ui/Button/DiscardAndSaveButton";
+import DiscardAndSaveButton from "@/component/ui/DiscardAndSaveButton";
 import dayjs from "dayjs";
-import CustomDatePicker from "@/component/ui/DateTime/CustomDatePicker";
+import CustomDatePicker from "@/component/ui/CustomDatePicker";
+import * as patientService from "@/services/patientService";
 import { useParams } from "react-router-dom";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useSWR from "swr";
 import fetcher from "@/utils/fetcher";
-import { UserContext } from "@/contexts/userContext";
 
 export default function PatientInfo() {
-  const { userData } = useContext(UserContext);
   const { id } = useParams();
   const { data, error, isLoading } = useSWR(
-    `http://localhost:8000/patients/${id}`,
-    fetcher
+    `http://localhost:8000/patients/${id}`,fetcher
   );
   const [firstName, setFirstName] = useState(null);
   const [lastName, setLastName] = useState(null);
@@ -60,7 +58,6 @@ export default function PatientInfo() {
               }}
               value={firstName}
               className="mt-[8px] border-[1px]"
-              readOnly={userData.job_role !== "FrontDesk"}
             />
           </div>
           <div>
@@ -71,14 +68,11 @@ export default function PatientInfo() {
               }}
               value={lastName}
               className="mt-[8px] border-[1px]"
-              readOnly={userData.job_role !== "FrontDesk"}
-
             />
           </div>
           <div>
             <h4>gender</h4>
             <select
-            disabled={userData.job_role !== "FrontDesk"}
               onChange={(e) => {
                 setGender(e.target.value);
               }}
@@ -97,41 +91,34 @@ export default function PatientInfo() {
               value={birthDate}
               setValue={setBirthDate}
               size={"lg"}
-              readOnly={userData.job_role !== "FrontDesk"}
             />
           </div>
-          {userData.job_role == "FrontDesk" && (
-            <>
-              <div>
-                <h4>Home Address</h4>
-                <input
-                  onChange={(e) => {
-                    setHomeAddress(e.target.value);
-                  }}
-                  value={homeAddress}
-                  className="mt-[8px] border-[1px]"
-                />
-              </div>
-              <div>
-                <h4>Contact phone number</h4>
-                <input
-                  onChange={(e) => {
-                    setContactPhoneNumber(e.target.value);
-                  }}
-                  value={contactPhoneNumber}
-                  className="mt-[8px] border-[1px]"
-                />
-              </div>
-            </>
-          )}
+          <div>
+            <h4>Home Address</h4>
+            <input
+              onChange={(e) => {
+                setHomeAddress(e.target.value);
+              }}
+              value={homeAddress}
+              className="mt-[8px] border-[1px]"
+            />
+          </div>
+          <div>
+            <h4>Contact phone number</h4>
+            <input
+              onChange={(e) => {
+                setContactPhoneNumber(e.target.value);
+              }}
+              value={contactPhoneNumber}
+              className="mt-[8px] border-[1px]"
+            />
+          </div>
         </div>
         {/*-------------------------------------- lower part --------------------------------*/}
-        {userData.job_role == "FrontDesk" && (
-          <DiscardAndSaveButton
-            handleDiscardChange={handleDiscardChange}
-            handleSaveInformation={handleSaveInformation}
-          />
-        )}
+        <DiscardAndSaveButton
+          handleDiscardChange={handleDiscardChange}
+          handleSaveInformation={handleSaveInformation}
+        />
       </div>
     </>
   );

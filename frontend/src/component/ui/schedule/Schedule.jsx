@@ -4,11 +4,11 @@ import moment from "moment";
 import { useContext, useState } from "react";
 import convertStringFormatToDate from "@/utils/convertStringFormatToDate";
 import detectEventOverlapping from "@/utils/eventOverlapping";
-import Popup from "../Popup/Popup";
+import Popup from "../Popup";
 import { PopupContext } from "@/contexts/popupContext";
-import AppointmentPopup from "../Popup/AppointmentPopup";
+import AppointmentPopup from "../AppointmentPopup";
 import { useLocation } from "react-router-dom";
-import DataTable from "../Table/DataTable";
+import DataTable from "../DataTable";
 import dayjs from "dayjs";
 import { indexOfEvent } from "@/utils/eventFunction";
 import { ScheduleContext } from "@/contexts/scheduleContext";
@@ -30,32 +30,31 @@ export default function Schedule({ auditable }) {
   const [isSelectable, setIsSelectable] = useState(false);
   const location = useLocation();
   /*----------------------------main function use for react big calendar props-----------------------------------*/
-  // function handleSelectSlot({ start, end }) {
-  //   // allow to create new slot in schedule if it is not repeat with any backgroundEvent before it
-  //   const selectedEvent = { end: end, start: start, title: "working time" };
-  //   const isOverlapping = detectEventOverlapping(
-  //     filterBackgroundEvents,
-  //     selectedEvent
-  //   );
-  //   if (!isOverlapping) {
-  //     setFilterBackgroundEvents((prev) => [...prev, selectedEvent]);
-  //   }
-  // }
+  function handleSelectSlot({ start, end }) {
+    // allow to create new slot in schedule if it is not repeat with any backgroundEvent before it
+    const selectedEvent = { end: end, start: start, title: "working time" };
+    const isOverlapping = detectEventOverlapping(
+      filterBackgroundEvents,
+      selectedEvent
+    );
+    if (!isOverlapping) {
+      setFilterBackgroundEvents((prev) => [...prev, selectedEvent]);
+    }
+  }
   function handleOnSelectEvent(events) {
+    console.log(`check event: ${JSON.stringify(events)}`);
     //only allow to show detail of event which is appointment, not allow to show background event
     if (events.isBackgroundEvent) {
       //show background event information
       //allow to popup and delete background information
-      if (isSelectable) {
-        setPopupComponent(
-          <WorkingTimeSchedulePopup
-            startTime={events.start}
-            endTime={events.end}
-            title={events.title}
-          />
-        );
-        setIsPopup(true);
-      }
+      setPopupComponent(
+        <WorkingTimeSchedulePopup
+          startTime={events.start}
+          endTime={events.end}
+          title={events.title}
+        />
+      );
+      setIsPopup(true);
     } else {
       //only allow appointment router to able to cancel appointment [access control]
       if (location.pathname == "/appointment") {
@@ -63,7 +62,7 @@ export default function Schedule({ auditable }) {
           <AppointmentPopup appointmentData={events} ableToCancel={true} />
         );
         //else, cannot cancel appointment
-      } else if (location.pathname == "/working-schedule") {
+      } else if (location.pathname == "/doctor-working-schedule") {
         setPopupComponent(
           <AppointmentPopup appointmentData={events} ableToUpdate={true} />
         );
@@ -101,8 +100,10 @@ export default function Schedule({ auditable }) {
           };
         })}
         backgroundEvents={filterBackgroundEvents}
+        onSelectSlot={auditable && handleSelectSlot}
         onSelectEvent={handleOnSelectEvent}
         onView={auditable && handleViewChange}
+        selectable={auditable && isSelectable}
         startAccessor="start"
         endAccessor="end"
       />

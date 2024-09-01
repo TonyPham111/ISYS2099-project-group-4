@@ -1,31 +1,14 @@
 import { PopupContextProvider } from "@/contexts/popupContext";
-import DataTable from "@/component/ui/Table/DataTable";
-import { useContext, useEffect, useState } from "react";
+import DataTable from "@/component/ui/DataTable";
+import * as staffService from "@/services/staffService.js";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import AddStaffButton from "@/component/staff/general/AddStaffButton";
 import useSWR from "swr";
 import fetcher from "@/utils/fetcher";
-import PopupButton from "@/component/ui/Button/PopupButton";
-import AddStaffForm from "@/component/ui/Form/Create/AddStaffForm";
-import { UserContext } from "@/contexts/userContext";
 
 export default function Staff() {
-  const { userData } = useContext(UserContext);
-  const [url, setUrl] = useState(`http://localhost:8000/staffs`);
-  useEffect(() => {
-    if (userData) {
-      if (userData.job_role == "HR") {
-        const newUrl = `http://localhost:8000/staffs`;
-        if (newUrl !== url) {
-          setUrl(newUrl);
-        }
-      } else {
-        const newUrl = `http://localhost:8000/staffs?manager_id=${userData.id}`;
-        if (newUrl !== url) {
-          setUrl(newUrl);
-        }
-      }
-    }
-  }, [userData]);
+  const [url, setUrl] = useState("http://localhost:8000/staffs");
   const { error, isLoading, data } = useSWR(url, fetcher);
   const headerData = [
     "id",
@@ -56,14 +39,9 @@ export default function Staff() {
         {/*-------- headline and register patient button --------*/}
         <div className="w-full flex justify-between items-center">
           <h1>List of staff</h1>
-          {userData.job_role == "HR" && (
-            <PopupContextProvider>
-              <PopupButton
-                PopupComponent={<AddStaffForm />}
-                text={"add new staff + "}
-              />
-            </PopupContextProvider>
-          )}
+          <PopupContextProvider>
+            <AddStaffButton />
+          </PopupContextProvider>
         </div>
         {/*-------- searching patient data --------*/}
         {/* <div className="flex w-full max-w-sm items-center space-x-2">

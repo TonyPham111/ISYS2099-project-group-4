@@ -44,6 +44,7 @@ export function getDoctorWorkingStatus(
   endTime,
   department_id
 ) {
+  console.log(`jejkldaaj;lsfajk;lf`)
   console.log(data.availableTime);
   return data.availableTime;
 }

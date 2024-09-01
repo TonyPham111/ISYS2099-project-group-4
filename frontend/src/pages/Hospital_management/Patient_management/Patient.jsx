@@ -1,15 +1,14 @@
 import { PopupContextProvider } from "@/contexts/popupContext";
-import DataTable from "@/component/ui/Table/DataTable";
-import PopupButton from "@/component/ui/Button/PopupButton";
-import { useContext, useState } from "react";
+import DataTable from "@/component/ui/DataTable";
+import RegisterPatientButton from "../../../component/patient/general/RegisterPatientButton";
+import MiniSearch from "minisearch";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useSWR from "swr";
 import fetcher from "@/utils/fetcher";
-import RegisterPatientForm from "@/component/ui/Form/Create/RegisterPatientForm";
-import { UserContext } from "@/contexts/userContext";
+
 
 export default function Patient() {
-  const { userData } = useContext(UserContext);
   const [url, setUrl] = useState("http://localhost:8000/patients");
   const { data, error, isLoading } = useSWR(url, fetcher);
   const navigate = useNavigate();
@@ -38,14 +37,9 @@ export default function Patient() {
         {/*-------- headline and register patient button --------*/}
         <div className="w-full flex justify-between items-center">
           <h1>List of patient</h1>
-          {userData.job_role == "FrontDesk" && (
-            <PopupContextProvider>
-              <PopupButton
-                PopupComponent={<RegisterPatientForm />}
-                text={"register patient +"}
-              />
-            </PopupContextProvider>
-          )}
+          <PopupContextProvider>
+            <RegisterPatientButton />
+          </PopupContextProvider>
         </div>
         {/*-------- searching patient data --------*/}
         <div className="flex w-full max-w-sm items-center space-x-2">

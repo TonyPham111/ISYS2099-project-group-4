@@ -7,23 +7,13 @@ import StaffSchedule from "./StaffSchedule";
 import { ScheduleContextProvider } from "@/contexts/scheduleContext";
 import useSWR from "swr";
 import fetcher from "@/utils/fetcher";
-import { useContext, useEffect } from "react";
-import { UserContext } from "@/contexts/userContext";
-import BackButton from "@/component/ui/Button/BackButton";
 export default function StaffDetailRouter() {
   const navigate = useNavigate();
-  const { userData } = useContext(UserContext);
   const { id } = useParams();
-
   const { error, isLoading, data } = useSWR(
     `http://localhost:8000/staffs/${id}`,
     fetcher
   );
-  useEffect(() => {
-    if (data && userData.job_role !== "HR" && userData.id !== data.manager_id) {
-      navigate("/dashboard");
-    }
-  }, [userData, data]);
   if (error) {
     return <div>error when loading data</div>;
   } else if (isLoading) {
@@ -33,7 +23,11 @@ export default function StaffDetailRouter() {
     return (
       <section className="w-full h-full relative">
         <div className="h-[70px] flex justify-between items-center border-b-2 border-solid border-custom-dark-100">
-          <StaffDetailNavbar data={data} />
+          <StaffDetailNavbar />
+          <h5 className="text-custom-dark-300">
+            {/*--user info----*/}#{data.id} {data.last_name}{" "}
+            {data.first_name}
+          </h5>
         </div>
 
         {/*------------------main part---------------*/}
@@ -51,8 +45,14 @@ export default function StaffDetailRouter() {
           </Routes>
         </section>
 
-        {/*---------------- back button -------------*/}
-        <BackButton/>
+        <button
+          onClick={() => {
+            navigate("../");
+          }}
+          className="w-[150px] h-[50px] absolute -bottom-20 -left-5 bg-custom-blue text-white"
+        >
+          Back
+        </button>
       </section>
     );
   }
