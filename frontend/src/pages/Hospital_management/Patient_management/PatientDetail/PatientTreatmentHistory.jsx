@@ -1,26 +1,23 @@
-import dayjs from "dayjs";
-import { useState } from "react";
-import CustomDatePicker from "@/component/ui/CustomDatePicker";
-import * as patientService from "@/services/patientService";
+import { useContext, useState } from "react";
+import CustomDatePicker from "@/component/ui/DateTime/CustomDatePicker";
 import { PopupContext, PopupContextProvider } from "@/contexts/popupContext";
-import CreateTreatmentButton from "@/component/patient/treatment/CreateTreatmentButton";
-import DataTable from "@/component/ui/DataTable";
-import Popup from "@/component/ui/Popup";
-import TreatmentHistoryForm from "@/component/patient/treatment/TreatmentHistoryForm";
+import DataTable from "@/component/ui/Table/DataTable";
+import Popup from "@/component/ui/Popup/Popup";
+import TreatmentHistoryForm from "@/component/ui/Form/View/TreatmentHistoryForm";
 import { useParams } from "react-router-dom";
 import useSWR from "swr";
 import fetcher from "@/utils/fetcher";
+import PopupButton from "@/component/ui/Button/PopupButton";
+import CreateTreatmentForm from "@/component/ui/Form/Create/CreateTreatmentForm";
+import { UserContext } from "@/contexts/userContext";
 
 export default function PatientTreatmentHistory() {
+  const { userData } = useContext(UserContext);
   const [isPopup, setIsPopup] = useState(false);
   const [specificTreatmentData, setSpecificTreatmentData] = useState(null);
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
-  const headerData = [
-    "treatment_id",
-    "date",
-    "doctor_id",
-  ];
+  const headerData = ["treatment_id", "date", "doctor_id"];
   const { id } = useParams();
   const { data, isLoading, error } = useSWR(
     `http://localhost:8000/treatment-histories?patientId=${id}`,
@@ -55,9 +52,14 @@ export default function PatientTreatmentHistory() {
               search
             </button>
           </div>
-          <PopupContextProvider>
-            <CreateTreatmentButton />
-          </PopupContextProvider>
+          {userData.job_role == "Doctor" && (
+            <PopupContextProvider>
+              <PopupButton
+                PopupComponent={<CreateTreatmentForm />}
+                text={"create treatment +"}
+              />
+            </PopupContextProvider>
+          )}
         </div>
         <PopupContext.Provider value={{ isPopup, setIsPopup }}>
           <DataTable

@@ -1,11 +1,11 @@
-import CustomDatePicker from "@/component/ui/CustomDatePicker";
-import CustomTimePicker from "@/component/ui/CustomTimePicker";
+import CustomDatePicker from "@/component/ui/DateTime/CustomDatePicker";
+import CustomTimePicker from "@/component/ui/DateTime/CustomTimePicker";
 import * as patientService from "@/services/patientService";
 import * as staffService from "@/services/staffService";
 import { useContext, useEffect, useState } from "react";
-import CustomAutoComplete from "@/component/ui/CustomAutoComplete";
-import Editor from "@/component/ui/Editor";
-import DataTable from "@/component/ui/DataTable";
+import CustomAutoComplete from "@/component/ui/DateTime/CustomAutoComplete";
+import Editor from "@/component/ui/Editor/Editor";
+import DataTable from "@/component/ui/Table/DataTable";
 import * as equal from "deep-equal";
 import { PopupContext } from "@/contexts/popupContext";
 export default function BookingForm() {

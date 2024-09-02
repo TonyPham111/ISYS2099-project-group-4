@@ -4,11 +4,13 @@ import { FaUserNurse } from "react-icons/fa6";
 import { MdPeopleAlt } from "react-icons/md";
 import { FaCalendarAlt } from "react-icons/fa";
 import { LuClipboardList } from "react-icons/lu";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FaBusinessTime } from "react-icons/fa";
+import { UserContext } from "@/contexts/userContext";
 
 const Sidebar = ({}) => {
+  const { userData } = useContext(UserContext);
   const location = useLocation();
   const [activeItem, setActiveItem] = useState();
   const navigate = useNavigate();
@@ -72,57 +74,60 @@ const Sidebar = ({}) => {
             }`}
           />
         </button>
-
-        <button
-          onClick={() => {
-            handleOnClick("appointment");
-          }}
-          className={`flex justify-center items-center p-3 ${
-            activeItem == "appointment" ? "bg-custom-blue" : ""
-          }`}
-          variant="outline"
-          size="icon"
-        >
-          <FaCalendarAlt
-            className={`h-6 w-6 ${
-              activeItem == "appointment" ? "text-white" : "text-custom-blue"
+        {userData.job_role == "FrontDesk" && (
+          <button
+            onClick={() => {
+              handleOnClick("appointment");
+            }}
+            className={`flex justify-center items-center p-3 ${
+              activeItem == "appointment" ? "bg-custom-blue" : ""
             }`}
-          />
-        </button>
+            variant="outline"
+            size="icon"
+          >
+            <FaCalendarAlt
+              className={`h-6 w-6 ${
+                activeItem == "appointment" ? "text-white" : "text-custom-blue"
+              }`}
+            />
+          </button>
+        )}
         <button
           onClick={() => {
-            handleOnClick("doctor-working-schedule");
+            handleOnClick("working-schedule");
           }}
           className={`flex justify-center items-center p-3 ${
-            activeItem == "doctor-working-schedule" ? "bg-custom-blue" : ""
+            activeItem == "working-schedule" ? "bg-custom-blue" : ""
           }`}
           variant="outline"
           size="icon"
         >
           <FaBusinessTime
             className={`h-6 w-6 ${
-              activeItem == "doctor-working-schedule"
+              activeItem == "working-schedule"
                 ? "text-white"
                 : "text-custom-blue"
             }`}
           />
         </button>
-        <button
-          onClick={() => {
-            handleOnClick("report");
-          }}
-          className={`flex justify-center items-center p-3 ${
-            activeItem == "report" ? "bg-custom-blue" : ""
-          }`}
-          variant="outline"
-          size="icon"
-        >
-          <LuClipboardList
-            className={`h-6 w-6 ${
-              activeItem == "report" ? "text-white" : "text-custom-blue"
+        {userData.job_role !== "FrontDesk" && (
+          <button
+            onClick={() => {
+              handleOnClick("report");
+            }}
+            className={`flex justify-center items-center p-3 ${
+              activeItem == "report" ? "bg-custom-blue" : ""
             }`}
-          />
-        </button>
+            variant="outline"
+            size="icon"
+          >
+            <LuClipboardList
+              className={`h-6 w-6 ${
+                activeItem == "report" ? "text-white" : "text-custom-blue"
+              }`}
+            />
+          </button>
+        )}
       </section>
     </section>
   );

@@ -2,16 +2,17 @@ import Navbar from "./component/layout/Navbar";
 import Sidebar from "./component/layout/Sidebar";
 import Main from "./component/layout/Main";
 
-function App() {
+import { UserContext, UserContextProvider } from "./contexts/userContext";
+import { useContext, useEffect } from "react";
+export default function App() {
+  const { userData } = useContext(UserContext);
   return (
     <section className="App w-screen h-screen bg-custom-dark-100">
-      <Navbar/>
+      {userData && <Navbar />}
       <section className="w-full h-full flex">
-        <Sidebar/>
-        <Main/> 
+        {userData && <Sidebar />}
+        <Main />
       </section>
     </section>
   );
 }
-
-export default App;
