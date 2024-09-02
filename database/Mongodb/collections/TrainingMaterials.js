@@ -4,7 +4,6 @@ const TrainingMaterialSchema = new mongoose.Schema({
     _id: String,
     department_name: String,
     job_name: String,
-
 });
 
 
