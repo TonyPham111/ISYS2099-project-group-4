@@ -4,28 +4,31 @@ import { PopupContext } from "@/contexts/popupContext";
 import CustomAutoComplete from "@/component/ui/DateTime/CustomAutoComplete";
 import useSWR from "swr";
 import fetcher from "@/utils/fetcher";
+import { create } from "@mui/material/styles/createTransitions";
 
-export default function CreateDiagnosisForm() {
+export default function CreateAllergiesForm({ createdAllergiesData }) {
   const [createdData, setCreatedData] = useState([]);
-  const [diagnosisNote, setDiagnosisNote] = useState(null);
   const { setIsPopup } = useContext(PopupContext);
-  const headerData = ["diagnosis", "description", ""];
-
-  function handleCreateDiagnosis() {
-    let readyToCreateDiagnosis = true;
+  const headerData = ["name", "group", "allergen", "type", ""];
+  function handleCreateAllergies() {
+    console.log(`'created alelrgies data: ${createdAllergiesData}`)
+    let readyToCreate = true;
     /*----check if it meet requirement to create new treatment ( not allow any blank input )*/
     if (createdData.length > 0) {
       for (let i = 0; i < createdData.length; ++i) {
+        if (createdAllergiesData.indexOf(createdData[i].name) < 0) {
+            readyToCreate = false;
+        }
         for (let j = 0; j < headerData.length; j++) {
           if (!createdData[i][headerData[i]]) {
-            readyToCreateDiagnosis = false;
+            readyToCreate = false;
           }
         }
       }
     } else {
-      readyToCreateDiagnosis = false;
+      readyToCreate = false;
     }
-    if (readyToCreateDiagnosis) {
+    if (readyToCreate) {
       setIsPopup(false);
     }
   }
@@ -38,17 +41,13 @@ export default function CreateDiagnosisForm() {
           data={createdData}
           setData={setCreatedData}
         />
-        <h3>Diagnosis note</h3>
-        <div className="w-[50%]">
-          <Editor value={diagnosisNote} setValue={setDiagnosisNote} />
-        </div>
       </div>
       <div className="w-[95%] mx-auto pt-5 border-t-2 border-custom-gray-200 flex justify-center absolute bottom-[10px]">
         <button
-          onClick={handleCreateDiagnosis}
+          onClick={handleCreateAllergies}
           className="h-[50px] w-[250px] bg-custom-blue text-white"
         >
-          Create diagnosis +
+          Create allergies +
         </button>
       </div>
     </div>
@@ -56,24 +55,26 @@ export default function CreateDiagnosisForm() {
 }
 
 function CreateDiagnosisTable({ headerData, data, setData }) {
-  const { data: diagnosisData } = useSWR(
-    "http://localhost:8000/conditions",
+  const { data: allergiesData } = useSWR(
+    "http://localhost:8000/allergies",
     fetcher
   );
   /*-------------------------main function---------------------------*/
   function handleAutoCompleteOnChange(event, value, rowIndex) {
-    data[rowIndex].code = value.code;
     data[rowIndex].name = value.name;
-    data[rowIndex].description = value.description;
+    data[rowIndex].group = value.group;
+    data[rowIndex].allergen = value.allergen;
+    data[rowIndex].type = value.type;
     setData([...data]);
   }
   function handleAddRowData() {
     setData([
       ...data,
       {
-        code: null,
         name: null,
-        description: null,
+        group: null,
+        allergen: null,
+        type: null,
       },
     ]);
   }
@@ -97,19 +98,19 @@ function CreateDiagnosisTable({ headerData, data, setData }) {
             <tr>
               {headerData.map((keyItem) => {
                 /*----------------------auto complete input (diagnosis)--------------------------*/
-                if (keyItem == "diagnosis") {
+                if (keyItem == "name") {
                   return (
                     <td className="w-[70px] h-[20px] py-[5px]">
                       <CustomAutoComplete
-                        options={diagnosisData ? diagnosisData : []}
+                        options={allergiesData ? allergiesData : []}
                         // value={patientValue}
                         onChange={(event, value) => {
                           handleAutoCompleteOnChange(event, value, rowIndex);
                         }}
                         getOptionLabel={(option) => {
-                          return `${option.name} ( ${option.code} )`;
+                          return `${option.name}`;
                         }}
-                        label={"search by diagnosis or code ..."}
+                        label={"search by allergies name ..."}
                         size={"full"}
                       />
                     </td>

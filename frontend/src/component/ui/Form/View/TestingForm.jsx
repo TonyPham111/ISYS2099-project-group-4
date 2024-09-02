@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import UploadFileButton from "../../Button/UploadFileButton";
 import DataTable from "../../Table/DataTable";
 import PreviewFileCard from "../../Card/PreviewFileCard";
+import { UserContext } from "@/contexts/userContext";
 
 export default function TestingForm({ testingData }) {
+  const { userData } = useContext(UserContext);
   const headerData = [
     "name",
     "administrating_nurse",
@@ -24,8 +26,6 @@ export default function TestingForm({ testingData }) {
     }
   }
   function handleUploadImageFile(files, rowIndex) {
-    //each row should only have about 5 images at max
-    //?????????????????/
     setImagesFiles([
       ...imageFiles,
       {
@@ -66,7 +66,8 @@ export default function TestingForm({ testingData }) {
                       );
                     }
                   })}
-                  {availableToUpload && (
+                  {/*----------button click to upload pdf----------*/}
+                  {availableToUpload && userData.job_role == "Nurse" && (
                     <UploadFileButton
                       handleOnChange={handleUploadPDFFile}
                       textContent="upload pdf"
@@ -96,26 +97,32 @@ export default function TestingForm({ testingData }) {
                       }
                     }
                   })}
-                  <UploadFileButton
-                    handleOnChange={handleUploadImageFile}
-                    textContent="upload images"
-                    acceptTypes={".jpg, .png, .web"}
-                    rowIndex={rowIndex}
-                  />
+                  {/*----------button click to upload images----------*/}
+                  {userData.job_role == "Nurse" && (
+                    <UploadFileButton
+                      handleOnChange={handleUploadImageFile}
+                      textContent="upload images"
+                      acceptTypes={".jpg, .png, .web"}
+                      rowIndex={rowIndex}
+                    />
+                  )}
                 </div>
               </div>
             </div>
           );
         })}
       </div>
-      <div className="w-full h-[10%] py-3 flex justify-center items-center border-t-[0.5px] border-solid border-custom-dark-300">
-        <button
-          onClick={handleOnUpdateResult}
-          className="bg-custom-blue text-white"
-        >
-          update result +{" "}
-        </button>
-      </div>
+      {/*-------------------------------- upload button [for Nurse role only] -------------------------------*/}
+      {userData.job_role == "Nurse" && (
+        <div className="w-full h-[10%] py-3 flex justify-center items-center border-t-[0.5px] border-solid border-custom-dark-300">
+          <button
+            onClick={handleOnUpdateResult}
+            className="bg-custom-blue text-white"
+          >
+            update result +{" "}
+          </button>
+        </div>
+      )}
     </div>
   );
 }

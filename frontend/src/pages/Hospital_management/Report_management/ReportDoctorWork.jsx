@@ -14,13 +14,24 @@ export default function ReportDoctorWork() {
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
   const [chosenDoctor, setChosenDoctor] = useState(null);
-  const headerData = ["id", "purpose_of_appointment", "doctor_id", "patient_id", "date", "start_time", "end_time"];
+  const headerData = [
+    "id",
+    "purpose_of_appointment",
+    "doctor_id",
+    "patient_id",
+    "date",
+    "start_time",
+    "end_time",
+  ];
   const [url, setUrl] = useState(`http://localhost:8000/appointments`);
   const { data: appointmentData } = useSWR(url, fetcher);
-  const { data: doctorData } = useSWR(`http://localhost:8000/staffs?job_role=Doctor`, fetcher);
-  useEffect(()=>{
+  const { data: doctorData } = useSWR(
+    `http://localhost:8000/staffs?job_role=Doctor`,
+    fetcher
+  );
+  useEffect(() => {
     console.log(`doctorData: ${doctorData}`);
-  },[doctorData]);
+  }, [doctorData]);
   function handleOnClickRowData(item, rowIndex) {
     setIsPopup(true);
     setSpecificAppointmentData(item);
@@ -28,9 +39,7 @@ export default function ReportDoctorWork() {
   function handleOnSearch() {
     console.log(`check chosen Doctor data: ${JSON.stringify(chosenDoctor)}`);
     if (chosenDoctor && chosenDoctor.id !== 0) {
-      setUrl(
-        `http://localhost:8000/appointments?doctorId=${chosenDoctor.id}`
-      );
+      setUrl(`http://localhost:8000/appointments?doctorId=${chosenDoctor.id}`);
     } else if (chosenDoctor && chosenDoctor.id == 0) {
       setUrl(`http://localhost:8000/appointments`);
     }
@@ -56,7 +65,7 @@ export default function ReportDoctorWork() {
             getOptionLabel={(option) => {
               return `#${option.id}: ${option.first_name} ${option.last_name} `;
             }}
-            label={"choose patient"}
+            label={"choose doctor"}
             size={"md"}
           />
           <CustomDatePicker
@@ -76,7 +85,7 @@ export default function ReportDoctorWork() {
       <PopupContext.Provider value={{ isPopup, setIsPopup }}>
         <DataTable
           headerData={headerData}
-          data={appointmentData?appointmentData:[]}
+          data={appointmentData ? appointmentData : []}
           hoverOnRow={true}
           handleOnClick={handleOnClickRowData}
         />

@@ -1,7 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import Staff from "./Staff";
 import StaffDetailRouter from "./StaffDetail/StaffDetailRouter";
-import ProtectedRoute from "@/component/auth/ProtectedRoute";
 const StaffRouter = () => {
   
   return (

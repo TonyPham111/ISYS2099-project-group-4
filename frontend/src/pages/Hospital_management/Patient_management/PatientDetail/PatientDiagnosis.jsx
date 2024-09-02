@@ -31,7 +31,6 @@ export default function PatientDiagnosis() {
   if (data) {
     return (
       <section className="w-full h-full flex flex-col gap-[15px]">
-        {/*searching treatmentHistory and trigger new treatment*/}
         <div className="w-full flex justify-end">
           {userData.job_role == "Doctor" && (
             <PopupContextProvider>

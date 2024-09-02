@@ -3,25 +3,25 @@ import DataTable from "@/component/ui/Table/DataTable";
 import { useEffect, useState } from "react";
 import fetcher from "@/utils/fetcher";
 import useSWR from "swr";
-export default function ReportJobChangeHistory() {
+export default function ReportDepartmentChangeHistory() {
   const [chosenStaff, setChosenStaff] = useState(null);
   const headerData = [
     "staff_id",
-    "old_job_name",
-    "new_job_name",
     "date_change",
+    "old_department_name",
+    "new_department_name",
   ];
-  const [url, setUrl] = useState(`http://localhost:8000/staffs/job_change_history`);
-  const { data: jobChangeData } = useSWR(url, fetcher);
+  const [url, setUrl] = useState(`http://localhost:8000/staffs/department_change_history`);
+  const { data: departmentChangeData } = useSWR(url, fetcher);
   const { data: staffData } = useSWR(`http://localhost:8000/staffs`, fetcher);
 
   function handleOnSearch() {
     if (chosenStaff && chosenStaff.id !== 0) {
       setUrl(
-        `http://localhost:8000/staffs/job_change_history?staffId=${chosenStaff.id}`
+        `http://localhost:8000/staffs/department_change_history?staffId=${chosenStaff.id}`
       );
     } else if (chosenStaff && chosenStaff.id == 0) {
-      setUrl(`http://localhost:8000/staffs/job_change_history`);
+      setUrl(`http://localhost:8000/staffs/department_change_history`);
     }
   }
   if (!staffData) {
@@ -56,7 +56,7 @@ export default function ReportJobChangeHistory() {
       </div>
       <DataTable
         headerData={headerData}
-        data={jobChangeData ? jobChangeData : []}
+        data={departmentChangeData ? departmentChangeData: []}
         hoverOnRow={true}
         handleOnClick={() => {}}
       />

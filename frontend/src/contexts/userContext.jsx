@@ -5,13 +5,11 @@ const UserContext = createContext();
 
 function UserContextProvider({ children }) {
   const { mutate } = useSWRConfig();
-  const [userData, setUserData] = useState(
-    {
+  const [userData, setUserData] = useState({
     id: 11,
     full_name: "Phan Gia Bao",
-    job_role: "Doctor",
-  }
-);
+    job_role: "HR",
+  });
   const [fetchedData, setFetchedData] = useState(null);
   const isFetched = useRef(false);
   useEffect(() => {

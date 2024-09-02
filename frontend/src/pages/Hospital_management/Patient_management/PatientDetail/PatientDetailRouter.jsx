@@ -1,5 +1,4 @@
 import { useNavigate, useParams } from "react-router-dom";
-import * as patientService from "@/services/patientService";
 import PatientInfo from "./PatientInfo";
 import { Routes, Route } from "react-router-dom";
 import PatientTreatmentHistory from "./PatientTreatmentHistory";
@@ -12,6 +11,7 @@ import { useContext } from "react";
 import { UserContext } from "@/contexts/userContext";
 import BackButton from "@/component/ui/Button/BackButton";
 import PatientTest from "./PatientTest";
+import PatientAllergies from "./PatientAllergies";
 export default function PatientDetailRouter() {
   const { userData } = useContext(UserContext);
   const navigate = useNavigate();
@@ -54,7 +54,7 @@ export default function PatientDetailRouter() {
                 element={<PatientTreatmentHistory />}
               />
               <Route path="/test" element={<PatientTest/>} />
-              {/* <Route path="/diagnosis" element={<PatientAllergies />} /> */}
+              <Route path="/allergies" element={<PatientAllergies />} />
               <Route path="/diagnosis" element={<PatientDiagnosis />} />
             </Route>
           </Routes>

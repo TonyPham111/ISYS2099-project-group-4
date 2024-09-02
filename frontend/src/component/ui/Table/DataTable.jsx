@@ -25,7 +25,7 @@ export default function DataTable({
               key={item.id}
             >
               {headerData.map((keyItem) => (
-                <td>{item[keyItem]}</td>
+                <td key={keyItem + item.id}>{item[keyItem]}</td>
               ))}
             </tr>
           ))}

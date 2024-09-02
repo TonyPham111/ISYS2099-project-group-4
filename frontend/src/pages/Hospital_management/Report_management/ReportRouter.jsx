@@ -8,6 +8,9 @@ import { UserContext } from "@/contexts/userContext";
 import ReportTreatmentHistory from "./Patient_Report/ReportTreatmentHistory";
 import ReportPatientBilling from "./Patient_Report/ReportPatientBilling";
 import ReportDoctorWork from "./ReportDoctorWork";
+import ReportJobChangeHistory from "./ReportJobChangeHistory";
+import ReportWageChangeHistory from "./Patient_Report/ReportWageChangeHistory";
+import ReportDepartmentChangeHistory from "./Patient_Report/ReportDepartmentChangeHistory";
 export default function ReportRouter() {
   const { userData } = useContext(UserContext);
   return (
@@ -92,10 +95,9 @@ function ReportStaffRouter() {
       <section className="w-full h-[90%] py-3">
         <Routes>
           <Route>
-          {/* <Route path="/job-change-history" element={}/>
-                <Route path="/wage-change-history" element={}/>
-                <Route path="/department-change-history" element={}/>
-*/}
+          <Route path="/job-change-history" element={<ReportJobChangeHistory/>}/>
+                <Route path="/wage-change-history" element={<ReportWageChangeHistory/>}/>
+                <Route path="/department-change-history" element={<ReportDepartmentChangeHistory/>}/>
                 <Route path="/doctor-work" element={<ReportDoctorWork/>}/> 
           </Route>
         </Routes>
