@@ -50,7 +50,7 @@ const AddStaffForm = () => {
               }}
               className="mt-[8px] p-[3px] border-[1.1px]"
             >
-              <option value="Male">Male</option>
+              <option selected value="Male">Male</option>
               <option value="Female">Female</option>
               <option value="Other">Other</option>
             </select>

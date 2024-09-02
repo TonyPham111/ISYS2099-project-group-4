@@ -3,1288 +3,1288 @@
     "icd9_code":"995.3",
     "name":"Nut Allergy",
     "group":"Food Allergy",
-    "allergent":"Almond",
+    "allergen":"Almond",
     "type":"Nut and seed"
   },
   {
     "icd9_code":"995.3",
     "name":"Oral Allergy Syndrome",
     "group":"Food Allergy",
-    "allergent":"Apple",
+    "allergen":"Apple",
     "type":"Fruit"
   },
   {
     "icd9_code":"995.3",
     "name":"Stone Fruit Allergy",
     "group":"Food Allergy",
-    "allergent":"Apricot",
+    "allergen":"Apricot",
     "type":"Fruit"
   },
   {
     "icd9_code":"995.3",
     "name":"Insulin Allergy",
     "group":"Food Allergy",
-    "allergent":"Artichoke",
+    "allergen":"Artichoke",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Allium Allergy",
     "group":"Food Allergy",
-    "allergent":"Asparagus",
+    "allergen":"Asparagus",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Oral Allergy Syndrome",
     "group":"Food Allergy",
-    "allergent":"Avocado",
+    "allergen":"Avocado",
     "type":"Fruit"
   },
   {
     "icd9_code":"995.3",
     "name":"Histamine Allergy",
     "group":"Food Allergy",
-    "allergent":"Bamboo shoot",
+    "allergen":"Bamboo shoot",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Banana Allergy",
     "group":"Food Allergy",
-    "allergent":"Banana",
+    "allergen":"Banana",
     "type":"Fruit"
   },
   {
     "icd9_code":"579.0",
     "name":"Gluten Allergy",
     "group":"Food Allergy",
-    "allergent":"Barley",
+    "allergen":"Barley",
     "type":"Cereal grain and pulse"
   },
   {
     "icd9_code":"995.3",
     "name":"Legume Allergy",
     "group":"Food Allergy",
-    "allergent":"Bean",
+    "allergen":"Bean",
     "type":"Cereal grain and pulse"
   },
   {
     "icd9_code":"995.3",
     "name":"Salicylate Allergy",
     "group":"Food Allergy",
-    "allergent":"Blackberry",
+    "allergen":"Blackberry",
     "type":"Fruit"
   },
   {
     "icd9_code":"995.3",
     "name":"Legume Allergy",
     "group":"Food Allergy",
-    "allergent":"Black-eyed bean",
+    "allergen":"Black-eyed bean",
     "type":"Cereal grain and pulse"
   },
   {
     "icd9_code":"995.3",
     "name":"Salicylate Allergy",
     "group":"Food Allergy",
-    "allergent":"Blueberry",
+    "allergen":"Blueberry",
     "type":"Fruit"
   },
   {
     "icd9_code":"995.3",
     "name":"Histamine Allergy",
     "group":"Food Allergy",
-    "allergent":"Bonito",
+    "allergen":"Bonito",
     "type":"Aquatic animal"
   },
   {
     "icd9_code":"995.3",
     "name":"Legume Allergy",
     "group":"Food Allergy",
-    "allergent":"Broad bean",
+    "allergen":"Broad bean",
     "type":"Cereal grain and pulse"
   },
   {
     "icd9_code":"995.3",
     "name":"Broccoli allergy",
     "group":"Food Allergy",
-    "allergent":"Broccoli",
+    "allergen":"Broccoli",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Cruciferous Allergy",
     "group":"Food Allergy",
-    "allergent":"Brussels sprouts",
+    "allergen":"Brussels sprouts",
     "type":"Vegetable"
   },
   {
     "icd9_code":"579.0",
     "name":"Gluten Allergy",
     "group":"Food Allergy",
-    "allergent":"Buckwheat",
+    "allergen":"Buckwheat",
     "type":"Cereal grain and pulse"
   },
   {
     "icd9_code":"995.3",
     "name":"Ragweed Allergy",
     "group":"Food Allergy",
-    "allergent":"Burdock",
+    "allergen":"Burdock",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Milk allergy \/ Lactose intolerance",
     "group":"Food Allergy",
-    "allergent":"Butter",
+    "allergen":"Butter",
     "type":"Dairy"
   },
   {
     "icd9_code":"995.3",
     "name":"Legume Allergy",
     "group":"Food Allergy",
-    "allergent":"Butter bean",
+    "allergen":"Butter bean",
     "type":"Cereal grain and pulse"
   },
   {
     "icd9_code":"995.3",
     "name":"Milk allergy \/ Lactose intolerance",
     "group":"Food Allergy",
-    "allergent":"Buttermilk",
+    "allergen":"Buttermilk",
     "type":"Dairy"
   },
   {
     "icd9_code":"995.3",
     "name":"Mushroom Allergy",
     "group":"Food Allergy",
-    "allergent":"Button mushroom",
+    "allergen":"Button mushroom",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Cruciferous Allergy",
     "group":"Food Allergy",
-    "allergent":"Cabbage",
+    "allergen":"Cabbage",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Cacao bean Allergy",
     "group":"Food Allergy",
-    "allergent":"Cacao bean",
+    "allergen":"Cacao bean",
     "type":"Nut and seed"
   },
   {
     "icd9_code":"995.3",
     "name":"Canola oil Allergy",
     "group":"Food Allergy",
-    "allergent":"Canola oil",
+    "allergen":"Canola oil",
     "type":"Oil"
   },
   {
     "icd9_code":"995.3",
     "name":"Hypersensitivity",
     "group":"Food Allergy",
-    "allergent":"Carrot",
+    "allergen":"Carrot",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Milk allergy \/ Lactose intolerance",
     "group":"Food Allergy",
-    "allergent":"Casein",
+    "allergen":"Casein",
     "type":"Dairy"
   },
   {
     "icd9_code":"995.3",
     "name":"Alpha-gal Syndrome",
     "group":"Food Allergy",
-    "allergent":"Cattle",
+    "allergen":"Cattle",
     "type":"Terrestrial mammal"
   },
   {
     "icd9_code":"995.3",
     "name":"Cruciferous Allergy",
     "group":"Food Allergy",
-    "allergent":"Cauliflower",
+    "allergen":"Cauliflower",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Hypersensitivity",
     "group":"Food Allergy",
-    "allergent":"Celery",
+    "allergen":"Celery",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Milk allergy \/ Lactose intolerance",
     "group":"Food Allergy",
-    "allergent":"Cheese",
+    "allergen":"Cheese",
     "type":"Dairy"
   },
   {
     "icd9_code":"995.3",
     "name":"Stone Fruit Allergy",
     "group":"Food Allergy",
-    "allergent":"Cherry",
+    "allergen":"Cherry",
     "type":"Fruit"
   },
   {
     "icd9_code":"995.3",
     "name":"Nut Allergy",
     "group":"Food Allergy",
-    "allergent":"Chestnut",
+    "allergen":"Chestnut",
     "type":"Nut and seed"
   },
   {
     "icd9_code":"995.3",
     "name":"Poultry Allergy",
     "group":"Food Allergy",
-    "allergent":"Chicken",
+    "allergen":"Chicken",
     "type":"Poultry"
   },
   {
     "icd9_code":"995.3",
     "name":"Insulin Allergy",
     "group":"Food Allergy",
-    "allergent":"Chicory",
+    "allergen":"Chicory",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Cruciferous Allergy",
     "group":"Food Allergy",
-    "allergent":"Chinese cabbage",
+    "allergen":"Chinese cabbage",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Coconut oil Allergy",
     "group":"Food Allergy",
-    "allergent":"Coconut oil",
+    "allergen":"Coconut oil",
     "type":"Oil"
   },
   {
     "icd9_code":"995.3",
     "name":"Ochratoxin Allergy",
     "group":"Food Allergy",
-    "allergent":"Coffee bean",
+    "allergen":"Coffee bean",
     "type":"Nut and seed"
   },
   {
     "icd9_code":"995.3",
     "name":"Corn Allergy",
     "group":"Food Allergy",
-    "allergent":"Corn",
+    "allergen":"Corn",
     "type":"Cereal grain and pulse"
   },
   {
     "icd9_code":"995.3",
     "name":"Corn oil Allergy",
     "group":"Food Allergy",
-    "allergent":"Corn oil",
+    "allergen":"Corn oil",
     "type":"Oil"
   },
   {
     "icd9_code":"995.3",
     "name":"Seed Allergy",
     "group":"Food Allergy",
-    "allergent":"Cotton seed",
+    "allergen":"Cotton seed",
     "type":"Nut and seed"
   },
   {
     "icd9_code":"995.3",
     "name":"Salicylate Allergy",
     "group":"Food Allergy",
-    "allergent":"Cranberry",
+    "allergen":"Cranberry",
     "type":"Fruit"
   },
   {
     "icd9_code":"995.3",
     "name":"Milk allergy \/ Lactose intolerance",
     "group":"Food Allergy",
-    "allergent":"Cream",
+    "allergen":"Cream",
     "type":"Dairy"
   },
   {
     "icd9_code":"995.3",
     "name":"Shellfish Allergy",
     "group":"Food Allergy",
-    "allergent":"Crustaceans",
+    "allergen":"Crustaceans",
     "type":"Aquatic animal"
   },
   {
     "icd9_code":"995.3",
     "name":"Cucumber  Allergy",
     "group":"Food Allergy",
-    "allergent":"Cucumber ",
+    "allergen":"Cucumber ",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Milk allergy \/ Lactose intolerance",
     "group":"Food Allergy",
-    "allergent":"Custard",
+    "allergen":"Custard",
     "type":"Dairy"
   },
   {
     "icd9_code":"995.3",
     "name":"Oral Allergy Syndrome",
     "group":"Food Allergy",
-    "allergent":"Date",
+    "allergen":"Date",
     "type":"Fruit"
   },
   {
     "icd9_code":"995.3",
     "name":"Alpha-gal Syndrome",
     "group":"Food Allergy",
-    "allergent":"Deer",
+    "allergen":"Deer",
     "type":"Terrestrial mammal"
   },
   {
     "icd9_code":"995.3",
     "name":"Poultry Allergy",
     "group":"Food Allergy",
-    "allergent":"Duck",
+    "allergen":"Duck",
     "type":"Poultry"
   },
   {
     "icd9_code":"995.3",
     "name":"Fish Allergy",
     "group":"Food Allergy",
-    "allergent":"Eel",
+    "allergen":"Eel",
     "type":"Aquatic animal"
   },
   {
     "icd9_code":"995.3",
     "name":"Nightshade Allergy",
     "group":"Food Allergy",
-    "allergent":"Egg plant",
+    "allergen":"Egg plant",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Poultry Allergy",
     "group":"Food Allergy",
-    "allergent":"Eggs",
+    "allergen":"Eggs",
     "type":"Poultry"
   },
   {
     "icd9_code":"995.3",
     "name":"Insulin Allergy",
     "group":"Food Allergy",
-    "allergent":"Endive",
+    "allergen":"Endive",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Sugar Allergy \/ Intolerance",
     "group":"Food Allergy",
-    "allergent":"Fructose",
+    "allergen":"Fructose",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Allium Allergy",
     "group":"Food Allergy",
-    "allergent":"Garlic",
+    "allergen":"Garlic",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Ghrkin Allergy",
     "group":"Food Allergy",
-    "allergent":"Ghrkin",
+    "allergen":"Ghrkin",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Histamine Allergy",
     "group":"Food Allergy",
-    "allergent":"Ginger",
+    "allergen":"Ginger",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Nut Allergy",
     "group":"Food Allergy",
-    "allergent":"Ginkgo nut",
+    "allergen":"Ginkgo nut",
     "type":"Nut and seed"
   },
   {
     "icd9_code":"995.3",
     "name":"Fish Allergy",
     "group":"Food Allergy",
-    "allergent":"Globfish",
+    "allergen":"Globfish",
     "type":"Aquatic animal"
   },
   {
     "icd9_code":"995.3",
     "name":"Sugar Allergy \/ Intolerance",
     "group":"Food Allergy",
-    "allergent":"Glucose",
+    "allergen":"Glucose",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Alpha-gal Syndrome",
     "group":"Food Allergy",
-    "allergent":"Goat",
+    "allergen":"Goat",
     "type":"Terrestrial mammal"
   },
   {
     "icd9_code":"995.3",
     "name":"LTP Allergy",
     "group":"Food Allergy",
-    "allergent":"Grape",
+    "allergen":"Grape",
     "type":"Fruit"
   },
   {
     "icd9_code":"995.3",
     "name":"Citrus Allergy",
     "group":"Food Allergy",
-    "allergent":"Grapefruit",
+    "allergen":"Grapefruit",
     "type":"Fruit"
   },
   {
     "icd9_code":"995.3",
     "name":"Grapeseed oil Allergy",
     "group":"Food Allergy",
-    "allergent":"Grapeseed oil",
+    "allergen":"Grapeseed oil",
     "type":"Oil"
   },
   {
     "icd9_code":"995.3",
     "name":"Legume Allergy",
     "group":"Food Allergy",
-    "allergent":"Green soybean",
+    "allergen":"Green soybean",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Groundnut oil Allergy",
     "group":"Food Allergy",
-    "allergent":"Groundnut oil",
+    "allergen":"Groundnut oil",
     "type":"Oil"
   },
   {
     "icd9_code":"995.3",
     "name":"Oral Allergy Syndrome",
     "group":"Food Allergy",
-    "allergent":"Guava",
+    "allergen":"Guava",
     "type":"Fruit"
   },
   {
     "icd9_code":"995.3",
     "name":"Honey Allergy",
     "group":"Food Allergy",
-    "allergent":"Honey",
+    "allergen":"Honey",
     "type":"Bee product"
   },
   {
     "icd9_code":"995.3",
     "name":"Beer Allergy",
     "group":"Food Allergy",
-    "allergent":"Hop",
+    "allergen":"Hop",
     "type":"Hop"
   },
   {
     "icd9_code":"995.3",
     "name":"Alpha-gal Syndrome",
     "group":"Food Allergy",
-    "allergent":"Horse",
+    "allergen":"Horse",
     "type":"Terrestrial mammal"
   },
   {
     "icd9_code":"995.3",
     "name":"Fish Allergy",
     "group":"Food Allergy",
-    "allergent":"Horse Mackerel",
+    "allergen":"Horse Mackerel",
     "type":"Aquatic animal"
   },
   {
     "icd9_code":"995.3",
     "name":"Cruciferous Allergy",
     "group":"Food Allergy",
-    "allergent":"Horseradish",
+    "allergen":"Horseradish",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Salicylate Allergy",
     "group":"Food Allergy",
-    "allergent":"Huckleberry",
+    "allergen":"Huckleberry",
     "type":"Fruit"
   },
   {
     "icd9_code":"995.3",
     "name":"Milk allergy \/ Lactose intolerance",
     "group":"Food Allergy",
-    "allergent":"Ice cream",
+    "allergen":"Ice cream",
     "type":"Dairy"
   },
   {
     "icd9_code":"995.3",
     "name":"Oral Allergy Syndrome",
     "group":"Food Allergy",
-    "allergent":"Japanese pear",
+    "allergen":"Japanese pear",
     "type":"Fruit"
   },
   {
     "icd9_code":"995.3",
     "name":"Japanese persimmon Allergy",
     "group":"Food Allergy",
-    "allergent":"Japanese persimmon",
+    "allergen":"Japanese persimmon",
     "type":"Fruit"
   },
   {
     "icd9_code":"995.3",
     "name":"Stone Fruit Allergy",
     "group":"Food Allergy",
-    "allergent":"Japanese plum",
+    "allergen":"Japanese plum",
     "type":"Fruit"
   },
   {
     "icd9_code":"995.3",
     "name":"Cruciferous Allergy",
     "group":"Food Allergy",
-    "allergent":"Kale",
+    "allergen":"Kale",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Legume Allergy",
     "group":"Food Allergy",
-    "allergent":"Kidney bean",
+    "allergen":"Kidney bean",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Oral Allergy Syndrome",
     "group":"Food Allergy",
-    "allergent":"Kiwi",
+    "allergen":"Kiwi",
     "type":"Fruit"
   },
   {
     "icd9_code":"995.3",
     "name":"Potato Allergy",
     "group":"Food Allergy",
-    "allergent":"Konjac",
+    "allergen":"Konjac",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Cruciferous Allergy",
     "group":"Food Allergy",
-    "allergent":"Kyona",
+    "allergen":"Kyona",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Lactose Intolerance",
     "group":"Food Allergy",
-    "allergent":"Lactose",
+    "allergen":"Lactose",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Allium Allergy",
     "group":"Food Allergy",
-    "allergent":"Leek",
+    "allergen":"Leek",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Citrus Allergy",
     "group":"Food Allergy",
-    "allergent":"Lemon",
+    "allergen":"Lemon",
     "type":"Fruit"
   },
   {
     "icd9_code":"995.3",
     "name":"Legume Allergy",
     "group":"Food Allergy",
-    "allergent":"Lentil",
+    "allergen":"Lentil",
     "type":"Cereal grain and pulse"
   },
   {
     "icd9_code":"995.3",
     "name":"LTP Allergy",
     "group":"Food Allergy",
-    "allergent":"Lettuce ",
+    "allergen":"Lettuce ",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Legume Allergy",
     "group":"Food Allergy",
-    "allergent":"Lima bean",
+    "allergen":"Lima bean",
     "type":"Cereal grain and pulse"
   },
   {
     "icd9_code":"995.3",
     "name":"Citrus Allergy",
     "group":"Food Allergy",
-    "allergent":"Lime",
+    "allergen":"Lime",
     "type":"Fruit"
   },
   {
     "icd9_code":"995.3",
     "name":"Oral Allergy Syndrome",
     "group":"Food Allergy",
-    "allergent":"Loquat",
+    "allergen":"Loquat",
     "type":"Fruit"
   },
   {
     "icd9_code":"995.3",
     "name":"Fish Allergy",
     "group":"Food Allergy",
-    "allergent":"Mackerel",
+    "allergen":"Mackerel",
     "type":"Aquatic animal"
   },
   {
     "icd9_code":"995.3",
     "name":"Makuwauri  melon Allergy",
     "group":"Food Allergy",
-    "allergent":"Makuwauri  melon",
+    "allergen":"Makuwauri  melon",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Oral Allergy Syndrome",
     "group":"Food Allergy",
-    "allergent":"Mango",
+    "allergen":"Mango",
     "type":"Fruit"
   },
   {
     "icd9_code":"995.3",
     "name":"Melons Allergy",
     "group":"Food Allergy",
-    "allergent":"Melons",
+    "allergen":"Melons",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Milk allergy \/ Lactose intolerance",
     "group":"Food Allergy",
-    "allergent":"Milk",
+    "allergen":"Milk",
     "type":"Dairy"
   },
   {
     "icd9_code":"995.3",
     "name":"Aquagenic Urticaria",
     "group":"Food Allergy",
-    "allergent":"Mineral water",
+    "allergen":"Mineral water",
     "type":"Mineral water"
   },
   {
     "icd9_code":"995.3",
     "name":"Hypersensitivity",
     "group":"Food Allergy",
-    "allergent":"Mitsuba",
+    "allergen":"Mitsuba",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Stone Fruit Allergy",
     "group":"Food Allergy",
-    "allergent":"Mume plum",
+    "allergen":"Mume plum",
     "type":"Fruit"
   },
   {
     "icd9_code":"995.3",
     "name":"Mustard oil Allergy",
     "group":"Food Allergy",
-    "allergent":"Mustard oil",
+    "allergen":"Mustard oil",
     "type":"Oil"
   },
   {
     "icd9_code":"995.3",
     "name":"Cruciferous Allergy",
     "group":"Food Allergy",
-    "allergent":"Mustard Spinach",
+    "allergen":"Mustard Spinach",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Stone Fruit Allergy",
     "group":"Food Allergy",
-    "allergent":"Nectarine",
+    "allergen":"Nectarine",
     "type":"Fruit"
   },
   {
     "icd9_code":"995.3",
     "name":"Allium Allergy",
     "group":"Food Allergy",
-    "allergent":"Nira",
+    "allergen":"Nira",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Histamine Allergy",
     "group":"Food Allergy",
-    "allergent":"Okra",
+    "allergen":"Okra",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Olive oil Allergy",
     "group":"Food Allergy",
-    "allergent":"Olive oil",
+    "allergen":"Olive oil",
     "type":"Oil"
   },
   {
     "icd9_code":"995.3",
     "name":"Allium Allergy",
     "group":"Food Allergy",
-    "allergent":"Onion",
+    "allergen":"Onion",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Citrus Allergy",
     "group":"Food Allergy",
-    "allergent":"Orange",
+    "allergen":"Orange",
     "type":"Fruit"
   },
   {
     "icd9_code":"995.3",
     "name":"Citrus Allergy",
     "group":"Food Allergy",
-    "allergent":"Orange pulp",
+    "allergen":"Orange pulp",
     "type":"Fruit"
   },
   {
     "icd9_code":"995.3",
     "name":"Oral Allergy Syndrome",
     "group":"Food Allergy",
-    "allergent":"Papaya",
+    "allergen":"Papaya",
     "type":"Fruit"
   },
   {
     "icd9_code":"995.3",
     "name":"Hypersensitivity",
     "group":"Food Allergy",
-    "allergent":"Parsley",
+    "allergen":"Parsley",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Hypersensitivity",
     "group":"Food Allergy",
-    "allergent":"Parsnip",
+    "allergen":"Parsnip",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Oral Allergy Syndrome",
     "group":"Food Allergy",
-    "allergent":"Passion fruit",
+    "allergen":"Passion fruit",
     "type":"Fruit"
   },
   {
     "icd9_code":"995.3",
     "name":"Stone Fruit Allergy",
     "group":"Food Allergy",
-    "allergent":"Peach",
+    "allergen":"Peach",
     "type":"Fruit"
   },
   {
     "icd9_code":"Z91.010",
     "name":"Peanut Allergy",
     "group":"Food Allergy",
-    "allergent":"Peanut",
+    "allergen":"Peanut",
     "type":"Cereal grain and pulse"
   },
   {
     "icd9_code":"995.3",
     "name":"Oral Allergy Syndrome",
     "group":"Food Allergy",
-    "allergent":"Pear",
+    "allergen":"Pear",
     "type":"Fruit"
   },
   {
     "icd9_code":"995.3",
     "name":"Legume Allergy",
     "group":"Food Allergy",
-    "allergent":"Peas",
+    "allergen":"Peas",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Legume Allergy",
     "group":"Food Allergy",
-    "allergent":"Peas",
+    "allergen":"Peas",
     "type":"Cereal grain and pulse"
   },
   {
     "icd9_code":"995.3",
     "name":"Nut Allergy",
     "group":"Food Allergy",
-    "allergent":"Pecan",
+    "allergen":"Pecan",
     "type":"Nut and seed"
   },
   {
     "icd9_code":"995.3",
     "name":"Legume Allergy",
     "group":"Food Allergy",
-    "allergent":"Pegia",
+    "allergen":"Pegia",
     "type":"Cereal grain and pulse"
   },
   {
     "icd9_code":"995.3",
     "name":"Mint Allergy",
     "group":"Food Allergy",
-    "allergent":"Peppermint",
+    "allergen":"Peppermint",
     "type":"Spice and herb"
   },
   {
     "icd9_code":"995.3",
     "name":"Fish Allergy",
     "group":"Food Allergy",
-    "allergent":"Percifomes",
+    "allergen":"Percifomes",
     "type":"Aquatic animal"
   },
   {
     "icd9_code":"995.3",
     "name":"Alpha-gal Syndrome",
     "group":"Food Allergy",
-    "allergent":"Pig",
+    "allergen":"Pig",
     "type":"Terrestrial mammal"
   },
   {
     "icd9_code":"995.3",
     "name":"Oral Allergy Syndrome",
     "group":"Food Allergy",
-    "allergent":"Pineapple",
+    "allergen":"Pineapple",
     "type":"Fruit"
   },
   {
     "icd9_code":"995.3",
     "name":"Corn Allergy",
     "group":"Food Allergy",
-    "allergent":"Popcorn",
+    "allergen":"Popcorn",
     "type":"Cereal grain and pulse"
   },
   {
     "icd9_code":"995.3",
     "name":"Potato Allergy",
     "group":"Food Allergy",
-    "allergent":"Potato",
+    "allergen":"Potato",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Stone Fruit Allergy",
     "group":"Food Allergy",
-    "allergent":"Prune",
+    "allergen":"Prune",
     "type":"Fruit"
   },
   {
     "icd9_code":"995.3",
     "name":"Pumpkin Allergy",
     "group":"Food Allergy",
-    "allergent":"Pumpkin",
+    "allergen":"Pumpkin",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Cruciferous Allergy",
     "group":"Food Allergy",
-    "allergent":"Qing-geng-cai",
+    "allergen":"Qing-geng-cai",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Oral Allergy Syndrome",
     "group":"Food Allergy",
-    "allergent":"Quince",
+    "allergen":"Quince",
     "type":"Fruit"
   },
   {
     "icd9_code":"995.3",
     "name":"Radish leaf Allergy",
     "group":"Food Allergy",
-    "allergent":"Radish leaf",
+    "allergen":"Radish leaf",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Hypersensitivity",
     "group":"Food Allergy",
-    "allergent":"Radish root",
+    "allergen":"Radish root",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Seed Allergy",
     "group":"Food Allergy",
-    "allergent":"Rapeseed",
+    "allergen":"Rapeseed",
     "type":"Nut and seed"
   },
   {
     "icd9_code":"995.3",
     "name":"Salicylate Allergy",
     "group":"Food Allergy",
-    "allergent":"Raspberry",
+    "allergen":"Raspberry",
     "type":"Fruit"
   },
   {
     "icd9_code":"995.3",
     "name":"Rice Allergy",
     "group":"Food Allergy",
-    "allergent":"Rice",
+    "allergen":"Rice",
     "type":"Cereal grain and pulse"
   },
   {
     "icd9_code":"995.3",
     "name":"Ricebran oil Allergy",
     "group":"Food Allergy",
-    "allergent":"Ricebran oil",
+    "allergen":"Ricebran oil",
     "type":"Oil"
   },
   {
     "icd9_code":"995.3",
     "name":"Honey Allergy",
     "group":"Food Allergy",
-    "allergent":"Royal Jelly",
+    "allergen":"Royal Jelly",
     "type":"Bee product"
   },
   {
     "icd9_code":"579.0",
     "name":"Gluten Allergy",
     "group":"Food Allergy",
-    "allergent":"Rye",
+    "allergen":"Rye",
     "type":"Cereal grain and pulse"
   },
   {
     "icd9_code":"995.3",
     "name":"Seed Allergy",
     "group":"Food Allergy",
-    "allergent":"Safflower seed",
+    "allergen":"Safflower seed",
     "type":"Nut and seed"
   },
   {
     "icd9_code":"995.3",
     "name":"Fish Allergy",
     "group":"Food Allergy",
-    "allergent":"Salmon",
+    "allergen":"Salmon",
     "type":"Aquatic animal"
   },
   {
     "icd9_code":"995.3",
     "name":"Insulin Allergy",
     "group":"Food Allergy",
-    "allergent":"Salsify",
+    "allergen":"Salsify",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Pepper Allergy",
     "group":"Food Allergy",
-    "allergent":"Sansho",
+    "allergen":"Sansho",
     "type":"Spice and herb"
   },
   {
     "icd9_code":"995.3",
     "name":"Fish Allergy",
     "group":"Food Allergy",
-    "allergent":"Sea Bass",
+    "allergen":"Sea Bass",
     "type":"Aquatic animal"
   },
   {
     "icd9_code":"995.3",
     "name":"Fish Allergy",
     "group":"Food Allergy",
-    "allergent":"Sea Bream",
+    "allergen":"Sea Bream",
     "type":"Aquatic animal"
   },
   {
     "icd9_code":"995.3",
     "name":"Seed Allergy",
     "group":"Food Allergy",
-    "allergent":"Sesame seed",
+    "allergen":"Sesame seed",
     "type":"Nut and seed"
   },
   {
     "icd9_code":"995.3",
     "name":"Allium Allergy",
     "group":"Food Allergy",
-    "allergent":"Shallot",
+    "allergen":"Shallot",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Alpha-gal Syndrome",
     "group":"Food Allergy",
-    "allergent":"Sheep",
+    "allergen":"Sheep",
     "type":"Terrestrial mammal"
   },
   {
     "icd9_code":"995.3",
     "name":"Fish Allergy",
     "group":"Food Allergy",
-    "allergent":"Shelled mollusc",
+    "allergen":"Shelled mollusc",
     "type":"Aquatic animal"
   },
   {
     "icd9_code":"995.3",
     "name":"Mushroom Allergy",
     "group":"Food Allergy",
-    "allergent":"Shiitake  mushroom",
+    "allergen":"Shiitake  mushroom",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Insulin Allergy",
     "group":"Food Allergy",
-    "allergent":"Shungiku",
+    "allergen":"Shungiku",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Milk allergy \/ Lactose intolerance",
     "group":"Food Allergy",
-    "allergent":"Sour cream",
+    "allergen":"Sour cream",
     "type":"Dairy"
   },
   {
     "icd9_code":"995.3",
     "name":"Soy Allergy",
     "group":"Food Allergy",
-    "allergent":"Soybean",
+    "allergen":"Soybean",
     "type":"Cereal grain and pulse"
   },
   {
     "icd9_code":"995.3",
     "name":"Mint Allergy",
     "group":"Food Allergy",
-    "allergent":"Spearmint",
+    "allergen":"Spearmint",
     "type":"Spice and herb"
   },
   {
     "icd9_code":"995.3",
     "name":"Histamine Allergy",
     "group":"Food Allergy",
-    "allergent":"Spinach",
+    "allergen":"Spinach",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Squash Allergy",
     "group":"Food Allergy",
-    "allergent":"Squash",
+    "allergen":"Squash",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Salicylate Allergy",
     "group":"Food Allergy",
-    "allergent":"Strawberry",
+    "allergen":"Strawberry",
     "type":"Fruit"
   },
   {
     "icd9_code":"995.3",
     "name":"Sugar Allergy \/ Intolerance",
     "group":"Food Allergy",
-    "allergent":"Sugar",
+    "allergen":"Sugar",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Sugar Allergy \/ Intolerance",
     "group":"Food Allergy",
-    "allergent":"Sugar beet",
+    "allergen":"Sugar beet",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Sugar Allergy \/ Intolerance",
     "group":"Food Allergy",
-    "allergent":"Sugarcane",
+    "allergen":"Sugarcane",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Legume Allergy",
     "group":"Food Allergy",
-    "allergent":"Sultani",
+    "allergen":"Sultani",
     "type":"Cereal grain and pulse"
   },
   {
     "icd9_code":"995.3",
     "name":"Legume Allergy",
     "group":"Food Allergy",
-    "allergent":"Sultapya",
+    "allergen":"Sultapya",
     "type":"Cereal grain and pulse"
   },
   {
     "icd9_code":"995.3",
     "name":"Sunflower oil Allergy",
     "group":"Food Allergy",
-    "allergent":"Sunflower oil",
+    "allergen":"Sunflower oil",
     "type":"Oil"
   },
   {
     "icd9_code":"995.3",
     "name":"Seed Allergy",
     "group":"Food Allergy",
-    "allergent":"Sunflower seed",
+    "allergen":"Sunflower seed",
     "type":"Nut and seed"
   },
   {
     "icd9_code":"995.3",
     "name":"Corn Allergy",
     "group":"Food Allergy",
-    "allergent":"Sweet corn",
+    "allergen":"Sweet corn",
     "type":"Cereal grain and pulse"
   },
   {
     "icd9_code":"995.3",
     "name":"Nightshade Allergy",
     "group":"Food Allergy",
-    "allergent":"Sweet Pepper",
+    "allergen":"Sweet Pepper",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Potato Allergy",
     "group":"Food Allergy",
-    "allergent":"Sweet potato",
+    "allergen":"Sweet potato",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Potato Allergy",
     "group":"Food Allergy",
-    "allergent":"Taro",
+    "allergen":"Taro",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Tannin Allergy",
     "group":"Food Allergy",
-    "allergent":"Tea",
+    "allergen":"Tea",
     "type":"Tea"
   },
   {
     "icd9_code":"995.3",
     "name":"Fish Allergy",
     "group":"Food Allergy",
-    "allergent":"Tetraodontiformes",
+    "allergen":"Tetraodontiformes",
     "type":"Aquatic animal"
   },
   {
     "icd9_code":"995.3",
     "name":"Nightshade Allergy",
     "group":"Food Allergy",
-    "allergent":"Tomato",
+    "allergen":"Tomato",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Fish Allergy",
     "group":"Food Allergy",
-    "allergent":"Trout",
+    "allergen":"Trout",
     "type":"Aquatic animal"
   },
   {
     "icd9_code":"995.3",
     "name":"Fish Allergy",
     "group":"Food Allergy",
-    "allergent":"Tuna",
+    "allergen":"Tuna",
     "type":"Aquatic animal"
   },
   {
     "icd9_code":"995.3",
     "name":"Poultry Allergy",
     "group":"Food Allergy",
-    "allergent":"Turkey",
+    "allergen":"Turkey",
     "type":"Poultry"
   },
   {
     "icd9_code":"995.3",
     "name":"Turnip leaf Allergy",
     "group":"Food Allergy",
-    "allergent":"Turnip leaf",
+    "allergen":"Turnip leaf",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Thyroid",
     "group":"Food Allergy",
-    "allergent":"Turnip root",
+    "allergen":"Turnip root",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Vegetable oil Allergy",
     "group":"Food Allergy",
-    "allergent":"Vegetable oil",
+    "allergen":"Vegetable oil",
     "type":"Oil"
   },
   {
     "icd9_code":"995.3",
     "name":"Nut Allergy",
     "group":"Food Allergy",
-    "allergent":"Walnut",
+    "allergen":"Walnut",
     "type":"Nut and seed"
   },
   {
     "icd9_code":"995.3",
     "name":"Water melon Allergy",
     "group":"Food Allergy",
-    "allergent":"Water melon",
+    "allergen":"Water melon",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Watercress Allergy",
     "group":"Food Allergy",
-    "allergent":"Watercress",
+    "allergen":"Watercress",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Allium Allergy",
     "group":"Food Allergy",
-    "allergent":"Welsh",
+    "allergen":"Welsh",
     "type":"Vegetable"
   },
   {
     "icd9_code":"579.0",
     "name":"Gluten Allergy",
     "group":"Food Allergy",
-    "allergent":"Wheat",
+    "allergen":"Wheat",
     "type":"Cereal grain and pulse"
   },
   {
     "icd9_code":"995.3",
     "name":"Milk allergy \/ Lactose intolerance",
     "group":"Food Allergy",
-    "allergent":"Whey",
+    "allergen":"Whey",
     "type":"Dairy"
   },
   {
     "icd9_code":"995.3",
     "name":"Legume Allergy",
     "group":"Food Allergy",
-    "allergent":"White bean",
+    "allergen":"White bean",
     "type":"Cereal grain and pulse"
   },
   {
     "icd9_code":"995.3",
     "name":"Potato Allergy",
     "group":"Food Allergy",
-    "allergent":"Yam",
+    "allergen":"Yam",
     "type":"Vegetable"
   },
   {
     "icd9_code":"995.3",
     "name":"Milk allergy \/ Lactose intolerance",
     "group":"Food Allergy",
-    "allergent":"Yogurt ",
+    "allergen":"Yogurt ",
     "type":"Dairy"
   }
 ]

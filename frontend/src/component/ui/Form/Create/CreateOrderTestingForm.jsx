@@ -1,33 +1,51 @@
-import Editor from "@/component/ui/Editor/Editor";
-import * as patientService from "@/services/patientService";
 import { useState, useContext, useEffect } from "react";
 import { PopupContext } from "@/contexts/popupContext";
 import CustomAutoComplete from "@/component/ui/DateTime/CustomAutoComplete";
-import { useEditor } from "@tiptap/react";
 import useSWR from "swr";
 import fetcher from "@/utils/fetcher";
-
+import { useParams } from "react-router-dom";
+import dayjs from "dayjs";
+import toast from "react-hot-toast";
 export default function CreateOrderTestingForm() {
+  const { id } = useParams();
   const [createdData, setCreatedData] = useState([]);
   const { setIsPopup } = useContext(PopupContext);
   const headerData = ["testing", "price", "duration", "test_description"];
-  const {data: testingData} = useSWR('http://localhost:8000/test_types', fetcher);
+  const { data: testingData } = useSWR(
+    "http://localhost:8000/test_types",
+    fetcher
+  );
   function handleCreateOrder() {
-    console.log(`check create data: ${JSON.stringify(createdData)}`)
     let readyToCreateOrder = true;
     /*----check if it meet requirement to create new treatment ( not allow any blank input )*/
     if (createdData.length > 0) {
       for (let i = 0; i < createdData.length; ++i) {
-          if (!createdData[i]['id'] || !createdData[i]['test_name'] || !createdData[i]['price']) {
-          readyToCreateOrder = false; 
-          }
+        if (!createdData[i]["id"]) {
+          readyToCreateOrder = false;
+        }
       }
     } else {
-      readyToCreateOrder= false;
-            console.log(`fail 2`);
+      readyToCreateOrder = false;
     }
     if (readyToCreateOrder) {
+      const sendData = {
+        date: dayjs().format("YYYY-MM-DD"),
+        patient_id: Number(id),
+        tests: createdData.map((item) => {
+          return Number(item.id);
+        }),
+      };
+      console.log(JSON.stringify(sendData));
+      toast.success("new allergy record of this patient have been created");
       setIsPopup(false);
+    } else {
+      if (createdData.length == 0) {
+        toast.error("please fill at least 1 record!");
+      } else {
+        toast.error(
+          "please fill all data and allergy name cannot be the same with past record!"
+        );
+      }
     }
   }
   return (
@@ -57,11 +75,11 @@ function CreateTestingTable({ headerData, data, setData, testingData }) {
   /*-------------------------main function---------------------------*/
   function handleAutoCompleteOnChange(event, value, rowIndex) {
     data[rowIndex].id = value.id;
-    data[rowIndex].test_name= value.test_name;
-    data[rowIndex].price= value.price;
+    data[rowIndex].test_name = value.test_name;
+    data[rowIndex].price = value.price;
     data[rowIndex].duration = value.duration;
     data[rowIndex].test_description = value.test_description;
-     
+
     setData([...data]);
   }
   function handleAddRowData() {
@@ -71,8 +89,8 @@ function CreateTestingTable({ headerData, data, setData, testingData }) {
         id: null,
         test_name: null,
         price: null,
-        duration: null, 
-        test_description: null
+        duration: null,
+        test_description: null,
       },
     ]);
   }

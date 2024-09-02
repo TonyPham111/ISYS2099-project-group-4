@@ -15,7 +15,7 @@ const VisuallyHiddenInput = styled("input")({
   whiteSpace: "nowrap",
   width: 1,
 });
-export default function UploadFileButton({ textContent, handleOnChange, acceptTypes, multiple, rowIndex }) {
+export default function UploadFileButton({ textContent, handleOnChange, acceptTypes}) {
   return (
     <Button
       sx={{
@@ -33,7 +33,7 @@ export default function UploadFileButton({ textContent, handleOnChange, acceptTy
       +
       <VisuallyHiddenInput
         type="file"
-        onChange={(event) =>{ handleOnChange(event.target.files, rowIndex)}}
+        onChange={(event) =>{ handleOnChange(event.target.files)}}
         accept={acceptTypes}
       />
     </Button>

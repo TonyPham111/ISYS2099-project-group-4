@@ -8,7 +8,7 @@ function UserContextProvider({ children }) {
   const [userData, setUserData] = useState({
     id: 11,
     full_name: "Phan Gia Bao",
-    job_role: "HR",
+    job_role: "Doctor",
   });
   const [fetchedData, setFetchedData] = useState(null);
   const isFetched = useRef(false);
@@ -28,7 +28,7 @@ function UserContextProvider({ children }) {
       }
       if (userData.job_role == "HR") {
         endpoints.push("http://localhost:8000/staffs");
-        endpoints.push("http://localhost:8000/deparments");
+        endpoints.push("http://localhost:8000/departments");
       } else {
         endpoints.push(
           `http://localhost:8000/staffs?manager_id=${userData.id}`

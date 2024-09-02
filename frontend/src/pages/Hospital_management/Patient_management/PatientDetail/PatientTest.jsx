@@ -20,12 +20,17 @@ export default function PatientTest() {
   );
   const [specificTestingData, setSpecificTestingData] = useState(null);
   const headerData = [
+    "test_id",
     "ordering_date",
     "ordering_doctor",
+    "test_name",
+    "administrating_nurse",
+    "administrating_date",
+    "administrating_time",
   ];
   function handleOnClickRowData(item, rowIndex) {
     setIsPopup(true);
-    setSpecificTestingData(item.tests);
+    setSpecificTestingData(item);
   }  if (!testingData) {
     return <></>;
   }

@@ -4,8 +4,11 @@ import { PopupContext } from "@/contexts/popupContext";
 import CustomAutoComplete from "@/component/ui/DateTime/CustomAutoComplete";
 import useSWR from "swr";
 import fetcher from "@/utils/fetcher";
-
+import { useParams } from "react-router-dom";
+import dayjs from "dayjs";
+import toast from "react-hot-toast";
 export default function CreateDiagnosisForm() {
+  const { id } = useParams();
   const [createdData, setCreatedData] = useState([]);
   const [diagnosisNote, setDiagnosisNote] = useState(null);
   const { setIsPopup } = useContext(PopupContext);
@@ -16,17 +19,31 @@ export default function CreateDiagnosisForm() {
     /*----check if it meet requirement to create new treatment ( not allow any blank input )*/
     if (createdData.length > 0) {
       for (let i = 0; i < createdData.length; ++i) {
-        for (let j = 0; j < headerData.length; j++) {
-          if (!createdData[i][headerData[i]]) {
-            readyToCreateDiagnosis = false;
-          }
+        if (!createdData[i]["code"]) {
+          readyToCreateDiagnosis = false;
         }
       }
     } else {
       readyToCreateDiagnosis = false;
     }
     if (readyToCreateDiagnosis) {
+      const sendData = {
+        date: dayjs().format("YYYY-MM-DD"),
+        patient_id: Number(id),
+        diagnoses: createdData.map((item) => {
+          return item.code;
+        }),
+        diagnosis_note: diagnosisNote ? JSON.stringify(diagnosisNote) : null,
+      };
+      console.log(JSON.stringify(sendData));
+      toast.success('new diagnosis record of this patient have been created"');
       setIsPopup(false);
+    } else {
+      if (createdData.length == 0) {
+        toast.error("please fill at least 1 record!");
+      } else {
+        toast.error("please fill all data!");
+      }
     }
   }
   return (

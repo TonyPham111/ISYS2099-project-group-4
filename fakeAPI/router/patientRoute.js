@@ -2,7 +2,7 @@ import express, { json } from "express";
 import patientData from "../data/patient_data.json" with {type: 'json'};
 import patientDiagnosisData from "../data/patient_diagnosis_data.json" with {type: "json"};
 import patientTestingData from "../data/patient_test_data.json" with {type: 'json'};
-
+import patientAllergyData from "../data/patient_allergy_data.json" with {type: 'json'};
 const patientRouter = express.Router();
 patientRouter
   .route("/")
@@ -105,9 +105,7 @@ patientRouter.route("/:patientId/diagnosis").get((req, res) => {
     result = patientDiagnosisData.filter((item)=>{
       return item.patient_id == patientId;
     }) 
-    if(result.length === 0){
-      res.status(404).json({error: "this patient don't have diagnosis data"});
-    }
+   
     res.status(200).json(result);
   } catch (error) {
     res.status(500).json({ error: "Server Error" });
@@ -160,16 +158,28 @@ patientRouter.route("/:patientId/diagnosis/:diagnosisId").get((req, res) => {
     res.status(500).json({ error: "Server Error" });
   }
 });
-patientRouter.route("/:patientId/testings").get((req, res) => {
+patientRouter.route("/:patientId/allergies").get((req, res) => {
   try{
   let result = [];
   const patientId = req.params.patientId;
-  result = patientTestingData.filter((item)=>{
+  result = patientAllergyData.filter((item)=>{
     return item.patient_id == patientId;
   }) 
 
   res.status(200).json(result);
   } catch (error) {
     res.status(500).json({ error: "Server Error" });
-  }})
+  }});
+  patientRouter.route("/:patientId/testings").get((req, res) => {
+    try{
+    let result = [];
+    const patientId = req.params.patientId;
+    result = patientTestingData.filter((item)=>{
+      return item.patient_id == patientId;
+    }) 
+  
+    res.status(200).json(result);
+    } catch (error) {
+      res.status(500).json({ error: "Server Error" });
+    }})
 export default patientRouter;

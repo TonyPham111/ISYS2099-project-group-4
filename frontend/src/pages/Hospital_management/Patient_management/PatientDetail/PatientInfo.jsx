@@ -6,7 +6,9 @@ import { useContext, useEffect, useRef, useState } from "react";
 import useSWR from "swr";
 import fetcher from "@/utils/fetcher";
 import { UserContext } from "@/contexts/userContext";
-
+import CustomAutoComplete from "@/component/ui/DateTime/CustomAutoComplete";
+import { constructNow } from "date-fns";
+import toast from "react-hot-toast";
 export default function PatientInfo() {
   const { userData } = useContext(UserContext);
   const { id } = useParams();
@@ -25,18 +27,63 @@ export default function PatientInfo() {
     if (data) {
       setFirstName(data.first_name);
       setLastName(data.last_name);
-      setGender(data.gender);
+      if (data.gender == "Male") {
+        setGender({
+          key: "M",
+          value: "Male",
+        });
+      }
+      if (data.gender == "Female") {
+        setGender({
+          key: "F",
+          value: "Female",
+        });
+      }
       setHomeAddress(data.home_address);
       setContactPhoneNumber(data.contact_phone_number);
       setBirthDate(dayjs(data.birth_date, "DD-MM-YYYY"));
     }
   }, [data]);
-  function handleSaveInformation() {}
+  function handleSaveInformation() {
+    if (!gender) {
+      toast.error("cannot leave gender input blank!");
+    }
+    if (homeAddress == "") {
+      toast.error("cannot leave home address input blank!");
+    }
+    if (!birthDate) {
+      toast.error("cannot leave home address input blank!");
+    }
+    if (contactPhoneNumber == "") {
+      toast.error("cannot leave phone number address input blank!");
+    }
+    //still not consider gender and full name
+    if (
+      homeAddress == data.home_address &&
+      (new Date(birthDate)).toDateString()== (new Date(dayjs(data.birth_date, "DD-MM-YYYY"))).toDateString() &&
+      contactPhoneNumber == data.contact_phone_number
+    ) {
+      toast.error("cannot save new data without changing it!");
+    } else {
+      toast.success("save patient information success!");
+    }
+  }
   function handleDiscardChange() {
     if (data) {
       setFirstName(data.first_name);
       setLastName(data.last_name);
-      setGender(data.gender);
+      if (data.gender == "Male") {
+        setGender({
+          key: "M",
+          value: "Male",
+        });
+      }
+      if (data.gender == "Female") {
+        setGender({
+          key: "F",
+          value: "Female",
+        });
+      }
       setHomeAddress(data.home_address);
       setContactPhoneNumber(data.contact_phone_number);
       setBirthDate(dayjs(data.birth_date, "DD-MM-YYYY"));
@@ -72,24 +119,38 @@ export default function PatientInfo() {
               value={lastName}
               className="mt-[8px] border-[1px]"
               readOnly={userData.job_role !== "FrontDesk"}
-
             />
           </div>
           <div>
             <h4>gender</h4>
-            <select
-            disabled={userData.job_role !== "FrontDesk"}
-              onChange={(e) => {
-                setGender(e.target.value);
-              }}
-              value={gender}
-              name="Male"
-              className="mt-[8px] p-[3px] border-[1.1px]"
-            >
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-              <option value="Other">Other</option>
-            </select>
+            <div className="mt-[8px] w-[350px]">
+              <CustomAutoComplete
+                value={gender}
+                options={[
+                  {
+                    key: "M",
+                    value: "Male",
+                  },
+                  {
+                    key: "F",
+                    value: "Female",
+                  },
+                ]}
+                onChange={(event, value) => {
+                  if (value) {
+                    setGender(value.key);
+                  } else {
+                    setGender(null);
+                  }
+                }}
+                getOptionLabel={(option) => {
+                  return option.value;
+                }}
+                label="choose gender"
+                size="full"
+                readOnly={userData.job_role !== "FrontDesk"}
+              />
+            </div>
           </div>
           <div>
             <h4>Date of Birth</h4>
