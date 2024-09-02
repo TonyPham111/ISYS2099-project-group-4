@@ -10,6 +10,15 @@ app.use(cookieParser());
 // Regular expression to allow only normal characters in email
 const normalCharRegex = /^[A-Za-z0-9._-]*$/;
 
+// Registration page
+export const registerPage = (req, res) => {
+  res.send("This is Register page");
+};
+export const loginPage = (req, res) => {
+    res.send("This is Login page");
+  };
+
+
 // Registration Endpoint
 export const register = async (req, res) => {
   try {
@@ -111,8 +120,7 @@ export const login = async (req, res) => {
     return res.status(500).json({ error: "An error occurred during login. Please try again later." });
   }
 };
-
-
+  
 // Logout Endpoint
 export const logout = (req, res) => {
     try {
