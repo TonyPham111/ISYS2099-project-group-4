@@ -10,7 +10,7 @@ const employmentDocumentSchema = new mongoose.Schema({
 
 // Schema for Employee Contracts
 const staffContracts = new mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
+    _id: String,
     contract: String, // This will store the encoded string of the contract
     contract_start_date: Date,
     contract_end_date: Date,
@@ -20,7 +20,7 @@ const staffContracts = new mongoose.Schema({
 
 // Schema for qualifications
 const qualificationSchema = new mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
+    _id: String,
     provider: String,
     date: Date,
     certificate: String, // This will store the encoded string of the certificate document
