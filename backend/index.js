@@ -9,6 +9,8 @@ import conditionRouter from "./Router/conditionRouter.js";
 import departmentRouter from "./Router/departmentRouter.js";
 import drugRouter from "./Router/drugRouter.js";
 import allergyRouter from "./Router/allergyRouter.js";
+import userRouter from "./Router/userRouter.js";
+
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
@@ -22,8 +24,9 @@ app.use("/conditions", conditionRouter);
 app.use("/departments", departmentRouter);
 app.use("/drugs", drugRouter);
 app.use("/allergies", allergyRouter);
+app.use("/user", userRouter);
 
-// app.use("/user");
+
 // app.use("/")
 
 app.get("/", (req, res) => {
@@ -62,6 +65,7 @@ app.get('/staffs/:staffId/department/history', getDepartmentChangeHistory);
 app.post('/staffs/:staffId/schedule', schedule);
 app.delete('/staffs/:staffId/schedule', deleteSchedule);
 app.get('/staffs/:staffId/schedule', getStaffSchedule);
+
 
 
 

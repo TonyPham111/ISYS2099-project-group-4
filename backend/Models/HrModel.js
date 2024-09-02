@@ -1,6 +1,6 @@
 import { poolHR } from './dbConnectionConfiguration.js';
 
-const queries = {
+const hrQueries = {
     AddNewStaff: async (full_name, job_id, department_id, manager_id, gender, birth_date, home_address, 
         phone_number, email, password, wage, employment_document_id) => {
         try {
@@ -23,6 +23,16 @@ const queries = {
             return { error: "An error occurred while executing FetchAllStaff. Please try again later." };
         }
     },
+    FetchStaffInfoByEmail : async (email) => {
+        try {
+          const sql = `SELECT * FROM staff WHERE email = ?`; // Assuming your table is named 'staff'
+          const [results] = await poolHR.query(sql, [email]);
+          return results[0]; 
+        } catch (error) {
+          console.error("Error executing FetchStaffInfoByEmail:", error);
+          return null;
+        }
+      },
     ChangeWage: async (staff_id, new_wage) => {
         try {
             const sql = `CALL ChangeWage(?, ?)`;
@@ -103,6 +113,16 @@ const queries = {
             return { error: "An error occurred while executing FetchStaffInfoById. Please try again later." };
         }
     },
+    FetchStaffInfoByEmail: async (email) => {
+        try {
+          const sql = `SELECT * FROM staff WHERE email = ?`; // Assuming your table is named 'staff'
+          const [results] = await poolHR.query(sql, [email]);
+          return results[0]; 
+        } catch (error) {
+          console.error("Error executing FetchStaffInfoByEmail:", error);
+          return null;
+        }
+      },
 
     Scheduling: async (manager_id, staff_id, schedule_string) => {
         try {
@@ -159,4 +179,5 @@ const queries = {
     }
 };
 
-export default queries;
+export default hrQueries;
+

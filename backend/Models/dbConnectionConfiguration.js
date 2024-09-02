@@ -59,13 +59,12 @@ class Database {
 }
 
 // Export an instance of the Database class
-const databaseInstance = new Database();
-export default databaseInstance;
+export default new Database();
 
 
 // Export the pools individually
-export const poolNurses = databaseInstance.poolNurses;
-export const poolDoctors = databaseInstance.poolDoctors;
-export const poolFrontDesk = databaseInstance.poolFrontDesk;
-export const poolHR = databaseInstance.poolHR;
-export const poolBusinessOfficers = databaseInstance.poolBusinessOfficers;
+export const poolNurses = Database.poolNurses;
+export const poolDoctors = Database.poolDoctors;
+export const poolFrontDesk = Database.poolFrontDesk;
+export const poolHR = Database.poolHR;
+export const poolBusinessOfficers = Database.poolBusinessOfficers;
