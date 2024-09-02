@@ -1,55 +1,43 @@
 const mongoose = require('mongoose');
 
-const employmentDocumentSchema = new mongoose.Schema({
+const staffQualification = new mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
-    staffContracts,
-    staffPersonalInfoSchema
-
+    educationQualificationSchema,
+    experienceSchema,
+    licenseSchema
 }, { timestamps: true });
 
 
-// Schema for Employee Contracts
-const staffContracts = new mongoose.Schema({
-    _id: String,
-    contract: String, // This will store the encoded string of the contract
-    contract_start_date: Date,
-    contract_end_date: Date,
-    contract_info: String,
+// Schema for Education Qualifications
+const educationQualificationSchema = new mongoose.Schema({
+    _id: mongoose.Schema.Types.ObjectId,
+    qualification_name: String,
+    institution_name: String,
+    level: String,
+    qualification_grade: String,
+    qualification_date: Date,
+    certificate: String
 }, { timestamps: true });
 
-
-// Schema for qualifications
-const qualificationSchema = new mongoose.Schema({
-    _id: String,
-    provider: String,
-    date: Date,
-    certificate: String, // This will store the encoded string of the certificate document
-});
-
-
-// Schema for Staff Information 
-const staffPersonalInfoSchema = new mongoose.Schema({
-    full_name: String,
-    ssn: String,
-    department_name: String,
-    job_name: String,
-    manager_name: String,
-    birth_date: Date,
-    gender: String,
-    phone_number: String,
-    home_address: String,
-    email: String,
-    staff_password: String,
-    wage: Number,
-    employment_type: String,
-    employment_document_id: String,
-    qualifications: [qualificationSchema], // Array of qualifications
-    employment_document_info: String,
+// Schema for Staff Experiences
+const experienceSchema = new mongoose.Schema({
+    _id: mongoose.Schema.Types.ObjectId,
+    job_title: String,
+    hospital_name: String,
+    job_description: String,
+    start_date: Date,
+    end_date: Date
 }, { timestamps: true });
 
-const EmploymentDocument = mongoose.model('EmploymentDocument', employmentDocumentSchema);
+// Schema for Licenses
+const licenseSchema = new mongoose.Schema({
+    _id: mongoose.Schema.Types.ObjectId,
+   document: String
+}, { timestamps: true }); 
 
-module.exports = EmploymentDocument;
+const StaffQualification = mongoose.model('Staff Qualification', staffQualification);
+
+module.exports = StaffQualification;
 
 
 
