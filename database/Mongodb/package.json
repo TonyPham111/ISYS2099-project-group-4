@@ -1,4 +1,10 @@
 {
+  "scripts": {
+
+    
+  "start": "node setup.js"
+
+  },
   "dependencies": {
     "dot": "^1.1.3",
     "dotenv": "^16.4.5",

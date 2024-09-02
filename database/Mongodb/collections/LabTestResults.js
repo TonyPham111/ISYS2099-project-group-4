@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 // Lab test 
 const LabTestResult = new mongoose.Schema({
-    _id: String,
+    _id: mongoose.Schema.Types.ObjectId,
     patient_id: String,
     testDetails,
     testDocument,
@@ -27,6 +27,6 @@ const testDocument = new mongoose.Schema({
 }, { timestamps: true });
 
 
-const TestResult = mongoose.model('TestResult', TestResult);
+const TestResult = mongoose.model('TestResult', LabTestResult);
 module.exports = TestResult;
 

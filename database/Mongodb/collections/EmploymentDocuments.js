@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const employmentDocumentSchema = new mongoose.Schema({
-    _id: String,
+    _id: mongoose.Schema.Types.ObjectId,
     staffContracts,
     staffPersonalInfoSchema
 
@@ -10,7 +10,7 @@ const employmentDocumentSchema = new mongoose.Schema({
 
 // Schema for Employee Contracts
 const staffContracts = new mongoose.Schema({
-    contract_id: String,
+    _id: mongoose.Schema.Types.ObjectId,
     contract: String, // This will store the encoded string of the contract
     contract_start_date: Date,
     contract_end_date: Date,
@@ -20,6 +20,7 @@ const staffContracts = new mongoose.Schema({
 
 // Schema for qualifications
 const qualificationSchema = new mongoose.Schema({
+    _id: mongoose.Schema.Types.ObjectId,
     provider: String,
     date: Date,
     certificate: String, // This will store the encoded string of the certificate document
@@ -46,7 +47,7 @@ const staffPersonalInfoSchema = new mongoose.Schema({
     employment_document_info: String,
 }, { timestamps: true });
 
-const EmploymentDocument = mongoose.model('EmploymentDocument', EmploymentDocument);
+const EmploymentDocument = mongoose.model('EmploymentDocument', employmentDocumentSchema);
 
 module.exports = EmploymentDocument;
 
