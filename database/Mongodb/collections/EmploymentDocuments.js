@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const employmentDocumentSchema = new mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
+    _id: String,
     staffContracts,
     staffPersonalInfoSchema
 
@@ -10,7 +10,7 @@ const employmentDocumentSchema = new mongoose.Schema({
 
 // Schema for Employee Contracts
 const staffContracts = new mongoose.Schema({
-    contract_id: mongoose.Schema.Types.ObjectId,
+    contract_id: String,
     contract: String, // This will store the encoded string of the contract
     contract_start_date: Date,
     contract_end_date: Date,
@@ -41,7 +41,7 @@ const staffPersonalInfoSchema = new mongoose.Schema({
     staff_password: String,
     wage: Number,
     employment_type: String,
-    employment_document_id: mongoose.Schema.Types.ObjectId,
+    employment_document_id: String,
     qualifications: [qualificationSchema], // Array of qualifications
     employment_document_info: String,
 }, { timestamps: true });
