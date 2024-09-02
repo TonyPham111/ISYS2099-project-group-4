@@ -4,8 +4,8 @@ import { verifyToken } from "../Middleware/auth.js";
 const patientRouter = express.Router();
 patientRouter
   .route("/")
-  .get(verifyToken, patientController.getAllPatientInfo) //doctor, nurse, hr, frontdesk, business officer
-  .post(verifyToken, patientController.registerNewPatient); //frontdesk
+  .get(verifyToken, patientController.getAllPatientInfo) 
+  .post(verifyToken, patientController.registerNewPatient); 
 patientRouter
   .route("/:patientId")
   .put(verifyToken, patientController.updateSpecificPatientInfo); //frontdesk

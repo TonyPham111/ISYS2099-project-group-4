@@ -7,19 +7,24 @@ const businessOfficerRepo = poolBusinessOfficers;
 const hrRepo = poolHR;
 
 export async function getAllPatientInfo(req, res) {
+  var result;
   try {
     const user_info = req.user;
     if (user_info.role === 'Doctor'){
-      doctorRepo.GetPatientsInfo(user_info.id)
+      const result =  await doctorRepo.GetPatientsInfo(user_info.id)[0]
+      res.status(200).json(result)
     }
     else if (user_info.role === 'Nurse'){
-      nurseRepo.GetPatientsInfo()
+      const result =  await nurseRepo.GetPatientsInfo()[0]
+      res.status(200).json(result)
     }
     else if (user_info === 'FrontDesk'){
-      frontDeskRepo.GetPatientsInfo()
+      const result = await frontDeskRepo.GetPatientsInfo()[0]
+      res.status(200).json(result)
     }
     else if (user_info === 'BusinessOfficer'){
-      businessOfficerRepo.GetPatientsInfo()
+      const result = await businessOfficerRepo.GetPatientsInfo()[0]
+      res.status(200).json(result)
     }
     else {
       res.status(403).json({message: error.message})
@@ -42,6 +47,7 @@ export async function getAllPatientInfo(req, res) {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
+
 }
 
 export async function registerNewPatient(req, res) {
@@ -112,38 +118,19 @@ export async function getSpecificPatientAllDiagnosis(req, res) {
     const patient_id = req.params.patientId;
     const user_info = req.user
     if (user_info.role === 'Doctor'){
-        doctorRepo.FetchDiagnosesByPatientId(patient_id)
-        // Convert the result set to the correct format before sending to the front end
+        const result = await doctorRepo.FetchDiagnosesByPatientId(patient_id)[0]
+        res.status(200).json(result)
+        
     }
     else if (user_info.role === 'Nurse'){
-        nurseRepo.FetchDiagnosesByPatientId(patient_id)
+        const result = await nurseRepo.FetchDiagnosesByPatientId(patient_id)[0]
+        
+        res.status(200).json(result)
         // Convert the result set to the correct format before sending to the front end
     }
     else {
         res.status(403).json({message: error.message})
     }
-
-    //verify job role = (doctor || nurse)
-    //return data
-    /*
-    data structure: 
-    [
-      {
-        "diagnosis_id": INT,
-        "patient_id": INT,
-        "doctor_id": INT,
-        "diagnosis_date": String --> "DD/MM/YYYY",
-        "condition": [
-          {
-            "code": String,
-            "name": String,
-            "description": String
-          },
-        ],
-        "doctor_note": JSON in tiptap format
-      },
-    ]
-    */
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

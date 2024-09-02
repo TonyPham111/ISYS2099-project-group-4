@@ -1,14 +1,14 @@
 import { poolDoctors } from './dbConnectionConfiguration.js';
 
-const queries = {
+const doctorRepo = {
   GetAllAllergies: async (patient_id) => {
     try {
       const sql = `CALL FetchPatientsAllergies(?, 1)`;
       const [results] = await poolDoctors.query(sql, [patient_id]);
       return results;
-    } catch (error) {
-      console.error("Error executing FetchPatientsAllergies:", error);
-      return { error: "An error occurred while executing FetchPatientsAllergies. Please try again later." };
+    } 
+    catch (error) {
+      throw new Error(error.message);
     }
   },
 
@@ -17,9 +17,9 @@ const queries = {
       const sql = `CALL FetchPatientsAllergies(?)`;
       const [results] = await poolDoctors.query(sql, [patient_id]);
       return results;
-    } catch (error) {
-      console.error("Error executing FetchPatientsAllergies:", error);
-      return { error: "An error occurred while executing FetchPatientsAllergies. Please try again later." };
+    } 
+    catch (error) {
+      throw new Error(error.message);
     }
   },
 
@@ -28,9 +28,9 @@ const queries = {
       const sql = `CALL FetchPatientsAllergies(?)`;
       const [results] = await poolDoctors.query(sql, [patient_id]);
       return results;
-    } catch (error) {
-      console.error("Error executing FetchPatientsAllergies:", error);
-      return { error: "An error occurred while executing FetchPatientsAllergies. Please try again later." };
+    } 
+    catch (error) {
+      throw new Error(error.message);
     }
   },
 
@@ -39,9 +39,9 @@ const queries = {
       const sql = `CALL FetchPatientsAllergies(?)`;
       const [results] = await poolDoctors.query(sql, [patient_id]);
       return results;
-    } catch (error) {
-      console.error("Error executing FetchPatientsAllergies:", error);
-      return { error: "An error occurred while executing FetchPatientsAllergies. Please try again later." };
+    } 
+    catch (error) {
+      throw new Error(error.message);
     }
   },
 
@@ -50,9 +50,15 @@ const queries = {
       const sql = `CALL AddAllergiesToPatients(?, ?, 1)`;
       const [results] = await poolDoctors.query(sql, [doctor_id, patient_id, allergy_name_string]);
       return results;
-    } catch (error) {
-      console.error("Error executing AddAllergyToPatient:", error);
-      return { error: "An error occurred while executing AddAllergyToPatient. Please try again later." };
+    } 
+    catch (error) {
+      if (error.sqlState === '45000') {
+        // Propagate the error with the original message if SQLSTATE is '45000'
+        throw new Error(error.message);
+      } else {
+        // Propagate the error with a custom message for other SQLSTATEs
+        throw new Error(`Custom Error: Something went wrong - ${error.message}`);
+      }
     }
   },
 
@@ -61,9 +67,9 @@ const queries = {
       const sql = `CALL AddNewDiagnosis(?, ?, ?, ?, ?, 1)`;
       const [results] = await poolDoctors.query(sql, [doctor_id, patient_id, diagnosis_date, diagnosis_note, condition_code_string]);
       return results;
-    } catch (error) {
-      console.error("Error executing AddNewDiagnosis:", error);
-      return { error: "An error occurred while executing AddNewDiagnosis. Please try again later." };
+    } 
+    catch (error) {
+      throw new Error(error.message);
     }
   },
 
@@ -72,9 +78,9 @@ const queries = {
       const sql = `CALL AddNewPrescription(?, ?, ?, ?, ?, 1)`;
       const [results] = await poolDoctors.query(sql, [doctor_id, patient_id, diagnosis_id, prescription_note, medicine_quantity_string]);
       return results;
-    } catch (error) {
-      console.error("Error executing AddNewPrescription:", error);
-      return { error: "An error occurred while executing AddNewPrescription. Please try again later." };
+    } 
+    catch (error) {
+      throw new Error(error.message);
     }
   },
 
@@ -83,9 +89,9 @@ const queries = {
       const sql = `CALL OrderTest(?, ?, ?, ?, ?, 1)`;
       const [results] = await poolDoctors.query(sql, [doctor_id, patient_id, administer_date, administer_time, test_code_string]);
       return results;
-    } catch (error) {
-      console.error("Error executing OrderTest:", error);
-      return { error: "An error occurred while executing OrderTest. Please try again later." };
+    } 
+    catch (error) {
+      throw new Error(error.message);
     }
   },
 
@@ -94,9 +100,9 @@ const queries = {
       const sql = `CALL FetchAppointmentById(?)`;
       const [results] = await poolDoctors.query(sql, [para_doctor_id]);
       return results;
-    } catch (error) {
-      console.error("Error executing FetchAppointment:", error);
-      return { error: "An error occurred while executing FetchAppointment. Please try again later." };
+    } 
+    catch (error) {
+      throw new Error(error.message);
     }
   },
 
@@ -105,9 +111,9 @@ const queries = {
       const sql = `CALL GetPatientsInfoForDoctor(?)`;
       const [results] = await poolDoctors.query(sql, [doctor_id]);
       return results;
-    } catch (error) {
-      console.error("Error executing GetPatientsInfo:", error);
-      return { error: "An error occurred while executing GetPatientsInfo. Please try again later." };
+    } 
+    catch (error) {
+      throw new Error(error.message);
     }
   },
 
@@ -116,9 +122,9 @@ const queries = {
       const sql = `CALL FetchTestDetailsByPatientId(?)`;
       const [results] = await poolDoctors.query(sql, [patient_id]);
       return results;
-    } catch (error) {
-      console.error("Error executing FetchTestDetailsByPatientId:", error);
-      return { error: "An error occurred while executing FetchTestDetailsByPatientId. Please try again later." };
+    } 
+    catch (error) {
+      throw new Error(error.message);
     }
   },
 
@@ -127,9 +133,9 @@ const queries = {
       const sql = `CALL FetchDiagnosesByPatientId(?)`;
       const [results] = await poolDoctors.query(sql, [patient_id]);
       return results;
-    } catch (error) {
-      console.error("Error executing FetchDiagnosesByPatientId:", error);
-      return { error: "An error occurred while executing FetchDiagnosesByPatientId. Please try again later." };
+    } 
+    catch (error) {
+      throw new Error(error.message);
     }
   },
 
@@ -138,9 +144,9 @@ const queries = {
       const sql = `CALL FetchPrescriptionsByPatientId(?)`;
       const [results] = await poolDoctors.query(sql, [para_patient_id]);
       return results;
-    } catch (error) {
-      console.error("Error executing FetchPrescriptionsByPatientId:", error);
-      return { error: "An error occurred while executing FetchPrescriptionsByPatientId. Please try again later." };
+    } 
+    catch (error) {
+      throw new Error(error.message);
     }
   },
 
@@ -149,9 +155,9 @@ const queries = {
       const sql = `CALL FetchStaffInfoById(?)`;
       const [results] = await poolDoctors.query(sql, [staff_id]);
       return results;
-    } catch (error) {
-      console.error("Error executing FetchStaffInfoById:", error);
-      return { error: "An error occurred while executing FetchStaffInfoById. Please try again later." };
+    } 
+    catch (error) {
+      throw new Error(error.message);
     }
   },
 
@@ -160,9 +166,9 @@ const queries = {
       const sql = `CALL Scheduling(?, ?, ?, ?, ?)`;
       const [results] = await poolDoctors.query(sql, [manager_id, staff_id, schedule_string]);
       return results;
-    } catch (error) {
-      console.error("Error executing Schedule:", error);
-      return { error: "An error occurred while executing Schedule. Please try again later." };
+    } 
+    catch (error) {
+      throw new Error(error.message);
     }
   },
 
@@ -171,34 +177,31 @@ const queries = {
       const sql = `CALL DeleteSchedule(?, ?, ?)`;
       const [results] = await poolDoctors.query(sql, [manager_id, staff_id, schedule_string]);
       return results;
-    } catch (error) {
-      console.error("Error executing Schedule:", error);
-      return { error: "An error occurred while executing Schedule. Please try again later." };
+    } 
+    catch (error) {
+      throw new Error(error.message);
     }
   },
-
-
 
   GetSubordinates: async (manager_id) => {
     try {
       const sql = `CALL GetStaffUnderManager(?)`;
       const [results] = await poolDoctors.query(sql, [manager_id]);
       return results;
-    } catch (error) {
-      console.error("Error executing GetSubordinates:", error);
-      return { error: "An error occurred while executing GetSubordinates. Please try again later." };
+    } 
+    catch (error) {
+      throw new Error(error.message);
     }
   },
 
-  // Not Finished
   CreateNewEvaluation: async (manager_id, staff_id, evaluation_string) => {
     try {
       const sql = `CALL CreateNewEvaluation(?, ?, ?)`;
       const [results] = await poolDoctors.query(sql, [manager_id, staff_id, evaluation_string]);
       return results;
-    } catch (error) {
-      console.error("Error executing CreateNewEvaluation:", error);
-      return { error: "An error occurred while executing CreateNewEvaluation. Please try again later." };
+    } 
+    catch (error) {
+      throw new Error(error.message);
     }
   },
 
@@ -207,11 +210,42 @@ const queries = {
       const sql = `CALL GetAppointmentsAndSchedulesByStaff(?, ?)`;
       const [results] = await poolDoctors.query(sql, [staff_id, manager_id]);
       return results;
-    } catch (error) {
-      console.error("Error executing GetSubordinatesSchedule:", error);
-      return { error: "An error occurred while executing GetSubordinatesSchedule. Please try again later." };
+    } 
+    catch (error) {
+      throw new Error(error.message);
     }
   },
+  GetAllPerformanceEvaluation: async (manager_id, staff_id) => {
+    try {
+      const sql = `CALL GetAllPerformanceEvaluationByStaff(?, ?)`;
+      const [results] = await poolDoctors.query(sql, [manager_id, staff_id]);
+      return results;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  },
+  GetEvaluationDetails: async (manager_id, staff_id, evaluation_id) => {
+    try {
+      const sql = `CALL GetEvaluationDetails(?, ?, ?)`;
+      const [results] = await poolDoctors.query(sql, [manager_id, staff_id, evaluation_id]);
+      return results;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  },
+  CreateNewEvaluation: async (manager_id, staff_id, evaluation_string) => {
+    try {
+      const sql = `CALL StaffEvaluate(?, ?, ?)`;
+      const [results] = await poolDoctors.query(sql, [
+        manager_id,
+        staff_id,
+        evaluation_string,
+      ]);
+      return results;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
 };
 
-export default queries;
+export default doctorRepo;

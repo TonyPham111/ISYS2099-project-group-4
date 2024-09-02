@@ -33,43 +33,6 @@ patientRouter
 
 patientRouter
   .route("/:patientId")
-  .get((req, res) => {
-    //get specific patient's personal information
-    /*
-    structure data: 
-      {
-        id: INT,
-        first_name: String, 
-        last_name: String, 
-        gender: String,
-        birth_date: "DD/MM/YYYY",
-        contact_number: String, 
-        home_address: String
-      }
-    */
-    try {
-      const patientId = req.params.patientId;
-      let result; 
-      if (!patientId) {
-        res
-          .status(400)
-          .send({ error: "not include patient id to get patient data" });
-      }
-      for (let i = 0; i < patientData.length; ++i) {
-        if (patientData[i].id === Number(patientId)) {
-          result = patientData[i];
-          res.status(200).json(result);
-        }
-      }
-          if(!result){
-      res
-        .status(404)
-        .json({ error: "cannot find patient data or input is invalid" });
-          }
-    } catch (error) {
-      res.status(500).json({ error: "Server Error" });
-    }
-  })
   .put((req, res) => {
     //update specific patient's personal information
   });
