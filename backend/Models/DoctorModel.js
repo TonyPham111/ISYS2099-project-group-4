@@ -108,44 +108,108 @@ const doctorRepo = {
 
   GetPatientsInfo: async (doctor_id) => {
     try {
-      const sql = `CALL GetPatientsInfoForDoctor(?)`;
-      const [results] = await poolDoctors.query(sql, [doctor_id]);
-      return results;
-    } 
-    catch (error) {
+        const sql = `CALL GetPatientsInfoForDoctor(?)`;
+        const [results] = await poolDoctors.query(sql, [doctor_id]);
+
+        // Transform the results to group allergy data
+        const groupedResults = results[0].reduce((accumulator, row) => {
+            const { id, full_name, gender, birth_date, allergy_name, allergy_type, allergen, allergy_group } = row;
+
+            // Add the patient details to the accumulator if it's not already added
+            if (!accumulator[id]) {
+                accumulator[id] = { id, full_name, gender, birth_date, allergies: [] };
+            }
+
+            // Add the allergy details to the current patient's allergy list
+            accumulator[id].allergies.push({ allergy_name, allergy_type, allergen, allergy_group });
+
+            return accumulator; // Return the accumulator for the next iteration
+        }, {});
+
+        // Convert the grouped results object to an array
+        return Object.values(groupedResults);
+    } catch (error) {
       throw new Error(error.message);
     }
   },
 
   FetchTestDetailsByPatientId: async (patient_id) => {
     try {
-      const sql = `CALL FetchTestDetailsByPatientId(?)`;
-      const [results] = await poolDoctors.query(sql, [patient_id]);
-      return results;
-    } 
-    catch (error) {
+        const sql = `CALL FetchTestDetailsByPatientId(?)`;
+        const [results] = await poolDoctors.query(sql, [patient_id]);
+  
+        // Transform the results to group test data
+        const groupedResults = results[0].reduce((accumulator, row) => {
+            const { id, ordering_doctor, ordering_date, test_name, administrating_nurse, administering_date, administering_time, lab_result_document_id } = row;
+
+            // Add the test details to the accumulator if it's not already added
+            if (!accumulator[id]) {
+                accumulator[id] = { id, ordering_doctor, ordering_date, test_name, administrating_nurse, administering_date, administering_time, tests: [] };
+            }
+
+            // Add the test details to the test list
+            accumulator[id].tests.push({ test_name });
+
+            return accumulator;  // Return the accumulator for the next iteration
+        }, {});
+
+        // Convert the grouped results object to an array
+        return Object.values(groupedResults);
+    } catch (error) {
       throw new Error(error.message);
     }
   },
 
   FetchDiagnosesByPatientId: async (patient_id) => {
     try {
-      const sql = `CALL FetchDiagnosesByPatientId(?)`;
-      const [results] = await poolDoctors.query(sql, [patient_id]);
-      return results;
-    } 
-    catch (error) {
+        const sql = `CALL FetchDiagnosesByPatientId(?)`;
+        const [results] = await poolDoctors.query(sql, [patient_id]);
+  
+        // Transform the results to group diagnosis data
+        const groupedResults = results[0].reduce((accumulator, row) => {
+            const { diagnosis_id, doctor_name, diagnosis_date, diagnosis_note, condition_code, condition_name, condition_description } = row;
+
+            // Add the diagnosis details to the accumulator if it's not already added
+            if (!accumulator[diagnosis_id]) {
+                accumulator[diagnosis_id] = { diagnosis_id, doctor_name, diagnosis_date, diagnosis_note, conditions: [] };
+            }
+
+            // Add the condition details to the current diagnosis' condition list
+            accumulator[diagnosis_id].conditions.push({ condition_code, condition_name, condition_description });
+
+            return accumulator;  // Return the accumulator for the next iteration
+        }, {});
+
+        // Convert the grouped results object to an array
+        return Object.values(groupedResults);
+    } catch (error) {
       throw new Error(error.message);
     }
   },
 
   FetchPrescriptionsByPatientId: async (para_patient_id) => {
     try {
-      const sql = `CALL FetchPrescriptionsByPatientId(?)`;
-      const [results] = await poolDoctors.query(sql, [para_patient_id]);
-      return results;
-    } 
-    catch (error) {
+        const sql = `CALL FetchPrescriptionsByPatientId(?)`;
+        const [results] = await poolDoctors.query(sql, [para_patient_id]);
+  
+        // Transform the results to group prescription data
+        const groupedResults = results[0].reduce((accumulator, row) => {
+            const { id, treatment_start_date, doctor_name, drug_name, quantity, unit, price } = row;
+
+            // Add the presccription details to the accumulator if it's not already added
+            if (!accumulator[id]) {
+                accumulator[id] = { id, treatment_start_date, doctor_name, drugs: [] };
+            }
+
+            // Add the drug details to the current prescription's drug list
+            accumulator[id].drugs.push({ drug_name, quantity, unit, price });
+
+            return accumulator;  // Return the accumulator for the next iteration
+        }, {});
+
+        // Convert the grouped results object to an array
+        return Object.values(groupedResults);
+    } catch (error) {
       throw new Error(error.message);
     }
   },

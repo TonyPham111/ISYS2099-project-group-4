@@ -1,29 +1,26 @@
-import { poolDoctors, poolNurses, poolFrontDesk, poolBusinessOfficers, poolHR } from "../Models/dbConnectionConfiguration.js";
-
-const doctorRepo = poolDoctors;
-const nurseRepo = poolNurses;
-const frontDeskRepo = poolFrontDesk;
-const businessOfficerRepo = poolBusinessOfficers;
-const hrRepo = poolHR;
+import doctorRepo from "../Models/DoctorModel.js";
+import nurseRepo from "../Models/NurseModel.js";
+import frontDeskRepo from "../Models/FrontDeskModel.js";
+import businessOfficerRepo from "../Models/BusinessOfficerModel.js";
+import hrRepo from "../Models/HrModel.js";
 
 export async function getAllPatientInfo(req, res) {
-  var result;
   try {
     const user_info = req.user;
     if (user_info.role === 'Doctor'){
-      const result =  await doctorRepo.GetPatientsInfo(user_info.id)[0]
+      const result =  await doctorRepo.GetPatientsInfo(user_info.id)
       res.status(200).json(result)
     }
     else if (user_info.role === 'Nurse'){
-      const result =  await nurseRepo.GetPatientsInfo()[0]
+      const result =  await nurseRepo.GetPatientsInfo()
       res.status(200).json(result)
     }
     else if (user_info === 'FrontDesk'){
-      const result = await frontDeskRepo.GetPatientsInfo()[0]
+      const result = await frontDeskRepo.GetPatientsInfo()
       res.status(200).json(result)
     }
     else if (user_info === 'BusinessOfficer'){
-      const result = await businessOfficerRepo.GetPatientsInfo()[0]
+      const result = await businessOfficerRepo.GetPatientsInfo()
       res.status(200).json(result)
     }
     else {
@@ -47,7 +44,6 @@ export async function getAllPatientInfo(req, res) {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-
 }
 
 export async function registerNewPatient(req, res) {
@@ -118,15 +114,12 @@ export async function getSpecificPatientAllDiagnosis(req, res) {
     const patient_id = req.params.patientId;
     const user_info = req.user
     if (user_info.role === 'Doctor'){
-        const result = await doctorRepo.FetchDiagnosesByPatientId(patient_id)[0]
+        const result = await doctorRepo.FetchDiagnosesByPatientId(patient_id)
         res.status(200).json(result)
-        
     }
     else if (user_info.role === 'Nurse'){
-        const result = await nurseRepo.FetchDiagnosesByPatientId(patient_id)[0]
-        
+        const result = await nurseRepo.FetchDiagnosesByPatientId(patient_id)
         res.status(200).json(result)
-        // Convert the result set to the correct format before sending to the front end
     }
     else {
         res.status(403).json({message: error.message})
