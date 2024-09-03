@@ -105,6 +105,8 @@ export default function Schedule({ auditable }) {
         onView={auditable && handleViewChange}
         startAccessor="start"
         endAccessor="end"
+        views={["week", "day", "agenda"]}
+        defaultView={'week'}
       />
       <Popup>{popupComponent}</Popup>
     </>

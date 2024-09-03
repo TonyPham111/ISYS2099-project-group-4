@@ -10,6 +10,7 @@ import fetcher from "@/utils/fetcher";
 import PopupButton from "@/component/ui/Button/PopupButton";
 import CreateTreatmentForm from "@/component/ui/Form/Create/CreateTreatmentForm";
 import { UserContext } from "@/contexts/userContext";
+import dayjs from "dayjs";
 
 export default function PatientTreatmentHistory() {
   const { userData } = useContext(UserContext);
@@ -26,6 +27,12 @@ export default function PatientTreatmentHistory() {
   function handleOnClickRowData(item, rowIndex) {
     setIsPopup(true);
     setSpecificTreatmentData(item);
+  }
+  function handleOnSearch() {
+    if (startTime && endTime && startTime <= endTime) {
+      let start = dayjs(startTime).format("YYYY-MM-DD");
+      let end = dayjs(endTime).format('YYYY-MM-DD');
+    }
   }
   if (error) {
     return <div>errow when loading data</div>;
@@ -48,7 +55,10 @@ export default function PatientTreatmentHistory() {
               setValue={setEndTime}
               size={"sm"}
             />
-            <button className="h-[40px] bg-custom-blue text-white">
+            <button
+              onClick={handleOnSearch}
+              className="h-[40px] bg-custom-blue text-white"
+            >
               search
             </button>
           </div>

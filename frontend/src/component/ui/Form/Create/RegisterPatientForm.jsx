@@ -1,18 +1,26 @@
 import { useContext, useRef, useState } from "react";
 import CustomDatePicker from "@/component/ui/DateTime/CustomDatePicker";
 import { PopupContext } from "@/contexts/popupContext";
+import CustomAutoComplete from "../../DateTime/CustomAutoComplete";
+import toast from "react-hot-toast";
+import { duration } from "moment";
 const RegisterPatientForm = () => {
-  const {isPopup, setIsPopup} = useContext(PopupContext);
-  const firstNameRef = useRef(null);
-  const lastNameRef = useRef(null);
+  const { isPopup, setIsPopup } = useContext(PopupContext);
+  const fullNameRef = useRef(null);
   const genderRef = useRef(null);
   const homeAddressRef = useRef(null);
   const contactPhoneNumberRef = useRef(null);
   const [birthDate, setBirthDate] = useState(null);
   const handleRegister = () => {
-    const condition = firstNameRef && lastNameRef && genderRef && homeAddressRef && contactPhoneNumberRef && birthDate;
-    if(condition){
-       setIsPopup(false);
+    const condition =
+      fullNameRef.current &&
+      genderRef.current &&
+      homeAddressRef.current &&
+      contactPhoneNumberRef.current &&
+      birthDate;
+    if (condition) {
+      toast.success( 'create patient success !',{duration:5000}, )
+      setIsPopup(false);
     }
   };
   return (
@@ -22,30 +30,51 @@ const RegisterPatientForm = () => {
       <div className="w-full h-[90%] flex justify-center">
         <div className="w-2/3 flex flex-wrap justify-between">
           <div>
-            <h4>First name</h4>
-            <input className="mt-[8px] border-[1px]" ref={firstNameRef} />
-          </div>
-          <div>
-            <h4>Last name</h4>
-            <input className="mt-[8px] border-[1px]" ref={lastNameRef} />
+            <h4>Full name</h4>
+            <input
+              type="text"
+              className="mt-[8px] border-[1px]"
+              ref={fullNameRef}
+            />
           </div>
           <div>
             <h4>gender</h4>
-            <select
-              onChange={(e) => {
-                genderRef.current = e.target.value;
+            <div className="mt-[8px] w-[350px]"> 
+            <CustomAutoComplete
+              options={[
+                {
+                  key: "M",
+                  value: "Male",
+                },
+                {
+                  key: "F",
+                  value: "Female",
+                },
+              ]}
+              onChange={(event, value)=>{
+                console.log(`check value: ${JSON.stringify(value)}`);
+                if(value){
+                  genderRef.current = value.key;
+                }
+                else{
+                  genderRef.current = null;
+                }
               }}
-              name="Male"
-              className="mt-[8px] p-[3px] border-[1.1px]"
-            >
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-              <option value="Other">Other</option>
-            </select>
+              getOptionLabel={(option) => {
+                return option.value;
+              }}
+              label="choose gender"
+              size="full"
+            />
+            </div>
           </div>
           <div>
             <h4>Date of Birth</h4>
-            <CustomDatePicker value={birthDate} setValue={setBirthDate} size={"lg"} />
+            <CustomDatePicker
+              value={birthDate}
+              setValue={setBirthDate}
+              size={"lg"}
+            />
           </div>
           <div>
             <h4>Home Address</h4>
@@ -62,7 +91,10 @@ const RegisterPatientForm = () => {
       </div>
 
       <div className="w-full mx-auto pt-5 border-t-2 border-custom-gray-200 flex justify-center">
-        <button onClick={handleRegister} className= "h-12 w-[150px] bg-custom-blue text-white">
+        <button
+          onClick={handleRegister}
+          className="h-12 w-[150px] bg-custom-blue text-white"
+        >
           Register +
         </button>
       </div>

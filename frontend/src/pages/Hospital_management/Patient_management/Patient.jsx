@@ -1,24 +1,23 @@
 import { PopupContextProvider } from "@/contexts/popupContext";
 import DataTable from "@/component/ui/Table/DataTable";
 import PopupButton from "@/component/ui/Button/PopupButton";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useSWR from "swr";
 import fetcher from "@/utils/fetcher";
 import RegisterPatientForm from "@/component/ui/Form/Create/RegisterPatientForm";
 import { UserContext } from "@/contexts/userContext";
+import CustomAutoComplete from "@/component/ui/DateTime/CustomAutoComplete";
 
 export default function Patient() {
   const { userData } = useContext(UserContext);
   const [url, setUrl] = useState("http://localhost:8000/patients");
-  const { data, error, isLoading } = useSWR(url, fetcher);
+  const { data: renderData } = useSWR(url, fetcher);
+  const { data, error, isLoading } = useSWR(
+    "http://localhost:8000/patients",
+    fetcher
+  );
   const navigate = useNavigate();
-  if (error) {
-    console.error(`error: ${error}`);
-    return <div>error fetching data</div>;
-  }
-  if (isLoading) {
-  }
   const headerData = [
     "id",
     "first_name",
@@ -32,6 +31,23 @@ export default function Patient() {
   function handleNavigateOnDataRow(item, rowIndex) {
     navigate(`${item.id}/personal-information`);
   }
+  function handleOnChangeOnPatient(data) {
+    if (data) {
+      if (data.id == 0) {
+        setUrl("http://localhost:8000/patients");
+      } else {
+        setUrl(`http://localhost:8000/patients/${data.id}`);
+      }
+    }
+  }
+
+  if (error) {
+    console.error(`error: ${error}`);
+    return <div>error fetching data</div>;
+  }
+  if (isLoading) {
+  }
+
   if (data) {
     return (
       <>
@@ -49,16 +65,33 @@ export default function Patient() {
         </div>
         {/*-------- searching patient data --------*/}
         <div className="flex w-full max-w-sm items-center space-x-2">
-          <input
-            className="h-[40px] w-[200px]"
-            type="input"
-            placeholder="find by ID or name"
+          <CustomAutoComplete
+            options={[{ id: 0, name: "ALL" }, ...data]}
+            onChange={(event, value) => {
+              handleOnChangeOnPatient(value);
+            }}
+            getOptionLabel={(option) => {
+              if (option.id == 0) {
+                return option.name;
+              } else {
+                return `#${option.id}: ${option.last_name} ${option.first_name}`;
+              }
+            }}
+            label={"search by id or name..."}
+            size={"md"}
           />
         </div>
         {/*-------- show data table -------------*/}
+        {/*data that render can be array or just an object so need to double check*/}
         <DataTable
           headerData={headerData}
-          data={data}
+          data={
+            renderData
+              ? renderData.length > 0
+                ? [...renderData]
+                : [renderData]
+              : []
+          }
           hoverOnRow={true}
           handleOnClick={handleNavigateOnDataRow}
         />

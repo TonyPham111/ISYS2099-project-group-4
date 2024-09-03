@@ -4,32 +4,49 @@ import { PopupContext } from "@/contexts/popupContext";
 import CustomAutoComplete from "@/component/ui/DateTime/CustomAutoComplete";
 import useSWR from "swr";
 import fetcher from "@/utils/fetcher";
-import { create } from "@mui/material/styles/createTransitions";
+import toast from "react-hot-toast";
+import { useParams } from "react-router-dom";
+import dayjs from "dayjs";
 
 export default function CreateAllergiesForm({ createdAllergiesData }) {
   const [createdData, setCreatedData] = useState([]);
   const { setIsPopup } = useContext(PopupContext);
   const headerData = ["name", "group", "allergen", "type", ""];
+  const { id } = useParams();
   function handleCreateAllergies() {
-    console.log(`'created alelrgies data: ${createdAllergiesData}`)
     let readyToCreate = true;
     /*----check if it meet requirement to create new treatment ( not allow any blank input )*/
     if (createdData.length > 0) {
       for (let i = 0; i < createdData.length; ++i) {
-        if (createdAllergiesData.indexOf(createdData[i].name) < 0) {
-            readyToCreate = false;
+        if (createdAllergiesData.indexOf(createdData[i].name) >= 0) {
+          readyToCreate = false;
         }
-        for (let j = 0; j < headerData.length; j++) {
-          if (!createdData[i][headerData[i]]) {
-            readyToCreate = false;
-          }
+        if (!createdData[i]["name"]) {
+          readyToCreate = false;
         }
       }
     } else {
       readyToCreate = false;
     }
     if (readyToCreate) {
+      const sendData = {
+        date: dayjs().format("YYYY-MM-DD"),
+        patient_id: Number(id),
+        allergies: createdData.map((item) => {
+          return item.name;
+        }),
+      };
+      console.log(JSON.stringify(sendData));
+      toast.success("new allergy record of this patient have been created");
       setIsPopup(false);
+    } else {
+      if (createdData.length == 0) {
+        toast.error("please fill at least 1 record!");
+      } else {
+        toast.error(
+          "please fill all data and allergy name cannot be the same with past record!"
+        );
+      }
     }
   }
   return (

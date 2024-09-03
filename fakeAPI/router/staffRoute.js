@@ -2,6 +2,9 @@ import express from "express";
 import staffData from "../data/staff_data.json" with {type: 'json'};
 import appointmentData from "../data/appointment_data.json" with {type: 'json'};
 import staffScheduleData from "../data/staff_schedule_data.json" with {type: 'json'};
+import jobChangeHistoryData from "../data/job_change_history.json" with {type: 'json'};
+import wageChangeHistoryData from "../data/wage_change_history.json" with {type: 'json'};
+import departmentChangeHistoryData from "../data/department_change_history.json" with {type: 'json'};
 const staffRouter = express.Router();
 staffRouter
   .route("/")
@@ -29,7 +32,6 @@ staffRouter
     ]
     */
     const {manager_id, job_role} = req.query;
-      console.log(`manger_id: ${manager_id}`);
       let result = staffData;
       if(manager_id){
         result = staffData.filter((item)=>{
@@ -46,7 +48,111 @@ staffRouter
   .post((req, res) => {
     //add new staff
   });
-
+  staffRouter
+  .route("/job_change_history")
+  .get((req, res) => {
+    //get all staff data
+    /*
+    structure data: 
+    [
+      {
+        id: INT, 
+        manager_id: INT,
+        first_name: String, 
+        last_name: String, 
+        department: String,
+        job: String, 
+        gender: String, 
+        birth_date: "DD/MM/YYYY",
+        home_address: String, 
+        contact_phone_number: String, 
+        email: String, 
+        wage: DECIMAL(6, 2),
+        hire_date: "DD/MM/YYYY",
+        employment_type: String
+      }
+    ]
+    */
+    const {staffId} = req.query;
+      let result = jobChangeHistoryData;
+      if(staffId){
+        result = jobChangeHistoryData.filter((item)=>{
+          return item.staff_id== Number(staffId);
+        })
+      }
+     
+   res.status(200).json(result);
+  })
+  staffRouter
+  .route("/wage_change_history")
+  .get((req, res) => {
+    //get all staff data
+    /*
+    structure data: 
+    [
+      {
+        id: INT, 
+        manager_id: INT,
+        first_name: String, 
+        last_name: String, 
+        department: String,
+        job: String, 
+        gender: String, 
+        birth_date: "DD/MM/YYYY",
+        home_address: String, 
+        contact_phone_number: String, 
+        email: String, 
+        wage: DECIMAL(6, 2),
+        hire_date: "DD/MM/YYYY",
+        employment_type: String
+      }
+    ]
+    */
+    const {staffId} = req.query;
+      let result = wageChangeHistoryData;
+      if(staffId){
+        result = wageChangeHistoryData.filter((item)=>{
+          return item.staff_id== Number(staffId);
+        })
+      }
+     
+   res.status(200).json(result);
+  })
+  staffRouter
+  .route("/department_change_history")
+  .get((req, res) => {
+    //get all staff data
+    /*
+    structure data: 
+    [
+      {
+        id: INT, 
+        manager_id: INT,
+        first_name: String, 
+        last_name: String, 
+        department: String,
+        job: String, 
+        gender: String, 
+        birth_date: "DD/MM/YYYY",
+        home_address: String, 
+        contact_phone_number: String, 
+        email: String, 
+        wage: DECIMAL(6, 2),
+        hire_date: "DD/MM/YYYY",
+        employment_type: String
+      }
+    ]
+    */
+    const {staffId} = req.query;
+      let result = departmentChangeHistoryData;
+      if(staffId){
+        result = departmentChangeHistoryData.filter((item)=>{
+          return item.staff_id== Number(staffId);
+        })
+      }
+     
+   res.status(200).json(result);
+  })
 staffRouter
   .route("/:staffId")
   .get((req, res) => {
@@ -164,3 +270,17 @@ staffRouter
   });
 
 export default staffRouter;
+
+
+/*
+
+[
+  {
+    staff_id: INT, 
+    old_wage: DECIMAL(6,2), 
+    new_wage: DECIMAL(6,2),
+    date_change: String --> DD/MM/YYYY
+  }
+]
+
+*/

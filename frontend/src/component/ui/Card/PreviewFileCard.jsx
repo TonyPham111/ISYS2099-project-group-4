@@ -1,12 +1,6 @@
 import { useEffect, useState } from "react";
-
-export default function PreviewFileCard({
-  fileData,
-  rowIndex,
-  columnIndex,
-  data,
-  setData,
-}) {
+import byteSize from "byte-size";
+export default function PreviewFileCard({ fileData, data, setData }) {
   const [fileUrl, setFileUrl] = useState("");
   useEffect(() => {
     if (fileData) {
@@ -17,10 +11,14 @@ export default function PreviewFileCard({
   }, []);
   function handleDelete() {
     console.log(`check data: ${JSON.stringify(data)}`);
-    const newData = data.filter((item) => {
-      return item.fileData.name !== fileData.name;
-    });
-    setData(newData);
+    if (Array.isArray(data)) {
+      const newData = data.filter((item) => {
+        return item.name !== fileData.name;
+      });
+      setData(newData);
+    } else {
+      setData(null);
+    }
   }
   return (
     <div className="w-[200px] h-full border-[0.5px] border-solid border-custom-dark-200 shadow-md rounded-md flex justify-between p-[2px] relative">
@@ -37,7 +35,7 @@ export default function PreviewFileCard({
         <p className="w-full line-clamp-1 text-sm font-semibold">
           {fileData.name}
         </p>
-        <p className="text-sm">{fileData.size / 1000}MB</p>
+        <p className="text-sm">{byteSize(fileData.size).toString()}</p>
       </div>
       <button
         onClick={handleDelete}

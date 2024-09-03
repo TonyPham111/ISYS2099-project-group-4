@@ -24,7 +24,7 @@ app.get("/conditions", (req, res)=>{
 app.get("/drugs", (req, res)=>{
   res.status(200).json(drugData);
 })
-app.get("/deparments", (req, res)=>{
+app.get("/departments", (req, res)=>{
   res.status(200).json(departmentData);
 })
 app.get("/test_types",(req, res)=>{
