@@ -8,6 +8,7 @@ import conditionRouter from "./Router/conditionRouter.js";
 import departmentRouter from "./Router/departmentRouter.js";
 import drugRouter from "./Router/drugRouter.js";
 import allergyRouter from "./Router/allergyRouter.js";
+import bcrypt from 'bcrypt';
 const app = express();
 
 //testing Models
@@ -17,45 +18,31 @@ import nurseRepo from "./Models/NurseModel.js";
 import hrRepo from "./Models/HrModel.js"
 import frontDeskRepo from "./Models/FrontDeskModel.js";
 import businessOfficerRepo from "./Models/BusinessOfficerModel.js";
+import {poolAdmin} from "./Models/dbConnectionConfiguration.js"
 
-async function testing(callback){
-  const result = await callback()
-  console.log(result)
+
+
+const rounds = process.env.SALT_ROUNDS
+async function fetchStaffIds(){
+  const results = await poolAdmin.query(
+    "SELECT id, staff_password FROM Staff" , []
+  )
+  return results[0]
 }
-//Test fetching diagnosis by patient
-testing(async ()=> {
-  return await nurseRepo.FetchDiagnosesByPatientId(1)
-})
-testing(async () => {
-  return await nurseRepo.FetchTestDetailsByPatientId(1)
-})
-testing(async () => {
-  return await nurseRepo.FetchPrescriptionsByPatientId(1)
-})
 
-
-/*
-//Test fetching presription by patient
-
-//PatientController
-testing(async () => {
-  return await nurseRepo.GetPatientsAllergies(1)
-})
-//Billing Controller
-testing(async () => {
-  return await businessOfficerRepo.GetAllBillings()
-})
-//Billing Controller
-testing(async () => {
-  return await businessOfficerRepo.GetBillingDetails()
-})
-
-//StaffController
-testing(async () => {
-  return await nurseRepo.GetAllPerformanceEvaluation(2,70)
-})
-  */
-
+async function encryptPassword(params) {
+  const employee_ids = await fetchStaffIds()
+  for (let i = 0; i < employee_ids.length; i++){
+    const current_id = employee_ids[i].id
+    const unhashed_password = employee_ids[i].staff_password
+    const encrypted_password = await bcrypt.hash(unhashed_password, 10)
+    const result = poolAdmin.query(
+      'UPDATE Staff SET staff_password = ? WHERE id = ?', [encrypted_password, current_id]
+    )
+    console.log("done")
+  }
+}
+encryptPassword()
 
 
 

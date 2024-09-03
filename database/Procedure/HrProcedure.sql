@@ -11,7 +11,7 @@ CREATE PROCEDURE AddNewStaff(
     para_home_address VARCHAR(255),           -- Parameter for the home address of the staff member
     para_phone_number VARCHAR(15),            -- Parameter for the phone number of the staff member
     para_email VARCHAR(50),                   -- Parameter for the email address of the staff member
-    para_staff_password VARCHAR(12),          -- Parameter for the staff member's password
+    para_staff_password VARCHAR(72),          -- Parameter for the staff member's password
     para_wage DECIMAL(6,2),                   -- Parameter for the wage of the staff member
     para_employment_document_id VARCHAR(24)   -- Parameter for the employment document ID
 )
@@ -21,11 +21,26 @@ BEGIN
     DECLARE min_job_wage DECIMAL(6,2);
     DECLARE error_message TEXT;
 
-    DECLARE EXIT HANDLER FOR SQLSTATE '45000'
-	BEGIN
-		GET DIAGNOSTICS CONDITION 1 error_message = MESSAGE_TEXT;
-		SELECT error_message AS ErrorMessage;  -- Return an error message
-	END;
+	 DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        DECLARE returned_sqlstate CHAR(5) DEFAULT '';
+        ROLLBACK;
+
+        -- Retrieve the SQLSTATE of the current exception
+        GET STACKED DIAGNOSTICS CONDITION 1
+            returned_sqlstate = RETURNED_SQLSTATE;
+
+        -- Check if the SQLSTATE is '45000'
+        IF returned_sqlstate = '45000' THEN
+            -- Resignal with the original message
+            RESIGNAL;
+        ELSE
+            -- Set a custom error message and resignal with SQLSTATE '45000'
+            SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Something is wrong. Please try again.';
+        END IF;
+    END;
+    
     IF ((para_job_id = 1 OR para_job_id = 2) AND para_department_id = 13) OR (para_job_id > 2 AND para_department_id < 13) THEN
 		SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Incompatible job and department. Please try again';
@@ -97,7 +112,48 @@ BEGIN
         para_employment_document_id    -- Provided employment document ID
     );
 END$$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.AddNewStaff TO 'HR'@'IP'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.AddNewStaff TO 'HR'@'%'$$
+
+DROP PROCEDURE IF EXISTS ChangeStaffPersonalInfo$$
+CREATE PROCEDURE ChangeStaffPersonalInfo(
+    para_staff_id INT,                       
+    new_phone_number VARCHAR(15),       
+    new_email VARCHAR(50),              
+    new_password VARCHAR(72),           
+    new_home_address VARCHAR(255)       
+)
+SQL SECURITY DEFINER
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        DECLARE returned_sqlstate CHAR(5) DEFAULT '';
+        ROLLBACK;
+        -- Retrieve the SQLSTATE of the current exception
+        GET STACKED DIAGNOSTICS CONDITION 1
+            returned_sqlstate = RETURNED_SQLSTATE;
+
+        -- Check if the SQLSTATE is '45000'
+        IF returned_sqlstate = '45000' THEN
+            -- Resignal with the original message
+            RESIGNAL;
+        ELSE
+            -- Set a custom error message and resignal
+            SIGNAL SQLSTATE '45000'
+                SET MESSAGE_TEXT = 'Something is wrong. Please try again.';
+        END IF;
+    END;
+
+    -- Update the Staff table with the new personal information for the staff member with the given staff_id
+    UPDATE Staff
+    SET
+        Staff.home_address = new_home_address,       
+        Staff.email = new_email,                     
+        Staff.phone_number = new_phone_number,       
+        Staff.staff_password = new_password          
+    WHERE
+        Staff.id = para_staff_id;                         
+END
+GRANT EXECUTE ON PROCEDURE hospital_management_system.AddNewStaff TO 'HR'@'%'$$
 
 DROP PROCEDURE IF EXISTS FetchAllStaff$$
 CREATE PROCEDURE FetchAllStaff()
