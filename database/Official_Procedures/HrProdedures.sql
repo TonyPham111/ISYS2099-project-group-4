@@ -2,8 +2,8 @@ DELIMITER $$
 DROP PROCEDURE IF EXISTS AddNewStaff$$
 CREATE PROCEDURE AddNewStaff(
     para_full_name VARCHAR(50),               -- Parameter for the full name of the staff member
-    para_job_id VARCHAR(50),                  -- Parameter for the job title of the staff member
-    para_department_id VARCHAR(50),           -- Parameter for the department name where the staff member will work
+    para_job_id INT,                  -- Parameter for the job title of the staff member
+    para_department_id INT,           -- Parameter for the department name where the staff member will work
     para_manager_id INT,              -- Parameter for the id of the staff member's manager
     para_gender CHAR(1),                      -- Parameter for the gender of the staff member
     para_birth_date DATE,                     -- Parameter for the birth date of the staff member
@@ -12,7 +12,6 @@ CREATE PROCEDURE AddNewStaff(
     para_email VARCHAR(50),                   -- Parameter for the email address of the staff member
     para_staff_password VARCHAR(72),          -- Parameter for the staff member's password
     para_wage DECIMAL(6,2),                   -- Parameter for the wage of the staff member
-    para_employment_document_id VARCHAR(24)   -- Parameter for the employment document ID
 )
 SQL SECURITY DEFINER
 BEGIN
@@ -93,7 +92,6 @@ BEGIN
         wage,                          -- Wage of the staff member
         hire_date,                     -- Hire date (current date)
         employment_status,             -- Employment status (e.g., 'Active')
-        employment_document_id         -- Employment document ID
     ) VALUES (
         para_manager_id,               -- Provided manager ID
         para_department_id,            -- Provided department ID
@@ -108,7 +106,6 @@ BEGIN
         para_wage,                     -- Provided wage
         CURDATE(),                     -- Current date as the hire date
         'Active',                      -- Employment status set to 'Active'
-        para_employment_document_id    -- Provided employment document ID
     );
 END$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.AddNewStaff TO 'HR'@'%'$$

@@ -73,7 +73,6 @@ CREATE TABLE Staff(
     wage DECIMAL(6,2),
     hire_date DATE NOT NULL,
     employment_status ENUM ('Active', 'Terminated') NOT NULL,
-    employment_document_id VARCHAR(24),
     FOREIGN KEY (manager_id) REFERENCES Staff(id) ON DELETE SET NULL,
     FOREIGN KEY (department_id) REFERENCES Departments (id) ON DELETE SET NULL,
     FOREIGN KEY (job_id) REFERENCES Jobs (id) ON DELETE SET NULL
