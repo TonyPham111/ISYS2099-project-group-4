@@ -35,7 +35,7 @@ export const register = async (req, res) => {
       wage
     } = req.body;
 
-    if (req.role !== "hr") {
+    if (req.role !== "HR") {
       return res.status(403).json({ error: "Access denied. Only HR staff can register new users." });
     }
 
