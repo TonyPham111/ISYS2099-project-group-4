@@ -1,5 +1,7 @@
 import { UserContext } from "@/contexts/userContext";
 import { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+
 import axios from "axios";
 
 export default function LoginPage() {
@@ -7,7 +9,7 @@ export default function LoginPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
-
+    const navigate = useNavigate();
     async function handleLogin(e) {
         e.preventDefault();
         setError("");
@@ -27,9 +29,10 @@ export default function LoginPage() {
                 job_role: tokens.role,
             });
 
-            // Redirect to dashboard or home page
-            // You might want to use React Router for this
-            // history.push("/dashboard");
+            // Redirect to dashboard
+            navigate("/dashboard");
+            
+
         } catch (err) {
             setError(err.response?.data?.error || "An error occurred during login");
         }
