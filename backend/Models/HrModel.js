@@ -107,6 +107,16 @@ const hrRepo = {
     }
   },
 
+  AuthenticateUser: async (email) => {
+    try {
+      const sql = `CALL AuthenticateUser(?)`;
+      const [results] = await poolHR.query(sql, [email]);
+      return results[0][0]; // Return the first row of the result set
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  },
+
   Scheduling: async (manager_id, staff_id, schedule_string) => {
     try {
       const sql = `CALL Scheduling(?, ?, ?, ?, ?)`;
