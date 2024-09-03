@@ -1,0 +1,72 @@
+[
+  {
+    "department_id":8,
+    "doctor_id":11,
+    "doctor_full_name":"L\u00ea Th\u1ea3o",
+    "doctor_gender":"Female",
+    "doctor_available_status":"available"
+  },
+  {
+    "department_id":5,
+    "doctor_id":12,
+    "doctor_full_name":"Tr\u1ea7n Khanh",
+    "doctor_gender":"Male",
+    "doctor_available_status":"busy"
+  },
+  {
+    "department_id":13,
+    "doctor_id":13,
+    "doctor_full_name":"\u0110\u1eb7ng Qu\u00e2n",
+    "doctor_gender":"Male",
+    "doctor_available_status":"busy"
+  },
+  {
+    "department_id":1,
+    "doctor_id":14,
+    "doctor_full_name":"\u0110\u1ed7 B\u1ea3o",
+    "doctor_gender":"Male",
+    "doctor_available_status":"busy"
+  },
+  {
+    "department_id":2,
+    "doctor_id":15,
+    "doctor_full_name":"Phan B\u1ea3o",
+    "doctor_gender":"Male",
+    "doctor_available_status":"available"
+  },
+  {
+    "department_id":13,
+    "doctor_id":16,
+    "doctor_full_name":"Ph\u1ea1m Y\u1ebfn",
+    "doctor_gender":"Male",
+    "doctor_available_status":"available"
+  },
+  {
+    "department_id":13,
+    "doctor_id":17,
+    "doctor_full_name":"Ph\u1ea1m Quy\u00ean",
+    "doctor_gender":"Female",
+    "doctor_available_status":"busy"
+  },
+  {
+    "department_id":7,
+    "doctor_id":18,
+    "doctor_full_name":"\u0110\u1eb7ng Quy\u00ean",
+    "doctor_gender":"Male",
+    "doctor_available_status":"busy"
+  },
+  {
+    "department_id":4,
+    "doctor_id":19,
+    "doctor_full_name":"Nguy\u1ec5n B\u1ea3o",
+    "doctor_gender":"Male",
+    "doctor_available_status":"available"
+  },
+  {
+    "department_id":1,
+    "doctor_id":20,
+    "doctor_full_name":"Nguy\u1ec5n Linh",
+    "doctor_gender":"Female",
+    "doctor_available_status":"busy"
+  }
+]

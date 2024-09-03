@@ -27,7 +27,6 @@ export default function Schedule({ auditable }) {
   } = useContext(ScheduleContext);
   const { setIsPopup } = useContext(PopupContext);
   const [popupComponent, setPopupComponent] = useState(<></>);
-  const [isSelectable, setIsSelectable] = useState(false);
   const location = useLocation();
   /*----------------------------main function use for react big calendar props-----------------------------------*/
   // function handleSelectSlot({ start, end }) {
@@ -46,7 +45,6 @@ export default function Schedule({ auditable }) {
     if (events.isBackgroundEvent) {
       //show background event information
       //allow to popup and delete background information
-      if (isSelectable) {
         setPopupComponent(
           <WorkingTimeSchedulePopup
             startTime={events.start}
@@ -55,7 +53,6 @@ export default function Schedule({ auditable }) {
           />
         );
         setIsPopup(true);
-      }
     } else {
       //only allow appointment router to able to cancel appointment [access control]
       if (location.pathname == "/appointment") {
@@ -73,13 +70,7 @@ export default function Schedule({ auditable }) {
       setIsPopup(true);
     }
   }
-  function handleViewChange(view) {
-    if (view == "month") {
-      setIsSelectable(false);
-    } else {
-      setIsSelectable(true);
-    }
-  }
+
   /*
   }
   /*-------------------------------------------------------------------------------------------------------------*/
@@ -102,7 +93,6 @@ export default function Schedule({ auditable }) {
         })}
         backgroundEvents={filterBackgroundEvents}
         onSelectEvent={handleOnSelectEvent}
-        onView={auditable && handleViewChange}
         startAccessor="start"
         endAccessor="end"
         views={["week", "day", "agenda"]}
@@ -117,6 +107,8 @@ function WorkingTimeSchedulePopup({ startTime, endTime, title, readOnly }) {
   const {
     events,
     setEvents,
+    setBackgroundEvents,
+    backgroundEvents,
     filterBackgroundEvents,
     setFilterBackgroundEvents,
   } = useContext(ScheduleContext);
@@ -125,10 +117,8 @@ function WorkingTimeSchedulePopup({ startTime, endTime, title, readOnly }) {
   function handleDeleteEvent() {
     const indexOfDeleteBackgroundEvent = indexOfEvent(
       { start: startTime, end: endTime },
-      filterBackgroundEvents
+    filterBackgroundEvents 
     );
-
-    //if appear in add new event --> remove only add new event
     if (indexOfDeleteBackgroundEvent >= 0) {
       filterBackgroundEvents.splice(indexOfDeleteBackgroundEvent, 1);
 
