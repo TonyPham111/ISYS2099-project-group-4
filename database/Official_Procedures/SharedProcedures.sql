@@ -8,10 +8,10 @@ BEGIN
 DECLARE EXIT HANDLER FOR SQLEXCEPTION
 	BEGIN
 		DECLARE returned_sqlstate CHAR(5) DEFAULT '';
+        DECLARE returned_message TEXT;
 		-- Retrieve the SQLSTATE of the current exception
 		GET STACKED DIAGNOSTICS CONDITION 1
 			returned_sqlstate = RETURNED_SQLSTATE;
-
 		-- Check if the SQLSTATE is '45000'
 		IF returned_sqlstate = '45000' THEN
 			-- Resignal with the original message
@@ -22,7 +22,8 @@ DECLARE EXIT HANDLER FOR SQLEXCEPTION
 				SET MESSAGE_TEXT = 'Something is wrong. Please try again.';
 		END IF;
 	END;
-	SELECT staff_password, id, job_id, job_name, department_id  
+    
+	SELECT staff_password, Staff.id, job_id, job_name, department_id  
     FROM Staff INNER JOIN Jobs ON Jobs.id = Staff.job_id 
     WHERE email = para_email;
 END$$
