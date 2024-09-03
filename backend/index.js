@@ -17,8 +17,29 @@ import nurseRepo from "./Models/NurseModel.js";
 import hrRepo from "./Models/HrModel.js"
 import frontDeskRepo from "./Models/FrontDeskModel.js";
 import businessOfficerRepo from "./Models/BusinessOfficerModel.js";
+import { poolAdmin } from "./Models/dbConnectionConfiguration.js";
 
-async function testing(callback){
+async function concurrency_testing_for_prescription(){
+  const pre_inventory = await poolAdmin.query(
+    'SELECT inventory FROM Drugs WHERE drug_code = 1', []
+  )
+  const result = await prescribing();
+  const post_inventory = await poolAdmin.query(
+    'SELECT inventory FROM Drugs WHERE drug_code = 1', []
+  )
+  console.log('pre' + JSON.stringify(pre_inventory[0]) + ' post' + JSON.stringify(post_inventory[0]))
+
+
+}
+
+async function prescribing(){
+  const prescribing_1 = doctorRepo.AddNewPrescription(27, 175, 130, '2024-09-15', 'Hello World', '2:3,1:3')
+  const prescribing_2 = doctorRepo.AddNewPrescription(24, 52, 131, '2024-09-15', 'Hello World', '1:3,2:3')
+  
+}
+concurrency_testing_for_prescription()
+
+/* async function testing(callback){
   const result = await callback()
   console.log(result)
 }
@@ -36,7 +57,7 @@ testing(async () => {
 testing(async ()=> {
   return await doctorRepo.GetSubordinatesSchedule(4,2)
 })
-
+ */
 
 
 /*

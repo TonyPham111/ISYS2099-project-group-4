@@ -55,6 +55,7 @@ export async function createNewTreatment(req, res) {
         diagnosis_id,
         prescription_note,
         medicines: [] // Convert the array to the following form and put it to the medicines_string: 'id:quantity,id:quantity,id:quantity'
+  
     } = req.body
     const medicines_string = ''
     if (user_info.role === 'Doctor'){

@@ -52,13 +52,8 @@ const doctorRepo = {
       return results;
     } 
     catch (error) {
-      if (error.sqlState === '45000') {
-        // Propagate the error with the original message if SQLSTATE is '45000'
-        throw new Error(error.message);
-      } else {
-        // Propagate the error with a custom message for other SQLSTATEs
-        throw new Error(`Custom Error: Something went wrong - ${error.message}`);
-      }
+      throw new Error(error.message);
+  
     }
   },
 
@@ -73,15 +68,28 @@ const doctorRepo = {
     }
   },
 
-  AddNewPrescription: async (doctor_id, patient_id, diagnosis_id, prescription_note, medicine_quantity_string) => {
-    try {
-      const sql = `CALL AddNewPrescription(?, ?, ?, ?, ?, 1)`;
-      const [results] = await poolDoctors.query(sql, [doctor_id, patient_id, diagnosis_id, prescription_note, medicine_quantity_string]);
-      return results;
-    } 
-    catch (error) {
-      throw new Error(error.message);
+  AddNewPrescription: async (doctor_id, patient_id, diagnosis_id, para_treatment_end_date, prescription_note, medicine_quantity_string) => {
+    while (true){
+      try {
+        const sql = `CALL AddNewPrescription(?, ?, ?, ?, ?, ?, 1)`;
+        const [results] = await poolDoctors.query(sql, [doctor_id, patient_id, diagnosis_id, para_treatment_end_date, prescription_note, medicine_quantity_string]);
+        return results;
+        break
+  
+      } 
+      catch (error) {
+        if (error.code === 'ER_LOCK_DEADLOCK') {
+            console.warn('Deadlock detected, retrying...');
+            continue; // Continue the loop to retry the transaction
+        } else if (error.code === 'ER_SIGNAL_EXCEPTION') {
+            throw new Error(error.message); // Rethrow signal exceptions with the original message
+        } else {
+            throw new Error('Something is wrong. Please try again'); // Handle other errors
+        }
     }
+    }
+   
+   
   },
 
   OrderTest: async (doctor_id, patient_id, administer_date, administer_time, test_code_string) => {

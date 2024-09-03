@@ -158,6 +158,7 @@ CREATE PROCEDURE AddNewDiagnosis(
 SQL SECURITY DEFINER
 BEGIN
     -- Declare variables to be used in the procedure
+    DECLARE checked_patient_id INT DEFAULT para_patient_id;
     DECLARE latest_diagnosis_id INT;             -- Variable to store the ID of the newly inserted diagnosis
     DECLARE current_index INT DEFAULT 1;         -- Variable to keep track of the current position in the condition code string
     DECLARE current_string_code TEXT DEFAULT ''; -- Variable to accumulate the current condition code being processed
@@ -188,7 +189,7 @@ BEGIN
     SET @parent_proc = TRUE;
 	
     IF testing = 0 THEN
-	    SELECT FindPatientWithAppointmentCurrently(para_patient_id, para_doctor_id) INTO para_patient_id;
+	    SELECT FindPatientWithAppointmentCurrently(para_patient_id, para_doctor_id) INTO checked_patient_id;
 		IF checked_patient_id = 0 THEN
 			SIGNAL SQLSTATE '45000'
 			SET MESSAGE_TEXT = 'Either the patient id is incorrect or you do not have the privilege to perform this action currently';
@@ -200,7 +201,7 @@ BEGIN
         SET MESSAGE_TEXT = 'Incorrect doctor id. Please try again';
     END IF;
     -- Check if the input patient id exist
-    IF CheckPatientExists(para_patient_id) = 0 THEN
+    IF CheckPatientExists(checked_patient_id) = 0 THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Incorrect Patient id. Please try again';
     end if;
@@ -212,7 +213,7 @@ BEGIN
 
     -- Insert a new record into the Diagnoses table with the provided parameters
     INSERT INTO Diagnoses (doctor_id, patient_id, diagnosis_date, diagnosis_note)
-    VALUES (para_doctor_id, para_patient_id, curdate(), para_diagnosis_note);
+    VALUES (para_doctor_id, checked_patient_id, curdate(), para_diagnosis_note);
     -- Retrieve the ID of the newly inserted diagnosis
     SELECT LAST_INSERT_ID() INTO latest_diagnosis_id;
     -- Begin a loop to process the comma-separated condition codes in para_condition_code_string
@@ -267,6 +268,7 @@ CREATE  PROCEDURE AddNewPrescription(
 SQL SECURITY DEFINER
 BEGIN
     -- Declare variables to be used in the procedure
+    DECLARE checked_patient_ID INT DEFAULT para_patient_id;
     DECLARE latest_prescription_id INT; -- Variable to contain the ID of the latest prescription inserted into the TreatmentHistory table
     DECLARE current_index INT DEFAULT 1;          -- Variable to keep track of the current index in the drug code-quantity string
     DECLARE current_string_code TEXT DEFAULT '';  -- Variable to accumulate the current drug code and quantity being processed
@@ -274,21 +276,16 @@ BEGIN
 	DECLARE EXIT HANDLER FOR SQLEXCEPTION
 		BEGIN
 			DECLARE returned_sqlstate CHAR(5) DEFAULT '';
+            DECLARE returned_message TEXT;
 			ROLLBACK;
 			-- Retrieve the SQLSTATE of the current exception
 			GET DIAGNOSTICS CONDITION 1
-				returned_sqlstate = RETURNED_SQLSTATE;
+				returned_sqlstate = RETURNED_SQLSTATE,
+                returned_message = MESSAGE_TEXT;
 
 			-- Check if the SQLSTATE is '45000'
-			IF returned_sqlstate = '45000' THEN
-				-- Resignal with the original message
-				RESIGNAL;
-			ELSE
-				-- Set a custom error message and resignal
-                SIGNAL SQLSTATE '45000'
-				SET MESSAGE_TEXT = 'Something is wrong. Please try again.';
-				
-			END IF;
+            RESIGNAL;
+			
 		END;
 
 
@@ -301,7 +298,7 @@ BEGIN
     
     IF testing = 0 THEN
 	  -- Check if the doctor has the privilege to edit info related to the input patient currently
-		SELECT FindPatientWithAppointmentCurrently(para_patient_id, para_doctor_id) INTO para_patient_id;
+		SELECT FindPatientWithAppointmentCurrently(para_patient_id, para_doctor_id) INTO checked_patient_id;
 		IF checked_patient_id = 0 THEN
 			SIGNAL SQLSTATE '45000'
 			SET MESSAGE_TEXT = 'Either the patient id is incorrect or you do not have the privilege to perform this action currently';
@@ -314,7 +311,7 @@ BEGIN
 		END IF;
 
 		-- Check if the input patient id exist
-		IF CheckPatientExists(para_patient_id) = 0 THEN
+		IF CheckPatientExists(checked_patient_id) = 0 THEN
 			SIGNAL SQLSTATE '45000'
 			SET MESSAGE_TEXT = 'Incorrect Patient id. Please try again';
 		end if;
@@ -325,7 +322,7 @@ BEGIN
 
     -- Insert a new record into the TreatmentHistory table with the provided parameters
     INSERT INTO TreatmentHistory(doctor_id, patient_id, diagnosis_id, treatment_start_date, treatment_end_date, prescription_note)
-    VALUES (para_doctor_id, para_patient_id, para_diagnosis_id, CURDATE(), para_treatment_end_date, para_prescription_note);
+    VALUES (para_doctor_id, checked_patient_id, para_diagnosis_id, CURDATE(), para_treatment_end_date, para_prescription_note);
     -- Retrieve the ID of the newly inserted record in TreatmentHistory
     SELECT LAST_INSERT_ID() INTO latest_prescription_id;
 
@@ -406,6 +403,7 @@ CREATE PROCEDURE OrderTest(
 SQL SECURITY DEFINER
 BEGIN
     -- Declare variables to be used in the procedure
+    DECLARE checked_patient_id INT DEFAULT para_patient_id;
     DECLARE latest_test_order_id INT;               -- Variable to store the ID of the latest test order
     DECLARE current_index INT DEFAULT 1;            -- Variable to keep track of the current position in the test type name string
     DECLARE current_string_code TEXT DEFAULT '';    -- Variable to accumulate the current test type name being processed
@@ -437,7 +435,7 @@ BEGIN
     SET @parent_proc = TRUE;
 	
     IF testing = 0 THEN
-		SELECT FindPatientWithAppointmentCurrently(para_patient_id, para_doctor_id) INTO para_patient_id;
+		SELECT FindPatientWithAppointmentCurrently(para_patient_id, para_doctor_id) INTO checked_patient_id;
 		IF checked_patient_id = 0 THEN
 			SIGNAL SQLSTATE '45000'
 			SET MESSAGE_TEXT = 'Either the patient id is incorrect or you do not have the privilege to perform this action currently';
@@ -450,7 +448,7 @@ BEGIN
 		end if;
 
 		-- Check if the input patient id is correct
-		IF CheckPatientExists(para_patient_id) = 0 THEN
+		IF CheckPatientExists(checked_patient_id) = 0 THEN
 			 SIGNAL SQLSTATE '45000'
 			SET MESSAGE_TEXT = 'Incorrect patient id. Please try again';
 		end if;
@@ -461,7 +459,7 @@ BEGIN
 
     -- Insert a new record into the Test_Orders table with the provided parameters
     INSERT INTO Test_Orders(patient_id, ordering_staff_id, ordering_date)
-    VALUES (para_patient_id, para_doctor_id, CURDATE());
+    VALUES (checked_patient_id, para_doctor_id, CURDATE());
 
     -- Retrieve the ID of the newly inserted test order
     SELECT LAST_INSERT_ID() INTO latest_test_order_id;

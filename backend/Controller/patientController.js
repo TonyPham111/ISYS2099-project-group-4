@@ -143,7 +143,7 @@ export async function addSpecificPatientDiagnosis(req, res) {
       patient_id,
       diagnosis_date,
       diagnosis_note,
-      conditions: [] // Transform this into a string. For example: [1,2,3,4,5] -> '1,2,3,4,5,'. Put the string into conditions_string
+      conditions: [] // Transform this into a string. For example: [1,2,3,4,5] -> '1,2,3,4,5'. Put the string into conditions_string
     } = req.body
     const conditions_string = ''
     if (user_info.role === 'Doctor'){
@@ -157,7 +157,7 @@ export async function addSpecificPatientDiagnosis(req, res) {
     - "doctor_id": INT, // Cái này mình lấy từ jwt token nha em
     - "diagnosis_date": String --> "DD/MM/YYYY",
     - "diagnosis_note": Em quên cái này
-    - condition: Array[condition_code] --> array length atleast be 1
+    - condition: Array[condition_code] --> array length atleast be 1 [condition_Code, condition_code, condition_code]
     */
   } catch (error) {
     res.status(500).json({ message: error.message });

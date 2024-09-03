@@ -322,7 +322,7 @@ export async function schedule(req, res){
       schedule_end_time,
     
     }] = req.body
-    const schedule_string = ''; // Định dạng của schedule_string: schedule_date;start_time-end_time
+    const schedule_string = ''; // Định dạng của schedule_string: 'schedule_date;start_time-end_time,schedule_date;start_time-end_time'
     if (user_info === 'Doctor'){
         doctorRepo.Scheduling(
           user_info.id, staff_id, schedule_string
