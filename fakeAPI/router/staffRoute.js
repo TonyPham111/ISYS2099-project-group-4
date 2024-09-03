@@ -5,6 +5,7 @@ import staffScheduleData from "../data/staff_schedule_data.json" with {type: 'js
 import jobChangeHistoryData from "../data/job_change_history.json" with {type: 'json'};
 import wageChangeHistoryData from "../data/wage_change_history.json" with {type: 'json'};
 import departmentChangeHistoryData from "../data/department_change_history.json" with {type: 'json'};
+import doctorAvailableData from "../data/doctor_availability_data.json" with {type: 'json'};
 const staffRouter = express.Router();
 staffRouter
   .route("/")
@@ -252,7 +253,7 @@ staffRouter
       return item.doctor_id == Number(staffId);
     });
     for(let i = 0; i < staffSChedule.length; ++i){
-      delete staffSChedule[i].staff_id
+      // delete staffSChedule[i].staff_id
     }
     for(let i = 0; i < staffAppointment.length; ++i){
       delete staffAppointment[i].staff_id
@@ -284,3 +285,48 @@ export default staffRouter;
 ]
 
 */
+staffRouter
+  .route("/available_doctors")
+  .get((req, res) => {
+    //get specific staff data
+    /*
+    structure data: 
+  {
+        id: INT, 
+        manager_id: INT,
+        first_name: String, 
+        last_name: String, 
+        department: String,
+        job: String, 
+        gender: String, 
+        birth_date: "DD/MM/YYYY",
+        home_address: String, 
+        contact_phone_number: String, 
+        email: String, 
+        wage: DECIMAL(6, 2),
+        hire_date: "DD/MM/YYYY",
+        employment_type: String
+      }
+    */
+      let result;
+      const {departmentId} = req.query;
+      if(!departmentId){
+        res.status(400).json({error: "department Id is not provided"});
+      }
+      result = doctorAvailableData.filter((item)=>{
+        return item.department_id = Number(departmentId)
+      }).map((item)=>{
+        return {
+          "doctor_full_name":item.doctor_full_name,
+          "doctor_gender":item.doctor_gender,
+          "doctor_available_status":item.doctor_available_status
+        }
+      })
+     
+      if(result.length == 0){
+        res.status(404).json(`department id: ${departmentId} data is not found or invalid`);
+      }
+      else{
+        res.status(200).json(result);
+      }
+  })

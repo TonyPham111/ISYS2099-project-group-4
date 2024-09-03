@@ -5,8 +5,12 @@ import { ScheduleContext } from "@/contexts/scheduleContext";
 import convertStringFormatToDate from "@/utils/convertStringFormatToDate";
 import dayjs from "dayjs";
 import isTheSameDate from "@/utils/isTheSameDate";
+import toast from "react-hot-toast";
+import { useLocalizationContext } from "@mui/x-date-pickers/internals";
+import { PopupContext } from "@/contexts/popupContext";
 
 export default function UpdateScheduleForm() {
+  const {setIsPopup} = useContext(PopupContext);
   const [date, setDate] = useState();
   const [startTime, setStartTime] = useState();
   const [endTime, setEndTime] = useState();
@@ -31,7 +35,6 @@ export default function UpdateScheduleForm() {
             newWorkingScheduleObject.start
           )
         ) {
-          console.log();
           condition = false;
         }
       }
@@ -40,6 +43,10 @@ export default function UpdateScheduleForm() {
           ...filterBackgroundEvents,
           newWorkingScheduleObject,
         ]);
+        setIsPopup(false);
+        toast.success('new schedule have been added, please save information to finalize it!');
+      }else{
+        toast.error('cannot add new schedule, only allow on schedule only in 1 date!');
       }
     }
   }

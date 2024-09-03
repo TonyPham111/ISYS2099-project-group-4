@@ -1,59 +1,51 @@
 import CustomDatePicker from "@/component/ui/DateTime/CustomDatePicker";
 import CustomTimePicker from "@/component/ui/DateTime/CustomTimePicker";
-import * as patientService from "@/services/patientService";
-import * as staffService from "@/services/staffService";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import CustomAutoComplete from "@/component/ui/DateTime/CustomAutoComplete";
 import Editor from "@/component/ui/Editor/Editor";
-import DataTable from "@/component/ui/Table/DataTable";
-import * as equal from "deep-equal";
 import { PopupContext } from "@/contexts/popupContext";
+import useSWR from "swr";
+import fetcher from "@/utils/fetcher";
 export default function BookingForm() {
   const { setIsPopup } = useContext(PopupContext);
-
   const [date, setDate] = useState(null);
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
-  const [departmentValue, setDepartmentValue] = useState(null);
+  const [departmentId, setDepartmentId] = useState(null);
   const [doctorValue, setDoctorValue] = useState("");
-
+  const [patientId, setPatientId] = useState(null);
   const [beforeNoteValue, setBeforeNoteValue] = useState(null);
 
-  const patientData = patientService.getPatients();
-  const departmentData = staffService.getAllDepartments();
-  const [doctorStatusData, setDoctorStatusData] = useState([]);
-
-  const [patientValue, setPatientValue] = useState(null);
-
-  const [loadingPatientData, setLoadingPatientData] = useState([]);
-  const [loadingDepartmentData, setLoadingDepartmentData] = useState([]);
-
-  useEffect(() => {
-    setLoadingPatientData(patientData);
-  }, [patientData]);
-  useEffect(() => {
-    setLoadingDepartmentData(departmentData);
-  }, [departmentData]);
+  const { data: patientData } = useSWR(
+    "http://localhost:8000/patients",
+    fetcher
+  );
+  const { data: departmentData } = useSWR(
+    "http://localhost:8000/departments",
+    fetcher
+  );
+  const [doctorStatusUrl, setDoctorStatusUrl] = useState("");
+  const { data: doctorStatusData } = useSWR(doctorStatusUrl, fetcher);
+  const isAvailableToCheckDoctorStatus = useRef(false);
 
   function handleCheckAvailableDoctor() {
-    if (date && startTime && endTime && patientValue && departmentValue) {
-      setDoctorStatusData(
-        staffService.getDoctorWorkingStatus(
-          date,
-          startTime,
-          endTime,
-          departmentValue
-        )
+    if (date && startTime && endTime && patientId && departmentId) {
+      setDoctorStatusUrl(
+        `http://localhost:8000/available_doctors?date=${date}&start=${startTime}&end=${endTime}&departmentId=${departmentId}`
       );
+      isAvailableToCheckDoctorStatus.current = true;
     } else {
-      setDoctorStatusData([]);
+      // setDoctorStatusData([]);
+      isAvailableToCheckDoctorStatus.current = false;
     }
   }
   function handleOnClickOnDataTable(item, rowIndex) {
-    setDoctorValue({
-      id: item.id,
-      name: item.last_name + " " + item.first_name,
-    });
+    if (item.doctor_available_status == "available") {
+      setDoctorValue({
+        id: item.doctor_id,
+        name: item.doctor_full_name,
+      });
+    }
   }
 
   function handleOnBooking() {
@@ -61,9 +53,8 @@ export default function BookingForm() {
       date &&
       startTime &&
       endTime &&
-      patientValue &&
-      departmentValue &&
-      patientValue &&
+      patientId &&
+      departmentId &&
       doctorValue
     ) {
       setIsPopup(false);
@@ -87,6 +78,7 @@ export default function BookingForm() {
                 value={startTime}
                 setValue={setStartTime}
                 size={"sm"}
+                readOnly={!date}
               />
             </div>{" "}
             <div className="flex items-center justify-between w-[350px]">
@@ -95,15 +87,16 @@ export default function BookingForm() {
                 value={endTime}
                 setValue={setEndTime}
                 size={"sm"}
+                minTime={startTime}
+                readOnly={!startTime}
               />
             </div>
             <div className="flex items-center justify-between w-[350px] mt-[10px]">
               <p className="font-bold">patient:</p>
               <CustomAutoComplete
-                options={loadingPatientData}
-                value={patientValue}
+                options={patientData}
                 onChange={(event, value) => {
-                  setPatientValue(value);
+                  setPatientId(value?.id);
                 }}
                 getOptionLabel={(option) => {
                   return (
@@ -121,7 +114,7 @@ export default function BookingForm() {
             </div>
           </div>
           {/*------------------------------------------------------------------------------------*/}
-          <div className="flex items-end gap-[10px]">
+          <div className="flex items-end gap-[15px]">
             <button
               onClick={handleCheckAvailableDoctor}
               className="bg-custom-blue text-white py-2 w-[185px] text-sm"
@@ -129,14 +122,21 @@ export default function BookingForm() {
               check available doctor
             </button>
             <h3>:</h3>
-            <div className="w-[150px] border-solid border-b-[1px] border-custom-dark-200">
-              {doctorValue.name}
+            <div className="group w-[150px] h-[35px] flex justify-center border-solid hover:border-[1px] border-b-[1px] border-custom-dark-200 hover:rounded-md relative">
+              {doctorValue?.name}
+              <button
+                onClick={() => {
+                  setDoctorValue(null);
+                }}
+                className="group-hover:block hidden absolute -right-[10px] -top-[20px] flex justify-center items-center bg-custom-dark-100 rounded-full w-[30px] h-[30px] text-black-200"
+              >
+                -
+              </button>
             </div>
             <CustomAutoComplete
-              options={loadingDepartmentData}
-              value={departmentValue}
+              options={departmentData}
               onChange={(event, value) => {
-                setDepartmentValue(value);
+                setDepartmentId(value?.id);
               }}
               getOptionLabel={(option) => {
                 return option.name;
@@ -160,17 +160,20 @@ export default function BookingForm() {
         {/*-----------------------------------------------------------------------------*/}
         {/*-----------------------          right side part         --------------------------*/}
         <div className="w-[40%] border-solid border-[1px] border-custom-dark-200 rounded-2xl p-5">
-          <DataTable
+          <BookingDataTable
             handleOnClick={handleOnClickOnDataTable}
-            hoverOnRow={doctorStatusData.length > 0}
+            hoverOnRow={isAvailableToCheckDoctorStatus}
             headerData={[
               "doctor_id",
-              "first_name",
-              "last_name",
-              "gender",
-              "available_status",
+              "doctor_full_name",
+              "doctor_gender",
+              "doctor_available_status",
             ]}
-            data={doctorStatusData}
+            data={
+              isAvailableToCheckDoctorStatus.current && doctorStatusData
+                ? doctorStatusData
+                : []
+            }
           />
         </div>
         {/*-----------------------------------------------------------------------------*/}
@@ -183,6 +186,55 @@ export default function BookingForm() {
           Booking +{" "}
         </button>
       </section>
+    </section>
+  );
+}
+function BookingDataTable({ headerData, data, handleOnClick, hoverOnRow }) {
+  return (
+    <section className="w-full overflow-scroll rounded-xl">
+      <table className=" w-full">
+        <thead className="h-[50px] bg-custom-dark-100 p-3">
+          <tr>
+            {headerData.map((item, index) => (
+              <td key={index}>{item}</td>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((item, rowIndex) => (
+            <tr
+              className={
+                item["doctor_available_status"] == "available"
+                  ? "tr--hover"
+                  : "bg-[#BABABA] opacity-[50%]"
+              }
+              onClick={() => {
+                handleOnClick(item, rowIndex);
+              }}
+              key={item.id}
+            >
+              {headerData.map((keyItem) => {
+                if (keyItem == "doctor_available_status") {
+                  return (
+                    <td
+                      key={keyItem + item.id}
+                      className={
+                        item[keyItem] == "available"
+                          ? "bg-custom-blue text-white"
+                          : "bg-red-900 text-white"
+                      }
+                    >
+                      {item[keyItem]}
+                    </td>
+                  );
+                } else {
+                  return <td key={keyItem + item.id}>{item[keyItem]}</td>;
+                }
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </section>
   );
 }

@@ -1,14 +1,36 @@
+import dayjs from "dayjs";
+
 export default function filterEventArray(targetArray, conditionArray) {
-  console.log(
-    `targetArray: ${JSON.stringify(
-      targetArray
-    )}\n conditionArray: ${JSON.stringify(conditionArray)}\n`
-  );
   const newArray = targetArray.filter((item) => {
     for (let i = 0; i < conditionArray.length; ++i) {
       if (
-        conditionArray[i].start == item.start &&
-        conditionArray[i].end == item.end
+        dayjs(conditionArray[i].start).format("HH:mm:ss") ==
+          dayjs(item.start).format("HH:mm:ss") &&
+        dayjs(conditionArray[i].start).format("HH:mm:ss") ==
+          dayjs(item.start).format("HH:mm:ss") &&
+        dayjs(conditionArray[i].end).format("YYYY-MM-DD") ==
+          dayjs(item.end).format("YYYY-MM-DD")
+      ) {
+        return false;
+      }
+      //if not appear, return true
+    }
+    return true;
+  });
+  console.log(`check new array: ${JSON.stringify(newArray)}`);
+  return newArray;
+}
+export function filterEventArrayByDate(targetArray, conditionArray) {
+  // console.log(
+  //   `targetArray: ${JSON.stringify(
+  //     targetArray
+  //   )}\n conditionArray: ${JSON.stringify(conditionArray)}\n`
+  // );
+  const newArray = targetArray.filter((item) => {
+    for (let i = 0; i < conditionArray.length; ++i) {
+      if (
+        dayjs(conditionArray[i].end).format("YYYY-MM-DD") ==
+        dayjs(item.end).format("YYYY-MM-DD")
       ) {
         return false;
       }
