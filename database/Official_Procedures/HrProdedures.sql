@@ -1,3 +1,4 @@
+USE hospital_management_system;
 DELIMITER $$
 DROP PROCEDURE IF EXISTS AddNewStaff$$
 CREATE PROCEDURE AddNewStaff(
@@ -11,7 +12,8 @@ CREATE PROCEDURE AddNewStaff(
     para_phone_number VARCHAR(15),            -- Parameter for the phone number of the staff member
     para_email VARCHAR(50),                   -- Parameter for the email address of the staff member
     para_staff_password VARCHAR(72),          -- Parameter for the staff member's password
-    para_wage DECIMAL(6,2),                   -- Parameter for the wage of the staff member
+    para_wage DECIMAL(6,2)                   -- Parameter for the wage of the staff member
+
 )
 SQL SECURITY DEFINER
 BEGIN
@@ -19,14 +21,18 @@ BEGIN
     DECLARE min_job_wage DECIMAL(6,2);
     DECLARE error_message TEXT;
 
-	 DECLARE EXIT HANDLER FOR SQLEXCEPTION
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
     BEGIN
         DECLARE returned_sqlstate CHAR(5) DEFAULT '';
+        DECLARE returned_message TEXT;
         ROLLBACK;
 
         -- Retrieve the SQLSTATE of the current exception
         GET STACKED DIAGNOSTICS CONDITION 1
-            returned_sqlstate = RETURNED_SQLSTATE;
+            returned_sqlstate = RETURNED_SQLSTATE,
+            returned_message = MESSAGE_TEXT;
+		
+
 
         -- Check if the SQLSTATE is '45000'
         IF returned_sqlstate = '45000' THEN
@@ -38,6 +44,7 @@ BEGIN
             SET MESSAGE_TEXT = 'Something is wrong. Please try again.';
         END IF;
     END;
+    SET @parent_proc = TRUE;
     
     IF ((para_job_id = 1 OR para_job_id = 2) AND para_department_id = 13) OR (para_job_id > 2 AND para_department_id < 13) THEN
 		SIGNAL SQLSTATE '45000'
@@ -91,7 +98,8 @@ BEGIN
         staff_password,                -- Password for the staff member's account
         wage,                          -- Wage of the staff member
         hire_date,                     -- Hire date (current date)
-        employment_status,             -- Employment status (e.g., 'Active')
+        employment_status             -- Employment status (e.g., 'Active')
+ 
     ) VALUES (
         para_manager_id,               -- Provided manager ID
         para_department_id,            -- Provided department ID
@@ -105,8 +113,10 @@ BEGIN
         para_staff_password,           -- Provided password
         para_wage,                     -- Provided wage
         CURDATE(),                     -- Current date as the hire date
-        'Active',                      -- Employment status set to 'Active'
+        'Active'                      -- Employment status set to 'Active'
+
     );
+    SET @parent_proc = NULL;
 END$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.AddNewStaff TO 'HR'@'%'$$
 
@@ -125,6 +135,7 @@ BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
     BEGIN
         DECLARE returned_sqlstate CHAR(5) DEFAULT '';
+        
         ROLLBACK;
         -- Retrieve the SQLSTATE of the current exception
         GET STACKED DIAGNOSTICS CONDITION 1
