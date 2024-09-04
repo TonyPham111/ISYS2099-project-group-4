@@ -66,20 +66,12 @@ const businessOfficerRepo = {
     try {
       const sql = `CALL GetAppointmentsAndSchedulesByStaff(?, ?)`;
       const [results] = await poolBusinessOfficers.query(sql, [staff_id, manager_id]);
-      return results;
+      return results[0];
     } catch (error) {
       throw new Error(error.message);
     }
   },
-  GetSubordinatesSchedule: async (manager_id, staff_id) => {
-    try {
-      const sql = `CALL GetAppointmentsAndSchedulesByStaff(?, ?)`;
-      const [results] = await poolBusinessOfficers.query(sql, [staff_id, manager_id]);
-      return results;
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  },
+
   GetAllPerformanceEvaluation: async (manager_id, staff_id) => {
     try {
       const sql = `CALL GetAllPerformanceEvaluationByStaff(?, ?)`;
@@ -89,6 +81,7 @@ const businessOfficerRepo = {
       throw new Error(error.message);
     }
   },
+
   GetEvaluationDetails: async (manager_id, staff_id, evaluation_id) => {
     try {
       const sql = `CALL GetEvaluationDetails(?, ?, ?)`;
@@ -98,6 +91,7 @@ const businessOfficerRepo = {
       throw new Error(error.message);
     }
   },
+
   CreateNewEvaluation: async (manager_id, staff_id, evaluation_string) => {
     try {
       const sql = `CALL StaffEvaluate(?, ?, ?)`;

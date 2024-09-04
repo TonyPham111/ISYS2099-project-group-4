@@ -1,20 +1,14 @@
-import { poolDoctors, poolNurses, poolFrontDesk, poolBusinessOfficers, poolHR } from "../Models/dbConnectionConfiguration.js";
+import hrRepo from "../Models/HrModel.js"
 
-const doctorRepo = poolDoctors;
-const nurseRepo = poolNurses;
-const frontDeskRepo = poolFrontDesk;
-const businessOfficerRepo = poolBusinessOfficers;
-const hrRepo = poolHR;
-
-
-export async function getAllDepartment(req, res) {
+export async function getAllDepartments(req, res) {
   try {
     const user_info = req.user_info
     if (user_info === 'HR'){
-        doctorRepo.GetAllAllergies()
+      const result = await hrRepo.getAllDepartments()
+      res.status(200).json(result)
     }
     else {
-        res.status(403).json({message: error.message})
+      res.status(403).json({ message: error.message })
     }
     //verify job role = HR
     //return data

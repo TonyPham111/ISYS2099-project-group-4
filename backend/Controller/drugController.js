@@ -1,32 +1,20 @@
-import { poolDoctors, poolNurses, poolFrontDesk, poolBusinessOfficers, poolHR } from "../Models/dbConnectionConfiguration.js";
+import doctorRepo from "../Models/DoctorModel.js";
 
-const doctorRepo = poolDoctors;
-const nurseRepo = poolNurses;
-const frontDeskRepo = poolFrontDesk;
-const businessOfficerRepo = poolBusinessOfficers;
-const hrRepo = poolHR;
-
-export async function getAllDrug(req, res) {
+export async function getAllDrugs(req, res) {
   try {
-    const user_info = req.user_info
-    if (user_info === 'Doctor'){
-        doctorRepo.GetAllDrug()
+    const user_info = req.user
+    const {
+      number_of_entries,
+      starting_index
+    } = req.body
+
+    if (user_info.role === 'Doctor'){
+      const result = await doctorRepo.GetAllDrugs(number_of_entries, starting_index)
+      res.status(200).json(result)
     }
     else {
-        res.status(403).json({message: error.message})
+      res.status(403).json({ message: "Incorrect role." })
     }
-    //verify job role = doctor
-    //return data
-    /*
-       data structure: 
-       [
-        {
-            drug_code: INT,
-            drug_name: String,
-            unit: String,
-        }
-       ]
-       */
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

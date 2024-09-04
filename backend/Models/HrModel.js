@@ -161,7 +161,7 @@ const hrRepo = {
     try {
       const sql = `CALL GetAppointmentsAndSchedulesByStaff(?, ?)`;
       const [results] = await poolHR.query(sql, [staff_id, manager_id]);
-      return results;
+      return results[0];
     } catch (error) {
       throw new Error(error.message);
     }

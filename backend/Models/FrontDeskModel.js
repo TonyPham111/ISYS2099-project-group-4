@@ -55,7 +55,7 @@ const frontDeskRepo = {
     try {
       const sql = `CALL AddNewAppointment(?, ?, ?, ?, ?, ?, ?, ?)`;
       const [results] = await poolFrontDesk.query(sql, [department_id, para_doctor_id, patient_id, purpose, appointment_date, start_time, end_time, document_string]);
-      return JSON.stringify(results, null, 2);
+      return results;
     } catch (error) {
       throw new Error(error.message);
     }
@@ -115,7 +115,7 @@ const frontDeskRepo = {
     try {
       const sql = `CALL GetAppointmentsAndSchedulesByStaff(?, ?)`;
       const [results] = await poolFrontDesk.query(sql, [staff_id, manager_id]);
-      return JSON.stringify(results, null, 2);
+      return results[0];
     } catch (error) {
       throw new Error(error.message);
     }
@@ -125,11 +125,12 @@ const frontDeskRepo = {
     try {
       const sql = `CALL GetAllAppointments()`;
       const [results] = await poolFrontDesk.query(sql, []);
-      return JSON.stringify(results, null, 2);
+      return results;
     } catch (error) {
       throw new Error(error.message);
     }
   },
+
   GetAllPerformanceEvaluation: async (manager_id, staff_id) => {
     try {
       const sql = `CALL GetAllPerformanceEvaluationByStaff(?, ?)`;
@@ -139,6 +140,7 @@ const frontDeskRepo = {
       throw new Error(error.message);
     }
   },
+  
   GetEvaluationDetails: async (manager_id, staff_id, evaluation_id) => {
     try {
       const sql = `CALL GetEvaluationDetails(?, ?, ?)`;
@@ -148,6 +150,7 @@ const frontDeskRepo = {
       throw new Error(error.message);
     }
   },
+
   CreateNewEvaluation: async (manager_id, staff_id, evaluation_string) => {
     try {
       const sql = `CALL StaffEvaluate(?, ?, ?)`;
