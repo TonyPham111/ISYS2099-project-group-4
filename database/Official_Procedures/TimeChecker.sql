@@ -1,6 +1,6 @@
 DELIMITER $$
 
-DROP PROCEDURE IF EXISTS TimeFormatCheck$$
+DROP FUNCTION IF EXISTS TimeFormatCheck$$
 CREATE FUNCTION TimeFormatCheck(
     para_start_time TIME,  -- Input parameter: Start time to be checked
     para_end_time TIME     -- Input parameter: End time to be checked
@@ -28,7 +28,7 @@ BEGIN
     RETURN 1;
 END$$
 
-DROP PROCEDURE IF EXISTS ScheduleCheck$$
+DROP FUNCTION IF EXISTS ScheduleCheck$$
 CREATE FUNCTION ScheduleCheck(
     para_staff_id INT,          -- Input parameter: Staff ID to be checked
     para_schedule_date DATE,    -- Input parameter: The date for the schedule
@@ -68,7 +68,7 @@ BEGIN
     RETURN 0;
 END$$
 
-DROP PROCEDURE IF EXISTS CheckIfBookingTimeOutsideSchedule$$
+DROP FUNCTION IF EXISTS CheckIfBookingTimeOutsideSchedule$$
 CREATE FUNCTION CheckIfBookingTimeOutsideSchedule(
     para_doctor_id INT,          -- Input parameter: Doctor ID to be checked
     para_appointment_date DATE,  -- Input parameter: The date of the appointment
@@ -117,7 +117,7 @@ BEGIN
     END IF;
 END$$
 
-DROP PROCEDURE IF EXISTS CheckAppointmentClash$$
+DROP FUNCTION IF EXISTS CheckAppointmentClash$$
 CREATE FUNCTION CheckAppointmentClash(
     para_doctor_id INT,          -- Input parameter: Doctor ID to be checked
     para_appointment_date DATE,  -- Input parameter: The date of the appointment
@@ -154,5 +154,44 @@ BEGIN
     -- Return the count of appointment clashes
     RETURN clash_count;
 END$$
+
+DROP FUNCTION IF EXISTS CheckNewScheduleAndAppointmentConflict$$
+CREATE FUNCTION CheckNewScheduleAndAppointmentConflict(
+    para_doctor_id INT,          -- Input parameter: Doctor ID to be checked
+    para_appointment_date DATE,  -- Input parameter: The date of the appointment
+    para_start_time TIME,        -- Input parameter: The start time of the appointment
+    para_end_time TIME           -- Input parameter: The end time of the appointment
+) RETURNS int
+    READS SQL DATA
+BEGIN
+    DECLARE clash_count INT;            -- Variable to store the count of appointment clashes
+    DECLARE timeFormatCheckResult INT;  -- Variable to store the result of the time format check
+    IF @parent_proc IS NULL THEN 
+		SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Something is wrong. Please try again';
+    END IF;
+    -- Check if the provided time format is correct by calling TimeFormatCheck function
+    SELECT TimeFormatCheck(para_start_time, para_end_time) INTO timeFormatCheckResult;
+
+    -- Check for any appointment clashes for the given doctor on the specified date and time range
+    SELECT COUNT(*) INTO clash_count
+    FROM Appointments
+    WHERE
+        Appointments.doctor_id = para_doctor_id
+            AND
+        Appointments.appointment_date = para_appointment_date
+            AND
+        (
+            Appointments.start_time < para_start_time 
+                OR
+            Appointments.end_time > para_end_time 
+        )
+            AND Appointments.appointment_status = 'Active'
+    GROUP BY Appointments.doctor_id;
+
+    -- Return the count of appointment clashes
+    RETURN clash_count;
+END$$
+
 
 DELIMITER ;

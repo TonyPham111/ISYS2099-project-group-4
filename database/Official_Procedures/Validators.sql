@@ -32,7 +32,7 @@ BEGIN
         SET MESSAGE_TEXT = 'Something is wrong. Please try again';
     END IF;
     -- Check if the staff ID exists in the Staff table
-    SELECT EXISTS(SELECT 1 FROM Staff WHERE id = para_staff_id) INTO staff_exists;
+    SELECT EXISTS(SELECT 1 FROM Staff WHERE id = para_staff_id FOR UPDATE) INTO staff_exists;
     RETURN staff_exists;
 END$$
 GRANT EXECUTE ON FUNCTION hospital_management_system.CheckPatientExists TO 'HR'@'%'$$
@@ -221,6 +221,32 @@ BEGIN
     RETURN job_exists;
 END$$
 GRANT EXECUTE ON FUNCTION hospital_management_system.CheckJobExists TO 'HR'@'%'$$
+
+DROP FUNCTION IF EXISTS CheckScheduleExists$$
+CREATE FUNCTION CheckScheduleExists(
+	para_staff_id INT,
+    para_date DATE
+)
+RETURNS BIT
+READS SQL DATA
+SQL SECURITY DEFINER
+BEGIN
+	DECLARE schedule_exists BIT;
+	IF @parent_proc IS NULL THEN 
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Something is wrong. Please try again';
+    END IF;
+    SELECT EXISTS(SELECT 1 FROM Staff_Schedule WHERE staff_id = para_staff_id AND schedule_date = para_date FOR UPDATE) INTO schedule_exists;
+    RETURN schedule_exists;
+END$$
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckScheduleExists TO 'Doctors'@'%'$$
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckScheduleExists TO 'Nurses'@'%'$$
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckScheduleExists TO 'FrontDesk'@'%'$$
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckScheduleExists TO 'BusinessOfficers'@'%'$$
+GRANT EXECUTE ON FUNCTION hospital_management_system.CheckScheduleExists TO 'HR'@'%'$$
+
+    
+
 
 
 DROP FUNCTION IF EXISTS CheckPrescriptionExists$$

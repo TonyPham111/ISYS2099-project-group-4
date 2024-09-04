@@ -1,39 +1,4 @@
 DELIMITER $$
-DROP PROCEDURE IF EXISTS AuthenticateUser$$
-CREATE PROCEDURE AuthenticateUser(
-	para_email VARCHAR(50)
-)
-SQL SECURITY DEFINER
-BEGIN
-DECLARE EXIT HANDLER FOR SQLEXCEPTION
-	BEGIN
-		DECLARE returned_sqlstate CHAR(5) DEFAULT '';
-        DECLARE returned_message TEXT;
-		-- Retrieve the SQLSTATE of the current exception
-		GET STACKED DIAGNOSTICS CONDITION 1
-			returned_sqlstate = RETURNED_SQLSTATE;
-		-- Check if the SQLSTATE is '45000'
-		IF returned_sqlstate = '45000' THEN
-			-- Resignal with the original message
-			RESIGNAL;
-		ELSE
-			-- Set a custom error message and resignal with SQLSTATE '45000'
-			SIGNAL SQLSTATE '45000'
-				SET MESSAGE_TEXT = 'Something is wrong. Please try again.';
-		END IF;
-	END;
-    
-	SELECT staff_password, Staff.id, job_id, job_name, department_id  
-    FROM Staff INNER JOIN Jobs ON Jobs.id = Staff.job_id 
-    WHERE email = para_email;
-END$$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.AuthenticateUser TO 'HR'@'%'$$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.AuthenticateUser TO 'Doctors'@'%'$$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.AuthenticateUser TO 'Nurses'@'%'$$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.AuthenticateUser TO 'FrontDesk'@'%'$$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.AuthenticateUser TO 'BusinessOfficers'@'%'$$
-
-
 DROP PROCEDURE IF EXISTS FetchPatientsPersonalInfo$$
 CREATE PROCEDURE FetchPatientsPersonalInfo()
 SQL SECURITY DEFINER

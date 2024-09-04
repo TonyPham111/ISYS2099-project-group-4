@@ -9,6 +9,7 @@ CREATE FUNCTION ParseScheduleString(
     READS SQL DATA
     SQL SECURITY DEFINER
 BEGIN
+	DECLARE clash_count INT;
     DECLARE time_check INT;
     DECLARE existing_schedule_id INT;
     DECLARE para_schedule_date DATE;
@@ -27,9 +28,19 @@ BEGIN
     SET para_schedule_start_time = substring_index(substring_index(current_string_code, ";", -1), "-", 1);
     SET para_schedule_end_time = substring_index(substring_index(substring_index(current_string_code,";", -1), "-", -1), "_", 1);
     
-    SELECT id INTO existing_schedule_id FROM Staff_Schedule WHERE staff_id = para_staff_id AND schedule_date = para_schedule_date;
-    
     SELECT TimeFormatCheck(para_schedule_start_time, para_schedule_end_time) INTO time_check;
+    
+    SELECT id INTO existing_schedule_id FROM Staff_Schedule 
+    WHERE staff_id = para_staff_id AND schedule_date = para_schedule_date
+    FOR UPDATE;
+    
+	SELECT CheckNewScheduleAndAppointmentConflict(para_staff_id, para_schedule_date, 
+		para_schedule_start_time, para_schedule_end_time) INTO clash_count;
+	
+    IF clash_count <> 0 THEN
+		SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'The new schedule clashes with an existing appointment.';
+    END IF;
     
     IF existing_schedule_id IS NULL THEN
         RETURN CONCAT('1/(',para_staff_id,', ', '\'', para_schedule_date, '\'', ', ', '\'', para_schedule_start_time, '\'', ', ', '\'', para_schedule_end_time, '\'');
@@ -47,6 +58,7 @@ GRANT EXECUTE ON FUNCTION hospital_management_system.ParseScheduleString TO 'Doc
 GRANT EXECUTE ON FUNCTION hospital_management_system.ParseScheduleString TO 'Nurses'@'%'$$
 GRANT EXECUTE ON FUNCTION hospital_management_system.ParseScheduleString TO 'BusinessOfficers'@'%'$$
 
+
 DROP FUNCTION IF EXISTS ParsingAllergiesPatientsString$$
 CREATE FUNCTION ParsingAllergiesPatientsString(
     para_patient_id INT,             -- Parameter for the patient ID
@@ -61,25 +73,13 @@ BEGIN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Something is wrong. Please try again';
     END IF;
-
-    -- Find the ID of the allergy based on the input string
-    -- Assuming `current_string_index` should match an ID or a column like `allergy_name`
-    SELECT id INTO para_allergy_id
-    FROM Allergies
-    WHERE id = current_string_index;
-
-    -- If no matching allergy ID is found, raise an error
-    IF para_allergy_id IS NULL THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Cannot find allergy. Please check your input';
-    END IF;
-
+	    
     -- If this is the last allergy in the list, finalize the SQL statement with a closing parenthesis and semicolon
     IF last_string = 1 THEN
-        RETURN CONCAT('(', para_patient_id, ',', para_allergy_id, ',', '\'', CURDATE(), '\'', ');');
+        RETURN CONCAT('(', para_patient_id, ',', current_string_index, ',', '\'', CURDATE(), '\'', ');');
     ELSE
         -- If it's not the last allergy, finalize the SQL statement with just a closing parenthesis (no semicolon)
-        RETURN CONCAT('(', para_patient_id, ',', para_allergy_id, ',', '\'', CURDATE(), '\'', '), ');
+        RETURN CONCAT('(', para_patient_id, ',', current_string_index, ',', '\'', CURDATE(), '\'', '), ');
     END IF;
 END$$
 GRANT EXECUTE ON FUNCTION hospital_management_system.ParsingAllergiesPatientsString TO 'Doctors'@'%'$$
@@ -100,23 +100,12 @@ BEGIN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Something is wrong. Please try again';
     END IF;
+    
     IF para_criteria_score > 5 THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Invalid score. Please try again';
     END IF;
     
-    -- Fetch the condition code corresponding to the accumulated condition name
-    SELECT Criteria.id INTO para_criteria_id
-    FROM Criteria
-    WHERE Criteria.id = CAST(SUBSTRING_INDEX(current_string_code, ':', 1) AS UNSIGNED INTEGER);
-
-    -- If the criteria code is not found, raise an error
-    IF para_criteria_id IS NULL THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Incorrect criteria id. Please try again';
-    END IF;
-    
-
     -- Added single quotes around para_condition_code so that it is recognized as an inserted string value
     -- If this is the last condition in the list, finalize the SQL statement with a closing parenthesis and semicolon
     IF last_string = 1 THEN
@@ -147,24 +136,14 @@ BEGIN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Something is wrong. Please try again';
     END IF;
-    -- Fetch the condition code corresponding to the accumulated condition name
-    SELECT Conditions.condition_code INTO para_condition_code
-    FROM Conditions
-    WHERE Conditions.condition_code = current_string_code;
-
-    -- If the condition code is not found, raise an error
-    IF para_condition_code IS NULL THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Incorrect condition id. Please try again';
-    END IF;
-
+        
     -- Added single quotes around para_condition_code so that it is recognized as an inserted string value
     -- If this is the last condition in the list, finalize the SQL statement with a closing parenthesis and semicolon
     IF last_string = 1 THEN
-        RETURN CONCAT('(', latest_diagnosis_id, ',', '\'', para_condition_code, '\'', ');');
+        RETURN CONCAT('(', latest_diagnosis_id, ',', '\'', current_string_code, '\'', ');');
     ELSE
         -- If it's not the last condition, finalize the SQL statement with just a closing parenthesis (no semicolon)
-        RETURN CONCAT('(', latest_diagnosis_id, ',', '\'', para_condition_code, '\'', '), ');
+        RETURN CONCAT('(', latest_diagnosis_id, ',', '\'', current_string_code, '\'', '), ');
     END IF;
 END$$
 GRANT EXECUTE ON FUNCTION hospital_management_system.ParsingDiagnosisNameString TO 'Doctors'@'%'$$
@@ -197,18 +176,6 @@ BEGIN
     -- Moved the drug code extraction outside the where statement to improve performance
     SET drug_code_string = SUBSTRING_INDEX(current_string_code, ':', 1);
 
-    -- Extract the drug code from the input string (portion before the colon) and verify if the drug exists
-    SELECT drug_code INTO medicine_code
-    FROM Drugs
-    WHERE drug_code = drug_code_string
-    FOR UPDATE;
-
-    -- If the drug code is not found, raise an error
-    IF medicine_code IS NULL THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Incorrect medicine id. Please try again';
-    END IF;
-
     -- Extract the quantity of the drug from the input string (portion after the colon) and convert it to an unsigned integer
     SET prescription_quantity = CAST(SUBSTRING_INDEX(current_string_code, ':', -1) AS UNSIGNED);
 
@@ -228,11 +195,11 @@ BEGIN
     END IF;
     
     -- Construct the INSERT statement for adding the drug to the prescription
-    SET insert_statement = CONCAT('(', medicine_code, ',', latest_prescription_id, ',', prescription_quantity, ',', current_price, ')');
+    SET insert_statement = CONCAT('(', drug_code_string, ',', latest_prescription_id, ',', prescription_quantity, ',', current_price, ')');
     -- If not the last drug, add a comma to the WHERE clause to continue appending conditions
-    SET update_where_statement = CONCAT(medicine_code, ', ');
+    SET update_where_statement = CONCAT(drug_code_string, ', ');
     -- Construct the CASE clause for the UPDATE statement, which updates the inventory
-    SET update_case_statement = CONCAT('WHEN drug_code = ', medicine_code, ' THEN ', new_inventory, '\n');
+    SET update_case_statement = CONCAT('WHEN drug_code = ', drug_code_string, ' THEN ', new_inventory, '\n');
 
     -- Construct the WHERE clause for the UPDATE statement
     IF last_string = 1 THEN
@@ -240,7 +207,7 @@ BEGIN
         SET insert_statement = CONCAT(insert_statement, ';');
 
         -- Finalize the WHERE clause by closing the parentheses
-        SET update_where_statement = CONCAT(medicine_code, ')');
+        SET update_where_statement = CONCAT(drug_code_string, ')');
 
         -- Finalize the CASE clause by adding an ELSE part that retains the current inventory for drugs not matched
         SET update_case_statement = CONCAT(update_case_statement, 'ELSE inventory\n');
@@ -259,26 +226,16 @@ CREATE FUNCTION ParsingScheduleIdString(
 ) RETURNS TEXT
     READS SQL DATA
     SQL SECURITY DEFINER
-BEGIN
-    DECLARE schedule_id INT;     
-    SELECT id INTO schedule_id
-    FROM Staff_Schedule
-    WHERE id = CAST(current_string_index AS UNSIGNED);
+BEGIN   
     IF @parent_proc IS NULL THEN 
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Something is wrong. Please try again';
     END IF;
-
-
-    IF schedule_id IS NULL THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Cannot find schedule. Please check your input';
-    END IF;
     
     IF last_string = 1 THEN
-        RETURN CONCAT(schedule_id, ');');
+        RETURN CONCAT(current_string_index, ');');
     ELSE
-        RETURN CONCAT('', schedule_id);
+        RETURN CONCAT('', current_string_index);
     END IF;
 END$$
 GRANT EXECUTE ON FUNCTION hospital_management_system.ParsingScheduleIdString TO 'HR'@'%'$$
@@ -306,18 +263,6 @@ BEGIN
         SET MESSAGE_TEXT = 'Something is wrong. Please try again';
     END IF;
 
-    -- Combined the queries to fetch the test type ID and price based on the test type ID from the Test_Types table
-    SELECT Test_Types.id, price 
-    INTO para_test_type_id, current_price
-    FROM Test_Types
-    WHERE Test_Types.id = current_string_code LIMIT 1;
-
-    -- Raise an exception if no matching test type is found
-    IF para_test_type_id IS NULL THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Incorrect test id. Please try again';
-    END IF;
-
 
     -- Fetch the price of the test type based on the test type ID
     SELECT price INTO current_price
@@ -326,12 +271,12 @@ BEGIN
 
     -- If this is the last test type in the list, finalize the SQL statement with a closing parenthesis and semicolon
     IF last_string = 1 THEN
-        RETURN CONCAT('(', latest_test_order_id, ',', para_test_type_id, ',', '\'',
+        RETURN CONCAT('(', latest_test_order_id, ',', current_string_code, ',', '\'',
                       para_administering_date, '\'', ',', '\'', para_administering_time, '\'', 
                       ',', current_price, ');');
     ELSE
         -- If it's not the last test type, finalize the SQL statement with a closing parenthesis followed by a comma
-        RETURN CONCAT('(', latest_test_order_id, ',', para_test_type_id, ',', '\'',
+        RETURN CONCAT('(', latest_test_order_id, ',', current_string_code, ',', '\'',
                       para_administering_date, '\'', ',', '\'', para_administering_time, '\'', 
                       ',', current_price, '), ');
     END IF;

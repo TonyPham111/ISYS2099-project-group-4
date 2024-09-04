@@ -77,26 +77,9 @@ BEGIN
     SET @insert_query = 'INSERT INTO PatientAllergy (patient_id, allergy_id, record_date) VALUES';
     SET @single_value = '';  -- Variable to store the partial SQL statement for each allergy
     SET @parent_proc = TRUE;
+    SET @doctor_id = para_doctor_id;
+    SET @testing = testing;
 	
-    IF testing = 0 THEN
-		 -- Check if the doctor has the privilege to edit the info related to the input patient
-		SELECT FindPatientWithAppointmentCurrently(para_patient_id, para_doctor_id) INTO checked_patient_id;
-		IF checked_patient_id = 0 THEN
-			SIGNAL SQLSTATE '45000'
-			SET MESSAGE_TEXT = 'Either the patient id is incorrect or you do not have the privilege to perform this action currently';
-		END IF;
-	ELSE
-		  -- Check if patient id exists
-		SELECT CheckPatientExists(para_patient_id) INTO checked_patient_id
-		FROM Patients
-		WHERE id = para_patient_id;
-
-		IF checked_patient_id IS NULL THEN
-			SIGNAL SQLSTATE '45000'
-			SET MESSAGE_TEXT = 'Incorrect patient id. Please try again';
-		END IF;
-    END IF;
-
     -- Start a transaction to ensure that all operations succeed or fail together
     START TRANSACTION;
     -- Loop through each character in the para_allergy_index_string
@@ -187,27 +170,9 @@ BEGIN
     SET @insert_query = 'INSERT INTO DiagnosesDetails (diagnosis_id, condition_code) VALUES ';
     SET @single_value = '';  -- Variable to store the SQL insert statement for each condition
     SET @parent_proc = TRUE;
+    SET @doctor_id = para_doctor_id;
+    SET @testing = testing;
 	
-    IF testing = 0 THEN
-	    SELECT FindPatientWithAppointmentCurrently(para_patient_id, para_doctor_id) INTO checked_patient_id;
-		IF checked_patient_id = 0 THEN
-			SIGNAL SQLSTATE '45000'
-			SET MESSAGE_TEXT = 'Either the patient id is incorrect or you do not have the privilege to perform this action currently';
-		END IF;
-	ELSE 
-		 -- Check whether the input doctor id  exist
-    IF CheckDoctorExists(para_doctor_id) = 0 THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Incorrect doctor id. Please try again';
-    END IF;
-    -- Check if the input patient id exist
-    IF CheckPatientExists(checked_patient_id) = 0 THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Incorrect Patient id. Please try again';
-    end if;
-    END IF;
-   
-
     -- Start a transaction to ensure that all operations either succeed or fail together
     START TRANSACTION;
 
@@ -288,35 +253,15 @@ BEGIN
 			
 		END;
 
-
     -- Initialize the base SQL statements for later use
     SET @insert_query = 'INSERT INTO Prescription_Details(drug_code, prescription_id, quantity, price) VALUES ';  -- Base for the INSERT query
     SET @case_clause = '';  -- Base for the CASE clause in the UPDATE query
     SET @where_clause = 'END\nWHERE drug_code IN (';  -- Start of the WHERE clause in the UPDATE query
     SET @update_query = 'UPDATE Drugs SET inventory = CASE\n';  -- Base for the UPDATE query
     SET @parent_proc = TRUE;
+    SET @doctor_id = para_doctor_id;
+    SET @testing = testing;
     
-    IF testing = 0 THEN
-	  -- Check if the doctor has the privilege to edit info related to the input patient currently
-		SELECT FindPatientWithAppointmentCurrently(para_patient_id, para_doctor_id) INTO checked_patient_id;
-		IF checked_patient_id = 0 THEN
-			SIGNAL SQLSTATE '45000'
-			SET MESSAGE_TEXT = 'Either the patient id is incorrect or you do not have the privilege to perform this action currently';
-		END IF;
-	ELSE 
-			 -- Check whether the input doctor id  exist
-		IF CheckDoctorExists(para_doctor_id) = 0 THEN
-			SIGNAL SQLSTATE '45000'
-			SET MESSAGE_TEXT = 'Incorrect doctor id. Please try again';
-		END IF;
-
-		-- Check if the input patient id exist
-		IF CheckPatientExists(checked_patient_id) = 0 THEN
-			SIGNAL SQLSTATE '45000'
-			SET MESSAGE_TEXT = 'Incorrect Patient id. Please try again';
-		end if;
-    END IF;
-
     -- Start a transaction to ensure all operations succeed or fail together
     START TRANSACTION;
 
@@ -433,27 +378,9 @@ BEGIN
     SET @insert_query = 'INSERT INTO Test_Details(test_id, test_type_id, administering_date, administering_time, price) VALUES ';
     SET @single_value = '';  -- Variable to store the SQL insert statement for each test type
     SET @parent_proc = TRUE;
+    SET @doctor_id = para_doctor_id;
+    SET @testing = testing;
 	
-    IF testing = 0 THEN
-		SELECT FindPatientWithAppointmentCurrently(para_patient_id, para_doctor_id) INTO checked_patient_id;
-		IF checked_patient_id = 0 THEN
-			SIGNAL SQLSTATE '45000'
-			SET MESSAGE_TEXT = 'Either the patient id is incorrect or you do not have the privilege to perform this action currently';
-		END IF;
-	ELSE 
-			-- Check if the input doctor id is correct
-		IF CheckDoctorExists(para_doctor_id) = 0 THEN
-			SIGNAL SQLSTATE '45000'
-			SET MESSAGE_TEXT = 'Incorrect doctor id. Please try again';
-		end if;
-
-		-- Check if the input patient id is correct
-		IF CheckPatientExists(checked_patient_id) = 0 THEN
-			 SIGNAL SQLSTATE '45000'
-			SET MESSAGE_TEXT = 'Incorrect patient id. Please try again';
-		end if;
-    END IF;
-
     -- Start a transaction to ensure that all operations either succeed or fail together
     START TRANSACTION;
 
@@ -567,7 +494,7 @@ BEGIN
 		END IF;
 	END;
     SELECT
-        Conditions.code,
+        Conditions.condition_code,
         Conditions.condition_name,
         Conditions.condition_description
         

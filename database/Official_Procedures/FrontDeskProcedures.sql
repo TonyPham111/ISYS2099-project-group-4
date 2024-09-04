@@ -84,10 +84,13 @@ BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
     BEGIN
         DECLARE returned_sqlstate CHAR(5) DEFAULT '';
+        DECLARE returned_message TEXT;
 
         -- Retrieve the SQLSTATE of the current exception
         GET STACKED DIAGNOSTICS CONDITION 1
-            returned_sqlstate = RETURNED_SQLSTATE;
+            returned_sqlstate = RETURNED_SQLSTATE,
+            returned_message = MESSAGE_TEXT;
+		SELECT returned_message;
 
         -- Check if the SQLSTATE is '45000'
         IF returned_sqlstate = '45000' THEN
@@ -103,7 +106,7 @@ BEGIN
     -- Select all appointments
     SELECT 
 		Patients.full_name,
-        Staffs.full_name,
+        Staff.full_name,
         Appointments.id,
         Appointments.appointment_purpose,
         DATE_FORMAT(appointment_date, '%d/%m/%Y' ) AS appointment_date,
@@ -219,44 +222,6 @@ BEGIN
         END IF;
     END;
     SET @parent_proc = TRUE;
-
-    -- Check if the doctor still belongs to the department the patient is booking
-    IF NOT CheckDoctorExistsInDepartment(para_doctor_id, para_department_id) THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Incorrect doctor id. Please check your input';
-    END IF;
-
-    -- Raise an exception if no patient is found
-    IF NOT CheckPatientExists(para_patient_id) THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Cannot find patient. Please try again';
-    END IF;
-
-    -- Check if the doctor has a schedule on that date
-    SELECT id INTO checked_schedule_id
-    FROM Staff_Schedule
-    WHERE schedule_date = para_appointment_date AND staff_id = para_doctor_id;
-
-    IF checked_schedule_id IS NULL THEN
-         SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'No schedule has been planned for the doctor on that date. Please try again';
-    END IF;
-
-    -- Check if the input time is within the doctor's schedule
-    SELECT CheckIfBookingTimeOutsideSchedule(para_doctor_id, para_appointment_date,
-                                             para_start_time, para_end_time) INTO appointment_schedule_check;
-    IF appointment_schedule_check = 0 THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Appointment out of schedule range. Please try again';
-    END IF;
-
-    -- Check if there is any booking clash
-    SELECT CheckAppointmentClash(para_doctor_id, para_appointment_date,
-                                 para_start_time, para_end_time) INTO clash_count;
-    IF clash_count <> 0 THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Time slot has already been reserved. Please try again';
-    END IF;
 
     -- Calculate the duration of the appointment in minutes
     SET appointment_duration = TIME_TO_SEC(TIMEDIFF(para_end_time, para_start_time)) / 60;

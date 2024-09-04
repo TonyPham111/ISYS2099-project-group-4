@@ -226,28 +226,12 @@ BEGIN
 		SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Something is wrong. Please try again.';
     END IF;
-
-    SELECT wage 
-    INTO para_old_wage 
-    FROM Staff 
-    WHERE id = para_staff_id;
-
-    SELECT Jobs.max_wage, Jobs.min_wage 
-    INTO max_job_wage, min_job_wage 
-    FROM Jobs 
-    WHERE id = para_job_id;
 	
     IF @parent_proc IS NULL THEN 
 		SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Something is wrong. Please try again.';
     END IF;
     
-    -- Comparing the new wage to the correct wage range. If it falls outside of the range, an exception is raised
-    IF para_new_wage > max_job_wage OR para_new_wage < min_job_wage THEN 
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Wage does not fall within the correct range';
-    END IF;
-
     -- Insert a record into the Salary_Change table to log the wage change
     INSERT INTO Salary_Change (
         staff_id, old_wage, new_wage, date_change
@@ -327,11 +311,6 @@ BEGIN
         SET MESSAGE_TEXT = 'Something is wrong. Please try again';
     END IF;
     
-    IF NOT CheckDepartmentExists(target_department_id) THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Incorrect department id. Please check your input';
-    END IF;
-
     INSERT INTO Department_Change (
         staff_id, old_department_id, new_department_id, date_change
     ) VALUES (
@@ -370,20 +349,6 @@ BEGIN
         END IF;
     END;
     SET @parent_proc = TRUE;
-
-    -- Check if input staff id exists
-    IF NOT CheckStaffExists(para_staff_id) THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Staff does not exist';
-    END IF;
-
-    -- Check if the input manager id is correct
-    IF para_new_manager_id IS NOT NULL THEN
-        IF NOT CheckStaffExists(para_new_manager_id) THEN
-            SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Manager does not exist. Please check your input';
-        END IF;
-    END IF;
 
     -- Retrieve the current job ID of the staff member and store it in local_old_job
     SELECT job_id INTO local_old_job FROM Staff WHERE id = para_staff_id;
@@ -437,37 +402,6 @@ BEGIN
         END IF;
     END;
     SET @parent_proc = TRUE;
-
-    -- Check if input staff id exists
-    IF NOT CheckStaffExists(para_staff_id) THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Staff does not exist';
-    END IF;
-
-    IF ((para_job_id = 1 OR para_job_id = 2) AND para_department_id = 13) OR (para_job_id > 2 AND para_department_id < 13) THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Incompatible job and department. Please try again';
-    END IF;
-
-    -- Check if the new manager name exists
-    IF para_new_manager_id IS NOT NULL THEN
-        IF NOT CheckManagerDepartmentAndJob(para_new_manager_id, para_new_department_id, para_new_job_id) THEN
-            SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Manager name not found. Please check your input';
-        END IF;
-    ELSE
-        -- Check if new job exists
-        IF NOT CheckJobExists(para_new_job_id) THEN
-            SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Job does not exist';
-        END IF;
-
-        -- Check if new department exists
-        IF NOT CheckDepartmentExists(para_new_department_id) THEN
-            SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Department does not exist';
-        END IF;
-    END IF;
 
     -- Retrieve the current job ID of the staff member and store it in local_old_job
     SELECT job_id INTO local_old_job FROM Staff WHERE id = para_staff_id;
