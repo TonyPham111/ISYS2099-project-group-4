@@ -1,10 +1,5 @@
-import { poolDoctors, poolNurses, poolFrontDesk, poolBusinessOfficers, poolHR } from "../Models/dbConnectionConfiguration.js";
+import businessOfficerRepo from "../Models/BusinessOfficerModel.js";
 
-const doctorRepo = poolDoctors;
-const nurseRepo = poolNurses;
-const frontDeskRepo = poolFrontDesk;
-const businessOfficerRepo = poolBusinessOfficers;
-const hrRepo = poolHR;
 export async function getAllBillings(req, res) {
   try {
         const user_info = req.user
