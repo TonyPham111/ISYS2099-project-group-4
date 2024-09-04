@@ -4,10 +4,10 @@ const mongoose = require('mongoose');
 const { MongoClient, ServerApiVersion } = require("mongodb");
 
 // import collections from ./collections
-const { TestResults } = require('./collections/LabTestResults');
-const { TrainingMaterials } = require('./collections/TrainingMaterials');
-const { AppointmentNotes } = require('./collections/AppointmentNotes');
-const { EducationQualification, ExperienceQualification, LicenseQualification } = require('./collections/StaffQualifications');
+const { TestResults } = require('./schemas/LabTestResults');
+const { TrainingMaterials } = require('./schemas/TrainingMaterials');
+const { AppointmentNotes } = require('./schemas/AppointmentNotes');
+const { EducationQualification, ExperienceQualification, LicenseQualification } = require('./schemas/StaffQualifications');
 
 // import mock data from ./mockData
 const { insertMockData } = require('./mockData');

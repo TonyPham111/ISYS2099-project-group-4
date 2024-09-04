@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
-const TrainingMaterials = require('./collections/TrainingMaterials');
-const AppointmentNotes = require('./collections/AppointmentNotes');
-const TestResult = require('./collections/LabTestResults');
-const { EducationQualification, ExperienceQualification, LicenseQualification } = require('./collections/StaffQualifications');
+const TrainingMaterials = require('./schemas/TrainingMaterials');
+const AppointmentNotes = require('./schemas/AppointmentNotes');
+const TestResult = require('./schemas/LabTestResults');
+const { EducationQualification, ExperienceQualification, LicenseQualification } = require('./schemas/StaffQualifications');
 
 const mockData = {
   trainingMaterials: [
