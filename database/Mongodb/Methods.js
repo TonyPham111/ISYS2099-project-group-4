@@ -1,6 +1,6 @@
-const AppointmentNotes = require('./collections/AppointmentNotes');
-const TestResult = require('./collections/LabTestResults');
-const TrainingMaterials = require('./collections/TrainingMaterials');
+const AppointmentNotes = require('./schemas/AppointmentNotes');
+const TestResult = require('./schemas/LabTestResults');
+const TrainingMaterials = require('./schemas/TrainingMaterials');
 
 // Fetch Appointment Note By Document ID
 async function fetchAppointmentNoteByDocumentId(documentId) {
