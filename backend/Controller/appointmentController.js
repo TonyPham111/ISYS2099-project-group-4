@@ -1,55 +1,70 @@
-import frontDeskRepo from "../Models/FrontDeskModel.js";
+import { poolDoctors, poolNurses, poolFrontDesk, poolBusinessOfficers, poolHR } from "../Models/dbConnectionConfiguration.js";
+import mongoose from 'mongoose';
+import AppointmentNotes from '../database/Mongodb/collections/AppointmentNotes.js';
+
+const doctorRepo = poolDoctors;
+const nurseRepo = poolNurses;
+const frontDeskRepo = poolFrontDesk;
+const businessOfficerRepo = poolBusinessOfficers;
+const hrRepo = poolHR;
 
 export async function getAllAppointment(req, res) {
   try {
-    const user_info = req.user
-    if (user_info.role === 'FrontDesk'){
-      const result = await frontDeskRepo.GetAllAppointments()
-      res.status(200).json(result)
+    const user_info = req.user;
+    if (user_info.role !== 'FrontDesk') {
+      return res.status(403).json({ message: 'Unauthorized access' });
     }
-    else {
-      res.status(403).json({ message: "Incorrect role." })
-    }
-    //Fetch the appointment notes information from mongodb appointment_documents
 
-    //verify job role = (frontdesk)
-    //return data
-    /*
-       data structure:
-       [
-        {
-            "id": INT,
-            "purpose_of_appointment": String,
-            "patient_id": INT,
-            "doctor_id": INT,
-            "date": String --> "DD/MM/YYYY", // Before returning the result to the client, convert the date format to DD/MM/YYYY from YYYY-MM-DD
-            "start_time": String --> "HH:mm:ss",
-            "end_time": String --> "HH:mm:ss",
-            "before_note": JSON --> in tiptap format, // Cái này hiện tại cứ để dạng string nha em
-            "during_note": JSON --> in tiptap format, // Cái này hiện tại cứ để dạng string nha em
-            "after_note": JSON --> in tiptap format // Cái này hiện tại cứ để dạng string nha em
-        },
-        ] 
-       */
+    // Fetch appointments from SQL database
+    const appointments = await frontDeskRepo.GetAllAppointments();
+
+    // Fetch corresponding notes from MongoDB
+    const appointmentIds = appointments.map(app => app.id);
+    const notes = await AppointmentNotes.find({ _id: { $in: appointmentIds } });
+
+    // Combine SQL and MongoDB data
+    const combinedAppointments = appointments.map(appointment => {
+      const appointmentNotes = notes.find(note => note._id.toString() === appointment.id.toString());
+      return {
+        id: appointment.id,
+        purpose_of_appointment: appointment.purpose_of_appointment,
+        patient_id: appointment.patient_id,
+        doctor_id: appointment.doctor_id,
+        date: formatDate(appointment.date), 
+        start_time: appointment.start_time,
+        end_time: appointment.end_time,
+        before_note: appointmentNotes ? appointmentNotes.pre_appointment_note : {},
+        during_note: appointmentNotes ? appointmentNotes.during_document_note : {},
+        after_note: appointmentNotes ? appointmentNotes.post_appointment_note : {}
+      };
+    });
+
+    res.status(200).json(combinedAppointments);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
+}
+
+// Helper function to format date
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('en-GB'); // This will format the date as DD/MM/YYYY
 }
 
 export async function CheckAvailability(req, res) {
   try {
     const user_info = req.user
     const {
-      booked_date,
-      booked_start_time,
-      booked_end_time,
-      department_id
+        booked_date,
+        booked_start_time,
+        booked_end_time,
+        department_id
     } = req.body
     if (user_info.role === 'FrontDesk'){
         frontDeskRepo.CheckAvailability(booked_date, booked_start_time, booked_end_time, department_id)
     }
     else {
-      res.status(403).json({ message: "Incorrect role." })
+      res.status('403').json({message: error.message})
     }
    
   } catch (error) {
@@ -67,34 +82,48 @@ export async function addNewAppointment(req, res) {
     - startTime
     - endTime
     - beforeNote
-    -appointment_charge? ( auto charge based on time or manual charge)
     */
   //return upload status
   try {
-    const user_info = req.user
+    const user_info = req.user;
+    if (user_info.role !== 'FrontDesk') {
+      return res.status(403).json({ message: 'Unauthorized access' });
+    }
+
     const {
       patient_id,
       doctor_id,
-      department_id, // Anh vừa thêm cái department id này vào để check xem doctor có còn ở department mà patient muốn book không
+      department_id,
       purpose,
-      appointment_date, // Check format first, convert to YYYY-MM_DD format before inserting into database
+      appointment_date,
       appointment_start_time,
       appointment_end_time,
       pre_appointment_note
-    } = req.body
-    const document_id = ''
-    // Create a new document in mongo db
-    // insert the pre appointment note
-    // Retrieve the document id
-    if (user_info.role === 'FrontDesk'){
-      const result = await frontDeskRepo.AddNewAppointment(
-        department_id, doctor_id, patient_id, purpose, appointment_date, appointment_start_time, appointment_end_time, document_id
-      )
-      res.status(200).json(result)
-    } 
-    else {
-      res.status(403).json({ message: "Incorrect role." })
-    }
+    } = req.body;
+
+    // Create a new document in MongoDB and insert the pre-appointment note
+    const newAppointmentNote = await createAppointmentNoteFromPreNote(pre_appointment_note);
+
+    // Retrieve the document id from MongoDB
+    const document_id = newAppointmentNote._id.toString();
+
+    // Add the new appointment to the SQL database
+    const result = await frontDeskRepo.AddNewAppointment(
+      department_id,
+      doctor_id,
+      patient_id,
+      purpose,
+      appointment_date,
+      appointment_start_time,
+      appointment_end_time,
+      document_id
+    );
+
+    res.status(201).json({
+      message: 'Appointment created successfully',
+      appointmentId: result.insertId,
+      documentId: document_id
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -126,11 +155,7 @@ export async function deleteSpecificAppointment(req, res) {
     const appointment_id = req.params.appointmentId
 
     if (user_info.role === 'FrontDesk'){
-      const result = await frontDeskRepo.CancelAnAppointment(appointment_id)
-      res.status(200).json(result)
-    }
-    else {
-      res.status(403).json({ message: "Incorrect role." })
+        frontDeskRepo.CancelAnAppointment(appointment_id)
     }
     //verify job role = frontdesk
     /*
