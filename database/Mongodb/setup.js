@@ -1,4 +1,3 @@
-
 // import dependencies
 require('dotenv').config();
 const mongoose = require('mongoose');
@@ -10,7 +9,8 @@ const { TrainingMaterials } = require('./collections/TrainingMaterials');
 const { AppointmentNotes } = require('./collections/AppointmentNotes');
 const { EducationQualification, ExperienceQualification, LicenseQualification } = require('./collections/StaffQualifications');
 
-
+// import mock data from ./mockData
+const { insertMockData } = require('./mockData');
 
 
 
@@ -33,22 +33,25 @@ const client = new MongoClient(connectionUri, {
 (async () => {
   try {
     console.log(`Connecting to MongoDB at "${connectionUri}"...`);
-    await client.connect();
-    // await client.db("admin").command({ ping: 1 });
+    await mongoose.connect(connectionUri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
     console.log("Successfully connected to MongoDB!");
 
-    // await client.db(databaseName).dropDatabase();
-    // console.log("Database cleared!");
+    console.log("Inserting mock data...");
+    await insertMockData();
+    console.log("Mock data insertion complete.");
 
-    // const db = client.db(databaseName);
-    // await createCollections(db);
-    // if (process.argv.length > 2 && process.argv[2] === "--mock") {
-    //   await insertMockData(connectionUri + databaseName);
-    // }
+    // Optional: Verify data insertion
+    const collections = ['Training Materials', 'AppointmentNotes', 'TestResult', 'Education Qualification', 'Experience Qualification', 'License Qualification'];
+    for (const collectionName of collections) {
+      const count = await mongoose.connection.db.collection(collectionName).countDocuments();
+      console.log(`${collectionName} count: ${count}`);
+    }
 
-    // console.log("Database initialized!");
   } finally {
-    await client.close();
+    await mongoose.connection.close();
   }
 })().catch(console.dir);
 
