@@ -341,12 +341,12 @@ export async function schedule(req, res){
       await doctorRepo.Scheduling(user_info.id, staff_id, schedule_string)
       res.status(200).json({ message: "Schedule updated successfully." })
     }
-    else if (user_info.role === 'Doctor'){
-      await doctorRepo.Schedule(user_info.id, staff_id, schedule_date, schedule_string)
+    else if (user_info.role === 'HR'){
+      await hrRepo.Schedule(user_info.id, staff_id, schedule_date, schedule_string)
       res.status(200).json({ message: "Schedule updated successfully." })
     }
-    else if (user_info.role === 'Doctor'){
-      await doctorRepo.Schedule(user_info.id, staff_id, schedule_string)
+    else if (user_info.role === 'BusinessOfficer'){
+      await businessOfficerRepo.Schedule(user_info.id, staff_id, schedule_string)
       res.status(200).json({ message: "Schedule updated successfully." })
     }
     else {
