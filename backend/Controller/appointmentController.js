@@ -1,12 +1,5 @@
-import { poolDoctors, poolNurses, poolFrontDesk, poolBusinessOfficers, poolHR } from "../Models/dbConnectionConfiguration.js";
-import mongoose from 'mongoose';
+import frontDeskRepo from "../Models/FrontDeskModel.js";
 import AppointmentNotes from '../../database/Mongodb/schemas/AppointmentNotes.js';
-
-const doctorRepo = poolDoctors;
-const nurseRepo = poolNurses;
-const frontDeskRepo = poolFrontDesk;
-const businessOfficerRepo = poolBusinessOfficers;
-const hrRepo = poolHR;
 
 export async function getAllAppointment(req, res) {
   try {
