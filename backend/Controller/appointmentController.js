@@ -1,6 +1,6 @@
 import { poolDoctors, poolNurses, poolFrontDesk, poolBusinessOfficers, poolHR } from "../Models/dbConnectionConfiguration.js";
 import mongoose from 'mongoose';
-import AppointmentNotes from '../database/Mongodb/collections/AppointmentNotes.js';
+import AppointmentNotes from '../../database/Mongodb/schemas/AppointmentNotes.js';
 
 const doctorRepo = poolDoctors;
 const nurseRepo = poolNurses;
