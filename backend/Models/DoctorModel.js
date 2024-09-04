@@ -235,7 +235,7 @@ const doctorRepo = {
 
   Scheduling: async (manager_id, staff_id, schedule_string) => {
     try {
-      const sql = `CALL Scheduling(?, ?, ?, ?, ?)`;
+      const sql = `CALL Scheduling(?, ?, ?)`;
       const [results] = await poolDoctors.query(sql, [manager_id, staff_id, schedule_string]);
       return results;
     } 

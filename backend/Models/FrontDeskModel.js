@@ -73,7 +73,7 @@ const frontDeskRepo = {
 
   Scheduling: async (manager_id, staff_id, schedule_string) => {
     try {
-      const sql = `CALL Scheduling(?, ?, ?, ?, ?)`;
+      const sql = `CALL Scheduling(?, ?, ?)`;
       const [results] = await poolFrontDesk.query(sql, [manager_id, staff_id, schedule_string]);
       return JSON.stringify(results, null, 2);
     } catch (error) {
