@@ -1,22 +1,19 @@
-import { poolDoctors, poolNurses} from "../Models/dbConnectionConfiguration.js";
-
-const doctorRepo = poolDoctors;
-const nurseRepo = poolNurses;
-
+import doctorRepo from "../Models/DoctorModel.js";
+import nurseRepo from "../Models/NurseModel.js";
 
 export async function getAllTreatmentHistory(req, res) {
   try {
     const user_info = req.user
     if (user_info.role === 'Doctor'){
-        doctorRepo.FetchPrescriptionsByPatientId(req.params.patientId)
+      const result = await doctorRepo.FetchPrescriptionsByPatientId(req.params.patientId)
+      res.status(200).json(result)
     }
-
     else if (user_info.role === 'Nurse'){
-        nurseRepo.FetchPrescriptionsByPatientId(req.params.patientId)
+      const result = await nurseRepo.FetchPrescriptionsByPatientId(req.params.patientId)
+      res.status(200).json(result)
     }
-
     else {
-        res.status(403).json({message: error.message})
+      res.status(403).json({ message: "Incorrect role." })
     }
     //const {patientId} = req.query
     //verify job role = (doctor || nurse)
@@ -53,37 +50,23 @@ export async function createNewTreatment(req, res) {
     const {
         patient_id,
         diagnosis_id,
+        treatment_end_date,
         prescription_note,
-        medicines: [] // Convert the array to the following form and put it to the medicines_string: 'id:quantity,id:quantity,id:quantity'
-  
+        medicines
     } = req.body
-    const medicines_string = ''
+
     if (user_info.role === 'Doctor'){
-        doctorRepo.AddNewPrescription(
-          user_info.id, patient_id, diagnosis_id, prescription_note, medicines_string
-        )
+      const doctor_id = user_info.id
+      const medicines_string = medicines.map(medicine => `${medicine.drug_code}:${medicine.quantity}`).join(",")
+      await doctorRepo.AddNewPrescription(
+        doctor_id, patient_id, diagnosis_id, treatment_end_date, prescription_note, medicines_string
+      )
+      res.status(200).json({ message: "Treatment added successfully." })
     }
     else {
-      res.status(403).json({message: error.message})
+      res.status(403).json({ message: error.message })
     }
-
-    //verify job role = doctor
-    /*
-    input data: 
-    - patient_id: INT, 
-    - diagnosis_id: INT // Thêm cái này vào em nhé
-    - prescription_note, // Thêm cái này vào em nhé
-    - Araray[drug_data]
-    ----> drug data: 
-    {
-       "drug_code": INT,
-       "quantity": INT,
-       // Anh bỏ 2 cái còn lại vì back end không cần
-    }
-    */
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 }
-
-

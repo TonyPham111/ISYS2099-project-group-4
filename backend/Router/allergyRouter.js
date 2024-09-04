@@ -1,6 +1,11 @@
 import express from "express";
 import * as allergyController from "../Controller/allergyController.js";
 import { verifyToken } from "../Middleware/auth.js";
+
 const allergyRouter = express.Router();
-allergyRouter.route('/').get(verifyToken, allergyController.getAllAllergy);//doctor
+
+allergyRouter
+    .route('/')
+    .get(verifyToken, allergyController.getAllAllergies);//doctor
+
 export default allergyRouter;

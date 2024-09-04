@@ -1,11 +1,6 @@
-import express from "express";
-import cookieParser from "cookie-parser";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { setTokenCookie, generateTokens } from "../Middleware/auth.js";
 import hrRepo from "../Models/HrModel.js";
-
-const app = express();
-app.use(cookieParser());
 
 // Regular expression to allow only normal characters in email
 const normalCharRegex = /^[A-Za-z0-9._@-]*$/;
@@ -14,6 +9,7 @@ const normalCharRegex = /^[A-Za-z0-9._@-]*$/;
 export const registerPage = (req, res) => {
   res.send("This is Register page");
 };
+
 export const loginPage = (req, res) => {
   res.send("This is Login page");
 };
