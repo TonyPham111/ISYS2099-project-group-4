@@ -196,6 +196,15 @@ const hrRepo = {
     } catch (error) {
       throw new Error(error.message);
     }
+  },
+  FetchStaffQualifications: async (manager_id, staff_id) => {
+    try {
+      const sql = `CALL FetchStaffQualifications(?, ?)`;
+      const [results] = await poolHR.query(sql, [manager_id, staff_id]);
+      return results;
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
 };
 

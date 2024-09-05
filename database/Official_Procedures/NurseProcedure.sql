@@ -33,7 +33,44 @@ BEGIN
     FROM Patients;
 
 END$$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.GetPatientsInfo TO 'Nurses'@'%'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.GetPatientsInfoForNurse TO 'Nurses'@'%'$$
+
+DROP PROCEDURE IF EXISTS GetPatientsInfoForNurseByName$$
+CREATE PROCEDURE GetPatientsInfoForNurseByName(
+	patient_name VARCHAR(50)
+)
+SQL SECURITY DEFINER
+BEGIN
+	DECLARE error_message TEXT;
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+		BEGIN
+			DECLARE returned_sqlstate CHAR(5) DEFAULT '';
+			-- Retrieve the SQLSTATE of the current exception
+			GET STACKED DIAGNOSTICS CONDITION 1
+				returned_sqlstate = RETURNED_SQLSTATE;
+
+			-- Check if the SQLSTATE is '45000'
+			IF returned_sqlstate = '45000' THEN
+				-- Resignal with the original message
+				RESIGNAL;
+			ELSE
+				-- Set a custom error message and resignal
+				SIGNAL SQLSTATE '45000'
+				SET MESSAGE_TEXT = 'Something is wrong. Please try again.';
+			
+			END IF;
+		END;
+    -- Select various fields from the Patients and Allergies tables
+    SELECT
+        Patients.id,                      -- The ID of the patient
+        Patients.full_name,               -- The full name of the patient
+        Patients.gender,                  -- The gender of the patient
+        DATE_FORMAT(Patients.birth_date, '%d/%m/%Y') AS birth_date -- The birth date of the patient
+    FROM Patients WHERE full_name = patient_name;
+
+END$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.GetPatientsInfoForNurseByName TO 'Nurses'@'%'$$
+
 
 
 DROP PROCEDURE IF EXISTS UpdateTestDetail$$

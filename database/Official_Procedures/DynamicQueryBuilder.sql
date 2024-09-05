@@ -1,5 +1,31 @@
 DELIMITER $$
 
+DROP FUNCTION IF EXISTS ParseQualificationString$$
+CREATE FUNCTION ParseQualificationString(
+	current_qualification TEXT,
+    last_string INT
+)
+RETURNS TEXT
+READS SQL DATA
+SQL SECURITY DEFINER
+BEGIN
+	DECLARE qualification_type TEXT;
+    DECLARE document_id TEXT;
+    IF @parent_proc = NULL THEN 
+		SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Something is wrong. Please try again';
+    END IF;
+    SET qualification_type = SUBSTRING_INDEX(current_qualifications, ':', 1);
+    SET document_id = SUBSTRING_INDEX(current_qualifications, ':', -1);
+    
+    IF last_string = 0 THEN
+		RETURN CONCAT(@new_staff_id, ', ', qualification_type, ', ', '\'', document_id, '\'),' );
+	ELSE 
+		RETURN CONCAT(@new_staff_id, ', ', qualification_type, ', ', '\'', document_id, '\');' );
+    END IF;
+END$$
+
+
 DROP FUNCTION IF EXISTS ParseScheduleString$$
 CREATE FUNCTION ParseScheduleString(
     para_staff_id INT,

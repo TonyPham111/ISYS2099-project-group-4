@@ -10,12 +10,11 @@ staffRouter
   .post(verifyToken, staffController.addNewStaff);//HR
 
 staffRouter
-  .route("/:staffId")
-  .get(verifyToken, staffController.getStaffPersonalInfo)//manager of that staff,HR
-  .put(verifyToken, staffController.updateStaffPersonalInfo);//HR
+  .route("/subordinates")
+  .get(verifyToken, staffController.getSubordinates)//manager of that staff,HR
 
 staffRouter
-  .route("/:staffId/staff_personal_info")
+  .route("/staff_personal_info")
   .get(verifyToken, staffController.getStaffPersonalInfo) //HR
   .put(verifyToken, staffController.updateStaffPersonalInfo) //HR
 
@@ -26,7 +25,7 @@ staffRouter
 
 staffRouter
   .route("/:staffId/job_change")
-  .get(verifyToken, staffController.getStaffPersonalInfo) //HR //Cái này để view lịch sử thay đổi công việc
+  .get(verifyToken, staffController.getJobChangeHistory) //HR //Cái này để view lịch sử thay đổi công việc
   .put(verifyToken, staffController.updateStaffJob) //HR
 
 staffRouter
@@ -42,5 +41,24 @@ staffRouter
 staffRouter
   .route("/:staffId/deleteschedule")
   .post(verifyToken, staffController.deleteSchedule)
+  
+staffRouter
+  .route("/:staffId/performanceevaluation")
+  .get(verifyToken, staffController.getStaffEvaluations)
+  .post(verifyToken, staffController.evaluateStaff)
+
+staffRouter
+  .route("/:evaluationId/performanceevaluation")
+  .get(verifyToken, staffController.GetEvaluationDetails)
+
+staffRouter
+  .route("/trainingmaterial")
+  .get(verifyToken, staffController.getTrainingMaterials)
+  .post(verifyToken,staffController.createNewTrainingMaterial)
+
+staffRouter
+  .route("/:staffId/qualifications")
+  .get(verifyToken, staffController.getStaffQualifications)
+
 
 export default staffRouter;

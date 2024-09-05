@@ -41,6 +41,53 @@ BEGIN
       AND appointment_date = CURDATE();
 
 END$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.GetPatientsInfoForDoctor TO 'Doctors'@'%'$$
+
+DROP PROCEDURE IF EXISTS GetPatientsInfoForDoctorByName$$
+CREATE PROCEDURE GetPatientsInfoForDoctorByName(
+    para_doctor_id INT,
+    patient_name VARCHAR(50)
+)
+SQL SECURITY DEFINER
+BEGIN
+ DECLARE EXIT HANDLER FOR SQLEXCEPTION
+	BEGIN
+		DECLARE returned_sqlstate CHAR(5) DEFAULT '';
+        DECLARE returned_message TEXT;
+		-- Retrieve the SQLSTATE of the current exception
+		GET STACKED DIAGNOSTICS CONDITION 1
+			returned_sqlstate = RETURNED_SQLSTATE,
+            returned_message = MESSAGE_TEXT;
+		
+        SELECT returned_message;
+		-- Check if the SQLSTATE is '45000'
+		IF returned_sqlstate = '45000' THEN
+			-- Resignal with the original message
+			RESIGNAL;
+		ELSE
+			-- Set a custom error message and resignal with SQLSTATE '45000'
+			SIGNAL SQLSTATE '45000'
+				SET MESSAGE_TEXT = 'Something is wrong. Please try again.';
+		END IF;
+	END;
+    
+    -- Select various fields from the Patients and Allergies tables
+    SELECT
+        Patients.id,                      -- The ID of the patient
+        Patients.full_name,               -- The full name of the patient
+        Patients.gender,                  -- The gender of the patient
+        Patients.birth_date              -- The birth date of the patient
+    FROM Appointments
+    INNER JOIN
+        Patients                          -- The Patients table
+    ON
+        Appointments.patient_id = Patients.id
+    WHERE full_name = patient_name 
+		AND doctor_id = para_doctor_id
+		AND appointment_date = CURDATE();
+
+END$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.GetPatientsInfoForDoctorByName TO 'Doctors'@'%'$$
 
 DROP PROCEDURE IF EXISTS AddAllergiesToPatients$$
 CREATE PROCEDURE AddAllergiesToPatients(
@@ -231,7 +278,6 @@ CREATE  PROCEDURE AddNewPrescription(
     para_doctor_id INT,                       -- Parameter for the doctor ID who issued the prescription
     para_patient_id INT,                      -- Parameter for the patient ID to whom the prescription is given
     para_diagnosis_id INT,                    -- Parameter for the diagnosis ID associated with the prescription
-    para_treatment_end_date DATE,
     para_prescription_note TEXT,              -- Parameter for any notes related to the prescription
     para_drug_code_quantity_string TEXT,       -- Parameter for a comma-separated string of drug names and their quantities
     testing INT
@@ -273,7 +319,7 @@ BEGIN
     START TRANSACTION;
 
     -- Insert a new record into the TreatmentHistory table with the provided parameters
-    INSERT INTO TreatmentHistory(doctor_id, patient_id, diagnosis_id, treatment_start_date, treatment_end_date, prescription_note)
+    INSERT INTO TreatmentHistory(doctor_id, patient_id, diagnosis_id, treatment_start_date, prescription_note)
     VALUES (para_doctor_id, checked_patient_id, para_diagnosis_id, CURDATE(), para_treatment_end_date, para_prescription_note);
     -- Retrieve the ID of the newly inserted record in TreatmentHistory
     SELECT LAST_INSERT_ID() INTO latest_prescription_id;

@@ -199,10 +199,10 @@ const nurseRepo = {
     }
   },
 
-  GetEvaluationDetails: async (manager_id, staff_id, evaluation_id) => {
+  GetEvaluationDetails: async (manager_id, evaluation_id) => {
     try {
-      const sql = `CALL GetEvaluationDetails(?, ?, ?)`;
-      const [results] = await poolNurses.query(sql, [manager_id, staff_id, evaluation_id]);
+      const sql = `CALL GetEvaluationDetails(?, ?)`;
+      const [results] = await poolNurses.query(sql, [manager_id, evaluation_id]);
       return results;
     } catch (error) {
       throw new Error(error.message);
@@ -217,6 +217,15 @@ const nurseRepo = {
         staff_id,
         evaluation_string,
       ]);
+      return results;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  },
+  FetchStaffQualifications: async (manager_id, staff_id) => {
+    try {
+      const sql = `CALL FetchStaffQualifications(?, ?)`;
+      const [results] = await poolNurses.query(sql, [manager_id, staff_id]);
       return results;
     } catch (error) {
       throw new Error(error.message);

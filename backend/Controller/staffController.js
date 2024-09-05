@@ -3,6 +3,9 @@ import nurseRepo from "../Models/NurseModel.js";
 import frontDeskRepo from "../Models/FrontDeskModel.js";
 import businessOfficerRepo from "../Models/BusinessOfficerModel.js";
 import hrRepo from "../Models/HrModel.js";
+import { response } from "express";
+import {createNewQualificationDocument, fetchQualifications} from "../../database/Mongodb/Methods.js"
+import {createNewTrainingDocument, fetchTrainingDocuments} from "../../database/Mongodb/Methods.js"
 
 export async function getAllStaffInfo(req, res) {
   try {
@@ -79,6 +82,8 @@ export async function addNewStaff(req, res) {
       qualification_lists
     } = req.body
 
+    const qualification_list_for_server = await createNewQualificationDocument(qualification_lists)
+
     // Object qualification sẽ có dàng {title, provider, date, file (blob)} 
     // qualification_list sẽ được lưu vào mongodb
     
@@ -103,6 +108,7 @@ export async function addNewStaff(req, res) {
     - "contact_phone_number": String, 
     - "email": String, 
     - "wage": DECIMAL(6, 2),
+    - qualification_document_id
     - "hire_date": String --> "DD/MM/YYYY", // Anh bỏ hire date vì database sẽ mặc định là ngày hiện tại
 
     */
@@ -112,25 +118,61 @@ export async function addNewStaff(req, res) {
   }
 }
 
+export async function getSubordinates(req, res) {
+  try {
+    const user_info = req.user
+    if (user_info.role === "Doctor"){
+      doctorRepo.GetSubordinates(user_info.id)
+    }
+    else if (user_info.role === "Nurse"){
+      nurseRepo.GetSubordinates(user_info)
+    }
+    else if (user_info.role === "FrontDesk"){
+      frontDeskRepo.GetSubordinates(user_info)
+    }
+    else if (user_info.role === "BusinessOfficer"){
+      businessOfficerRepo.GetSubordinates(user_info)
+    }
+    else if (user_info.role === "HR") {
+      hrRepo.GetSubordinates(user_info)
+    }
+    else {
+      res.status(403).json({ message: "Incorrect role." })
+    }
+    /*
+       data structure: 
+           {
+             "id": INT,
+             "manager_id": INT,
+             "full_name": String,
+             "gender": String,
+             "birth_date": String --> "DD/MM/YYYY",
+             "contact_phone_number": String, 
+             "email": String, 
+           },
+       */
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
 export async function getStaffPersonalInfo(req, res) {
   try {
     const user_info = req.user
-    const staff_id = req.params.staffId
-
     if (user_info.role === "Doctor"){
-      doctorRepo.FetchStaffInfoById(staff_id)
+      doctorRepo.FetchStaffInfoById(user_info.id)
     }
     else if (user_info.role === "Nurse"){
-      nurseRepo.FetchStaffInfoById(staff_id)
+      nurseRepo.FetchStaffInfoById(user_info.id))
     }
     else if (user_info.role === "FrontDesk"){
-      frontDeskRepo.FetchStaffInfoById(staff_id)
+      frontDeskRepo.FetchStaffInfoById(user_info.id))
     }
     else if (user_info.role === "BusinessOfficer"){
-      businessOfficerRepo.FetchStaffInfoById(staff_id)
+      businessOfficerRepo.FetchStaffInfoById(user_info.id))
     }
     else if (user_info.role === "HR") {
-      hrRepo.FetchStaffInfoById(staff_id)
+      hrRepo.FetchStaffInfoById(user_info.id))
     }
     else {
       res.status(403).json({ message: "Incorrect role." })
@@ -156,6 +198,40 @@ export async function getStaffPersonalInfo(req, res) {
     res.status(500).json({ message: error.message });
   }
 }
+
+export async function getStaffQualifications(req, res) {
+  try {
+    const user_info = req.user
+    const staff_id = req.params.staffId
+    let respnse;
+
+    if (user_info.role === "Doctor"){
+      response = await doctorRepo.FetchStaffQualifications(user_info.id, staff_id)
+    }
+    else if (user_info.role === "Nurse"){
+      response = await nurseRepo.FetchStaffQualifications(user_info.id, staff_id)
+    }
+    else if (user_info.role === "FrontDesk"){
+      response = await frontDeskRepo.FetchStaffQualifications(user_info.id, staff_id)
+    }
+    else if (user_info.role === "BusinessOfficer"){
+      response = await businessOfficerRepo.FetchStaffQualifications(user_info.id, staff_id)
+    }
+    else if (user_info.role === "HR") {
+      response = await hrRepo.FetchStaffQualifications(user_info.id, staff_id)
+    }
+    else {
+      res.status(403).json({ message: "Incorrect role." })
+    }
+    fetchQualifications(response)
+    
+    
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
+
 
 // Anh đổi tên controller này vì nó chỉ đc dùng để update personal info thôi
 export async function updateStaffPersonalInfo(req, res) {
@@ -317,6 +393,116 @@ export async function getDepartmentChangeHistory(req, res){
   }
 }
 
+export async function evaluateStaff(req, res){
+  try{
+    const user_info = req.user
+    const staff_id = req.params.staffId
+    const {
+      criteria_1,
+      criteria_2,
+      criteria_3,
+      criteria_4,
+      criteria_5
+    } = req.body
+
+    const criteria_string = '' //'score,score,score,score,score'
+
+    const schedule_string = `${schedule_date};${schedule_start_time}-${schedule_end_time}`
+    if (user_info.role === 'Doctor'){
+      await doctorRepo.CreateNewEvaluation(user_info.id, staff_id, criteria_string)
+      res.status(200).json({ message: "Successful." })
+    }
+    else if (user_info.role === 'Nurse'){
+      await nurseRepo.CreateNewEvaluation(user_info.id, staff_id, criteria_string)
+      res.status(200).json({ message: "Successful." })
+    }
+    else if (user_info.role === 'FrontDesk'){
+      await doctorRepo.CreateNewEvaluation(user_info.id, staff_id, criteria_string)
+      res.status(200).json({ message: " Successful" })
+    }
+    else if (user_info.role === 'HR'){
+      await hrRepo.CreateNewEvaluation(user_info.id, staff_id, criteria_string)
+      res.status(200).json({ message: "Successful" })
+    }
+    else if (user_info.role === 'BusinessOfficer'){
+      await businessOfficerRepo.CreateNewEvaluation(user_info.id, staff_id, criteria_string)
+      res.status(200).json({ message: "Successful" })
+    }
+    else {
+      res.status(403).json({ message: "Incorrect role." })
+    }
+  } catch(error){
+    res.status(500).json({ message: error.message })
+  }
+}
+
+export async function getStaffEvaluations(req, res){
+  try{
+    const user_info = req.user
+    const staff_id = req.params.staffId
+    const criteria_string = '' //'score,score,score,score,score'
+
+    const schedule_string = `${schedule_date};${schedule_start_time}-${schedule_end_time}`
+    if (user_info.role === 'Doctor'){
+      await doctorRepo.GetAllPerformanceEvaluation(user_info.id, staff_id)
+      res.status(200).json({ message: "Successful." })
+    }
+    else if (user_info.role === 'Nurse'){
+      await doctorRepo.GetAllPerformanceEvaluation(user_info.id, staff_id)
+      res.status(200).json({ message: "Successful." })
+    }
+    else if (user_info.role === 'FrontDesk'){
+      await doctorRepo.GetAllPerformanceEvaluation(user_info.id, staff_id)
+      res.status(200).json({ message: " Successful" })
+    }
+    else if (user_info.role === 'HR'){
+      await doctorRepo.GetAllPerformanceEvaluation(user_info.id, staff_id)
+      res.status(200).json({ message: "Successful" })
+    }
+    else if (user_info.role === 'BusinessOfficer'){
+      await doctorRepo.GetAllPerformanceEvaluation(user_info.id, staff_id)
+      res.status(200).json({ message: "Successful" })
+    }
+    else {
+      res.status(403).json({ message: "Incorrect role." })
+    }
+  } catch(error){
+    res.status(500).json({ message: error.message })
+  }
+}
+
+export async function GetEvaluationDetails(req, res){
+  try{
+    const user_info = req.user
+    const evaluation_id = req.params.evaluationId;
+    if (user_info.role === 'Doctor'){
+      await doctorRepo.GetEvaluationDetails(user_info.id, evaluation_id)
+      res.status(200).json({ message: "Successful." })
+    }
+    else if (user_info.role === 'Nurse'){
+      await doctorRepo.GetEvaluationDetails(user_info.id, evaluation_id)
+      res.status(200).json({ message: "Successful." })
+    }
+    else if (user_info.role === 'FrontDesk'){
+      await doctorRepo.GetEvaluationDetails(user_info.id, evaluation_id)
+      res.status(200).json({ message: " Successful" })
+    }
+    else if (user_info.role === 'HR'){
+      await doctorRepo.GetEvaluationDetails(user_info.id, evaluation_id)
+      res.status(200).json({ message: "Successful" })
+    }
+    else if (user_info.role === 'BusinessOfficer'){
+      await doctorRepo.GetEvaluationDetails(user_info.id, evaluation_id)
+      res.status(200).json({ message: "Successful" })
+    }
+    else {
+      res.status(403).json({ message: "Incorrect role." })
+    }
+  } catch(error){
+    res.status(500).json({ message: error.message })
+  }
+}
+
 // Anh vừa add thêm cái controller này vào để manager set schedule cho nhân viên
 export async function schedule(req, res){
   try{
@@ -455,3 +641,36 @@ export async function getStaffSchedule(req, res) {
     res.status(500).json({ message: error.message });
   }
 }
+
+export async function getTrainingMaterials(req, res) {
+  try {
+    const user_info = req.user
+    const department_id = user_info.department_id
+    const job_id = user_info.job_id
+    res.send(await fetchTrainingDocuments(job_id, department_id))
+  
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
+export async function createNewTrainingMaterial(req, res) {
+  try {
+    const user_info = req.user
+    const {
+        job_id,
+        department_id,
+        file
+  
+    } = req.body
+    if (user_info.role === 'HR'){
+        createNewTrainingDocument(req.body);
+    }
+    else {
+      res.status(403).json({message: error.message})
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+

@@ -23,7 +23,7 @@ export async function getAllTests(req, res) {
   }
 }
 
-export async function getSpecificTestDetails(req, res){
+export async function getLabResults(req, res){
   try {
     const lab_result_id = req.params.labDocumentId
     const lab_result = await fetchLabResultsWithImagesByDocumentId(lab_result_id)

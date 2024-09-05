@@ -12,7 +12,8 @@ CREATE PROCEDURE AddNewStaff(
     para_phone_number VARCHAR(15),            -- Parameter for the phone number of the staff member
     para_email VARCHAR(50),                   -- Parameter for the email address of the staff member
     para_staff_password VARCHAR(72),          -- Parameter for the staff member's password
-    para_wage DECIMAL(6,2)                   -- Parameter for the wage of the staff member
+    para_wage DECIMAL(6,2),                   -- Parameter for the wage of the staff member
+    qualifications_string TEXT
 
 )
 SQL SECURITY DEFINER
@@ -20,7 +21,9 @@ BEGIN
     DECLARE max_job_wage DECIMAL(6,2);
     DECLARE min_job_wage DECIMAL(6,2);
     DECLARE error_message TEXT;
-
+    DECLARE new_staff_id INT;
+	DECLARE current_index INT DEFAULT 1;          
+	DECLARE current_string_index TEXT DEFAULT ''; 
 	DECLARE EXIT HANDLER FOR SQLEXCEPTION
     BEGIN
         DECLARE returned_sqlstate CHAR(5) DEFAULT '';
@@ -32,8 +35,6 @@ BEGIN
             returned_sqlstate = RETURNED_SQLSTATE,
             returned_message = MESSAGE_TEXT;
 		
-
-
         -- Check if the SQLSTATE is '45000'
         IF returned_sqlstate = '45000' THEN
             -- Resignal with the original message
@@ -83,7 +84,8 @@ BEGIN
         THEN SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Wage does not fall within the correct range';
     END IF;
-
+    
+	START TRANSACTION;
     -- Insert the new staff member into the Staff table
     INSERT INTO Staff (
         manager_id,                    -- Manager ID (foreign key to Staff table)
@@ -116,9 +118,47 @@ BEGIN
         'Active'                      -- Employment status set to 'Active'
 
     );
+    SET @new_staff_id = LAST_INSERT_ID();
+    SET @single_value = '';
+    SET @insert_statement = 'INSERT INTO Qualifications (qualification_type, staff_id, document_id) VALUES ';
+	WHILE current_index <= LENGTH(qualifications_string) DO
+        -- Check if the current character is a comma, indicating the end of a schedule ID
+        IF SUBSTRING(qualifications_string, current_index, 1) = ',' THEN
+            -- Process the current schedule ID
+            SELECT ParseQualificationString(current_string_index, 0) INTO @single_value;
+
+            -- Append the processed value to the DELETE query
+            SET @insert_statement = CONCAT(@insert_statement, @single_value);
+
+            -- Reset the accumulated schedule ID string for the next iteration
+            SET current_string_index = '';
+        ELSE
+            -- If the current character is not a comma, accumulate it as part of the schedule ID
+            SET current_string_index = CONCAT(current_string_index, SUBSTRING(schedule_id_string, current_index, 1));
+        END IF;
+
+        -- Move to the next character in the string
+        SET current_index = current_index + 1;
+    END WHILE;
+
+    -- Handle the last schedule ID after the loop ends
+    IF current_string_index != '' THEN
+        -- Process the current schedule ID
+		SELECT ParseQualificationString(current_string_index, 1) INTO @single_value;
+		-- Append the processed value to the DELETE query
+		SET @insert_statement = CONCAT(@insert_statement, @single_value);
+    END IF;
+      -- Prepare and execute the final DELETE query
+    PREPARE statement FROM @insert_statement;
+    EXECUTE statement;
+    DEALLOCATE PREPARE statement;
+    -- Commit the transaction to finalize the changes in the database
     SET @parent_proc = NULL;
+    COMMIT;
 END$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.AddNewStaff TO 'HR'@'%'$$
+
+
 
 
 
@@ -164,6 +204,7 @@ BEGIN
 END$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.ChangeStaffPersonalInfo TO 'HR'@'%'$$
 
+
 DROP PROCEDURE IF EXISTS FetchAllStaff$$
 CREATE PROCEDURE FetchAllStaff()
 SQL SECURITY DEFINER
@@ -208,7 +249,58 @@ BEGIN
     ON
         Departments.id = Non_Manager.department_id;
 END$$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.ChangeStaffPersonalInfo TO 'HR'@'%'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchAllStaff TO 'HR'@'%'$$
+
+
+DROP PROCEDURE IF EXISTS FetchAllStaffByName$$
+CREATE PROCEDURE FetchAllStaffByName(
+	para_full_name VARCHAR(50)
+)
+SQL SECURITY DEFINER
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        DECLARE returned_sqlstate CHAR(5) DEFAULT '';
+        -- Retrieve the SQLSTATE of the current exception
+        GET STACKED DIAGNOSTICS CONDITION 1
+            returned_sqlstate = RETURNED_SQLSTATE;
+
+        -- Check if the SQLSTATE is '45000'
+        IF returned_sqlstate = '45000' THEN
+            -- Resignal with the original message
+            RESIGNAL;
+        ELSE
+            -- Set a custom error message and resignal
+            SIGNAL SQLSTATE '45000'
+                SET MESSAGE_TEXT = 'Something is wrong. Please try again.';
+        END IF;
+    END;
+
+    -- Select various fields from the Staff, Jobs, and Departments tables
+    SELECT
+        Non_Manager.id, Non_Manager.full_name, Jobs.job_name, Departments.department_name, 
+        Non_Manager.gender, Non_Manager.birth_date, Non_Manager.home_address, 
+        Non_Manager.phone_number, Non_Manager.email, Non_Manager.staff_password, 
+        Non_Manager.wage, Non_Manager.hire_date, Non_Manager.employment_status, 
+        Non_Manager.employment_document_id, Manager.full_name AS manager_name
+    FROM
+        Staff AS Manager
+    RIGHT OUTER JOIN
+        Staff AS Non_Manager
+    ON
+        Manager.id = Non_Manager.Manager_id
+    INNER JOIN
+        Jobs
+    ON
+        Non_Manager.job_id = Jobs.id
+    INNER JOIN
+        Departments
+    ON
+        Departments.id = Non_Manager.department_id
+	WHERE Non_Manager.full_name = para_full_name;
+END$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchAllStaffByName TO 'HR'@'%'$$
+
 
 DROP PROCEDURE IF EXISTS ChangeWageProcedure$$
 CREATE PROCEDURE ChangeWageProcedure(
@@ -499,8 +591,66 @@ BEGIN
 END$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchDepartmentChangeByStaffId TO 'HR'@'%'$$
 
+DROP PROCEDURE IF EXISTS FetchDepartmentChangeByStaffIdByDates$$
+CREATE PROCEDURE FetchDepartmentChangeByStaffIdByDates(
+    para_staff_id INT,
+    from_date DATE,
+    to_date DATE
+)
+SQL SECURITY DEFINER
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        DECLARE returned_sqlstate CHAR(5) DEFAULT '';
+        -- Retrieve the SQLSTATE of the current exception
+        GET STACKED DIAGNOSTICS CONDITION 1
+            returned_sqlstate = RETURNED_SQLSTATE;
 
-DROP PROCEDURE FetchJobChangeByStaffId$$
+        -- Check if the SQLSTATE is '45000'
+        IF returned_sqlstate = '45000' THEN
+            -- Resignal with the original message
+            RESIGNAL;
+        ELSE
+            -- Set a custom error message and resignal
+            SIGNAL SQLSTATE '45000'
+                SET MESSAGE_TEXT = 'Something is wrong. Please try again.';
+        END IF;
+    END;
+	IF from_date = NULL THEN
+		SET from_date = '1000-01-01';
+	END IF;
+    
+    IF end_date = NULL THEN
+		SET to_date = '9999-12-31';
+    END IF;
+
+    -- Select the full name, old department, and new department for the specified staff member
+    SELECT
+        Staff.full_name,
+        Old_Departments.department_name AS old_department,
+        New_Departments.department_name AS new_department,
+        Department_Change.date_change
+    FROM
+        Staff
+    INNER JOIN
+        Department_Change
+    ON
+        Staff.id = Department_Change.staff_id
+    INNER JOIN
+        Departments AS Old_Departments
+    ON
+        Department_Change.old_department_id = Old_Departments.id
+    INNER JOIN
+        Departments AS New_Departments
+    ON
+        Department_Change.new_department_id = New_Departments.id
+    WHERE
+        Staff.id = para_staff_id AND date_change BETWEEN from_date AND to_date;
+END$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchDepartmentChangeByStaffIdByDates TO 'HR'@'%'$$
+
+
+DROP PROCEDURE IF EXISTS FetchJobChangeByStaffId$$
 CREATE PROCEDURE FetchJobChangeByStaffId(
     para_staff_id INT
 )
@@ -550,6 +700,65 @@ BEGIN
 END$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchJobChangeByStaffId TO 'HR'@'%'$$
 
+DROP PROCEDURE IF EXISTS FetchJobChangeByStaffIdByDates$$
+CREATE PROCEDURE FetchJobChangeByStaffIdByDates(
+    para_staff_id INT,
+    from_date DATE,
+    to_date DATE
+)
+SQL SECURITY DEFINER
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        DECLARE returned_sqlstate CHAR(5) DEFAULT '';
+        ROLLBACK;
+        -- Retrieve the SQLSTATE of the current exception
+        GET STACKED DIAGNOSTICS CONDITION 1
+            returned_sqlstate = RETURNED_SQLSTATE;
+
+        -- Check if the SQLSTATE is '45000'
+        IF returned_sqlstate = '45000' THEN
+            -- Resignal with the original message
+            RESIGNAL;
+        ELSE
+            -- Set a custom error message and resignal
+            SIGNAL SQLSTATE '45000'
+                SET MESSAGE_TEXT = 'Something is wrong. Please try again.';
+        END IF;
+    END;
+	IF from_date = NULL THEN
+		SET from_date = '1000-01-01';
+	END IF;
+    
+    IF end_date = NULL THEN
+		SET to_date = '9999-12-31';
+    END IF;
+
+
+    -- Select the full name, old job, and new job for the specified staff member
+    SELECT
+        Staff.full_name,
+        Old_Jobs.job_name AS old_job,
+        New_Jobs.job_name AS new_job,
+        Job_Movement.date_change
+    FROM
+        Staff
+    INNER JOIN
+        Job_Movement
+    ON
+        Staff.id = Job_Movement.staff_id
+    INNER JOIN
+        Jobs AS Old_Jobs
+    ON
+        Job_Movement.old_job = Old_Jobs.id
+    INNER JOIN
+        Jobs AS New_Jobs
+    ON
+        Job_Movement.new_job = New_Jobs.id
+    WHERE
+        Staff.id = para_staff_id AND date_change BETWEEN from_date AND to_date;
+END$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchJobChangeByStaffIdByDates TO 'HR'@'%'$$
 
 DROP PROCEDURE IF EXISTS FetchWageChangeByStaffId$$
 CREATE PROCEDURE FetchWageChangeByStaffId(
@@ -576,6 +785,7 @@ BEGIN
         END IF;
     END;
 
+
     SELECT
         Staff.full_name,
         Salary_Change.old_wage,
@@ -589,6 +799,54 @@ BEGIN
     WHERE id = para_staff_id;
 END$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchWageChangeByStaffId TO 'HR'@'%'$$
+
+DROP PROCEDURE IF EXISTS FetchWageChangeByStaffIdByDates$$
+CREATE PROCEDURE FetchWageChangeByStaffIdByDates(
+    para_staff_id INT,
+    from_date DATE,
+    to_date DATE
+)
+SQL SECURITY DEFINER
+BEGIN
+    DECLARE error_message TEXT;
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        DECLARE returned_sqlstate CHAR(5) DEFAULT '';
+        -- Retrieve the SQLSTATE of the current exception
+        GET STACKED DIAGNOSTICS CONDITION 1
+            returned_sqlstate = RETURNED_SQLSTATE;
+
+        -- Check if the SQLSTATE is '45000'
+        IF returned_sqlstate = '45000' THEN
+            -- Resignal with the original message
+            RESIGNAL;
+        ELSE
+            -- Set a custom error message and resignal
+            SIGNAL SQLSTATE '45000'
+                SET MESSAGE_TEXT = 'Something is wrong. Please try again.';
+        END IF;
+    END;
+	IF from_date = NULL THEN
+		SET from_date = '1000-01-01';
+	END IF;
+    
+    IF end_date = NULL THEN
+		SET to_date = '9999-12-31';
+    END IF;
+
+    SELECT
+        Staff.full_name,
+        Salary_Change.old_wage,
+        Salary_Change.new_wage,
+        Salary_Change.date_change
+    FROM
+        Salary_Change
+    INNER JOIN
+        Staff
+    ON Salary_Change.staff_id = Staff.id
+    WHERE id = para_staff_id AND date_change BETWEEN from_date AND to_date;
+END$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchWageChangeByStaffIdByDates TO 'HR'@'%'$$
 
 DROP PROCEDURE IF EXISTS GetAllDepartments$$
 CREATE PROCEDURE GetAllDepartments()

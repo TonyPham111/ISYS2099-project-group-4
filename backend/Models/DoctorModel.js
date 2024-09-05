@@ -68,11 +68,11 @@ const doctorRepo = {
     }
   },
 
-  AddNewPrescription: async (doctor_id, patient_id, diagnosis_id, para_treatment_end_date, prescription_note, medicine_quantity_string) => {
+  AddNewPrescription: async (doctor_id, patient_id, diagnosis_id, prescription_note, medicine_quantity_string) => {
     while (true) {
       try {
-        const sql = `CALL AddNewPrescription(?, ?, ?, ?, ?, ?, 1)`;
-        const [results] = await poolDoctors.query(sql, [doctor_id, patient_id, diagnosis_id, para_treatment_end_date, prescription_note, medicine_quantity_string]);
+        const sql = `CALL AddNewPrescription(?, ?, ?, ?, ?, 1)`;
+        const [results] = await poolDoctors.query(sql, [doctor_id, patient_id, diagnosis_id, prescription_note, medicine_quantity_string]);
         return results;
         break
   
@@ -296,10 +296,10 @@ const doctorRepo = {
     }
   },
 
-  GetEvaluationDetails: async (manager_id, staff_id, evaluation_id) => {
+  GetEvaluationDetails: async (manager_id, evaluation_id) => {
     try {
-      const sql = `CALL GetEvaluationDetails(?, ?, ?)`;
-      const [results] = await poolDoctors.query(sql, [manager_id, staff_id, evaluation_id]);
+      const sql = `CALL GetEvaluationDetails(?, ?)`;
+      const [results] = await poolDoctors.query(sql, [manager_id, evaluation_id]);
       return results;
     } catch (error) {
       throw new Error(error.message);
@@ -318,7 +318,16 @@ const doctorRepo = {
     } catch (error) {
       throw new Error(error.message);
     }
+  },
+  FetchStaffQualifications: async (manager_id, staff_id) => {
+  try {
+    const sql = `CALL FetchStaffQualifications(?, ?)`;
+    const [results] = await poolDoctors.query(sql, [manager_id, staff_id]);
+    return results;
+  } catch (error) {
+    throw new Error(error.message);
   }
-};
+}
+}
 
 export default doctorRepo;

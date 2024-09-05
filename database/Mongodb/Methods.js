@@ -18,7 +18,7 @@ async function updateDuringAppointmentNote(documentId, duringNote) {
 }
 
 
-async function fetchDocumentsWithBlobs(idsToFetch) {
+async function fetchQualifications(idsToFetch) {
     try {
         // Fetch documents from all three collections based on _id
         const educationQualifications = await educationQualificationSchema.find({ _id: { $in: idsToFetch } });
@@ -176,5 +176,7 @@ module.exports = {
     fetchLabResultsWithImagesByDocumentId,
     createNewLabResultDocument,
     createNewTrainingDocument,
-    fetchTrainingDocuments
+    fetchTrainingDocuments,
+    createNewQualificationDocument,
+    fetchQualifications
 };

@@ -27,6 +27,47 @@ BEGIN
     FROM Billings;
 END$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.GetAllBillings TO 'BusinessOfficers'@'%'$$
+
+DROP PROCEDURE IF EXISTS GetAllBillingsByDates$$
+CREATE PROCEDURE GetAllBillingsByDates(
+	from_date DATE,
+    to_date DATE
+)
+SQL SECURITY DEFINER
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        DECLARE returned_sqlstate CHAR(5) DEFAULT '';
+        ROLLBACK;  -- Rollback the transaction in case of an error
+        -- Retrieve the SQLSTATE of the current exception
+        GET DIAGNOSTICS CONDITION 1
+            returned_sqlstate = RETURNED_SQLSTATE;
+
+        -- Check if the SQLSTATE is '45000'
+        IF returned_sqlstate = '45000' THEN
+            -- Resignal with the original message
+            RESIGNAL;
+        ELSE
+            -- Set a custom error message and resignal with SQLSTATE '45000'
+            SIGNAL SQLSTATE '45000'
+                SET MESSAGE_TEXT = 'Something is wrong. Please try again.';
+        END IF;
+    END;
+	IF from_date = NULL THEN
+		SET from_date = '1000-01-01';
+	END IF;
+    
+    IF end_date = NULL THEN
+		SET to_date = '9999-12-31';
+    END IF;
+
+    -- Select all billing records
+    SELECT Billings.id, Billings.patient_id, Billings.billing_date, Billings.total_amount 
+    FROM Billings WHERE billing_date BETWEEN from_date AND to_date;
+END$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.GetAllBillingsByDates TO 'BusinessOfficers'@'%'$$
+
+
 DROP PROCEDURE IF EXISTS GetBillingDetails$$
 CREATE PROCEDURE GetBillingDetails(
     billing_id INT

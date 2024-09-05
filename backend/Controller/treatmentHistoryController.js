@@ -50,7 +50,6 @@ export async function createNewTreatment(req, res) {
     const {
         patient_id,
         diagnosis_id,
-        treatment_end_date,
         prescription_note,
         medicines
     } = req.body
@@ -59,7 +58,7 @@ export async function createNewTreatment(req, res) {
       const doctor_id = user_info.id
       const medicines_string = medicines.map(medicine => `${medicine.drug_code}:${medicine.quantity}`).join(",")
       await doctorRepo.AddNewPrescription(
-        doctor_id, patient_id, diagnosis_id, treatment_end_date, prescription_note, medicines_string
+        doctor_id, patient_id, diagnosis_id, prescription_note, medicines_string
       )
       res.status(200).json({ message: "Treatment added successfully." })
     }
