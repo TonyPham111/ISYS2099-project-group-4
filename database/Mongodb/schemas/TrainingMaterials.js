@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 
 const TrainingMaterialSchema = new mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
-    department_id: String,
+    department_id: Number,
     job_id: Number,
-    document: String, // blob
+    training_material: Buffer
 });
 
 

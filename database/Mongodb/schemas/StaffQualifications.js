@@ -9,7 +9,7 @@ const educationQualificationSchema = new mongoose.Schema({
     level: String,
     qualification_grade: String,
     qualification_date: Date,
-    certificate: String // blob
+    certificate: Buffer
 }, { timestamps: true });
 
 // Schema for Staff Experiences
@@ -18,7 +18,7 @@ const experienceSchema = new mongoose.Schema({
     job_title: String,
     hospital_name: String,
     job_description: String,
-    letter_of_reference: String, // blob
+    letter_of_reference: Buffer, // blob
     start_date: Date,
     end_date: Date
 }, { timestamps: true });
