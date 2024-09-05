@@ -193,5 +193,31 @@ BEGIN
     RETURN clash_count;
 END$$
 
+DROP FUNCTION IF EXISTS OptimizedCheckNewScheduleAndAppointmentConflict$$
+CREATE FUNCTION CheckNewScheduleAndAppointmentConflict(
+    schedule_id INT
+) RETURNS int
+    READS SQL DATA
+BEGIN
+    DECLARE clash_count INT;            -- Variable to store the count of appointment clashes
+    DECLARE timeFormatCheckResult INT;  -- Variable to store the result of the time format check
+    IF @parent_proc IS NULL THEN 
+		SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Something is wrong. Please try again';
+    END IF;
+
+    -- Check for any appointment clashes for the given doctor on the specified date and time range
+    
+    SELECT COUNT(*) INTO clash_count
+    FROM Appointments 
+    INNER JOIN Staff_Schedule 
+    ON Appointment.schedule_id = Staff_Schedule.id 
+    WHERE Appointments.start_time < Staff_Schedule.start_time
+		OR
+        Appointments.end+time < Staff_Schedule.end_time;
+    -- Return the count of appointment clashes
+    RETURN clash_count;
+END$$
+
 
 DELIMITER ;

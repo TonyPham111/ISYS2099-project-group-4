@@ -227,10 +227,6 @@ BEGIN
         SET MESSAGE_TEXT = 'Something is wrong. Please try again.';
     END IF;
 	
-    IF @parent_proc IS NULL THEN 
-		SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Something is wrong. Please try again.';
-    END IF;
     
     -- Insert a record into the Salary_Change table to log the wage change
     INSERT INTO Salary_Change (
@@ -271,14 +267,13 @@ BEGIN
     END;
     SET @parent_proc = TRUE;
 
-    -- Check if input staff id exists
-    IF NOT CheckStaffExists(para_staff_id) THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Staff does not exist';
-    END IF;
-
     -- Start a transaction to ensure all operations succeed or fail together
     START TRANSACTION;
+		-- Check if input staff id exists
+		IF NOT CheckStaffExists(para_staff_id) THEN
+			SIGNAL SQLSTATE '45000'
+			SET MESSAGE_TEXT = 'Staff does not exist';
+		END IF;	
         SELECT job_id INTO para_job_id FROM Staff WHERE id = para_staff_id;
 		
         CALL ChangeWageProcedure(para_staff_id, para_job_id, para_new_wage);
@@ -349,11 +344,17 @@ BEGIN
         END IF;
     END;
     SET @parent_proc = TRUE;
+       
 
     -- Retrieve the current job ID of the staff member and store it in local_old_job
     SELECT job_id INTO local_old_job FROM Staff WHERE id = para_staff_id;
 
     START TRANSACTION;
+ -- Check if input staff id exists
+		IF NOT CheckStaffExists(para_staff_id) THEN
+			SIGNAL SQLSTATE '45000'
+			SET MESSAGE_TEXT = 'Staff does not exist';
+		END IF;
         CALL ChangeDepartmentProcedure(para_staff_id, para_new_department_id);
         -- Update the department id of the relevant staff
         UPDATE Staff 
@@ -408,6 +409,12 @@ BEGIN
 
     -- Start a transaction to ensure all operations succeed or fail together
     START TRANSACTION;
+		    -- Check if input staff id exists
+		IF NOT CheckStaffExists(para_staff_id) THEN
+			SIGNAL SQLSTATE '45000'
+			SET MESSAGE_TEXT = 'Staff does not exist';
+		END IF;
+        
         CALL ChangeWageProcedure(para_staff_id, para_new_job_id, para_new_wage);
         -- Update the job ID and wage of the staff member in the Staff table to the new job ID
         IF para_new_department_id IS NULL THEN

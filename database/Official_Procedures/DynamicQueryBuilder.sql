@@ -34,17 +34,14 @@ BEGIN
     WHERE staff_id = para_staff_id AND schedule_date = para_schedule_date
     FOR UPDATE;
     
-	SELECT CheckNewScheduleAndAppointmentConflict(para_staff_id, para_schedule_date, 
-		para_schedule_start_time, para_schedule_end_time) INTO clash_count;
-	
-    IF clash_count <> 0 THEN
-		SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'The new schedule clashes with an existing appointment.';
-    END IF;
-    
     IF existing_schedule_id IS NULL THEN
         RETURN CONCAT('1/(',para_staff_id,', ', '\'', para_schedule_date, '\'', ', ', '\'', para_schedule_start_time, '\'', ', ', '\'', para_schedule_end_time, '\'');
     ELSE 
+		SELECT OptimizedCheckNewScheduleAndAppointmentConflict(existing_schedule_id) INTO clash_count;
+		IF clash_count <> 0 THEN
+			SIGNAL SQLSTATE '45000'
+			SET MESSAGE_TEXT = 'The new schedule clashes with an existing appointment.';
+    END IF;
         SET update_case_clause_start_time = CONCAT('WHEN id = ', existing_schedule_id, ' THEN ', '\'', para_schedule_start_time, '\'');
         SET update_case_clause_end_time = CONCAT('WHEN id = ', existing_schedule_id, ' THEN ', '\'', para_schedule_end_time, '\'');
         SET update_where_clause = existing_schedule_id;
@@ -161,7 +158,7 @@ BEGIN
     DECLARE prescription_quantity INT; -- Variable to store the extracted quantity of the drug.
     DECLARE medicine_inventory INT; -- Variable to store the current inventory level of the drug.
     DECLARE new_inventory INT; -- Variable to store the new inventory level after subtracting the prescribed quantity.
-    DECLARE current_price INT; -- Variable to store the current price of the drug.
+    DECLARE current_price DECIMAL(6,2); -- Variable to store the current price of the drug.
 
     -- Declare the SQL statements to be returned
     DECLARE update_case_statement TEXT; -- Variable to store the CASE statement part of the UPDATE query.
@@ -183,7 +180,7 @@ BEGIN
     SELECT inventory, price_per_unit 
     INTO medicine_inventory, current_price
     FROM Drugs
-    WHERE drug_code = medicine_code;
+    WHERE drug_code = CAST(drug_code_string AS UNSIGNED);
 
     -- Calculate the new inventory level by subtracting the prescribed quantity
     SET new_inventory = medicine_inventory - prescription_quantity;

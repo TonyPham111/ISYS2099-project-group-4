@@ -197,6 +197,7 @@ BEGIN
     DECLARE para_appointment_charge DECIMAL(6,2) DEFAULT 400.5;      -- Variable to store the charge for the appointment
     DECLARE clash_count INT;
     DECLARE appointment_schedule_check INT;
+    DECLARE para_schedule_id INT;
 
     -- Error handling: In case of any SQL exception, rollback the transaction and return an error message
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
@@ -230,6 +231,11 @@ BEGIN
 
     -- Start a transaction to ensure all operations succeed or fail together
     START TRANSACTION;
+		SELECT CheckScheduleExists(para_doctor_id, para_appointment_date) INTO para_schedule_id;
+        If para_schedule_id IS NULL THEN
+			SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Cannot find the schedule. Please try again';
+        END IF;
         -- Insert the appointment details into the Appointments table
         INSERT INTO Appointments (
             patient_id,                        -- The patient ID linked to the appointment

@@ -8,10 +8,13 @@ BEGIN
  DECLARE EXIT HANDLER FOR SQLEXCEPTION
 	BEGIN
 		DECLARE returned_sqlstate CHAR(5) DEFAULT '';
+        DECLARE returned_message TEXT;
 		-- Retrieve the SQLSTATE of the current exception
 		GET STACKED DIAGNOSTICS CONDITION 1
-			returned_sqlstate = RETURNED_SQLSTATE;
-
+			returned_sqlstate = RETURNED_SQLSTATE,
+            returned_message = MESSAGE_TEXT;
+		
+        SELECT returned_message;
 		-- Check if the SQLSTATE is '45000'
 		IF returned_sqlstate = '45000' THEN
 			-- Resignal with the original message
@@ -57,10 +60,14 @@ BEGIN
  DECLARE EXIT HANDLER FOR SQLEXCEPTION
 	BEGIN
 		DECLARE returned_sqlstate CHAR(5) DEFAULT '';
+        DECLARE returned_message TEXT;
 		ROLLBACK;
 		-- Retrieve the SQLSTATE of the current exception
 		GET STACKED DIAGNOSTICS CONDITION 1
-			returned_sqlstate = RETURNED_SQLSTATE;
+			returned_sqlstate = RETURNED_SQLSTATE,
+             returned_message = MESSAGE_TEXT;
+		
+        SELECT returned_message;
 
 		-- Check if the SQLSTATE is '45000'
 		IF returned_sqlstate = '45000' THEN
@@ -247,7 +254,7 @@ BEGIN
 			GET DIAGNOSTICS CONDITION 1
 				returned_sqlstate = RETURNED_SQLSTATE,
                 returned_message = MESSAGE_TEXT;
-
+			
 			-- Check if the SQLSTATE is '45000'
             RESIGNAL;
 			
@@ -279,6 +286,7 @@ BEGIN
             -- Call the function ParsingDrugsCodeAndQuantity to process the current drug code and quantity
             SELECT ParsingDrugsCodeAndQuantity(current_string_code, latest_prescription_id, 0)
             INTO returned_statement;
+            SELECT returned_statement;
 
             -- Update the INSERT query with the returned INSERT statement for the current drug
             SET @insert_query = CONCAT(@insert_query, SUBSTRING_INDEX(returned_statement, ';', 1), ',');
@@ -304,7 +312,7 @@ BEGIN
     SELECT ParsingDrugsCodeAndQuantity(current_string_code, latest_prescription_id, 1)
 	INTO returned_statement;
 
-
+	SELECT returned_statement;
     -- Finalize the INSERT query with the last drug's data
 
     SET @insert_query = CONCAT(@insert_query, SUBSTRING_INDEX(returned_statement, ';', 1));
@@ -320,6 +328,7 @@ BEGIN
     SET @update_query = CONCAT(@update_query, @case_clause, @where_clause);
 
     -- Prepare and execute the final INSERT statement for Prescription_Details
+    SELECT @insert_query;
     PREPARE insert_statement FROM @insert_query;
     EXECUTE insert_statement;
     DEALLOCATE PREPARE insert_statement;

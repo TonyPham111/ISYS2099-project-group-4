@@ -90,9 +90,6 @@ CREATE TABLE Staff_Schedule (
 );
 
 
-
-
-
 CREATE TABLE Appointments (
 	id INT AUTO_INCREMENT PRIMARY KEY,
     patient_id INT NOT NULL,
@@ -104,12 +101,12 @@ CREATE TABLE Appointments (
     appointment_charge DECIMAL(6,2) NOT NULL,
     appointment_status ENUM('Active', 'Finished', 'Cancelled') NOT NULL,
     appointment_notes_document_id VARCHAR(24),
+    schedule_id INT NOT NULL,
+    FOREIGN KEY (schedule_id) REFERENCES Staff_Schedule (id),
     FOREIGN KEY (patient_id) REFERENCES Patients (id),
     FOREIGN KEY (doctor_id) REFERENCES Staff (id),
     CONSTRAINT time_check CHECK (start_time < end_time)
 );
-
-
 
 CREATE TABLE Diagnoses (
 	id INT AUTO_INCREMENT PRIMARY KEY,

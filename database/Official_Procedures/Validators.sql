@@ -227,17 +227,17 @@ CREATE FUNCTION CheckScheduleExists(
 	para_staff_id INT,
     para_date DATE
 )
-RETURNS BIT
+RETURNS INT
 READS SQL DATA
 SQL SECURITY DEFINER
 BEGIN
-	DECLARE schedule_exists BIT;
+	DECLARE schedule_id INT;
 	IF @parent_proc IS NULL THEN 
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Something is wrong. Please try again';
     END IF;
-    SELECT EXISTS(SELECT 1 FROM Staff_Schedule WHERE staff_id = para_staff_id AND schedule_date = para_date FOR UPDATE) INTO schedule_exists;
-    RETURN schedule_exists;
+    SELECT id INTO schedule_id FROM Staff_Schedule WHERE staff_id = para_staff_id AND schedule_date = para_date FOR UPDATE;
+    RETURN schedule_id;
 END$$
 GRANT EXECUTE ON FUNCTION hospital_management_system.CheckScheduleExists TO 'Doctors'@'%'$$
 GRANT EXECUTE ON FUNCTION hospital_management_system.CheckScheduleExists TO 'Nurses'@'%'$$

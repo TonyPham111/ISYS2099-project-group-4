@@ -1,4 +1,5 @@
 DELIMITER $$
+DROP TRIGGER IF EXISTS ValidatePatientsAllergies$$
 CREATE TRIGGER ValidatePatientsAllergies
 BEFORE INSERT ON PatientAllergy
 FOR EACH ROW
@@ -27,6 +28,7 @@ BEGIN
         END IF;
 END$$
 
+DROP TRIGGER IF EXISTS ValidateDiagnoses$$
 CREATE TRIGGER ValidateDiagnoses
 BEFORE INSERT ON Diagnoses
 FOR EACH ROW
@@ -55,6 +57,7 @@ BEGIN
         END IF;
 END$$
 
+DROP TRIGGER IF EXISTS ValidateTreatment$$
 CREATE TRIGGER ValidateTreatment
 BEFORE INSERT ON TreatmentHistory
 FOR EACH ROW
@@ -83,7 +86,7 @@ BEGIN
         END IF;
 END$$
 
-
+DROP TRIGGER IF EXISTS ValidateTests$$
 CREATE TRIGGER ValidateTests
 BEFORE INSERT ON Test_Orders
 FOR EACH ROW

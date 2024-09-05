@@ -611,12 +611,10 @@ BEGIN
 		END IF;
 	END;
 	SET @parent_proc = TRUE;
+	SET @para_management_id = para_manager_id;
+    SET @para_employee_id = para_employee_id;
 
-    -- Check if the manager is authorized to delete schedules for the staff member
-    IF NOT CheckManagementRelationship(para_staff_id, para_manager_id) THEN
-		SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'You do not have the authority to make changes to this staff schedule';
-    END IF;
+ 
 
     -- Initialize the base DELETE statement
     SET @delete_query = 'DELETE FROM Staff_Schedule WHERE id IN (';
@@ -701,12 +699,9 @@ BEGIN
 		END IF;
 	END;
     SET @parent_proc = TRUE;
+    SET @para_management_id = para_manager_id;
+    SET @para_employee_id = para_employee_id;
 
-	-- Check if the manager is authorized to evaluate the staff member
-	IF NOT CheckManagementRelationship(para_staff_id, para_manager_id) THEN
-		SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'You do not have the authority to evaluate this staff';
-    END IF;
 
     -- Start a transaction to ensure that all operations either succeed or fail together
     START TRANSACTION;
