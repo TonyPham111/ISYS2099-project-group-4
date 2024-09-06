@@ -42,8 +42,8 @@ const nurseRepo = {
 
   GetPatientsInfo: async (patient_name) => {
     try {
-      const sql = `CALL GetPatientsInfoForNurseByName()`;
-      const [results] = await poolNurses.query(sql);
+      const sql = `CALL GetPatientsInfoForNurseByName(?)`;
+      const [results] = await poolNurses.query(sql, [patient_name]);
       return Object.values(results);
 
     } catch (error) {
