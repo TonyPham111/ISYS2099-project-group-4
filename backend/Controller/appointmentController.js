@@ -1,16 +1,26 @@
 import frontDeskRepo from "../Models/FrontDeskModel.js";
 import AppointmentNotes from '../../database/Mongodb/schemas/AppointmentNotes.js';
+import { createAppointmentNoteFromPreNote } from '../../database/Mongodb/Methods.js';
 
 export async function getAllAppointment(req, res) {
   try {
+    console.log("User info from token:", req.user);
     const user_info = req.user;
-    if (user_info.role !== 'FrontDesk') {
+    
+    if (!user_info) {
+      console.log("No user info found in request");
+      return res.status(401).json({ message: "No user information found" });
+    }
+
+    // Modify this line to handle both "FrontDesk" and "Front Desk"
+    if (user_info.role !== 'FrontDesk' && user_info.role !== 'Front Desk') {
+      console.log("Unauthorized access attempt. User role:", user_info.role);
       return res.status(403).json({ message: 'Unauthorized access' });
     }
 
+    console.log("Fetching appointments...");
     // Fetch appointments from SQL database
     const appointments = await frontDeskRepo.GetAllAppointments(req.query.patientName, req.query.doctorId, req.query.from, req.query.to);
-
     // Fetch corresponding notes from MongoDB
     const appointmentIds = appointments.map(app => app.id);
     const notes = await AppointmentNotes.find({ _id: { $in: appointmentIds } });
@@ -34,6 +44,7 @@ export async function getAllAppointment(req, res) {
 
     res.status(200).json(combinedAppointments);
   } catch (error) {
+    console.error("Error in getAllAppointment:", error);
     res.status(500).json({ message: error.message });
   }
 }
@@ -46,40 +57,30 @@ function formatDate(dateString) {
 
 export async function CheckAvailability(req, res) {
   try {
-    const user_info = req.user
+    const user_info = req.user;
     const {
-        booked_date,
-        booked_start_time,
-        booked_end_time,
-        department_id
-    } = req.body
-    if (user_info.role === 'FrontDesk'){
-        frontDeskRepo.CheckAvailability(booked_date, booked_start_time, booked_end_time, department_id)
+      booked_date,
+      booked_start_time,
+      booked_end_time,
+      department_id
+    } = req.body;
+
+    if (user_info.role !== 'FrontDesk' && user_info.role !== 'Front Desk') {
+      return res.status(403).json({ message: 'Unauthorized access' });
     }
-    else {
-      res.status('403').json({message: error.message})
-    }
-   
+
+    const availability = await frontDeskRepo.CheckAvailability(booked_date, booked_start_time, booked_end_time, department_id);
+    return res.status(200).json({ available: availability });
   } catch (error) {
+    console.error("Error in CheckAvailability:", error);
     res.status(500).json({ message: error.message });
   }
 }
 
 export async function addNewAppointment(req, res) {
-  //verify job role = frontdesk
-  /*
-    input data: 
-    - patient_id
-    - doctor_id
-    - date
-    - startTime
-    - endTime
-    - beforeNote
-    */
-  //return upload status
   try {
     const user_info = req.user;
-    if (user_info.role !== 'FrontDesk') {
+    if (user_info.role !== 'FrontDesk' && user_info.role !== 'Front Desk') {
       return res.status(403).json({ message: 'Unauthorized access' });
     }
 
@@ -94,8 +95,29 @@ export async function addNewAppointment(req, res) {
       pre_appointment_note
     } = req.body;
 
-    // Create a new document in MongoDB and insert the pre-appointment note
-    const newAppointmentNote = await createAppointmentNoteFromPreNote(pre_appointment_note);
+    // Check availability first
+    const availability = await frontDeskRepo.CheckAvailability(
+      appointment_date,
+      appointment_start_time,
+      appointment_end_time,
+      department_id
+    );
+
+    if (!availability) {
+      return res.status(400).json({ message: 'The selected time slot is not available' });
+    }
+
+    // Create a new document in MongoDB using the method from Methods.js
+    let newAppointmentNote;
+    try {
+      newAppointmentNote = await createAppointmentNoteFromPreNote(pre_appointment_note);
+    } catch (error) {
+      console.error("Error creating appointment note in MongoDB:", error);
+      if (error instanceof mongoose.Error) {
+        return res.status(500).json({ message: "Database connection error. Please try again later." });
+      }
+      return res.status(500).json({ message: "Error creating appointment note. Please try again." });
+    }
 
     // Retrieve the document id from MongoDB
     const document_id = newAppointmentNote._id.toString();
@@ -118,6 +140,7 @@ export async function addNewAppointment(req, res) {
       documentId: document_id
     });
   } catch (error) {
+    console.error("Error in addNewAppointment:", error);
     res.status(500).json({ message: error.message });
   }
 }
