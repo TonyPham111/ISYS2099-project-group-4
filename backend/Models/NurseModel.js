@@ -208,7 +208,7 @@ const nurseRepo = {
   */
   FetchPrescriptionsByPatientId: async (para_patient_id, from_date, to_date) => {
     try {
-        const sql = `CALL FetchPrescriptionsByPatientIdAndDates(?, ?,?)`;
+        const sql = `CALL FetchPrescriptionsByPatientIdAndDates(?, ?, ?)`;
         const [results] = await poolNurses.query(sql, [para_patient_id, from_date, to_date]);
   
         // Transform the results to group prescription data

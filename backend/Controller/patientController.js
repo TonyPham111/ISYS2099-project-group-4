@@ -6,7 +6,6 @@ import businessOfficerRepo from "../Models/BusinessOfficerModel.js";
 export async function getAllPatientInfo(req, res) {
   try {
     const user_info = req.user;
-    console.log(user_info);
     if (user_info.role === 'Doctor'){
       const result =  await doctorRepo.GetPatientsInfo(user_info.id, req.query.patientName)
       res.status(200).json(result)

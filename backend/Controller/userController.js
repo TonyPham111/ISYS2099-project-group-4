@@ -98,14 +98,14 @@ export const login = async (req, res) => {
       return res.status(401).json({ error: "User not found." });
     }
 
-    const isMatch = bcrypt.compare(password, user.staff_password);
+    const isMatch = await bcrypt.compare(password, user.staff_password);
     if (!isMatch) {
       return res.status(401).json({ error: "Invalid credentials." });
     }
 
     const tokens = generateTokens(user.id, user.email, user.job_name);
     setTokenCookie(res, tokens);
-
+    
     return res.status(200).json({ message: "Login successful.", tokens });
   } catch (err) {
     console.error("Error while logging in:", err);
