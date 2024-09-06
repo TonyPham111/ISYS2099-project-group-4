@@ -4,8 +4,9 @@ import frontDeskRepo from "../Models/FrontDeskModel.js";
 import businessOfficerRepo from "../Models/BusinessOfficerModel.js";
 import hrRepo from "../Models/HrModel.js";
 import { response } from "express";
-import {createNewQualificationDocument, fetchQualifications} from "../../database/Mongodb/Methods.js"
-import {createNewTrainingDocument, fetchTrainingDocuments} from "../../database/Mongodb/Methods.js"
+import {createNewTrainingMaterial, createNewQualificationDocument, fetchQualifications} from "../../database/Mongodb/Methods.js"
+import path from "path";
+import fs from "fs";
 
 export async function getAllStaffInfo(req, res) {
   try {
@@ -27,7 +28,7 @@ export async function getAllStaffInfo(req, res) {
       res.status(200).json(result)
     }
     else if (user_info.role === "HR") {
-      const result = await hrRepo.getAllStaffsInfo(req.query.staff_name, req.query.jobId, req.query.departmentId)
+      const result = await hrRepo.FetchAllStaff(req.query.staffName, req.query.jobId, req.query.departmentId)
       res.status(200).json(result)
     }
     else {
@@ -159,20 +160,21 @@ export async function getSubordinates(req, res) {
 export async function getStaffPersonalInfo(req, res) {
   try {
     const user_info = req.user
+    const staff_id = req.params.staffId
     if (user_info.role === "Doctor"){
-      doctorRepo.FetchStaffInfoById(user_info.id)
+      doctorRepo.FetchStaffInfoById(staff_id)
     }
     else if (user_info.role === "Nurse"){
-      nurseRepo.FetchStaffInfoById(user_info.id)
+      nurseRepo.FetchStaffInfoById(staff_id)
     }
     else if (user_info.role === "FrontDesk"){
-      frontDeskRepo.FetchStaffInfoById(user_info.id)
+      frontDeskRepo.FetchStaffInfoById(staff_id)
     }
     else if (user_info.role === "BusinessOfficer"){
-      businessOfficerRepo.FetchStaffInfoById(user_info.id)
+      businessOfficerRepo.FetchStaffInfoById(staff_id)
     }
     else if (user_info.role === "HR") {
-      hrRepo.FetchStaffInfoById(user_info.id)
+      hrRepo.FetchStaffInfoById(staff_id)
     }
     else {
       res.status(403).json({ message: "Incorrect role." })
@@ -654,23 +656,45 @@ export async function getTrainingMaterials(req, res) {
   }
 }
 
-export async function createNewTrainingMaterial(req, res) {
-  try {
-    const user_info = req.user
-    const {
-        job_id,
-        department_id,
-        file
+// export async function createNewTrainingMaterial(req, res) {
+//   try {
+//     const user_info = req.user
+//     const {
+//         job_id,
+//         department_id,
+//         file
   
-    } = req.body
-    if (user_info.role === 'HR'){
-        createNewTrainingDocument(req.body);
-    }
-    else {
-      res.status(403).json({message: error.message})
-    }
+//     } = req.body
+//     if (user_info.role === 'HR'){
+//         createNewTrainingDocument(req.body);
+//     }
+//     else {
+//       res.status(403).json({message: error.message})
+//     }
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// }
+
+export async function CreateNewTrainingMaterial() {
+  try {
+    // Path to your local file
+    const filePath = path.join(__dirname, 'path', 'to', 'your', 'file.pdf');
+
+    // Read the file and convert it to base64
+    const fileContent = fs.readFileSync(filePath);
+    const base64EncodedFile = fileContent.toString('base64');
+
+    // Test parameters
+    const job_id = 'your_job_id';
+    const department_id = 'your_department_id';
+    const userRole = 'HR';
+
+    // Call the function
+    const result = await createNewTrainingMaterial(job_id, department_id, base64EncodedFile, userRole);
+
+    console.log('Result:', result);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error('Test failed:', error);
   }
 }
-

@@ -1,5 +1,4 @@
-const mongoose = require('mongoose');
-
+import mongoose from 'mongoose';
 
 // Pre-Appointments Notes ( Symptoms  )
 const appointmentNotesSchema = new mongoose.Schema({
@@ -19,5 +18,5 @@ const appointmentNotesSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 const AppointmentNotes = mongoose.model('AppointmentNotes', appointmentNotesSchema);
-module.exports = AppointmentNotes;
+export default AppointmentNotes;
 

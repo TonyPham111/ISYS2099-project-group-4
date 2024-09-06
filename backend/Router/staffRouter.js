@@ -14,7 +14,7 @@ staffRouter
   .get(verifyToken, staffController.getSubordinates)//manager of that staff,HR
 
 staffRouter
-  .route("/staff_personal_info")
+  .route("/:staffId/personal_info")
   .get(verifyToken, staffController.getStaffPersonalInfo) //HR
   .put(verifyToken, staffController.updateStaffPersonalInfo) //HR
 
@@ -54,7 +54,7 @@ staffRouter
 staffRouter
   .route("/trainingmaterial")
   .get(verifyToken, staffController.getTrainingMaterials)
-  .post(verifyToken,staffController.createNewTrainingMaterial)
+  .post(verifyToken, staffController.CreateNewTrainingMaterial)
 
 staffRouter
   .route("/:staffId/qualifications")
@@ -62,3 +62,4 @@ staffRouter
 
 
 export default staffRouter;
+ 

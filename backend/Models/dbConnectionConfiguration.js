@@ -2,7 +2,7 @@ import mysql from 'mysql2/promise';
 import dotenv from 'dotenv';
 
 // Load environment variables from .env file
-dotenv.config({ path: '.env' });
+dotenv.config({ path: './backend/.env' });
 
 class Database {
   constructor() {
@@ -55,6 +55,14 @@ class Database {
       database: process.env.MYSQL_DB,
       connectionLimit: process.env.CONNECTION_LIMIT,
     });
+    this.poolAdmin = mysql.createPool({
+      host: process.env.DB_HOST,
+      user: process.env.DB_ADMIN_USERNAME,
+      password: process.env.DB_ADMIN_PASSWORD,
+      database: process.env.MYSQL_DB,
+      connectionLimit: process.env.CONNECTION_LIMIT,
+    });
+
   }
 }
 
@@ -69,3 +77,4 @@ export const poolDoctors = databaseInstance.poolDoctors;
 export const poolFrontDesk = databaseInstance.poolFrontDesk;
 export const poolHR = databaseInstance.poolHR;
 export const poolBusinessOfficers = databaseInstance.poolBusinessOfficers;
+export const poolAdmin = databaseInstance.poolAdmin;

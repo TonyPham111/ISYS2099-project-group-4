@@ -1,15 +1,16 @@
-const AppointmentNotes = require('./schemas/AppointmentNotes');
-const TestResult = require('./schemas/LabTestResults');
-const TrainingMaterials = require('./schemas/TrainingMaterials');
-const {educationQualificationSchema, experienceSchema, licenseSchema} = require('./schemas/StaffQualifications')
+import AppointmentNotes from './schemas/AppointmentNotes.js';
+import TestResult from './schemas/LabTestResults.js';
+import TrainingMaterials from './schemas/TrainingMaterials.js';
+import { EducationQualification, ExperienceQualification, LicenseQualification } from './schemas/StaffQualifications.js';
+
 
 // Fetch Appointment Note By Document ID
-async function fetchAppointmentNoteByDocumentId(documentId) {
+export async function fetchAppointmentNoteByDocumentId(documentId) {
     return await AppointmentNotes.findOne({ _id: documentId });
 }
 
 // Update DuringAppointment Note By Document ID
-async function updateDuringAppointmentNote(documentId, duringNote) {
+export async function updateDuringAppointmentNote(documentId, duringNote) {
     return await AppointmentNotes.findByIdAndUpdate(
         documentId,
         { during_document_note: duringNote },
@@ -18,7 +19,7 @@ async function updateDuringAppointmentNote(documentId, duringNote) {
 }
 
 
-async function fetchQualifications(idsToFetch) {
+export async function fetchQualifications(idsToFetch) {
     try {
         // Fetch documents from all three collections based on _id
         const educationQualifications = await educationQualificationSchema.find({ _id: { $in: idsToFetch } });
@@ -64,39 +65,35 @@ async function fetchQualifications(idsToFetch) {
     }
 }
 
-async function createNewQualificationDocument(qualifications){
-    const response = [];
-    for (let i = 0; i < qualifications.length; i++){
-        const response_object = {
-            _id,
-            type
-        }
-        if (qualifications[i].type == 'Education'){
-            const document = await educationQualificationSchema.save(qualifications[i])
-            response_object._id = document._id
-            response_object.type = 'Education'
-            response.push(response_object)
-        }
-        else if (qualifications[i].type == 'Experience'){
-            const document = await experienceSchema.save(qualifications[i])
-            response_object._id = document._id
-            response_object.type = 'Education'
-            response.push(response_object)
-        }
-        else {
-            const document = await licenseSchema.save(qualifications[i])
-            response_object._id = document._id
-            response_object.type = 'Education'
-            response.push(response_object)
-        }
-    }
-    return response
 
+
+export async function createNewQualificationDocument(qualifications) {
+    const response = [];
+    for (const qualification of qualifications) {
+        let document;
+        switch (qualification.type) {
+            case 'Education':
+                document = await EducationQualification.create(qualification);
+                break;
+            case 'Experience':
+                document = await ExperienceQualification.create(qualification);
+                break;
+            case 'License':
+                document = await LicenseQualification.create(qualification);
+                break;
+            default:
+                throw new Error(`Unknown qualification type: ${qualification.type}`);
+        }
+        response.push({
+            _id: document._id,
+            type: qualification.type
+        });
+    }
+    return response;
 }
 
-
 // Update Post Appointment Note By Document ID
-async function updatePostAppointmentNote(documentId, postNote) {
+export async function updatePostAppointmentNote(documentId, postNote) {
     return await AppointmentNotes.findByIdAndUpdate(
         documentId,
         { post_appointment_note: postNote },
@@ -105,7 +102,7 @@ async function updatePostAppointmentNote(documentId, postNote) {
 }
 
 // Create Appointment Note from Pre Note
-async function createAppointmentNoteFromPreNote(preNote) {
+export async function createAppointmentNoteFromPreNote(preNote) {
     const newNote = new AppointmentNotes({
         pre_appointment_note: preNote,
         post_appointment_note: '',
@@ -115,7 +112,7 @@ async function createAppointmentNoteFromPreNote(preNote) {
 }
 
 // Fetch All Lab Results with Images based on lab_result_document_id
-async function fetchLabResultsWithImagesByDocumentId(documentId) {
+export async function fetchLabResultsWithImagesByDocumentId(documentId) {
     const document =  await TestResult.findOne({ 'testDocument._id': documentId })
      // Convert the PDF to Base64
      const base64PDF = document.lab_result_document ? document.lab_result_document.toString('base64') : null;
@@ -136,24 +133,39 @@ async function fetchLabResultsWithImagesByDocumentId(documentId) {
 }
 
 // Create new lab result Document
-async function createNewLabResultDocument(labResultData) {
-    const newLabResult = new TestResult(labResultData);
+export async function createNewLabResultDocument(labResultData, sampleImageData) {
+    const labResult = window.atob(labResultData)
+    const sampleImage = window.atob(sampleImageData)
+    const newLabResult = new TestResult({ 
+        lab_result_document: labResult,
+        sample_image:sampleImage
+    });
     return await newLabResult.save();
 }
 
 // Create new Training Documents based on job, department and file
-async function createNewTrainingDocument(job_id, department_id, based64EncodedFile) {
-    const file = window.atob(based64EncodedFile);
-    const newTrainingMaterial = new TrainingMaterials({
-        job_id: job_id,
-        department_id: department_id,
-        training_material: file  // Assuming you want to store the file somehow
-    });
-    return await newTrainingMaterial.save();
-}
+export async function createNewTrainingMaterial(req, res) {
+    try {
+      const user_info = req.user;
+      const { job_id, department_id, base64EncodedFile } = req.body;
+  
+      if (user_info.role === 'HR') {
+        const result = await createNewTrainingDocument(job_id, department_id, base64EncodedFile);
+        res.status(201).json({
+          message: 'Training material created successfully',
+          documentId: result._id
+        });
+      } else {
+        res.status(403).json({ message: 'Unauthorized access' });
+      }
+    } catch (error) {
+      console.error('Error creating training material:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  }
 
 // Fetch All Training Documents based on jobid and department id
-async function fetchTrainingDocuments(job_id, department_id) {
+export async function fetchTrainingDocuments(job_id, department_id) {
     const document = await TrainingMaterials.find({
         job_id: job_id,
         department_id: department_id
@@ -168,16 +180,3 @@ async function fetchTrainingDocuments(job_id, department_id) {
     return response
 }
 
-module.exports = {
-
-    fetchAppointmentNoteByDocumentId,
-    updateDuringAppointmentNote,
-    updatePostAppointmentNote,
-    createAppointmentNoteFromPreNote,
-    fetchLabResultsWithImagesByDocumentId,
-    createNewLabResultDocument,
-    createNewTrainingDocument,
-    fetchTrainingDocuments,
-    createNewQualificationDocument,
-    fetchQualifications
-};

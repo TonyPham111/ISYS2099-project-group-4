@@ -20,7 +20,7 @@ app.use(cors({ credentials: true }));
 app.use("/patients", patientRouter);
 app.use("/staff", staffRouter);
 app.use("/appointments", appointmentRouter);
-app.use("/treatment-histories",treatmentHistoryRouter); 
+app.use("/treatment-histories", treatmentHistoryRouter); 
 app.use("/conditions", conditionRouter);
 app.use("/departments", departmentRouter);
 app.use("/drugs", drugRouter);

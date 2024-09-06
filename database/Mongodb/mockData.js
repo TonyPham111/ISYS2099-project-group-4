@@ -1,8 +1,8 @@
-const mongoose = require('mongoose');
-const TrainingMaterials = require('./schemas/TrainingMaterials');
-const AppointmentNotes = require('./schemas/AppointmentNotes');
-const TestResult = require('./schemas/LabTestResults');
-const { EducationQualification, ExperienceQualification, LicenseQualification } = require('./schemas/StaffQualifications');
+import mongoose from 'mongoose';
+import TrainingMaterials from './schemas/TrainingMaterials.js';
+import AppointmentNotes from './schemas/AppointmentNotes.js';
+import TestResult from './schemas/LabTestResults.js';
+import { EducationQualification, ExperienceQualification, LicenseQualification } from './schemas/StaffQualifications.js';
 
 const mockData = {
   trainingMaterials: [
@@ -104,4 +104,4 @@ async function insertMockData() {
   }
 }
 
-module.exports = { insertMockData };
+export { insertMockData };
