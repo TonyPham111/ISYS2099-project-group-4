@@ -1,10 +1,20 @@
 import mongoose from 'mongoose';
 
-// Helper function to decode base64 to Buffer
-function decodeBase64(base64String) {
-  return Buffer.from(base64String, 'base64');
-}
-
+// Test Document
+const fileSchema = new mongoose.Schema({
+    _id: { 
+      type: mongoose.Schema.Types.ObjectId, 
+      auto: true 
+    },
+    file_name: {
+      type: String,
+      required: true
+    },
+    file: {
+      type: Buffer,
+      required: true
+    }
+  });
 // Schema for Education Qualifications
 const educationQualificationSchema = new mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
@@ -13,10 +23,7 @@ const educationQualificationSchema = new mongoose.Schema({
     level: String,
     qualification_grade: String,
     qualification_date: Date,
-    certificate: {
-        type: Buffer,
-        set: decodeBase64
-    }
+    certificate: fileSchema
 }, { timestamps: true });
 
 // Schema for Staff Experiences
@@ -25,10 +32,7 @@ const experienceQualificationSchema = new mongoose.Schema({
     job_title: String,
     hospital_name: String,
     job_description: String,
-    letter_of_reference: {
-        type: Buffer,
-        set: decodeBase64
-    },
+    letter_of_reference: fileSchema,
     start_date: Date,
     end_date: Date
 }, { timestamps: true });
@@ -36,10 +40,7 @@ const experienceQualificationSchema = new mongoose.Schema({
 // Schema for Licenses
 const licenseQualificationSchema = new mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
-    document: {
-        type: Buffer,
-        set: decodeBase64
-    }
+    document: fileSchema
 }, { timestamps: true });
 
 export const EducationQualification = mongoose.model('Education Qualification', educationQualificationSchema);

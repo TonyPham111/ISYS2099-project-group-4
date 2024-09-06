@@ -111,31 +111,52 @@ export async function createAppointmentNoteFromPreNote(preNote) {
 }
 
 // Fetch All Lab Results with Images based on lab_result_document_id
-export async function fetchLabResultsWithImagesByDocumentId(documentId) {
-    const document =  await TestResult.findOne({ 'testDocument._id': documentId })
-     // Convert the PDF to Base64
-     const base64PDF = document.lab_result_document ? document.lab_result_document.toString('base64') : null;
-    
-     // Convert each image to Base64
-     const base64Images = document.sample_image.map(imageBuffer => imageBuffer.toString('base64'));
-     
-     const response = {
-       _id: document._id,
-       lab_result_document: base64PDF, // Send Base64 encoded PDF
-       sample_image: base64Images, // Send Base64 encoded JPEG images
-     };
-    return response
-        
-    
-    
-    //.populate('testDocument.sample_image');
+export async function getAllImagesWithLabResult(testDocumentId) {
+    try {
+        // Find the test result document by its _id
+        const testResult = await TestResult.findById(testDocumentId);
+
+        // If no document is found, return an error
+        if (!testResult) {
+            return { error: 'Test document not found' };
+        }
+
+        // Retrieve the lab result document and sample images
+        const labResultDocument = testResult.lab_result_document;
+        const sampleImages = testResult.sample_image;
+
+        // Encode the lab result document in Base64
+        const encodedLabResult = {
+            file_name: labResultDocument.file_name,
+            file: labResultDocument.file.toString('base64') // Convert Buffer to Base64
+        };
+
+        // Encode each sample image in Base64
+        const encodedSampleImages = sampleImages.map(image => ({
+            file_name: image.file_name,
+            file: image.file.toString('base64') // Convert Buffer to Base64
+        }));
+
+        // Combine the lab result document with the sample images in the response
+        const response = {
+            lab_result_document: encodedLabResult,
+            sample_images: encodedSampleImages
+        };
+
+        // Return the combined result
+        return response;
+    } catch (error) {
+        console.error('Error retrieving images:', error);
+        throw new Error('Unable to retrieve images');
+    }
 }
+
 
 // Create new lab result Document
 export async function createNewLabResultDocument(labResultData, sampleImageData) {
     const newLabResult = new TestResult({ 
         lab_result_document: labResultData,
-        sample_image:sampleImage
+        sample_image:sampleImageData
     });
     return await newLabResult.save();
 }

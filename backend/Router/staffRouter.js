@@ -1,6 +1,7 @@
 import express from "express";
 import * as staffController from "../Controller/staffController.js";
 import { verifyToken } from "../Middleware/auth.js";
+import {upload} from "../Middleware/multer.js"
 
 const staffRouter = express.Router();
 
@@ -54,7 +55,7 @@ staffRouter
 staffRouter
   .route("/trainingmaterial")
   .get(verifyToken, staffController.getTrainingMaterials)
-  .post(verifyToken, staffController.CreateNewTrainingMaterial)
+  .post(verifyToken, upload.single('trainingMaterial'), staffController.CreateNewTrainingMaterial)
 
 staffRouter
   .route("/:staffId/qualifications")

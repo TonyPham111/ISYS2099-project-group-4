@@ -1,6 +1,7 @@
 import express from "express";
 import * as testController from "../Controller/testController.js"
 import { verifyToken } from "../Middleware/auth.js";
+import {upload} from '../Middleware/multer.js'
 
 const testRouter = express.Router();
 
@@ -11,7 +12,12 @@ testRouter
 
 testRouter
   .route("/:testOrderid/:testTypeId/update")
-  .get(verifyToken, testController.updateLabResult)//nurse
+  .put(verifyToken, upload.fields(
+    [
+      { name: 'lab_result_name', maxCount: 1 },
+      { name: 'test_image_name', maxCount: 20 }
+    ]
+  ),  testController.updateLabResult)//nurse
 
 testRouter
   .route("/:labresultId/lab_results")
