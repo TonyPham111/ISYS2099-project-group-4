@@ -42,8 +42,8 @@ const nurseRepo = {
 
   GetPatientsInfo: async (patient_name) => {
     try {
-      const sql = `CALL GetPatientsInfoForNurseByName()`;
-      const [results] = await poolNurses.query(sql);
+      const sql = `CALL GetPatientsInfoForNurseByName(?)`;
+      const [results] = await poolNurses.query(sql, [patient_name]);
 
       // Transform the results to group allergy data
       const groupedResults = results[0].reduce((accumulator, row) => {
