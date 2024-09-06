@@ -61,7 +61,19 @@ export async function updateLabResult(req, res) {
          lab_result_document, 
          images
       } = req.body
-      const newLabDocument = await createNewLabResultDocument(req.body)
+
+      const files = req.files;
+      let pdfFile;
+      let imageFiles = [];
+      for (let i = 0; i < files.length; i++){
+          if (files[i].mimetype = "application/pdf"){
+            pdfFile = files[i].buffer
+          }
+          else {
+            imageFiles.push(files[i].buffer)
+          }
+      
+      const newLabDocument = await createNewLabResultDocument(pdfFile, imageFiles)
       // Create an empty lab result document here
       if (user_info.role === 'Doctor'){
           nurseRepo.UpdateTestDetail(

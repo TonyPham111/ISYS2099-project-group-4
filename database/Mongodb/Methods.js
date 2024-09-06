@@ -21,9 +21,9 @@ export async function updateDuringAppointmentNote(documentId, duringNote) {
 export async function fetchQualifications(idsToFetch) {
     try {
         // Fetch documents from all three collections based on _id
-        const educationQualifications = await educationQualificationSchema.find({ _id: { $in: idsToFetch } });
-        const experiences = await experienceSchema.find({ _id: { $in: idsToFetch } });
-        const licenses = await licenseSchema.find({ _id: { $in: idsToFetch } });
+        const educationQualifications = await EducationQualification.find({ _id: { $in: idsToFetch } });
+        const experiences = await ExperienceQualification.find({ _id: { $in: idsToFetch } });
+        const licenses = await LicenseQualification.find({ _id: { $in: idsToFetch } });
 
         // Map the results to encode blob fields (certificate, letter_of_reference, document) as Base64
         const educationResults = educationQualifications.map(qualification => ({
@@ -133,10 +133,8 @@ export async function fetchLabResultsWithImagesByDocumentId(documentId) {
 
 // Create new lab result Document
 export async function createNewLabResultDocument(labResultData, sampleImageData) {
-    const labResult = window.atob(labResultData)
-    const sampleImage = window.atob(sampleImageData)
     const newLabResult = new TestResult({ 
-        lab_result_document: labResult,
+        lab_result_document: labResultData,
         sample_image:sampleImage
     });
     return await newLabResult.save();
@@ -149,7 +147,7 @@ export async function createNewTrainingMaterial(req, res) {
       const { job_id, department_id, base64EncodedFile } = req.body;
   
       if (user_info.role === 'HR') {
-        const result = await createNewTrainingDocument(job_id, department_id, base64EncodedFile);
+        const result = await TrainingMaterials.save(req.body);
         res.status(201).json({
           message: 'Training material created successfully',
           documentId: result._id

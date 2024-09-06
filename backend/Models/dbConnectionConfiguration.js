@@ -2,7 +2,7 @@ import mysql from 'mysql2/promise';
 import dotenv from 'dotenv';
 
 // Load environment variables from .env file
-dotenv.config({ path: './backend/.env' });
+dotenv.config({ path: '.env' });
 
 class Database {
   constructor() {
