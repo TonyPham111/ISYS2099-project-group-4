@@ -5,16 +5,20 @@ import nurseRepo from "../Models/NurseModel.js";
 export async function getAllTests(req, res) {
   try {
     const user_info = req.user
+    const patient_id = req.params.patientId
+    const from_date = req.query.from
+    const to_date = req.query.to
     if (user_info.role === 'Doctor'){
-      doctorRepo.FetchTestDetailsByPatientId(req.params.patientId, req.query.from, req.query.to)
+      const result = await doctorRepo.FetchTestDetailsByPatientId(patient_id, from_date, to_date)
+      res.status(200).json(result)
     }
     else if (user_info.role === 'Nurse'){
-      nurseRepo.FetchPrescriptionsByPatientId(req.params.patientId, req.query.from, req.query.to)
+      const result = await nurseRepo.FetchTestDetailsByPatientId(patient_id, from_date, to_date)
+      res.status(200).json(result)
     }
     else {
       res.status(403).json({ message: "Incorrect role" })
     }
-  
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -34,20 +38,19 @@ export async function createNewTestOrders(req, res) {
   try {
     const user_info = req.user
     const {
-        patient_id,
         administering_date,
         administering_time,
-        medicines: [] // [1,2,3,4,5] -> '1,2,3,4,5'
-  
+        tests
     } = req.body
-    const test_string = ''
+
     if (user_info.role === 'Doctor'){
-        doctorRepo.OrderTest(
-          user_info.id, patient_id, administering_date, administering_time, test_string
-        )
+      const patient_id = req.params.patientId
+      const test_string = tests.join(",");
+      await doctorRepo.OrderTest(user_info.id, patient_id, administering_date, administering_time, test_string)
+      res.status(200).json({ message: "Tests ordered successfully" })
     }
     else {
-      res.status(403).json({message: error.message})
+      res.status(403).json({ message: "Incorrect role" })
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -87,7 +90,3 @@ export async function updateLabResult(req, res) {
       res.status(500).json({ message: error.message });
     }
   }
-
-
-
-
