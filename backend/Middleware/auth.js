@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 
 // Function to generate access and refresh tokens
 export const generateTokens = (id, email, role) => {
+  role = role.replace(" ", "");
   const accessToken = jwt.sign({ id, email, role }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "15m" });
   const refreshToken = jwt.sign({ id, email, role }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "7d" });
 
@@ -34,6 +35,7 @@ export const verifyToken = async (req, res, next) => {
     try {
       const verified = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
       req.user = verified;
+      console.log("Verified user:", verified);
     } catch (err) {
       res.status(401).json({ error: "Unauthorized - Invalid Token" });
     }

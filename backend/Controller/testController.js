@@ -2,20 +2,17 @@ import {fetchLabResultsWithImagesByDocumentId, createNewLabResultDocument } from
 import doctorRepo from "../Models/DoctorModel.js";
 import nurseRepo from "../Models/NurseModel.js";
 
-
 export async function getAllTests(req, res) {
   try {
     const user_info = req.user
     if (user_info.role === 'Doctor'){
-        doctorRepo.FetchTestDetailsByPatientId(req.params.patientId, req.query.from, req.query.to)
+      doctorRepo.FetchTestDetailsByPatientId(req.params.patientId, req.query.from, req.query.to)
     }
-
     else if (user_info.role === 'Nurse'){
-        nurseRepo.FetchPrescriptionsByPatientId(req.params.patientId, req.query.from, req.query.to)
+      nurseRepo.FetchPrescriptionsByPatientId(req.params.patientId, req.query.from, req.query.to)
     }
-
     else {
-        res.status(403).json({message: error.message})
+      res.status(403).json({ message: "Incorrect role" })
     }
   
   } catch (error) {
