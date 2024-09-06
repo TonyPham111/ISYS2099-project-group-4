@@ -103,7 +103,7 @@ BEGIN
         phone_number AS contact_phone_number, -- Contact phone number
         home_address                          -- Home address of the patient
     FROM Patients
-    WHERE full_name = para_full_name;
+     WHERE MATCH(Patients.full_name) AGAINST(para_full_name IN NATURAL LANGUAGE MODE);
 END$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchPatientsPersonalInfoByName TO 'FrontDesk'@'%'$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchPatientsPersonalInfoByName TO 'BusinessOfficers'@'%'$$

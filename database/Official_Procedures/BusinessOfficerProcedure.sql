@@ -83,7 +83,7 @@ BEGIN
     FROM Billings 
     INNER JOIN Patients ON Patients.id = Billings.patient_id
     WHERE 1 = 1';
-    SET @by_name = CONCAT('Patients.full_name = ', patient_name);
+    SET @by_name = CONCAT('WHERE MATCH(Patients.full_name) AGAINST(', patient_name, ' IN NATURAL LANGUAGE MODE)');
     SET @by_date = CONCAT('billing_date BETWEEEN ', from_date, ' AND ', to_date);
     SET @by_amount = CONCAT('total_amount BETWEEEN ', from_amount, ' AND ', to_amount);
     IF patient_name = NULL THEN
@@ -102,7 +102,7 @@ BEGIN
     EXECUTE stmt;
     DEALLOCATE PREPARE stmt;
 END$$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.GetAllBillingsByDates TO 'BusinessOfficers'@'%'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.GetAllBillingsWithFilters TO 'BusinessOfficers'@'%'$$
 
 
 DROP PROCEDURE IF EXISTS GetBillingDetails$$

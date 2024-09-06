@@ -277,8 +277,7 @@ BEGIN
                 SET MESSAGE_TEXT = 'Something is wrong. Please try again.';
         END IF;
     END;
-	
-    SET @by_name = CONCAT('Non_Manager.full_name = ', para_full_name);
+    SET @by_name = CONCAT('WHERE MATCH(Non_Manger.full_name) AGAINST(', para_full_name, ' IN NATURAL LANGUAGE MODE)');
     SET @by_department = CONCAT('Departments.id = ',  para_department_id);
     SET @by_job = CONCAT('Jobs.id = ',  para_job_id);
     SET @by_employment_status = CONCAT('employment_status= ', para_employment_status);
@@ -334,7 +333,7 @@ BEGIN
     EXECUTE stmt;
     DEALLOCATE PREPARE stmt;
 END$$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchAllStaffByName TO 'HR'@'%'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchAllStaffWithFilters TO 'HR'@'%'$$
 
 
 DROP PROCEDURE IF EXISTS ChangeWageProcedure$$

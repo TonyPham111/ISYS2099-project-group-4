@@ -162,7 +162,7 @@ BEGIN
 		SET to_date = '9999-12-31';
     END IF;
     
-    SET @by_name = CONCACT('Patients.full_name = ', patient_name);
+    SET @by_name = CONCAT('WHERE MATCH(Patients.full_name) AGAINST(patient_name ', patient_name, ' IN NATURAL LANGUAGE MODE)');
     SET @by_doctor_id = CONCAT('Appointments.doctor_id = ', para_doctor_id);
     SET @by_date = CONCAT('BETWEEN ', from_date, ' AND ', to_date);
     SET @by_appointment_status = CONCAT('appointment_status = ', para_appointment_status);
@@ -207,7 +207,7 @@ BEGIN
     DEALLOCATE PREPARE stmt;
 	
 END$$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.GetAllAppointments TO 'FrontDesk'@'%'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.GetAllAppointmentsWithFilters TO 'FrontDesk'@'%'$$
 
 
 
