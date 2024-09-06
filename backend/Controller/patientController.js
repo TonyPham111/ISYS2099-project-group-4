@@ -7,19 +7,19 @@ export async function getAllPatientInfo(req, res) {
   try {
     const user_info = req.user;
     if (user_info.role === 'Doctor'){
-      const result =  await doctorRepo.GetPatientsInfo(user_info.id)
+      const result =  await doctorRepo.GetPatientsInfo(user_info.id, req.query.patientName)
       res.status(200).json(result)
     }
     else if (user_info.role === 'Nurse'){
-      const result =  await nurseRepo.GetPatientsInfo()
+      const result =  await nurseRepo.GetPatientsInfo(req.query.patientName)
       res.status(200).json(result)
     }
     else if (user_info === 'FrontDesk'){
-      const result = await frontDeskRepo.GetPatientsInfo()
+      const result = await frontDeskRepo.GetPatientsInfo(req.query.patientName)
       res.status(200).json(result)
     }
     else if (user_info === 'BusinessOfficer'){
-      const result = await businessOfficerRepo.GetPatientsInfo()
+      const result = await businessOfficerRepo.GetPatientsInfo(req.query.patientName)
       res.status(200).json(result)
     }
     else {
@@ -113,12 +113,14 @@ export async function getSpecificPatientAllDiagnosis(req, res) {
   try {
     const patient_id = req.params.patientId;
     const user_info = req.user
+    const from_date = req.query.from_date
+    const to_date = req.query.to_date
     if (user_info.role === 'Doctor'){
-      const result = await doctorRepo.FetchDiagnosesByPatientId(patient_id)
+      const result = await doctorRepo.FetchDiagnosesByPatientId(patient_id, from_date, to_date)
       res.status(200).json(result)
     }
     else if (user_info.role === 'Nurse'){
-      const result = await nurseRepo.FetchDiagnosesByPatientId(patient_id)
+      const result = await nurseRepo.FetchDiagnosesByPatientId(patient_id, from_date, to_date)
       res.status(200).json(result)
     }
     else {

@@ -27,7 +27,7 @@ export async function getAllStaffInfo(req, res) {
       res.status(200).json(result)
     }
     else if (user_info.role === "HR") {
-      const result = await hrRepo.getAllStaffsInfo()
+      const result = await hrRepo.getAllStaffsInfo(req.query.staff_name, req.query.jobId, req.query.departmentId)
       res.status(200).json(result)
     }
     else {
@@ -163,16 +163,16 @@ export async function getStaffPersonalInfo(req, res) {
       doctorRepo.FetchStaffInfoById(user_info.id)
     }
     else if (user_info.role === "Nurse"){
-      nurseRepo.FetchStaffInfoById(user_info.id))
+      nurseRepo.FetchStaffInfoById(user_info.id)
     }
     else if (user_info.role === "FrontDesk"){
-      frontDeskRepo.FetchStaffInfoById(user_info.id))
+      frontDeskRepo.FetchStaffInfoById(user_info.id)
     }
     else if (user_info.role === "BusinessOfficer"){
-      businessOfficerRepo.FetchStaffInfoById(user_info.id))
+      businessOfficerRepo.FetchStaffInfoById(user_info.id)
     }
     else if (user_info.role === "HR") {
-      hrRepo.FetchStaffInfoById(user_info.id))
+      hrRepo.FetchStaffInfoById(user_info.id)
     }
     else {
       res.status(403).json({ message: "Incorrect role." })
@@ -444,23 +444,23 @@ export async function getStaffEvaluations(req, res){
 
     const schedule_string = `${schedule_date};${schedule_start_time}-${schedule_end_time}`
     if (user_info.role === 'Doctor'){
-      await doctorRepo.GetAllPerformanceEvaluation(user_info.id, staff_id)
+      await doctorRepo.GetAllPerformanceEvaluation(user_info.id, staff_id, req.query.from, req.query.to)
       res.status(200).json({ message: "Successful." })
     }
     else if (user_info.role === 'Nurse'){
-      await doctorRepo.GetAllPerformanceEvaluation(user_info.id, staff_id)
+      await doctorRepo.GetAllPerformanceEvaluation(user_info.id, staff_id, req.query.from, req.query.to)
       res.status(200).json({ message: "Successful." })
     }
     else if (user_info.role === 'FrontDesk'){
-      await doctorRepo.GetAllPerformanceEvaluation(user_info.id, staff_id)
+      await doctorRepo.GetAllPerformanceEvaluation(user_info.id, staff_id, req.query.from, req.query.to)
       res.status(200).json({ message: " Successful" })
     }
     else if (user_info.role === 'HR'){
-      await doctorRepo.GetAllPerformanceEvaluation(user_info.id, staff_id)
+      await doctorRepo.GetAllPerformanceEvaluation(user_info.id, staff_id, req.query.from, req.query.to)
       res.status(200).json({ message: "Successful" })
     }
     else if (user_info.role === 'BusinessOfficer'){
-      await doctorRepo.GetAllPerformanceEvaluation(user_info.id, staff_id)
+      await doctorRepo.GetAllPerformanceEvaluation(user_info.id, staff_id, req.query.from, req.query.to)
       res.status(200).json({ message: "Successful" })
     }
     else {
@@ -585,23 +585,23 @@ export async function getStaffSchedule(req, res) {
   const user_info = req.user
   try {
     if (user_info.role === 'Doctor'){
-      const result = await doctorRepo.GetSubordinatesSchedule(user_info.id, req.params.staffId)
+      const result = await doctorRepo.GetSubordinatesSchedule(user_info.id, req.params.staffId, req.query.from, req.query.to)
       res.status(200).json(result)
     }
     else if (user_info.role === 'Nurse'){
-      const result = await nurseRepo.GetSubordinatesSchedule(user_info.id, req.params.staffId)
+      const result = await nurseRepo.GetSubordinatesSchedule(user_info.id, req.params.staffId, req.query.from, req.query.to)
       res.status(200).json(result)
     }
     else if (user_info.role === 'HR'){
-      const result = await hrRepo.GetSubordinatesSchedule(user_info.id, req.params.staffId)
+      const result = await hrRepo.GetSubordinatesSchedule(user_info.id, req.params.staffId, req.query.from, req.query.to)
       res.status(200).json(result)
     }
     else if (user_info.role === 'FrontDesk'){
-      const result = await frontDeskRepo.GetSubordinatesSchedule(user_info.id, req.params.staffId)
+      const result = await frontDeskRepo.GetSubordinatesSchedule(user_info.id, req.params.staffId, req.query.from, req.query.to)
       res.status(200).json(result)
     }
     else if (user_info.role === 'BusinessOfficer'){
-      const result = await businessOfficerRepo.GetSubordinatesSchedule(user_info.id, req.params.staffId)
+      const result = await businessOfficerRepo.GetSubordinatesSchedule(user_info.id, req.params.staffId, req.query.from, req.query.to)
       res.status(200).json(result)
     }
     else {

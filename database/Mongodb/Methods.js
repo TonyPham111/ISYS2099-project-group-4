@@ -142,7 +142,8 @@ async function createNewLabResultDocument(labResultData) {
 }
 
 // Create new Training Documents based on job, department and file
-async function createNewTrainingDocument(job_id, department_id, file) {
+async function createNewTrainingDocument(job_id, department_id, based64EncodedFile) {
+    const file = window.atob(based64EncodedFile);
     const newTrainingMaterial = new TrainingMaterials({
         job_id: job_id,
         department_id: department_id,

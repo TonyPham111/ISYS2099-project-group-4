@@ -122,6 +122,86 @@ END$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.GetAllAppointments TO 'FrontDesk'@'%'$$
 
 
+DROP PROCEDURE IF EXISTS GetAllAppointmentsWithFilters$$
+CREATE PROCEDURE GetAllAppointmentsWithFilters(
+	patient_name VARCHAR(50),
+    doctor_id VARCHAR(50),
+    from_date DATE,
+    to_date DATE
+)
+SQL SECURITY DEFINER
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        DECLARE returned_sqlstate CHAR(5) DEFAULT '';
+        DECLARE returned_message TEXT;
+
+        -- Retrieve the SQLSTATE of the current exception
+        GET STACKED DIAGNOSTICS CONDITION 1
+            returned_sqlstate = RETURNED_SQLSTATE,
+            returned_message = MESSAGE_TEXT;
+		SELECT returned_message;
+
+        -- Check if the SQLSTATE is '45000'
+        IF returned_sqlstate = '45000' THEN
+            -- Resignal with the original message
+            RESIGNAL;
+        ELSE
+            -- Set a custom error message and resignal with SQLSTATE '45000'
+            SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Something is wrong. Please try again.';
+        END IF;
+    END;
+    
+    IF from_date = NULL THEN
+		SET from_date = '1000-01-01';
+	END IF;
+    
+    IF end_date = NULL THEN
+		SET to_date = '9999-12-31';
+    END IF;
+    
+    SET @by_name = CONCACT('Patients.full_name = ', patient_name);
+    SET @by_doctor_id = CONCAT('Appointments.doctor_id = ', doctor_id);
+    SET @by_date = CONCAT('BETWEEN ', from_date, ' AND ', to_date);
+	SET @select_statement = '
+    -- Select all appointments
+    SELECT 
+		Patients.full_name,
+        Staff.full_name,
+        Appointments.id,
+        Appointments.appointment_purpose,
+        DATE_FORMAT(appointment_date, \'%d/%m/%Y\' ) AS appointment_date,
+        Appointments.start_time,
+        Appointments.end_time,
+        Appointments.appointment_notes_document_id
+    FROM Patients
+    INNER JOIN Appointments
+    ON Patients.id = Appointments.patient_id
+    INNER JOIN Staff
+    ON Staff.id = Appointments.doctor_id 
+    WHERE 1 =1';
+    
+    IF patient_name IS NOT NULL THEN
+		SET @select_statement = CONCAT(@select_statement, ' AND ', @by_name);
+    END IF;
+    
+    IF doctor_id IS NOT NULL THEN
+		SET @select_statement = CONCAT(@select_statement, ' AND ', @by_doctor_id);
+    END IF;
+    
+    SET @select_statement = CONCAT(@select_statement, ' AND ', @by_date, ';');
+    
+     -- Prepare and execute the final dynamic SQL statement
+    PREPARE stmt FROM @select_statement;
+    EXECUTE stmt;
+    DEALLOCATE PREPARE stmt;
+	
+END$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.GetAllAppointments TO 'FrontDesk'@'%'$$
+
+
+
 DROP PROCEDURE IF EXISTS CheckAvailability$$
 CREATE PROCEDURE CheckAvailability(
     booked_date DATE,                      -- Parameter for the date when the booking is intended

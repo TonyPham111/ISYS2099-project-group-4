@@ -28,8 +28,11 @@ BEGIN
 END$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.GetAllBillings TO 'BusinessOfficers'@'%'$$
 
-DROP PROCEDURE IF EXISTS GetAllBillingsByDates$$
-CREATE PROCEDURE GetAllBillingsByDates(
+DROP PROCEDURE IF EXISTS GetAllBillingsWithFilters$$
+CREATE PROCEDURE GetAllBillingsWithFilters(
+	patient_name VARCHAR(50),
+    from_amount DECIMAL(8,2),
+    to_amount DECIMAL(8,2),
 	from_date DATE,
     to_date DATE
 )
@@ -53,6 +56,14 @@ BEGIN
                 SET MESSAGE_TEXT = 'Something is wrong. Please try again.';
         END IF;
     END;
+    
+    IF from_amount = NULL THEN
+		SET from_amount = 0;
+    END IF;
+    IF to_amount = NULL THEN
+		SET to_amount = 999999.99;
+    END IF;
+    
 	IF from_date = NULL THEN
 		SET from_date = '1000-01-01';
 	END IF;
@@ -60,10 +71,29 @@ BEGIN
     IF end_date = NULL THEN
 		SET to_date = '9999-12-31';
     END IF;
-
+	
+    SET @select_statement = '
     -- Select all billing records
-    SELECT Billings.id, Billings.patient_id, Billings.billing_date, Billings.total_amount 
-    FROM Billings WHERE billing_date BETWEEN from_date AND to_date;
+    SELECT Billings.id, 
+    Patients.full_name, 
+    Billings.billing_date, 
+    Billings.total_amount 
+    FROM Billings 
+    INNER JOIN Patients ON Patients.id = Billings.patient_id
+    WHERE 1 = 1';
+    SET @by_name = CONCAT('Patients.full_name = ', patient_name);
+    SET @by_date = CONCAT('billing_date BETWEEEN ', from_date, ' AND ', to_date);
+    SET @by_amount = CONCAT('total_amount BETWEEEN ', from_amount, ' AND ', to_amount);
+    IF patient_name = NULL THEN
+		SET @select_statement = CONCAT(@select_statement, ' AND ', @by_name);
+    END IF;
+    SET @select_statement = CONCAT(@select_statement, ' AND ', @by_date);
+    SET @select_statement = CONCAT(@select_statement, ' AND ', @by_amount,';');
+    
+		-- Prepare and execute the final dynamic SQL statement
+    PREPARE stmt FROM @select_statement;
+    EXECUTE stmt;
+    DEALLOCATE PREPARE stmt;
 END$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.GetAllBillingsByDates TO 'BusinessOfficers'@'%'$$
 

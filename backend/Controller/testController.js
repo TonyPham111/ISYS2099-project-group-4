@@ -7,11 +7,11 @@ export async function getAllTests(req, res) {
   try {
     const user_info = req.user
     if (user_info.role === 'Doctor'){
-        doctorRepo.FetchTestDetailsByPatientId(req.params.patientId)
+        doctorRepo.FetchTestDetailsByPatientId(req.params.patientId, req.query.from, req.query.to)
     }
 
     else if (user_info.role === 'Nurse'){
-        nurseRepo.FetchPrescriptionsByPatientId(req.params.patientId)
+        nurseRepo.FetchPrescriptionsByPatientId(req.params.patientId, req.query.from, req.query.to)
     }
 
     else {

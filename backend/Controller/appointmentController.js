@@ -9,7 +9,7 @@ export async function getAllAppointment(req, res) {
     }
 
     // Fetch appointments from SQL database
-    const appointments = await frontDeskRepo.GetAllAppointments();
+    const appointments = await frontDeskRepo.GetAllAppointments(req.query.patientName, req.query.doctorId, req.query.from, req.query.to);
 
     // Fetch corresponding notes from MongoDB
     const appointmentIds = appointments.map(app => app.id);

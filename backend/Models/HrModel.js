@@ -17,6 +17,7 @@ const hrRepo = {
     }
   },
 
+  /*
   FetchAllStaff: async () => {
     try {
       const sql = `CALL FetchAllStaff()`;
@@ -26,6 +27,7 @@ const hrRepo = {
       throw new Error(error.message);
     }
   },
+  */
 
   ChangeWage: async (staff_id, new_wage) => {
     try {
@@ -66,7 +68,7 @@ const hrRepo = {
       throw new Error(error.message);
     }
   },
-
+  /*
   FetchJobChangeByStaffId: async (para_staff_id) => {
     try {
       const sql = `CALL FetchJobChangeByStaffId(?)`;
@@ -96,6 +98,7 @@ const hrRepo = {
       throw new Error(error.message);
     }
   },
+  */
 
   FetchStaffInfoById: async (staff_id) => {
     try {
@@ -157,6 +160,7 @@ const hrRepo = {
     }
   },
 
+  /*
   GetSubordinatesSchedule: async (manager_id, staff_id) => {
     try {
       const sql = `CALL GetAppointmentsAndSchedulesByStaff(?, ?)`;
@@ -175,6 +179,7 @@ const hrRepo = {
       throw new Error(error.message);
     }
   },
+  */
   GetEvaluationDetails: async (manager_id, staff_id, evaluation_id) => {
     try {
       const sql = `CALL GetEvaluationDetails(?, ?, ?)`;
@@ -205,7 +210,87 @@ const hrRepo = {
     } catch (error) {
       throw new Error(error.message);
     }
-  }
+  },
+  GetSubordinatesSchedule: async (manager_id, staff_id, from_date, to_date) => {
+    try {
+      const sql = `CALL GetAppointmentsAndSchedulesByStaffByDate(?, ?, ?, ?)`;
+      const [results] = await poolHR.query(sql, [staff_id, manager_id, from_date, to_date]);
+      return results[0];
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  },
+  /*
+  GetOwnSchedule: async (staff_id) => {
+    try {
+      const sql = `CALL GetOwnAppointmentsAndSchedules(?)`;
+      const [results] = await poolHR.query(sql, [staff_id, manager_id, from_date, to_date]);
+      return results[0];
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  },
+  */
+
+  GetOwnSchedule: async (staff_id, from_date, to_date) => {
+    try {
+      const sql = `CALL GetOwnAppointmentsAndSchedulesByDates(?, ?, ?, ?)`;
+      const [results] = await poolHR.query(sql, [staff_id, manager_id, from_date, to_date]);
+      return results[0];
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  },
+
+  GetAllPerformanceEvaluation: async (manager_id, staff_id, from_date, to_date) => {
+    try {
+      const sql = `CALL GetAllPerformanceEvaluationByStaffByDates(?, ?, ?, ?)`;
+      const [results] = await poolHR.query(sql, [manager_id, staff_id, from_date, to_date]);
+      return results;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  },
+
+  FetchJobChangeByStaffId: async (para_staff_id, from_date, to_date) => {
+    try {
+      const sql = `CALL FetchJobChangeByStaffIdByDates(?, ?, ?)`;
+      const [results] = await poolHR.query(sql, [para_staff_id, from_date, to_date]);
+      return results;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  },
+
+  FetchWageChangeByStaffId: async (para_staff_id, from_date, to_date) => {
+    try {
+      const sql = `CALL FetchWageChangeByStaffIdByDates(?, ?, ?)`;
+      const [results] = await poolHR.query(sql, [para_staff_id, from_date, to_date]);
+      return results;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  },
+
+  FetchDepartmentChangeByStaffId: async (para_staff_id, from_date, to_date) => {
+    try {
+      const sql = `CALL FetchDepartmentChangeByStaffIdByDates(?, ?, ?)`;
+      const [results] = await poolHR.query(sql, [para_staff_id, from_date, to_date]);
+      return results;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  },
+  FetchAllStaff: async (staff_name, job_id, department_id) => {
+    try {
+      const sql = `CALL FetchAllStaffWithFilters(?, ?, ?)`;
+      const [results] = await poolHR.query(sql, [staff_name, job_id, department_id]);
+      return results;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  },
+
 };
 
 export default hrRepo;

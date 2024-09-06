@@ -31,10 +31,10 @@ const frontDeskRepo = {
     }
   },
 
-  GetPatientsInfo: async () => {
+  GetPatientsInfo: async (patient_name) => {
     try {
-      const sql = `CALL FetchPatientsPersonalInfo()`;
-      const [results] = await poolFrontDesk.query(sql, []);
+      const sql = `CALL FetchPatientsPersonalInfoByName(?)`;
+      const [results] = await poolFrontDesk.query(sql, [patient_name]);
       return JSON.stringify(results, null, 2);
     } catch (error) {
       throw new Error(error.message);
@@ -101,6 +101,7 @@ const frontDeskRepo = {
     }
   },
 
+  /*
   CreateNewEvaluation: async (manager_id, staff_id, evaluation_string) => {
     try {
       const sql = `CALL CreateNewEvaluation(?, ?, ?)`;
@@ -120,11 +121,12 @@ const frontDeskRepo = {
       throw new Error(error.message);
     }
   },
+  */
 
-  GetAllAppointments: async () => {
+  GetAllAppointments: async (patient_name, doctor_id, from_date, to_date) => {
     try {
-      const sql = `CALL GetAllAppointments()`;
-      const [results] = await poolFrontDesk.query(sql, []);
+      const sql = `CALL GetAllAppointments(?, ?, ?, ?)`;
+      const [results] = await poolFrontDesk.query(sql, [patient_name, doctor_id, from_date, to_date]);
       return results;
     } catch (error) {
       throw new Error(error.message);
@@ -172,7 +174,50 @@ const frontDeskRepo = {
     } catch (error) {
       throw new Error(error.message);
     }
+  },
+
+
+  GetSubordinatesSchedule: async (manager_id, staff_id, from_date, to_date) => {
+    try {
+      const sql = `CALL GetAppointmentsAndSchedulesByStaffByDate(?, ?, ?, ?)`;
+      const [results] = await poolFrontDesk.query(sql, [staff_id, manager_id, from_date, to_date]);
+      return results[0];
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  },
+  /*
+  GetOwnSchedule: async (staff_id) => {
+    try {
+      const sql = `CALL GetOwnAppointmentsAndSchedules(?)`;
+      const [results] = await poolFrontDesk.query(sql, [staff_id, manager_id, from_date, to_date]);
+      return results[0];
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  },
+  */
+
+  GetOwnSchedule: async (staff_id, from_date, to_date) => {
+    try {
+      const sql = `CALL GetOwnAppointmentsAndSchedulesByDates(?, ?, ?, ?)`;
+      const [results] = await poolFrontDesk.query(sql, [staff_id, manager_id, from_date, to_date]);
+      return results[0];
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  },
+
+  GetAllPerformanceEvaluation: async (manager_id, staff_id, from_date, to_date) => {
+    try {
+      const sql = `CALL GetAllPerformanceEvaluationByStaffByDates(?, ?, ?, ?)`;
+      const [results] = await poolFrontDesk.query(sql, [manager_id, staff_id, from_date, to_date]);
+      return results;
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
+
 };
 
 export default frontDeskRepo;

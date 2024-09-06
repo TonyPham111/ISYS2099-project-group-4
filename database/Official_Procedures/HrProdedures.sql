@@ -252,9 +252,11 @@ END$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchAllStaff TO 'HR'@'%'$$
 
 
-DROP PROCEDURE IF EXISTS FetchAllStaffByName$$
-CREATE PROCEDURE FetchAllStaffByName(
-	para_full_name VARCHAR(50)
+DROP PROCEDURE IF EXISTS FetchAllStaffWithFilters$$
+CREATE PROCEDURE FetchAllStaffWithFilters(
+	para_full_name VARCHAR(50),
+    para_job_id INT,
+    para_department_id INT
 )
 SQL SECURITY DEFINER
 BEGIN
@@ -275,8 +277,13 @@ BEGIN
                 SET MESSAGE_TEXT = 'Something is wrong. Please try again.';
         END IF;
     END;
+	
+    SET @by_name = CONCAT('Non_Manager.full_name = ', para_full_name);
+    SET @by_department = CONCAT('Departments.id = ',  para_department_id);
+    SET @by_job = CONCAT('Jobs.id = ',  para_job_id);
 
     -- Select various fields from the Staff, Jobs, and Departments tables
+    SET @select_statement = '
     SELECT
         Non_Manager.id, Non_Manager.full_name, Jobs.job_name, Departments.department_name, 
         Non_Manager.gender, Non_Manager.birth_date, Non_Manager.home_address, 
@@ -297,7 +304,24 @@ BEGIN
         Departments
     ON
         Departments.id = Non_Manager.department_id
-	WHERE Non_Manager.full_name = para_full_name;
+	WHERE 1 = 1';
+    
+    IF para_full_name IS NOT NULL THEN
+		SET @select_statement = CONCAT(@select_statement, ' AND ', @by_name);
+    END IF;
+    
+    IF para_job_id IS NOT NULL THEN
+		SET @select_statement = CONCAT(@select_statement, ' AND ', @by_job);
+    END IF;
+    
+	IF para_department_id IS NOT NULL THEN
+		SET @select_statement = CONCAT(@select_statement, ' AND ', @by_department);
+    END IF;
+        
+     -- Prepare and execute the final dynamic SQL statement
+    PREPARE stmt FROM @select_statement;
+    EXECUTE stmt;
+    DEALLOCATE PREPARE stmt;
 END$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchAllStaffByName TO 'HR'@'%'$$
 

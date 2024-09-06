@@ -5,11 +5,11 @@ export async function getAllTreatmentHistory(req, res) {
   try {
     const user_info = req.user
     if (user_info.role === 'Doctor'){
-      const result = await doctorRepo.FetchPrescriptionsByPatientId(req.params.patientId)
+      const result = await doctorRepo.FetchPrescriptionsByPatientId(req.params.patientId, req.query.from, req.query.to)
       res.status(200).json(result)
     }
     else if (user_info.role === 'Nurse'){
-      const result = await nurseRepo.FetchPrescriptionsByPatientId(req.params.patientId)
+      const result = await nurseRepo.FetchPrescriptionsByPatientId(req.params.patientId, req.query.from, req.query.to)
       res.status(200).json(result)
     }
     else {

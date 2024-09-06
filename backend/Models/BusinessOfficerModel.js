@@ -2,10 +2,32 @@ import { getBillingDetail } from '../Controller/BillingController.js';
 import { poolBusinessOfficers, poolDoctors } from './dbConnectionConfiguration.js';
 
 const businessOfficerRepo = {
-  GetPatientsInfo: async () => {
+  GetPatientsInfo: async (patient_name) => {
     try {
-      const sql = `CALL FetchPatientsPersonalInfo()`;
+      const sql = `CALL FetchPatientsPersonalInfoByName(?)`;
+      const [results] = await poolBusinessOfficers.query(sql, [patient_name]);
+      return JSON.stringify(results, null, 2);
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  },
+
+  /*
+  GetAllBillings: async () => {
+    try {
+      const sql = `CALL GetAllBillings()`;
       const [results] = await poolBusinessOfficers.query(sql, []);
+      return results;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  },
+  */
+
+  GetAllBillings: async (patient_name, from_amount, to_amount, from_date, to_date) => {
+    try {
+      const sql = `CALL GetAllBillingsWithFilters(?, ?, ?, ?, ?)`;
+      const [results] = await poolBusinessOfficers.query(sql, [patient_name, from_amount, to_amount, from_date, to_date]);
       return results;
     } catch (error) {
       throw new Error(error.message);
@@ -62,6 +84,7 @@ const businessOfficerRepo = {
     }
   },
 
+  /*
   GetSubordinatesSchedule: async (manager_id, staff_id) => {
     try {
       const sql = `CALL GetAppointmentsAndSchedulesByStaff(?, ?)`;
@@ -81,6 +104,7 @@ const businessOfficerRepo = {
       throw new Error(error.message);
     }
   },
+  */
 
   GetEvaluationDetails: async (manager_id, evaluation_id) => {
     try {
@@ -144,6 +168,46 @@ const businessOfficerRepo = {
     try {
       const sql = `CALL FetchStaffQualifications(?, ?)`;
       const [results] = await poolBusinessOfficers.query(sql, [manager_id, staff_id]);
+      return results;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  },
+  GetSubordinatesSchedule: async (manager_id, staff_id, from_date, to_date) => {
+    try {
+      const sql = `CALL GetAppointmentsAndSchedulesByStaffByDate(?, ?, ?, ?)`;
+      const [results] = await poolBusinessOfficers.query(sql, [staff_id, manager_id, from_date, to_date]);
+      return results[0];
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  },
+  /*
+  GetOwnSchedule: async (staff_id) => {
+    try {
+      const sql = `CALL GetOwnAppointmentsAndSchedules(?)`;
+      const [results] = await poolBusinessOfficers.query(sql, [staff_id, manager_id, from_date, to_date]);
+      return results[0];
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  },
+  */
+
+  GetOwnScheduleByDates: async (staff_id, from_date, to_date) => {
+    try {
+      const sql = `CALL GetOwnAppointmentsAndSchedulesByDates(?, ?, ?, ?)`;
+      const [results] = await poolBusinessOfficers.query(sql, [staff_id, manager_id, from_date, to_date]);
+      return results[0];
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  },
+
+  GetAllPerformanceEvaluation: async (manager_id, staff_id, from_date, to_date) => {
+    try {
+      const sql = `CALL GetAllPerformanceEvaluationByStaffByDates(?, ?, ?, ?)`;
+      const [results] = await poolBusinessOfficers.query(sql, [manager_id, staff_id, from_date, to_date]);
       return results;
     } catch (error) {
       throw new Error(error.message);
