@@ -28,7 +28,7 @@ export async function getAllStaffInfo(req, res) {
       res.status(200).json(result)
     }
     else if (user_info.role === "HR") {
-      const result = await hrRepo.getAllStaffsInfo(req.query.staff_name, req.query.jobId, req.query.departmentId)
+      const result = await hrRepo.FetchAllStaff(req.query.staffName, req.query.jobId, req.query.departmentId)
       res.status(200).json(result)
     }
     else {
@@ -160,20 +160,21 @@ export async function getSubordinates(req, res) {
 export async function getStaffPersonalInfo(req, res) {
   try {
     const user_info = req.user
+    const staff_id = req.params.staffId
     if (user_info.role === "Doctor"){
-      doctorRepo.FetchStaffInfoById(user_info.id)
+      doctorRepo.FetchStaffInfoById(staff_id)
     }
     else if (user_info.role === "Nurse"){
-      nurseRepo.FetchStaffInfoById(user_info.id)
+      nurseRepo.FetchStaffInfoById(staff_id)
     }
     else if (user_info.role === "FrontDesk"){
-      frontDeskRepo.FetchStaffInfoById(user_info.id)
+      frontDeskRepo.FetchStaffInfoById(staff_id)
     }
     else if (user_info.role === "BusinessOfficer"){
-      businessOfficerRepo.FetchStaffInfoById(user_info.id)
+      businessOfficerRepo.FetchStaffInfoById(staff_id)
     }
     else if (user_info.role === "HR") {
-      hrRepo.FetchStaffInfoById(user_info.id)
+      hrRepo.FetchStaffInfoById(staff_id)
     }
     else {
       res.status(403).json({ message: "Incorrect role." })

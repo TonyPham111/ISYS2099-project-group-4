@@ -123,10 +123,10 @@ const frontDeskRepo = {
   },
   */
 
-  GetAllAppointments: async (patient_name, doctor_id, from_date, to_date) => {
+  GetAllAppointments: async (patient_name, doctor_id, from_date, to_date, employment_status) => {
     try {
       const sql = `CALL GetAllAppointments(?, ?, ?, ?)`;
-      const [results] = await poolFrontDesk.query(sql, [patient_name, doctor_id, from_date, to_date]);
+      const [results] = await poolFrontDesk.query(sql, [patient_name, doctor_id, from_date, to_date, employment_status]);
       return results;
     } catch (error) {
       throw new Error(error.message);

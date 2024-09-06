@@ -3,13 +3,13 @@ import { poolHR } from './dbConnectionConfiguration.js';
 const hrRepo = {
   AddNewStaff: async (
     full_name, job_id, department_id, manager_id, gender, birth_date, home_address,
-    phone_number, email, password, wage
+    phone_number, email, password, wage, qualifications_string
   ) => {
     try {
-      const sql = `CALL AddNewStaff(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+      const sql = `CALL AddNewStaff(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
       const [results] = await poolHR.query(sql, [
         full_name, job_id, department_id, manager_id, gender, birth_date, home_address,
-        phone_number, email, password, wage
+        phone_number, email, password, wage, qualifications_string
       ]);
       return results;
     } catch (error) {
@@ -281,16 +281,15 @@ const hrRepo = {
       throw new Error(error.message);
     }
   },
-  FetchAllStaff: async (staff_name, job_id, department_id) => {
+  FetchAllStaff: async (staff_name, job_id, department_id, employment_status, sort_by, order_by) => {
     try {
-      const sql = `CALL FetchAllStaffWithFilters(?, ?, ?)`;
-      const [results] = await poolHR.query(sql, [staff_name, job_id, department_id]);
-      return results;
+      const sql = `CALL FetchAllStaffWithFilters(?, ?, ?, ?, ?, ?)`;
+      const [results] = await poolHR.query(sql, [staff_name, job_id, department_id, employment_status, sort_by, order_by]);
+      return results[1];
     } catch (error) {
       throw new Error(error.message);
     }
   },
-
 };
 
 export default hrRepo;

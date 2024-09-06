@@ -6,6 +6,7 @@ import businessOfficerRepo from "../Models/BusinessOfficerModel.js";
 export async function getAllPatientInfo(req, res) {
   try {
     const user_info = req.user;
+    console.log(user_info);
     if (user_info.role === 'Doctor'){
       const result =  await doctorRepo.GetPatientsInfo(user_info.id, req.query.patientName)
       res.status(200).json(result)
@@ -23,7 +24,7 @@ export async function getAllPatientInfo(req, res) {
       res.status(200).json(result)
     }
     else {
-      res.status(403).json({message: error.message})
+      res.status(403).json({ message: "Incorrect role" })
     }
     //verify job role = (doctor ||| nurse || hr || frontdesk || business officer)
     //return data

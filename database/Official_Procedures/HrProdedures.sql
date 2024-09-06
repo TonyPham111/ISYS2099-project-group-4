@@ -159,9 +159,6 @@ END$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.AddNewStaff TO 'HR'@'%'$$
 
 
-
-
-
 DROP PROCEDURE IF EXISTS ChangeStaffPersonalInfo$$
 CREATE PROCEDURE ChangeStaffPersonalInfo(
     para_staff_id INT,                       
@@ -256,7 +253,10 @@ DROP PROCEDURE IF EXISTS FetchAllStaffWithFilters$$
 CREATE PROCEDURE FetchAllStaffWithFilters(
 	para_full_name VARCHAR(50),
     para_job_id INT,
-    para_department_id INT
+    para_department_id INT,
+    para_employment_status ENUM('Active', 'Terminated'),
+    sort_by ENUM('wage'),
+    order_by ENUM('DESC','ASC')
 )
 SQL SECURITY DEFINER
 BEGIN
@@ -277,10 +277,10 @@ BEGIN
                 SET MESSAGE_TEXT = 'Something is wrong. Please try again.';
         END IF;
     END;
-	
-    SET @by_name = CONCAT('Non_Manager.full_name = ', para_full_name);
+    SET @by_name = CONCAT('WHERE MATCH(Non_Manger.full_name) AGAINST(', para_full_name, ' IN NATURAL LANGUAGE MODE)');
     SET @by_department = CONCAT('Departments.id = ',  para_department_id);
     SET @by_job = CONCAT('Jobs.id = ',  para_job_id);
+    SET @by_employment_status = CONCAT('employment_status= ', para_employment_status);
 
     -- Select various fields from the Staff, Jobs, and Departments tables
     SET @select_statement = '
@@ -317,13 +317,23 @@ BEGIN
 	IF para_department_id IS NOT NULL THEN
 		SET @select_statement = CONCAT(@select_statement, ' AND ', @by_department);
     END IF;
+
+	If para_employment_status IS NOT NULL THEN
+		SET @select_statement = CONCACT(@select_statement, ' AND ', @by_employment_status);
+    END IF;
+    
+    IF sort_by IS NOT NULL THEN
+		SET @sort_clause = CONCAT('ORDER BY ', sort_by, ' ', order_by, ';');
+	ELSE 
+		SET @sort_clause = 'ORDER BY hire_date DESC;';
+    END IF;
         
      -- Prepare and execute the final dynamic SQL statement
     PREPARE stmt FROM @select_statement;
     EXECUTE stmt;
     DEALLOCATE PREPARE stmt;
 END$$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchAllStaffByName TO 'HR'@'%'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchAllStaffWithFilters TO 'HR'@'%'$$
 
 
 DROP PROCEDURE IF EXISTS ChangeWageProcedure$$
@@ -825,6 +835,7 @@ END$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchWageChangeByStaffId TO 'HR'@'%'$$
 
 DROP PROCEDURE IF EXISTS FetchWageChangeByStaffIdByDates$$
+
 CREATE PROCEDURE FetchWageChangeByStaffIdByDates(
     para_staff_id INT,
     from_date DATE,

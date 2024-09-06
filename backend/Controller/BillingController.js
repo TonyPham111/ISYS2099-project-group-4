@@ -4,7 +4,15 @@ export async function getAllBillings(req, res) {
   try {
         const user_info = req.user
         if (user_info === 'BusinessOfficers'){
-            businessOfficerRepo.GetAllBillings()
+            businessOfficerRepo.GetAllBillings(
+                req.query.patentName,
+                req.query.from_amount,
+                req.query.to_amount,
+                req.query.from_date,
+                req.query.to_date,
+                req.query.sort_by,
+                req.query.order_by
+            )
 
             /*
                 Kết quả trả về: {

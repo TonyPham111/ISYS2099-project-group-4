@@ -34,7 +34,9 @@ CREATE PROCEDURE GetAllBillingsWithFilters(
     from_amount DECIMAL(8,2),
     to_amount DECIMAL(8,2),
 	from_date DATE,
-    to_date DATE
+    to_date DATE,
+    sort_by ENUM('billing_date'),
+    sort_order ENUM('DESC', 'ASC')
 )
 SQL SECURITY DEFINER
 BEGIN
@@ -81,21 +83,26 @@ BEGIN
     FROM Billings 
     INNER JOIN Patients ON Patients.id = Billings.patient_id
     WHERE 1 = 1';
-    SET @by_name = CONCAT('Patients.full_name = ', patient_name);
+    SET @by_name = CONCAT('WHERE MATCH(Patients.full_name) AGAINST(', patient_name, ' IN NATURAL LANGUAGE MODE)');
     SET @by_date = CONCAT('billing_date BETWEEEN ', from_date, ' AND ', to_date);
     SET @by_amount = CONCAT('total_amount BETWEEEN ', from_amount, ' AND ', to_amount);
     IF patient_name = NULL THEN
 		SET @select_statement = CONCAT(@select_statement, ' AND ', @by_name);
     END IF;
     SET @select_statement = CONCAT(@select_statement, ' AND ', @by_date);
-    SET @select_statement = CONCAT(@select_statement, ' AND ', @by_amount,';');
+    SET @select_statement = CONCAT(@select_statement, ' AND ', @by_amount);
     
+    IF sort_by IS NOT NULL THEN
+		SET @order_clause = CONCAT('ORDER BY ', sort_by, ' ', order_by, ';');
+    ELSE
+		SET @order_clause = CONCAT('Order BY billing_date DESC;'); 
+    END IF;
 		-- Prepare and execute the final dynamic SQL statement
     PREPARE stmt FROM @select_statement;
     EXECUTE stmt;
     DEALLOCATE PREPARE stmt;
 END$$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.GetAllBillingsByDates TO 'BusinessOfficers'@'%'$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.GetAllBillingsWithFilters TO 'BusinessOfficers'@'%'$$
 
 
 DROP PROCEDURE IF EXISTS GetBillingDetails$$
