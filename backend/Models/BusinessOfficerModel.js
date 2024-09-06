@@ -24,10 +24,10 @@ const businessOfficerRepo = {
   },
   */
 
-  GetAllBillings: async (patient_name, from_amount, to_amount, from_date, to_date) => {
+  GetAllBillings: async (patient_name, from_amount, to_amount, from_date, to_date, order_by, sort_by) => {
     try {
-      const sql = `CALL GetAllBillingsWithFilters(?, ?, ?, ?, ?)`;
-      const [results] = await poolBusinessOfficers.query(sql, [patient_name, from_amount, to_amount, from_date, to_date]);
+      const sql = `CALL GetAllBillingsWithFilters(?, ?, ?, ?, ?, ?, ?)`;
+      const [results] = await poolBusinessOfficers.query(sql, [patient_name, from_amount, to_amount, from_date, to_date, order_by, sort_by]);
       return results;
     } catch (error) {
       throw new Error(error.message);

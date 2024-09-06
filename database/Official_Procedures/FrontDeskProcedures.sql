@@ -125,9 +125,10 @@ GRANT EXECUTE ON PROCEDURE hospital_management_system.GetAllAppointments TO 'Fro
 DROP PROCEDURE IF EXISTS GetAllAppointmentsWithFilters$$
 CREATE PROCEDURE GetAllAppointmentsWithFilters(
 	patient_name VARCHAR(50),
-    doctor_id VARCHAR(50),
+    para_doctor_id VARCHAR(50),
     from_date DATE,
-    to_date DATE
+    to_date DATE,
+    para_appointment_status ENUM('Active', 'Finished', 'Cancelled')
 )
 SQL SECURITY DEFINER
 BEGIN
@@ -162,8 +163,9 @@ BEGIN
     END IF;
     
     SET @by_name = CONCACT('Patients.full_name = ', patient_name);
-    SET @by_doctor_id = CONCAT('Appointments.doctor_id = ', doctor_id);
+    SET @by_doctor_id = CONCAT('Appointments.doctor_id = ', para_doctor_id);
     SET @by_date = CONCAT('BETWEEN ', from_date, ' AND ', to_date);
+    SET @by_appointment_status = CONCAT('appointment_status = ', para_appointment_status);
 	SET @select_statement = '
     -- Select all appointments
     SELECT 
@@ -186,11 +188,18 @@ BEGIN
 		SET @select_statement = CONCAT(@select_statement, ' AND ', @by_name);
     END IF;
     
-    IF doctor_id IS NOT NULL THEN
+    IF para_doctor_id IS NOT NULL THEN
 		SET @select_statement = CONCAT(@select_statement, ' AND ', @by_doctor_id);
     END IF;
     
-    SET @select_statement = CONCAT(@select_statement, ' AND ', @by_date, ';');
+    IF para_appointment_status IS NOT NULL THEN
+		SET @select_statement = CONCAT(@select_statement, ' AND ', @by_appointment_status);
+    END IF;
+    
+    SET @select_statement = CONCAT(@select_statement, ' AND ', @by_date);
+    
+	SET @select_statement = CONCAT(@select_statement, 'ORDER BY appointment_date DESC');
+    
     
      -- Prepare and execute the final dynamic SQL statement
     PREPARE stmt FROM @select_statement;

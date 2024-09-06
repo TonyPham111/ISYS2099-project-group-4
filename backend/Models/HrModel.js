@@ -281,10 +281,10 @@ const hrRepo = {
       throw new Error(error.message);
     }
   },
-  FetchAllStaff: async (staff_name, job_id, department_id) => {
+  FetchAllStaff: async (staff_name, job_id, department_id, employment_status, sort_by, order_by) => {
     try {
-      const sql = `CALL FetchAllStaffWithFilters(?, ?, ?)`;
-      const [results] = await poolHR.query(sql, [staff_name, job_id, department_id]);
+      const sql = `CALL FetchAllStaffWithFilters(?, ?, ?, ?, ?, ?)`;
+      const [results] = await poolHR.query(sql, [staff_name, job_id, department_id, employment_status, sort_by, order_by]);
       return results;
     } catch (error) {
       throw new Error(error.message);

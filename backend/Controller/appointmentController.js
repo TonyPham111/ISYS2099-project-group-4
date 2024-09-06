@@ -20,7 +20,7 @@ export async function getAllAppointment(req, res) {
 
     console.log("Fetching appointments...");
     // Fetch appointments from SQL database
-    const appointments = await frontDeskRepo.GetAllAppointments(req.query.patientName, req.query.doctorId, req.query.from, req.query.to);
+    const appointments = await frontDeskRepo.GetAllAppointments(req.query.patientName, req.query.doctorId, req.query.from, req.query.to, req.query.employmentStatus);
     // Fetch corresponding notes from MongoDB
     const appointmentIds = appointments.map(app => app.id);
     const notes = await AppointmentNotes.find({ _id: { $in: appointmentIds } });

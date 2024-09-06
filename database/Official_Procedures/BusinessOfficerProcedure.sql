@@ -34,7 +34,9 @@ CREATE PROCEDURE GetAllBillingsWithFilters(
     from_amount DECIMAL(8,2),
     to_amount DECIMAL(8,2),
 	from_date DATE,
-    to_date DATE
+    to_date DATE,
+    sort_by ENUM('billing_date'),
+    sort_order ENUM('DESC', 'ASC')
 )
 SQL SECURITY DEFINER
 BEGIN
@@ -88,8 +90,13 @@ BEGIN
 		SET @select_statement = CONCAT(@select_statement, ' AND ', @by_name);
     END IF;
     SET @select_statement = CONCAT(@select_statement, ' AND ', @by_date);
-    SET @select_statement = CONCAT(@select_statement, ' AND ', @by_amount,';');
+    SET @select_statement = CONCAT(@select_statement, ' AND ', @by_amount);
     
+    IF sort_by IS NOT NULL THEN
+		SET @order_clause = CONCAT('ORDER BY ', sort_by, ' ', order_by, ';');
+    ELSE
+		SET @order_clause = CONCAT('Order BY billing_date DESC;'); 
+    END IF;
 		-- Prepare and execute the final dynamic SQL statement
     PREPARE stmt FROM @select_statement;
     EXECUTE stmt;
