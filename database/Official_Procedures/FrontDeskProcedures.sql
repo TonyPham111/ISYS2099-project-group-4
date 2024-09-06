@@ -162,10 +162,10 @@ BEGIN
 		SET to_date = '9999-12-31';
     END IF;
     
-    SET @by_name = CONCAT('WHERE MATCH(Patients.full_name) AGAINST(patient_name ', patient_name, ' IN NATURAL LANGUAGE MODE)');
+    SET @by_name = CONCAT('MATCH(Patients.full_name) AGAINST(\'', patient_name, '\' IN NATURAL LANGUAGE MODE)');
     SET @by_doctor_id = CONCAT('Appointments.doctor_id = ', para_doctor_id);
-    SET @by_date = CONCAT('BETWEEN ', from_date, ' AND ', to_date);
-    SET @by_appointment_status = CONCAT('appointment_status = ', para_appointment_status);
+    SET @by_date = CONCAT('appointment_date BETWEEN \'', from_date, '\' AND \'', to_date, '\'');
+    SET @by_appointment_status = CONCAT('appointment_status = \'', para_appointment_status, '\'');
 	SET @select_statement = '
     -- Select all appointments
     SELECT 

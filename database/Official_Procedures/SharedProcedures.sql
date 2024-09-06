@@ -118,9 +118,12 @@ BEGIN
 	DECLARE EXIT HANDLER FOR SQLEXCEPTION
 	BEGIN
 		DECLARE returned_sqlstate CHAR(5) DEFAULT '';
+        DECLARE returned_message TEXT;
 		-- Retrieve the SQLSTATE of the current exception
 		GET STACKED DIAGNOSTICS CONDITION 1
-			returned_sqlstate = RETURNED_SQLSTATE;
+			returned_sqlstate = RETURNED_SQLSTATE,
+            returned_message = MESSAGE_TEXT;
+		SELECT returned_message;
 
 		-- Check if the SQLSTATE is '45000'
 		IF returned_sqlstate = '45000' THEN
@@ -150,18 +153,17 @@ BEGIN
 			Staff.wage,                   -- The wage of the staff member
 			DATE_FORMAT(Staff.hire_date, '%d/%m/%Y') AS hire_date_date,              -- The hire date of the staff member
 			Staff.employment_status,      -- The employment status (e.g., 'Active')
-			Staff.employment_document_id, -- The employment document ID of the staff member
 			Qualifications.document_id AS qualification_document
-		FROM Qualifcations
-        INNER JOIN Staff ON Staff.id = Qualifications.staff_id
-        INNER JOIN Jobs ON Jobs.id = Staff.job_id
-        INNER JOIN Departments ON Departments.id = Staff.job_id
+		FROM Qualifications
+		RIGHT JOIN Staff ON Staff.id = Qualifications.staff_id
+		RIGHT JOIN Jobs ON Jobs.id = Staff.job_id
+		RIGHT JOIN Departments ON Departments.id = Staff.job_id
         WHERE Staff.id = staff_id
     ),
     Manager AS (
 		SELECT id, full_name FROM Staff
     )
-    SELECT Non_Manager.*, Manager.full_name AS manager_name FROM Non_Manager INNER JOIN Manager ON Manager.id = Non_Manager.manager_id;
+    SELECT Non_Manager.*, Manager.full_name AS manager_name FROM Non_Manager LEFT JOIN Manager ON Manager.id = Non_Manager.manager_id;
     
 END$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchStaffInfoById TO 'HR'@'%'$$
@@ -295,11 +297,11 @@ BEGIN
 				SET MESSAGE_TEXT = 'Something is wrong. Please try again.';
 		END IF;
 	END;
-    IF from_date = NULL THEN
+    IF from_date IS NULL THEN
 		SET from_date = '1000-01-01';
 	END IF;
     
-    IF end_date = NULL THEN
+    IF to_date IS NULL THEN
 		SET to_date = '9999-12-31';
     END IF;
 
@@ -416,11 +418,11 @@ BEGIN
 		END IF;
 	END;
     
-	IF from_date = NULL THEN
+	IF from_date IS NULL THEN
 		SET from_date = '1000-01-01';
 	END IF;
     
-    IF end_date = NULL THEN
+    IF to_date IS NULL THEN
 		SET to_date = '9999-12-31';
     END IF;
 
@@ -454,10 +456,6 @@ BEGIN
 END$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchPrescriptionsByPatientIdAndDates TO 'Doctors'@'%'$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchPrescriptionsByPatientIdAndDates TO 'Nurses'@'%'$$
-
-
-
-
 
 DROP PROCEDURE IF EXISTS FetchTestDetailsByPatientId$$
 CREATE PROCEDURE FetchTestDetailsByPatientId(
@@ -556,11 +554,11 @@ BEGIN
 		END IF;
 	END;
     
-	IF from_date = NULL THEN
+	IF from_date IS NULL THEN
 		SET from_date = '1000-01-01';
 	END IF;
     
-    IF end_date = NULL THEN
+    IF to_date IS NULL THEN
 		SET to_date = '9999-12-31';
     END IF;
 
@@ -694,11 +692,11 @@ BEGIN
         SET MESSAGE_TEXT = 'You are not allowed to view this staff';
     END IF;
     
-	IF from_date = NULL THEN
+	IF from_date IS NULL THEN
 		SET from_date = '1000-01-01';
 	END IF;
     
-    IF end_date = NULL THEN
+    IF end_date IS NULL THEN
 		SET to_date = '9999-12-31';
     END IF;
 
@@ -1254,11 +1252,11 @@ BEGIN
 		END IF;
 	END;
     
-	IF from_date = NULL THEN
+	IF from_date IS NULL THEN
 		SET from_date = '1000-01-01';
 	END IF;
     
-    IF end_date = NULL THEN
+    IF to_date IS NULL THEN
 		SET to_date = '9999-12-31';
     END IF;
     

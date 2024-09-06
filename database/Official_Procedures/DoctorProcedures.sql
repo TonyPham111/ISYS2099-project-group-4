@@ -76,24 +76,8 @@ BEGIN
         Patients.id,                      -- The ID of the patient
         Patients.full_name,               -- The full name of the patient
         Patients.gender,                  -- The gender of the patient
-        Patients.birth_date,              -- The birth date of the patient
-        Allergies.allergy_name,
-        Allergies.allergy_group,
-        Allergies.allergy_tye,
-        Allergies.allergen
+        Patients.birth_date             -- The birth date of the patient
     FROM Appointments
-    INNER JOIN
-        Patients                          -- The Patients table
-    ON
-        Appointments.patient_id = Patients.id
-	INNER JOIN 
-		PatientAllergy
-	ON 
-		Patients.id = PatientAllergy.patient_id
-	INNER JOIN
-		Allergies
-	ON 
-		Allergies.id = PatientAllergy.allergy_id
     WHERE MATCH(Patients.full_name) AGAINST(patient_name IN NATURAL LANGUAGE MODE)
 		AND doctor_id = para_doctor_id
 		AND appointment_date = CURDATE();

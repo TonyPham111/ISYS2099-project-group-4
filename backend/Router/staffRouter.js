@@ -54,7 +54,7 @@ staffRouter
 staffRouter
   .route("/trainingmaterial")
   .get(verifyToken, staffController.getTrainingMaterials)
-  .post(verifyToken,staffController.createNewTrainingMaterial)
+  .post(verifyToken, staffController.CreateNewTrainingMaterial)
 
 staffRouter
   .route("/:staffId/qualifications")
@@ -62,3 +62,4 @@ staffRouter
 
 
 export default staffRouter;
+ 
