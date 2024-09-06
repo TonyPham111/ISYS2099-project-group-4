@@ -1,4 +1,4 @@
-import {getAllImagesWithLabResult, createNewLabResultDocument } from "../../database/Mongodb/Methods.js"
+import {getAllImagesWithLabResult, createNewLabResultDocument } from "../MongodbRepo/Methods.js";
 import doctorRepo from "../Models/DoctorModel.js";
 import nurseRepo from "../Models/NurseModel.js";
 

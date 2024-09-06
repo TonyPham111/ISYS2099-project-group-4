@@ -1043,32 +1043,36 @@ DROP PROCEDURE IF EXISTS FetchStaffQualifications$$
 CREATE PROCEDURE FetchStaffQualifications(para_manager_id INT, para_staff_id INT)
 SQL SECURITY DEFINER
 BEGIN
- BEGIN
-        DECLARE returned_sqlstate CHAR(5) DEFAULT '';
-        DECLARE returned_message TEXT;
-        ROLLBACK;
-
-        -- Retrieve the SQLSTATE of the current exception
-        GET STACKED DIAGNOSTICS CONDITION 1
-            returned_sqlstate = RETURNED_SQLSTATE,
-            returned_message = MESSAGE_TEXT;
-		
-        -- Check if the SQLSTATE is '45000'
-        IF returned_sqlstate = '45000' THEN
-            -- Resignal with the original message
-            RESIGNAL;
-        ELSE
-            -- Set a custom error message and resignal with SQLSTATE '45000'
-            SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Something is wrong. Please try again.';
-        END IF;
-    END;
+	DECLARE checked_job_id INT;
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+		BEGIN
+			DECLARE returned_sqlstate CHAR(5) DEFAULT '';
+			DECLARE returned_message TEXT;
+			-- Retrieve the SQLSTATE of the current exception
+			GET STACKED DIAGNOSTICS CONDITION 1
+				returned_sqlstate = RETURNED_SQLSTATE,
+				returned_message = MESSAGE_TEXT;
+			
+			-- Check if the SQLSTATE is '45000'
+			IF returned_sqlstate = '45000' THEN
+				-- Resignal with the original message
+				RESIGNAL;
+			ELSE
+				-- Set a custom error message and resignal with SQLSTATE '45000'
+				SIGNAL SQLSTATE '45000'
+				SET MESSAGE_TEXT = 'Something is wrong. Please try again.';
+			END IF;
+		END;
     SET @parent_proc = TRUE;
-	-- Check if the manager is authorized to view the evaluations for the staff member
-	IF NOT CheckManagementRelationship(para_staff_id, para_manager_id) THEN
-		SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'You do not have the authority to view this staff';
+	SELECT job_id INTO checked_job_id FROM Staff WHERE id = hr_id;
+    IF checked_job_id <> 3 THEN
+		IF NOT CheckManagementRelationship(para_staff_id, para_manager_id) THEN
+			SIGNAL SQLSTATE '45000'
+			SET MESSAGE_TEXT = 'You do not have the authority to view this staff';
+		END IF;
     END IF;
+	-- Check if the manager is authorized to view the evaluations for the staff member
+
     
     SELECT document_id FROM Qualifications WHERE staff_id = para_staff_id;
     SET @parent_proc = FALSE;

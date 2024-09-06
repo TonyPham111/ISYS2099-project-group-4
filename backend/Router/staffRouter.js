@@ -55,10 +55,11 @@ staffRouter
 staffRouter
   .route("/trainingmaterial")
   .get(verifyToken, staffController.getTrainingMaterials)
-  .post(verifyToken, upload.single('trainingMaterial'), staffController.CreateNewTrainingMaterial)
+  .post(verifyToken, upload.single('training_material'), staffController.NewTrainingMaterial)
 
 staffRouter
   .route("/:staffId/qualifications")
+  .post(verifyToken, staffController.addNewQualifications )
   .get(verifyToken, staffController.getStaffQualifications)
 
 

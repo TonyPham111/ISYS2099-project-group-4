@@ -52,7 +52,7 @@ CREATE TABLE Jobs (
 CREATE TABLE Qualifications(
 	id INT AUTO_INCREMENT PRIMARY KEY,
     staff_id INT NOT NULL,
-    type ENUM('Education','License', 'Experience') NOT NULL,
+    qualification_type ENUM('Education','License', 'Experience') NOT NULL,
     document_id VARCHAR(24) NOT NULL,
     FOREIGN KEY (staff_id) REFERENCES Staff(id)
 );

@@ -290,6 +290,15 @@ const hrRepo = {
       throw new Error(error.message);
     }
   },
+  AddNewQualifications: async (staff_id, qualifications_string) => {
+    try {
+      const sql = `CALL AddQualifications(?, ?)`;
+      const [results] = await poolHR.query(sql, [staff_id, qualifications_string]);
+      return results[1];
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  },
 };
 
 export default hrRepo;

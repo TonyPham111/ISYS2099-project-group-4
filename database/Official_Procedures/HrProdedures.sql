@@ -1,4 +1,3 @@
-USE hospital_management_system;
 DELIMITER $$
 DROP PROCEDURE IF EXISTS AddNewStaff$$
 CREATE PROCEDURE AddNewStaff(
@@ -12,9 +11,8 @@ CREATE PROCEDURE AddNewStaff(
     para_phone_number VARCHAR(15),            -- Parameter for the phone number of the staff member
     para_email VARCHAR(50),                   -- Parameter for the email address of the staff member
     para_staff_password VARCHAR(72),          -- Parameter for the staff member's password
-    para_wage DECIMAL(6,2),                   -- Parameter for the wage of the staff member
-    qualifications_string TEXT
-
+    para_wage DECIMAL(6,2)                   -- Parameter for the wage of the staff member
+    
 )
 SQL SECURITY DEFINER
 BEGIN
@@ -22,8 +20,7 @@ BEGIN
     DECLARE min_job_wage DECIMAL(6,2);
     DECLARE error_message TEXT;
     DECLARE new_staff_id INT;
-	DECLARE current_index INT DEFAULT 1;          
-	DECLARE current_string_index TEXT DEFAULT ''; 
+
 	DECLARE EXIT HANDLER FOR SQLEXCEPTION
     BEGIN
         DECLARE returned_sqlstate CHAR(5) DEFAULT '';
@@ -118,8 +115,43 @@ BEGIN
         'Active'                      -- Employment status set to 'Active'
 
     );
-    SET @new_staff_id = LAST_INSERT_ID();
-    SET @single_value = '';
+   
+    SET @parent_proc = NULL;
+    COMMIT;
+END$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.AddNewStaff TO 'HR'@'%'$$
+
+DROP PROCEDURE IF EXISTS AddQualifications$$
+CREATE PROCEDURE AddQualifications(
+	new_staff_id INT,
+    qualifications_string TEXT
+)
+BEGIN
+	DECLARE current_index INT DEFAULT 1;          
+	DECLARE current_string_index TEXT DEFAULT '';
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        DECLARE returned_sqlstate CHAR(5) DEFAULT '';
+        DECLARE returned_message TEXT;
+        ROLLBACK;
+
+        -- Retrieve the SQLSTATE of the current exception
+        GET STACKED DIAGNOSTICS CONDITION 1
+            returned_sqlstate = RETURNED_SQLSTATE,
+            returned_message = MESSAGE_TEXT;
+		
+        -- Check if the SQLSTATE is '45000'
+        IF returned_sqlstate = '45000' THEN
+            -- Resignal with the original message
+            RESIGNAL;
+        ELSE
+            -- Set a custom error message and resignal with SQLSTATE '45000'
+            SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Something is wrong. Please try again.';
+        END IF;
+    END;
+    SET @parent_proc = TRUE;
+     SET @single_value = '';
     SET @insert_statement = 'INSERT INTO Qualifications (qualification_type, staff_id, document_id) VALUES ';
 	WHILE current_index <= LENGTH(qualifications_string) DO
         -- Check if the current character is a comma, indicating the end of a schedule ID
@@ -152,11 +184,8 @@ BEGIN
     PREPARE statement FROM @insert_statement;
     EXECUTE statement;
     DEALLOCATE PREPARE statement;
-    -- Commit the transaction to finalize the changes in the database
-    SET @parent_proc = NULL;
-    COMMIT;
+	SET @parent_proc = NULL;
 END$$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.AddNewStaff TO 'HR'@'%'$$
 
 
 DROP PROCEDURE IF EXISTS ChangeStaffPersonalInfo$$
@@ -917,6 +946,7 @@ BEGIN
 
 END$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.GetAllDepartments TO 'HR'@'%'$$
+
 
 
 DELIMITER ;

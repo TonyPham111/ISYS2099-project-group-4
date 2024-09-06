@@ -6,6 +6,7 @@ import hrRepo from "../Models/HrModel.js";
 import { response } from "express";
 import path from "path";
 import fs from "fs";
+import {createNewQualificationDocument, fetchQualifications, createNewTrainingMaterial, fetchTrainingDocuments} from '../MongodbRepo/Methods.js'
 
 export async function getAllStaffInfo(req, res) {
   try {
@@ -78,17 +79,9 @@ export async function addNewStaff(req, res) {
       contact_phone_number,
       email,
       password,
-      wage,
-      qualification_lists
-    } = req.body
-
-    const qualification_list_for_server = await createNewQualificationDocument(qualification_lists)
-
-    // Object qualification sẽ có dàng {title, provider, date, file (blob)} 
-    // qualification_list sẽ được lưu vào mongodb
-    
+      wage
+    } = req.body 
     const qualification_document_id = '';
-
     if (user_info.role === 'HR'){
       hrRepo.AddNewStaff(full_name, job_id, department_id, manager_id, gender, birth_date, home_address, contact_phone_number, email, password, wage, qualification_document_id)
     }
@@ -199,39 +192,6 @@ export async function getStaffPersonalInfo(req, res) {
     res.status(500).json({ message: error.message });
   }
 }
-
-export async function getStaffQualifications(req, res) {
-  try {
-    const user_info = req.user
-    const staff_id = req.params.staffId
-    let respnse;
-
-    if (user_info.role === "Doctor"){
-      response = await doctorRepo.FetchStaffQualifications(user_info.id, staff_id)
-    }
-    else if (user_info.role === "Nurse"){
-      response = await nurseRepo.FetchStaffQualifications(user_info.id, staff_id)
-    }
-    else if (user_info.role === "FrontDesk"){
-      response = await frontDeskRepo.FetchStaffQualifications(user_info.id, staff_id)
-    }
-    else if (user_info.role === "BusinessOfficer"){
-      response = await businessOfficerRepo.FetchStaffQualifications(user_info.id, staff_id)
-    }
-    else if (user_info.role === "HR") {
-      response = await hrRepo.FetchStaffQualifications(user_info.id, staff_id)
-    }
-    else {
-      res.status(403).json({ message: "Incorrect role." })
-    }
-    fetchQualifications(response)
-    
-    
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-}
-
 
 
 // Anh đổi tên controller này vì nó chỉ đc dùng để update personal info thôi
@@ -655,45 +615,100 @@ export async function getTrainingMaterials(req, res) {
   }
 }
 
-// export async function createNewTrainingMaterial(req, res) {
-//   try {
-//     const user_info = req.user
-//     const {
-//         job_id,
-//         department_id,
-//         file
-  
-//     } = req.body
-//     if (user_info.role === 'HR'){
-//         createNewTrainingDocument(req.body);
-//     }
-//     else {
-//       res.status(403).json({message: error.message})
-//     }
-//   } catch (error) {
-//     res.status(500).json({ message: error.message });
-//   }
-// }
+export async function NewTrainingMaterial(req, res) {
+     try {
+       const user_info = req.user
+       const {
+           job_id,
+           department_id,  
+       } = req.body
+       const training_material = {
+          file_name: req.file.originalname,
+          file: req.file.buffer,
+       }
+       const document = {
+          department_id: department_id,
+          job_id: job_id,
+          training_material: training_material
+       }
+       if (user_info.role === 'HR'){
+           createNewTrainingDocument(document);
+       }
+       else {
+         res.status(403).json({message: error.message})
+       }
+     } catch (error) {
+       res.status(500).json({ message: error.message });
+     }
+  }
 
-export async function CreateNewTrainingMaterial() {
+export async function addNewQualifications(req, res) {
+    try {
+      const user_info = req.user
+      const qualifications = req.body
+      if (user_info.role === 'HR'){
+          for (let i = 0; i < qualifications.length; i++){
+            if (qualifications[i].certificate) {
+              qualifications[i].certificate = Buffer.from(qualifications[i].certificate.file, 'base64')
+            }
+            else if (qualifications[i].letter_of_reference){
+              qualifications[i].letter_of_reference = Buffer.from(qualifications[i].letter_of_reference.file, 'base64')
+            }
+            else {
+              qualifications[i].document = Buffer.from(qualifications[i].document.file, 'base64')
+            }
+          }
+          const results = await createNewQualificationDocument(qualifications);
+          const qualifications_string = '';
+          for (let i = 0; i < results.length; i++){
+              qualifications_string = qualifications_string + results[i]._id.toString() + ':' + results[i].type
+              if (i === results.length - 1){
+                qualifications_string = qualifications_string + ","
+              } 
+          }
+          hrRepo.AddNewQualifications(req.params.staffId, qualifications_string);
+
+      }
+      else {
+        res.status(403).json({message: error.message})
+      }
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+ }
+
+
+export async function getStaffQualifications(req, res) {
   try {
-    // Path to your local file
-    const filePath = path.join(__dirname, 'path', 'to', 'your', 'file.pdf');
+    const user_info = req.user
+    const staff_id = req.params.staffId
+    let response;
 
-    // Read the file and convert it to base64
-    const fileContent = fs.readFileSync(filePath);
-    const base64EncodedFile = fileContent.toString('base64');
-
-    // Test parameters
-    const job_id = 'your_job_id';
-    const department_id = 'your_department_id';
-    const userRole = 'HR';
-
-    // Call the function
-    const result = await createNewTrainingMaterial(job_id, department_id, base64EncodedFile, userRole);
-
-    console.log('Result:', result);
+    if (user_info.role === "Doctor"){
+      response = await doctorRepo.FetchStaffQualifications(user_info.id, staff_id)
+    }
+    else if (user_info.role === "Nurse"){
+      response = await nurseRepo.FetchStaffQualifications(user_info.id, staff_id)
+    }
+    else if (user_info.role === "FrontDesk"){
+      response = await frontDeskRepo.FetchStaffQualifications(user_info.id, staff_id)
+    }
+    else if (user_info.role === "BusinessOfficer"){
+      response = await businessOfficerRepo.FetchStaffQualifications(user_info.id, staff_id)
+    }
+    else if (user_info.role === "HR") {
+      response = await hrRepo.FetchStaffQualifications(user_info.id, staff_id)
+    }
+    else {
+      res.status(403).json({ message: "Incorrect role." })
+    }
+    fetchQualifications(response)
+    
+    
   } catch (error) {
-    console.error('Test failed:', error);
+    res.status(500).json({ message: error.message });
   }
 }
+
+
+

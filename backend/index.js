@@ -11,9 +11,11 @@ import drugRouter from "./Router/drugRouter.js";
 import allergyRouter from "./Router/allergyRouter.js";
 import userRouter from "./Router/userRouter.js"
 import mongoose from 'mongoose';
-import {createNewLabResultDocument} from '../database/Mongodb/Methods.js'
+import {createNewLabResultDocument, createAppointmentNoteFromPreNote,  getAllImagesWithLabResult, createNewTrainingMaterial, fetchTrainingDocuments, createNewQualificationDocument, fetchQualifications} from './MongodbRepo/Methods.js'
 import fs from 'fs';
 import path from 'path';
+import { Certificate } from "crypto";
+
 
 const app = express();
 app.use(express.json());
@@ -45,12 +47,13 @@ try {
   process.exit(1);  // Exit if connection fails
 }
 
- // Initialize an array to store the file data
- let labResultPdf;
- const fileData = [];
+ 
 
 function testingTrainingMaterialCreation(){
   try {
+    // Initialize an array to store the file data
+    let labResultPdf;
+    const fileData = [];
     // Determine the user's home directory based on the platform
     const homeDirectory = process.env.HOME || process.env.USERPROFILE;
 
@@ -84,14 +87,63 @@ function testingTrainingMaterialCreation(){
 
         }
     }
+    return createNewLabResultDocument(labResultPdf, fileData);
 } catch (error) {
     console.error('Error fetching files:', error);
     throw new Error('Unable to fetch files from desktop');
 }
 }
+const object = {
+  note: 'Hello WOrld'
+}
+const homeDirectory = process.env.HOME || process.env.USERPROFILE;
+// Define the path to the desktop
+const desktopPath = path.join(homeDirectory, 'Desktop');
+//await createAppointmentNoteFromPreNote(object)
+//await testingTrainingMaterialCreation()
+const filePath = path.join(desktopPath, 'document.pdf');
+const fileBuffer = fs.readFileSync(filePath);
+const trainingMaterial = {
+  job_id: 1,
+  department_id: 1,
+  trainingMaterial: {
+    file_name: 'document.pdf',
+    file: fileBuffer
+  }
+}
+const qualifiations = [
+  {
+    qualification_type: 'Education',
+    qualification_name: 'Bachelor Degree',
+    institution_name: 'University Of Melbourne',
+    level: 'Tertiary',
+    qualification_grade: 78,
+    qualification_date: 21/12/2021,
+    certificate: {
+      file_name: 'document.pdf',
+      file: fileBuffer
+    }
+  },
+  {
+    qualification_type: 'Experience',
+    job_title: 'CEO',
+    hospital_name: 'IDontKNOW inc',
+    job_description: 'Son Of Founder',
+    letter_of_reference: {
+      file_name: 'document.pdf',
+      file: fileBuffer
+    },
+    start_date: 8/6/1999
+  },
+  {
+    qualification_type: 'License',
+    document: {
+      file_name: 'document.pdf',
+      file: fileBuffer
+    }
+  }
+]
 
-testingTrainingMaterialCreation()
-await createNewLabResultDocument(labResultPdf, fileData);
 
 
 
