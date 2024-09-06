@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const TrainingMaterialSchema = new mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
@@ -7,10 +7,9 @@ const TrainingMaterialSchema = new mongoose.Schema({
     training_material: Buffer
 });
 
-
 const TrainingMaterials = mongoose.model('Training Materials', TrainingMaterialSchema);
 
-module.exports = TrainingMaterials;
+export default TrainingMaterials;
 
 
 

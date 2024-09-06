@@ -1,19 +1,18 @@
 // import dependencies
-require('dotenv').config();
-const mongoose = require('mongoose');
-const { MongoClient, ServerApiVersion } = require("mongodb");
+import dotenv from 'dotenv';
+import mongoose from 'mongoose';
+import { MongoClient, ServerApiVersion } from 'mongodb';
 
-// import collections from ./collections
-const { TestResults } = require('./schemas/LabTestResults');
-const { TrainingMaterials } = require('./schemas/TrainingMaterials');
-const { AppointmentNotes } = require('./schemas/AppointmentNotes');
-const { EducationQualification, ExperienceQualification, LicenseQualification } = require('./schemas/StaffQualifications');
+// import collections from ./schemas
+import TestResults from './schemas/LabTestResults.js';
+import TrainingMaterials from './schemas/TrainingMaterials.js';
+import AppointmentNotes from './schemas/AppointmentNotes.js';
+import { EducationQualification, ExperienceQualification, LicenseQualification } from './schemas/StaffQualifications.js';
 
 // import mock data from ./mockData
-const { insertMockData } = require('./mockData');
+import { insertMockData } from './mockData.js';
 
-
-
+dotenv.config();
 
 //create connection uri
 const url = process.env.MONGO_URI;
@@ -30,6 +29,7 @@ const client = new MongoClient(connectionUri, {
         deprecationErrors: true,
     },
 });
+
 (async () => {
   try {
     console.log(`Connecting to MongoDB at "${connectionUri}"...`);

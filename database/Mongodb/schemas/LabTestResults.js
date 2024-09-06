@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 // Test Document
 const testDocumentSchema = new mongoose.Schema({
@@ -8,4 +8,4 @@ const testDocumentSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 const TestResult = mongoose.model('TestResult', testDocumentSchema);
-module.exports = TestResult;
+export default TestResult;
