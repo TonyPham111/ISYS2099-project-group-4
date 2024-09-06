@@ -65,16 +65,8 @@ BEGIN
         Patients.id,                      -- The ID of the patient
         Patients.full_name,               -- The full name of the patient
         Patients.gender,                  -- The gender of the patient
-        DATE_FORMAT(Patients.birth_date, '%d/%m/%Y') AS birth_date, -- The birth date of the patient
-        Allergies.allergy_name,
-        Allergies.allergy_group,
-        Allergies.allergy_type,
-        Allergies.allergen
-    FROM Allergies
-    INNER JOIN PatientAllergy
-    ON Allergies.id = PatientAllergy.allergy_id
-    INNER JOIN Patients
-    ON Patients.id = PatientAllergy.patient_id
+        DATE_FORMAT(Patients.birth_date, '%d/%m/%Y') AS birth_date -- The birth date of the patient
+    FROM Patients
     WHERE MATCH(Patients.full_name) AGAINST(patient_name IN NATURAL LANGUAGE MODE);
 END$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.GetPatientsInfoForNurseByName TO 'Nurses'@'%'$$

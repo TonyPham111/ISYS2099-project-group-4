@@ -145,24 +145,7 @@ const doctorRepo = {
     try {
         const sql = `CALL GetPatientsInfoForDoctorByName(?, ?)`;
         const [results] = await poolDoctors.query(sql, [doctor_id, patient_name]);
-
-        // Transform the results to group allergy data
-        const groupedResults = results[0].reduce((accumulator, row) => {
-            const { id, full_name, gender, birth_date, allergy_name, allergy_type, allergen, allergy_group } = row;
-
-            // Add the patient details to the accumulator if it's not already added
-            if (!accumulator[id]) {
-                accumulator[id] = { id, full_name, gender, birth_date, allergies: [] };
-            }
-
-            // Add the allergy details to the current patient's allergy list
-            accumulator[id].allergies.push({ allergy_name, allergy_type, allergen, allergy_group });
-
-            return accumulator; // Return the accumulator for the next iteration
-        }, {});
-
-        // Convert the grouped results object to an array
-        return Object.values(groupedResults);
+        return Object.values(results);
     } catch (error) {
       throw new Error(error.message);
     }

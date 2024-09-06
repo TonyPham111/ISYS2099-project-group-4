@@ -255,7 +255,7 @@ CREATE PROCEDURE FetchAllStaffWithFilters(
     para_job_id INT,
     para_department_id INT,
     para_employment_status ENUM('Active', 'Terminated'),
-    sort_by ENUM('wage'),
+    sort_by ENUM('Wage'),
     order_by ENUM('DESC','ASC')
 )
 SQL SECURITY DEFINER
@@ -263,10 +263,13 @@ BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
     BEGIN
         DECLARE returned_sqlstate CHAR(5) DEFAULT '';
+        DECLARE returned_message TEXT;
         -- Retrieve the SQLSTATE of the current exception
         GET STACKED DIAGNOSTICS CONDITION 1
-            returned_sqlstate = RETURNED_SQLSTATE;
-
+            returned_sqlstate = RETURNED_SQLSTATE,
+            returned_message = MESSAGE_TEXT;
+		
+        SELECT returned_message;
         -- Check if the SQLSTATE is '45000'
         IF returned_sqlstate = '45000' THEN
             -- Resignal with the original message
@@ -277,10 +280,10 @@ BEGIN
                 SET MESSAGE_TEXT = 'Something is wrong. Please try again.';
         END IF;
     END;
-    SET @by_name = CONCAT('WHERE MATCH(Non_Manger.full_name) AGAINST(', para_full_name, ' IN NATURAL LANGUAGE MODE)');
+    SET @by_name = CONCAT('MATCH(Non_Manager.full_name) AGAINST(\'', para_full_name, '\' IN NATURAL LANGUAGE MODE)');
     SET @by_department = CONCAT('Departments.id = ',  para_department_id);
     SET @by_job = CONCAT('Jobs.id = ',  para_job_id);
-    SET @by_employment_status = CONCAT('employment_status= ', para_employment_status);
+    SET @by_employment_status = CONCAT('employment_status= \'', para_employment_status, '\'');
 
     -- Select various fields from the Staff, Jobs, and Departments tables
     SET @select_statement = '
@@ -289,7 +292,7 @@ BEGIN
         Non_Manager.gender, Non_Manager.birth_date, Non_Manager.home_address, 
         Non_Manager.phone_number, Non_Manager.email, Non_Manager.staff_password, 
         Non_Manager.wage, Non_Manager.hire_date, Non_Manager.employment_status, 
-        Non_Manager.employment_document_id, Manager.full_name AS manager_name
+        Manager.full_name AS manager_name
     FROM
         Staff AS Manager
     RIGHT OUTER JOIN
@@ -329,6 +332,7 @@ BEGIN
     END IF;
         
      -- Prepare and execute the final dynamic SQL statement
+	SELECT @select_statement;
     PREPARE stmt FROM @select_statement;
     EXECUTE stmt;
     DEALLOCATE PREPARE stmt;
