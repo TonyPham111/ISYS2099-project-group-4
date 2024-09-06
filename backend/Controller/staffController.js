@@ -4,7 +4,6 @@ import frontDeskRepo from "../Models/FrontDeskModel.js";
 import businessOfficerRepo from "../Models/BusinessOfficerModel.js";
 import hrRepo from "../Models/HrModel.js";
 import { response } from "express";
-import {createNewTrainingMaterial, createNewQualificationDocument, fetchQualifications} from "../../database/Mongodb/Methods.js"
 import path from "path";
 import fs from "fs";
 

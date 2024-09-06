@@ -1,6 +1,6 @@
 import frontDeskRepo from "../Models/FrontDeskModel.js";
 import AppointmentNotes from '../../database/Mongodb/schemas/AppointmentNotes.js';
-import { createAppointmentNoteFromPreNote } from '../../database/Mongodb/Methods.js';
+// import { createAppointmentNoteFromPreNote } from '../../database/Mongodb/Methods.js';
 
 export async function getAllAppointment(req, res) {
   try {

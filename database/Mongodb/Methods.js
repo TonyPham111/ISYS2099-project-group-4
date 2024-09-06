@@ -18,7 +18,6 @@ export async function updateDuringAppointmentNote(documentId, duringNote) {
     );
 }
 
-
 export async function fetchQualifications(idsToFetch) {
     try {
         // Fetch documents from all three collections based on _id
