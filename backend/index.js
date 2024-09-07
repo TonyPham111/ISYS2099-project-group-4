@@ -10,6 +10,7 @@ import departmentRouter from "./Router/departmentRouter.js";
 import drugRouter from "./Router/drugRouter.js";
 import allergyRouter from "./Router/allergyRouter.js";
 import userRouter from "./Router/userRouter.js"
+import treatmentHistoryRouter from "./Router/treatmentHistoryRouter.js"
 import mongoose from 'mongoose';
 
 
@@ -30,6 +31,7 @@ app.use("/departments", departmentRouter);
 app.use("/drugs", drugRouter);
 app.use("/allergies", allergyRouter);
 app.use("/user", userRouter);
+app.use("/prescription", treatmentHistoryRouter);
 
 const connectionUri = process.env.MONGO_URI;
 

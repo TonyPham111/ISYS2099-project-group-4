@@ -49,7 +49,7 @@ staffRouter
   .post(verifyToken, staffController.evaluateStaff)
 
 staffRouter
-  .route("/:evaluationId/performanceevaluation")
+  .route("/:evaluationId/performanceevaluationdetail")
   .get(verifyToken, staffController.GetEvaluationDetails)
 
 staffRouter

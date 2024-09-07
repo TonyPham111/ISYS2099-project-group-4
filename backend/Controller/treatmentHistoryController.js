@@ -26,7 +26,7 @@ export async function getAllTreatmentHistory(req, res) {
 export async function createNewTreatment(req, res) {
   try {
     const user_info = req.user;
-    const { patient_id, diagnosis_id, prescription_note, medicines } = req.body;
+    const {diagnosis_id, prescription_note, medicines } = req.body;
 
     if (user_info.role === 'Doctor') {
       const doctor_id = user_info.id;
@@ -35,9 +35,9 @@ export async function createNewTreatment(req, res) {
       const medicines_string = medicines
         .map(medicine => `${medicine.drug_code}:${medicine.quantity}`)
         .join(",");
-
+      console.log(medicines_string)
       // Call the repository method to add the new treatment
-      await doctorRepo.AddNewPrescription(doctor_id, patient_id, diagnosis_id, prescription_note, medicines_string);
+      await doctorRepo.AddNewPrescription(doctor_id, req.params.patientId, diagnosis_id, prescription_note, medicines_string);
 
       return res.status(200).json({ message: "Treatment added successfully." });
     } else {

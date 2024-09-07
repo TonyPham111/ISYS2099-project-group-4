@@ -2,7 +2,8 @@ DELIMITER $$
 
 DROP FUNCTION IF EXISTS ParseQualificationString$$
 CREATE FUNCTION ParseQualificationString(
-	current_qualification TEXT,
+	current_qualifications TEXT,
+    new_staff_id INT,
     last_string INT
 )
 RETURNS TEXT
@@ -15,13 +16,13 @@ BEGIN
 		SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Something is wrong. Please try again';
     END IF;
-    SET qualification_type = SUBSTRING_INDEX(current_qualifications, ':', 1);
-    SET document_id = SUBSTRING_INDEX(current_qualifications, ':', -1);
+    SET qualification_type = SUBSTRING_INDEX(current_qualifications, ':', -1);
+    SET document_id = SUBSTRING_INDEX(current_qualifications, ':', 1);
     
     IF last_string = 0 THEN
-		RETURN CONCAT(@new_staff_id, ', ', qualification_type, ', ', '\'', document_id, '\'),' );
+		RETURN CONCAT('(',new_staff_id, ', \'', qualification_type, '\', ', '\'', document_id, '\'),' );
 	ELSE 
-		RETURN CONCAT(@new_staff_id, ', ', qualification_type, ', ', '\'', document_id, '\');' );
+		RETURN CONCAT('(',new_staff_id, ', \'', qualification_type, '\', ', '\'', document_id, '\');' );
     END IF;
 END$$
 
@@ -119,6 +120,7 @@ BEGIN
     DECLARE para_criteria_id INT;  
     DECLARE para_criteria_score INT;
     SELECT CAST(SUBSTRING_INDEX(current_string_code, ':', -1) AS UNSIGNED INTEGER) INTO para_criteria_score;
+	SELECT CAST(SUBSTRING_INDEX(current_string_code, ':', 1) AS UNSIGNED INTEGER) INTO para_criteria_id;
     IF @parent_proc IS NULL THEN 
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Something is wrong. Please try again';
@@ -128,7 +130,7 @@ BEGIN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Invalid score. Please try again';
     END IF;
-    
+        
     -- Added single quotes around para_condition_code so that it is recognized as an inserted string value
     -- If this is the last condition in the list, finalize the SQL statement with a closing parenthesis and semicolon
     IF last_string = 1 THEN

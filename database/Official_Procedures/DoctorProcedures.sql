@@ -309,13 +309,14 @@ BEGIN
     SET @parent_proc = TRUE;
     SET @doctor_id = para_doctor_id;
     SET @testing = testing;
+
     
     -- Start a transaction to ensure all operations succeed or fail together
     START TRANSACTION;
 
     -- Insert a new record into the TreatmentHistory table with the provided parameters
     INSERT INTO TreatmentHistory(doctor_id, patient_id, diagnosis_id, treatment_start_date, prescription_note)
-    VALUES (para_doctor_id, checked_patient_id, para_diagnosis_id, CURDATE(), para_treatment_end_date, para_prescription_note);
+    VALUES (para_doctor_id, checked_patient_id, para_diagnosis_id, CURDATE(), para_prescription_note);
     -- Retrieve the ID of the newly inserted record in TreatmentHistory
     SELECT LAST_INSERT_ID() INTO latest_prescription_id;
 

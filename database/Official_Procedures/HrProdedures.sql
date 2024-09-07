@@ -139,6 +139,7 @@ BEGIN
         GET STACKED DIAGNOSTICS CONDITION 1
             returned_sqlstate = RETURNED_SQLSTATE,
             returned_message = MESSAGE_TEXT;
+		SELECT returned_message;
 		
         -- Check if the SQLSTATE is '45000'
         IF returned_sqlstate = '45000' THEN
@@ -150,14 +151,15 @@ BEGIN
             SET MESSAGE_TEXT = 'Something is wrong. Please try again.';
         END IF;
     END;
+
     SET @parent_proc = TRUE;
      SET @single_value = '';
-    SET @insert_statement = 'INSERT INTO Qualifications (qualification_type, staff_id, document_id) VALUES ';
+    SET @insert_statement = 'INSERT INTO Qualifications (staff_id, qualification_type, document_id) VALUES ';
 	WHILE current_index <= LENGTH(qualifications_string) DO
         -- Check if the current character is a comma, indicating the end of a schedule ID
         IF SUBSTRING(qualifications_string, current_index, 1) = ',' THEN
             -- Process the current schedule ID
-            SELECT ParseQualificationString(current_string_index, 0) INTO @single_value;
+            SELECT ParseQualificationString(current_string_index, new_staff_id, 0) INTO @single_value;
 
             -- Append the processed value to the DELETE query
             SET @insert_statement = CONCAT(@insert_statement, @single_value);
@@ -166,7 +168,7 @@ BEGIN
             SET current_string_index = '';
         ELSE
             -- If the current character is not a comma, accumulate it as part of the schedule ID
-            SET current_string_index = CONCAT(current_string_index, SUBSTRING(schedule_id_string, current_index, 1));
+            SET current_string_index = CONCAT(current_string_index, SUBSTRING(qualifications_string, current_index, 1));
         END IF;
 
         -- Move to the next character in the string
@@ -176,16 +178,18 @@ BEGIN
     -- Handle the last schedule ID after the loop ends
     IF current_string_index != '' THEN
         -- Process the current schedule ID
-		SELECT ParseQualificationString(current_string_index, 1) INTO @single_value;
+		SELECT ParseQualificationString(current_string_index, new_staff_id, 1) INTO @single_value;
 		-- Append the processed value to the DELETE query
 		SET @insert_statement = CONCAT(@insert_statement, @single_value);
     END IF;
+    SELECT @insert_statement;
       -- Prepare and execute the final DELETE query
     PREPARE statement FROM @insert_statement;
     EXECUTE statement;
     DEALLOCATE PREPARE statement;
 	SET @parent_proc = NULL;
 END$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.AddQualifications TO 'HR'@'%'$$
 
 
 DROP PROCEDURE IF EXISTS ChangeStaffPersonalInfo$$
@@ -353,15 +357,14 @@ BEGIN
 	If para_employment_status IS NOT NULL THEN
 		SET @select_statement = CONCACT(@select_statement, ' AND ', @by_employment_status);
     END IF;
-    
+    SELECT sort_by;
     IF sort_by IS NOT NULL THEN
-		SET @sort_clause = CONCAT('ORDER BY ', sort_by, ' ', order_by, ';');
+		SET @sort_clause = CONCAT(' ORDER BY ', sort_by, ' ', order_by, ';');
 	ELSE 
-		SET @sort_clause = 'ORDER BY hire_date DESC;';
+		SET @sort_clause = ' ORDER BY hire_date DESC;';
     END IF;
-        
+	SET @select_statement = CONCAT(@select_statement, @sort_clause);
      -- Prepare and execute the final dynamic SQL statement
-	SELECT @select_statement;
     PREPARE stmt FROM @select_statement;
     EXECUTE stmt;
     DEALLOCATE PREPARE stmt;
@@ -377,7 +380,6 @@ CREATE PROCEDURE ChangeWageProcedure(
 )
 SQL SECURITY DEFINER
 BEGIN
-    DECLARE para_old_wage DECIMAL(6,2);
     DECLARE max_job_wage DECIMAL(6,2);
     DECLARE min_job_wage DECIMAL(6,2);
     
@@ -391,7 +393,7 @@ BEGIN
     INSERT INTO Salary_Change (
         staff_id, old_wage, new_wage, date_change
     ) VALUES (
-        para_staff_id, para_old_wage, para_new_wage, CURDATE()
+        para_staff_id, @para_old_wage, para_new_wage, CURDATE()
     );
 END$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.ChangeWageProcedure TO 'HR'@'%'$$
@@ -409,11 +411,13 @@ BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
     BEGIN
         DECLARE returned_sqlstate CHAR(5) DEFAULT '';
+        DECLARE returned_message TEXT;
         ROLLBACK;
         -- Retrieve the SQLSTATE of the current exception
         GET STACKED DIAGNOSTICS CONDITION 1
-            returned_sqlstate = RETURNED_SQLSTATE;
-
+            returned_sqlstate = RETURNED_SQLSTATE,
+            returned_message = MESSAGE_TEXT;
+		SELECT returned_message;
         -- Check if the SQLSTATE is '45000'
         IF returned_sqlstate = '45000' THEN
             -- Resignal with the original message
@@ -425,11 +429,14 @@ BEGIN
         END IF;
     END;
     SET @parent_proc = TRUE;
+    SET @aspect = 'Wage';
 
     -- Start a transaction to ensure all operations succeed or fail together
     START TRANSACTION;
 		-- Check if input staff id exists
-		IF NOT CheckStaffExists(para_staff_id) THEN
+        SELECT wage INTO @para_old_wage FROM Staff WHERE id = para_staff_id FOR UPDATE;
+        
+		IF @para_old_wage IS NULL THEN
 			SIGNAL SQLSTATE '45000'
 			SET MESSAGE_TEXT = 'Staff does not exist';
 		END IF;	
@@ -503,6 +510,7 @@ BEGIN
         END IF;
     END;
     SET @parent_proc = TRUE;
+    SET @aspect = 'Department';
        
 
     -- Retrieve the current job ID of the staff member and store it in local_old_job
@@ -562,6 +570,7 @@ BEGIN
         END IF;
     END;
     SET @parent_proc = TRUE;
+    SET @aspect = 'Job';
 
     -- Retrieve the current job ID of the staff member and store it in local_old_job
     SELECT job_id INTO local_old_job FROM Staff WHERE id = para_staff_id;
@@ -683,11 +692,11 @@ BEGIN
                 SET MESSAGE_TEXT = 'Something is wrong. Please try again.';
         END IF;
     END;
-	IF from_date = NULL THEN
+	IF from_date IS NULL THEN
 		SET from_date = '1000-01-01';
 	END IF;
     
-    IF end_date = NULL THEN
+    IF to_date IS NULL THEN
 		SET to_date = '9999-12-31';
     END IF;
 
@@ -793,11 +802,11 @@ BEGIN
                 SET MESSAGE_TEXT = 'Something is wrong. Please try again.';
         END IF;
     END;
-	IF from_date = NULL THEN
+	IF from_date IS NULL THEN
 		SET from_date = '1000-01-01';
 	END IF;
     
-    IF end_date = NULL THEN
+    IF to_date IS NULL THEN
 		SET to_date = '9999-12-31';
     END IF;
 
@@ -880,9 +889,12 @@ BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
     BEGIN
         DECLARE returned_sqlstate CHAR(5) DEFAULT '';
+        DECLARE returned_message TEXT;
         -- Retrieve the SQLSTATE of the current exception
         GET STACKED DIAGNOSTICS CONDITION 1
-            returned_sqlstate = RETURNED_SQLSTATE;
+            returned_sqlstate = RETURNED_SQLSTATE,
+            returned_message = MESSAGE_TEXT;
+		SELECT returned_message;
 
         -- Check if the SQLSTATE is '45000'
         IF returned_sqlstate = '45000' THEN
@@ -894,11 +906,11 @@ BEGIN
                 SET MESSAGE_TEXT = 'Something is wrong. Please try again.';
         END IF;
     END;
-	IF from_date = NULL THEN
+	IF from_date IS NULL THEN
 		SET from_date = '1000-01-01';
 	END IF;
     
-    IF end_date = NULL THEN
+    IF to_date IS NULL THEN
 		SET to_date = '9999-12-31';
     END IF;
 
@@ -947,6 +959,7 @@ BEGIN
 END$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.GetAllDepartments TO 'HR'@'%'$$
 
+SELECT * FROM 
 
 
 DELIMITER ;

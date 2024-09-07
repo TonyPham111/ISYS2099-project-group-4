@@ -78,8 +78,8 @@ export async function getSpecificPatientAllDiagnosis(req, res) {
   try {
     const patient_id = req.params.patientId;
     const user_info = req.user;
-    const from_date = req.query.from_date;
-    const to_date = req.query.to_date;
+    const from_date = req.query.from;
+    const to_date = req.query.to;
 
     let result;
     if (user_info.role === 'Doctor') {
@@ -123,6 +123,7 @@ export async function getSpecificPatientAllAllergies(req, res) {
     const user_info = req.user;
 
     let result;
+    console.log("REceived")
     if (user_info.role === 'Doctor') {
       result = await doctorRepo.GetPatientsAllergies(patient_id);
     } else if (user_info.role === 'Nurse') {
@@ -141,7 +142,7 @@ export async function getSpecificPatientAllAllergies(req, res) {
 export async function addSpecificPatientAllergy(req, res) {
   try {
     const user_info = req.user;
-    const { allergies } = req.body;
+    const {allergies} = req.body;
 
     if (user_info.role === 'Doctor') {
       const doctor_id = user_info.id;

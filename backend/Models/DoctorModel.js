@@ -295,15 +295,14 @@ const doctorRepo = {
   FetchPrescriptionsByPatientId: async (para_patient_id, from_date, to_date) => {
     try {
         const sql = `CALL FetchPrescriptionsByPatientIdAndDates(?, ?,?)`;
-        const [results] = await poolDoctors.query(sql, [para_patient_id, from_date, to_date]);
-  
+        const [results] = await poolDoctors.query(sql, [para_patient_id, from_date, to_date]);  
         // Transform the results to group prescription data
         const groupedResults = results[0].reduce((accumulator, row) => {
-            const { id, treatment_start_date, doctor_name, drug_name, quantity, unit, price } = row;
+            const { id, start_date, doctor_name, drug_name, quantity, unit, price } = row;
 
             // Add the presccription details to the accumulator if it's not already added
             if (!accumulator[id]) {
-                accumulator[id] = { id, treatment_start_date, doctor_name, drugs: [] };
+                accumulator[id] = { id, start_date, doctor_name, drugs: [] };
             }
 
             // Add the drug details to the current prescription's drug list
@@ -433,7 +432,7 @@ const doctorRepo = {
 GetSubordinatesSchedule: async (manager_id, staff_id, from_date, to_date) => {
   try {
     const sql = `CALL GetAppointmentsAndSchedulesByStaffByDate(?, ?, ?, ?)`;
-    const [results] = await poolDoctors.query(sql, [staff_id, manager_id, from_date, to_date]);
+    const [results] = await poolDoctors.query(sql, [manager_id, staff_id, from_date, to_date]);
     return results[0];
   } catch (error) {
     throw new Error(error.message);
@@ -453,8 +452,8 @@ GetOwnSchedule: async (staff_id) => {
 
 GetOwnSchedule: async (staff_id, from_date, to_date) => {
   try {
-    const sql = `CALL GetOwnAppointmentsAndSchedulesByDates(?, ?, ?, ?)`;
-    const [results] = await poolDoctors.query(sql, [staff_id, manager_id, from_date, to_date]);
+    const sql = `CALL GetOwnAppointmentsAndSchedulesByDates(?, ?, ?)`;
+    const [results] = await poolDoctors.query(sql, [staff_id, from_date, to_date]);
     return results[0];
   } catch (error) {
     throw new Error(error.message);

@@ -696,7 +696,7 @@ BEGIN
 		SET from_date = '1000-01-01';
 	END IF;
     
-    IF end_date IS NULL THEN
+    IF to_date IS NULL THEN
 		SET to_date = '9999-12-31';
     END IF;
 
@@ -852,11 +852,13 @@ BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
 	BEGIN
 		DECLARE returned_sqlstate CHAR(5) DEFAULT '';
+        DECLARE returned_message TEXT;
 		ROLLBACK;
 		-- Retrieve the SQLSTATE of the current exception
 		GET STACKED DIAGNOSTICS CONDITION 1
-			returned_sqlstate = RETURNED_SQLSTATE;
-
+			returned_sqlstate = RETURNED_SQLSTATE,
+            returned_message = MESSAGE_TEXT;
+		SELECT returned_message;
 		-- Check if the SQLSTATE is '45000'
 		IF returned_sqlstate = '45000' THEN
 			-- Resignal with the original message
@@ -1064,7 +1066,7 @@ BEGIN
 			END IF;
 		END;
     SET @parent_proc = TRUE;
-	SELECT job_id INTO checked_job_id FROM Staff WHERE id = hr_id;
+	SELECT job_id INTO checked_job_id FROM Staff WHERE id = para_manager_id;
     IF checked_job_id <> 3 THEN
 		IF NOT CheckManagementRelationship(para_staff_id, para_manager_id) THEN
 			SIGNAL SQLSTATE '45000'
@@ -1074,7 +1076,7 @@ BEGIN
 	-- Check if the manager is authorized to view the evaluations for the staff member
 
     
-    SELECT document_id FROM Qualifications WHERE staff_id = para_staff_id;
+    SELECT qualification_type, document_id FROM Qualifications WHERE staff_id = para_staff_id;
     SET @parent_proc = FALSE;
 END$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchStaffQualifications TO 'Doctors'@'%'$$
@@ -1100,10 +1102,13 @@ BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
 	BEGIN
 		DECLARE returned_sqlstate CHAR(5) DEFAULT '';
+        DECLARE returned_message TEXT;
 		ROLLBACK;
 		-- Retrieve the SQLSTATE of the current exception
 		GET STACKED DIAGNOSTICS CONDITION 1
-			returned_sqlstate = RETURNED_SQLSTATE;
+			returned_sqlstate = RETURNED_SQLSTATE,
+            returned_message = MESSAGE_TEXT;
+
 
 		-- Check if the SQLSTATE is '45000'
 		IF returned_sqlstate = '45000' THEN
@@ -1241,10 +1246,13 @@ BEGIN
      DECLARE EXIT HANDLER FOR SQLEXCEPTION
 	BEGIN
 		DECLARE returned_sqlstate CHAR(5) DEFAULT '';
+        DECLARE returned_message TEXT;
 		-- Retrieve the SQLSTATE of the current exception
 		GET STACKED DIAGNOSTICS CONDITION 1
-			returned_sqlstate = RETURNED_SQLSTATE;
-            
+			returned_sqlstate = RETURNED_SQLSTATE,
+            returned_message = MESSAGE_TEXT;
+		
+        
 		-- Check if the SQLSTATE is '45000'
 		IF returned_sqlstate = '45000' THEN
 			-- Resignal with the original message
@@ -1306,13 +1314,16 @@ CREATE PROCEDURE GetEvaluationDetails(
 SQL SECURITY DEFINER
 BEGIN
 	DECLARE para_staff_id INT;
+
 	DECLARE EXIT HANDLER FOR SQLEXCEPTION
 	BEGIN
 		DECLARE returned_sqlstate CHAR(5) DEFAULT '';
+		DECLARE returned_message TEXT;
 		-- Retrieve the SQLSTATE of the current exception
 		GET STACKED DIAGNOSTICS CONDITION 1
-			returned_sqlstate = RETURNED_SQLSTATE;
-
+			returned_sqlstate = RETURNED_SQLSTATE,
+            returned_message = MESSAGE_TEXT;
+		
 		-- Check if the SQLSTATE is '45000'
 		IF returned_sqlstate = '45000' THEN
 			-- Resignal with the original message
@@ -1331,7 +1342,7 @@ BEGIN
         SET MESSAGE_TEXT = 'Evaluation does not exist. Please try again';
     END IF;
     
-    SELECT staff_id INTO para_staff_id FROM PerformanceEvaluation WHERE id = para_evaluation_id;
+    SELECT evaluated_staff_id INTO para_staff_id FROM PerformanceEvaluation WHERE id = para_evaluation_id;
 
 	-- Check if the manager is authorized to view the evaluation details for the staff member
     IF NOT CheckManagementRelationship(para_staff_id, para_manager_id) THEN

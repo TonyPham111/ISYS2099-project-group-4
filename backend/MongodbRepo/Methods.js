@@ -214,7 +214,7 @@ export async function createNewTrainingMaterial(trainingMaterialObject) {
         const trainingMaterial = new TrainingMaterials({
             department_id: trainingMaterialObject.department_id,
             job_id: trainingMaterialObject.job_id,
-            training_material: trainingMaterialObject.trainingMaterial
+            training_material: trainingMaterialObject.training_material
         });
         return await trainingMaterial.save()
      
@@ -230,6 +230,7 @@ export async function fetchTrainingDocuments(job_id, department_id) {
         job_id: job_id,
         department_id: department_id
     });
+    console.log(documents);
     // Convert the PDF to Base64
     const responses = documents.map(document => {
         return {

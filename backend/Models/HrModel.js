@@ -292,6 +292,7 @@ const hrRepo = {
   },
   AddNewQualifications: async (staff_id, qualifications_string) => {
     try {
+      console.log(qualifications_string)
       const sql = `CALL AddQualifications(?, ?)`;
       const [results] = await poolHR.query(sql, [staff_id, qualifications_string]);
       return results[1];

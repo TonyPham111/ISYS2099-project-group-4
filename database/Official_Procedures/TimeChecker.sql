@@ -194,7 +194,7 @@ BEGIN
 END$$
 
 DROP FUNCTION IF EXISTS OptimizedCheckNewScheduleAndAppointmentConflict$$
-CREATE FUNCTION CheckNewScheduleAndAppointmentConflict(
+CREATE FUNCTION OptimizedCheckNewScheduleAndAppointmentConflict(
     schedule_id INT
 ) RETURNS int
     READS SQL DATA
@@ -211,10 +211,10 @@ BEGIN
     SELECT COUNT(*) INTO clash_count
     FROM Appointments 
     INNER JOIN Staff_Schedule 
-    ON Appointment.schedule_id = Staff_Schedule.id 
+    ON Appointments.schedule_id = Staff_Schedule.id 
     WHERE Appointments.start_time < Staff_Schedule.start_time
 		OR
-        Appointments.end+time < Staff_Schedule.end_time;
+        Appointments.end_time < Staff_Schedule.end_time;
     -- Return the count of appointment clashes
     RETURN clash_count;
 END$$

@@ -75,6 +75,7 @@ GRANT EXECUTE ON PROCEDURE hospital_management_system.GetPatientsInfoForNurseByN
 
 DROP PROCEDURE IF EXISTS UpdateTestDetail$$
 CREATE PROCEDURE UpdateTestDetail(
+	para_patient_id INT,
     para_test_order_id INT,                   -- Parameter for the test order ID
     para_test_type_id INT,                    -- Parameter for the test type ID
     para_administering_staff_id INT,          -- Parameter for the ID of the staff member administering the test
@@ -85,11 +86,13 @@ BEGIN
 	DECLARE EXIT HANDLER FOR SQLEXCEPTION
 		BEGIN
 			DECLARE returned_sqlstate CHAR(5) DEFAULT '';
+            DECLARE returned_message TEXT;
 			ROLLBACK;
 			-- Retrieve the SQLSTATE of the current exception
 			GET STACKED DIAGNOSTICS CONDITION 1
-				returned_sqlstate = RETURNED_SQLSTATE;
-
+				returned_sqlstate = RETURNED_SQLSTATE,
+                returned_message = MESSAGE_TEXT;
+			SELECT returned_message;
 			-- Check if the SQLSTATE is '45000'
 			IF returned_sqlstate = '45000' THEN
 				-- Resignal with the original message
@@ -103,20 +106,11 @@ BEGIN
 		END;
 	
     SET @parent_proc = TRUE;
-	If NOT CheckTestOrderExists() THEN
-		SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Test order does not exist. Please try again';
-    END IF;
+	SET @patient_id = para_patient_id;
+    SET @test_order_id = para_test_order_id;
+    SET @nurse_id = para_administering_staff_id;
+    SET @test_type_id = para_test_type_id;
     
-	If NOT CheckTestTypeExists() THEN
-		SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Test type does not exist. Please try again';
-    END IF;
-    
-    IF NOT CheckNurseExists() THEN
-		SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Test type does not exist. Please try again';
-    END IF;
     -- Update the Test_Details table with the new administering staff ID and lab result document ID
     UPDATE Test_Details
     SET

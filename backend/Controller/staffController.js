@@ -28,7 +28,9 @@ export async function getAllStaffInfo(req, res) {
       res.status(200).json(result)
     }
     else if (user_info.role === "HR") {
-      const result = await hrRepo.FetchAllStaff(req.query.staffName, req.query.jobId, req.query.departmentId)
+      console.log(req.query.orderBy);
+      const result = await hrRepo.FetchAllStaff(req.query.staffName, req.query.jobId, req.query.departmentId, req.query.employmentStatus,
+        req.query.sortBy, req.query.orderBy)
       res.status(200).json(result)
     }
     else {
@@ -246,10 +248,20 @@ export async function evaluateStaff(req, res) {
   try {
     const user_info = req.user;
     const staff_id = req.params.staffId;
-    const { criteria_1, criteria_2, criteria_3, criteria_4, criteria_5 } = req.body;
-
-    const criteria_string = `${criteria_1}:${criteria_2}:${criteria_3}:${criteria_4}:${criteria_5}`;
-
+    const evaluations = req.body;
+    console.log(evaluations)
+    let criteria_string = '';
+    for (let i = 0; i < evaluations.length; i++){
+      const {
+        criteria_id,
+        criteria_score
+      } = evaluations[i];
+      criteria_string = criteria_string + `${criteria_id}:${criteria_score}`
+      if (i < evaluations.length - 1){
+        criteria_string = criteria_string + ','
+      }
+    }
+    console.log(criteria_string)
     if (user_info.role === 'Doctor') {
       await doctorRepo.CreateNewEvaluation(user_info.id, staff_id, criteria_string);
     } else if (user_info.role === 'Nurse') {
@@ -329,10 +341,20 @@ export async function schedule(req, res) {
   try {
     const user_info = req.user;
     const staff_id = req.params.staffId;
-    const { schedule_date, schedule_start_time, schedule_end_time } = req.body;
-
-    const schedule_string = `${schedule_date};${schedule_start_time}-${schedule_end_time}`;
-
+    const schedule_list = req.body;
+    let schedule_string = ''
+    for (let i = 0; i < schedule_list.length; i++){
+      const {
+        schedule_date,
+        start_time,
+        end_time
+      } = schedule_list[i]
+      schedule_string = schedule_string+`${schedule_date};${start_time}-${end_time}`
+      if (i < schedule_list.length - 1){
+        schedule_string = schedule_string + ','
+      }
+    }
+    console.log(schedule_string)
     if (user_info.role === 'Doctor') {
       await doctorRepo.Scheduling(user_info.id, staff_id, schedule_string);
     } else if (user_info.role === 'Nurse') {
@@ -386,6 +408,7 @@ export async function deleteSchedule(req, res) {
 export async function getStaffSchedule(req, res) {
   try {
     const user_info = req.user;
+    console.log(user_info.id)
     const staff_id = req.params.staffId;
     let result;
 
@@ -455,27 +478,31 @@ export async function NewTrainingMaterial(req, res) {
 export async function addNewQualifications(req, res) {
     try {
       const user_info = req.user
+      console.log(user_info);
       const qualifications = req.body
       if (user_info.role === 'HR'){
           for (let i = 0; i < qualifications.length; i++){
             if (qualifications[i].certificate) {
-              qualifications[i].certificate = Buffer.from(qualifications[i].certificate.file, 'base64')
+              console.log(true)
+              qualifications[i].certificate.file = Buffer.from(qualifications[i].certificate.file, 'base64')
             }
             else if (qualifications[i].letter_of_reference){
-              qualifications[i].letter_of_reference = Buffer.from(qualifications[i].letter_of_reference.file, 'base64')
+              qualifications[i].letter_of_reference.file = Buffer.from(qualifications[i].letter_of_reference.file, 'base64')
             }
             else {
-              qualifications[i].document = Buffer.from(qualifications[i].document.file, 'base64')
+              qualifications[i].document.file = Buffer.from(qualifications[i].document.file, 'base64')
             }
           }
           const results = await createNewQualificationDocument(qualifications);
-          const qualifications_string = '';
+          console.log(results);
+          let qualifications_string = '';
           for (let i = 0; i < results.length; i++){
               qualifications_string = qualifications_string + results[i]._id.toString() + ':' + results[i].type
-              if (i === results.length - 1){
+              if (i < results.length - 1){
                 qualifications_string = qualifications_string + ","
               } 
           }
+          console.log(qualifications_string);
           await hrRepo.AddNewQualifications(req.params.staffId, qualifications_string);
           res.status(200).json({message: 'Qualifications added sucessfully'})
 
@@ -513,7 +540,7 @@ export async function getStaffQualifications(req, res) {
     else {
       res.status(403).json({ message: "Incorrect role." })
     }
-    const results = await fetchQualifications(response)
+    const results = await fetchQualifications(response[0])
     res.status(200).json(results)
     
     
