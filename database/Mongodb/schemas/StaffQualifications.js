@@ -20,7 +20,12 @@ const educationQualificationSchema = new mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     qualification_name: String,
     institution_name: String,
-    level: String,
+    level: {
+        type: String,
+        required: true,
+        enum: [ "Highschool", "College", "Bachelor", "Master", "Doctorate"],
+        default: "Highschool",
+      },
     qualification_grade: String,
     qualification_date: Date,
     certificate: fileSchema
