@@ -3,13 +3,13 @@ import { poolHR } from './dbConnectionConfiguration.js';
 const hrRepo = {
   AddNewStaff: async (
     full_name, job_id, department_id, manager_id, gender, birth_date, home_address,
-    phone_number, email, password, wage, qualifications_string
+    phone_number, email, password, wage
   ) => {
     try {
-      const sql = `CALL AddNewStaff(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+      const sql = `CALL AddNewStaff(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
       const [results] = await poolHR.query(sql, [
         full_name, job_id, department_id, manager_id, gender, birth_date, home_address,
-        phone_number, email, password, wage, qualifications_string
+        phone_number, email, password, wage
       ]);
       return results;
     } catch (error) {

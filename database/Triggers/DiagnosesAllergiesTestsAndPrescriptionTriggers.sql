@@ -115,4 +115,26 @@ BEGIN
         END IF;
 END$$
 
+
+DROP TRIGGER IF EXISTS ValidateTestAdministering$$
+CREATE TRIGGER ValidateTestAdministering
+BEFORE UPDATE ON Test_Details
+FOR EACH ROW
+BEGIN
+  If NOT CheckTestOrderExists(@test_order_id, @patient_id ) THEN
+		SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Test order does not exist. Please try again';
+    END IF;
+    
+	If NOT CheckTestTypeExists(@test_type_id) THEN
+		SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Test type does not exist. Please try again';
+    END IF;
+    
+    IF NOT CheckNurseExists(@nurse_id) THEN
+		SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Staff does not exist. Please try again';
+    END IF;
+END$$
+
 DELIMITER ;

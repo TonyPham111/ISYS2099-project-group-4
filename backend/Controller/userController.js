@@ -16,6 +16,7 @@ export const loginPage = (req, res) => {
 
 // Registration Endpoint
 export const register = async (req, res) => {
+  const user_info = req.user;
   try {
     const {
       full_name,
@@ -31,7 +32,7 @@ export const register = async (req, res) => {
       wage
     } = req.body;
 
-    if (req.role !== "HR") {
+    if (user_info.role !== "HR") {
       return res.status(403).json({ error: "Access denied. Only HR staff can register new users." });
     }
 
@@ -94,6 +95,7 @@ export const login = async (req, res) => {
     }
 
     const user = await hrRepo.AuthenticateUser(email); 
+    console.log(user);
     if (!user) {
       return res.status(401).json({ error: "User not found." });
     }
@@ -103,7 +105,7 @@ export const login = async (req, res) => {
       return res.status(401).json({ error: "Invalid credentials." });
     }
 
-    const tokens = generateTokens(user.id, user.email, user.job_name);
+    const tokens = generateTokens(user.id, user.email, user.job_name, user.job_id, user.department_id);
     setTokenCookie(res, tokens);
     
     return res.status(200).json({ message: "Login successful.", tokens });

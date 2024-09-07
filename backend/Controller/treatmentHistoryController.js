@@ -3,69 +3,48 @@ import nurseRepo from "../Models/NurseModel.js";
 
 export async function getAllTreatmentHistory(req, res) {
   try {
-    const user_info = req.user
-    if (user_info.role === 'Doctor'){
-      const result = await doctorRepo.FetchPrescriptionsByPatientId(req.params.patientId, req.query.from, req.query.to)
-      res.status(200).json(result)
+    const user_info = req.user;
+    const { patientId } = req.params;
+    const { from, to } = req.query;
+
+    let result;
+    if (user_info.role === 'Doctor') {
+      result = await doctorRepo.FetchPrescriptionsByPatientId(patientId, from, to);
+    } else if (user_info.role === 'Nurse') {
+      result = await nurseRepo.FetchPrescriptionsByPatientId(patientId, from, to);
+    } else {
+      return res.status(403).json({ message: "Incorrect role." });
     }
-    else if (user_info.role === 'Nurse'){
-      const result = await nurseRepo.FetchPrescriptionsByPatientId(req.params.patientId, req.query.from, req.query.to)
-      res.status(200).json(result)
-    }
-    else {
-      res.status(403).json({ message: "Incorrect role." })
-    }
-    //const {patientId} = req.query
-    //verify job role = (doctor || nurse)
-    //return data
-    /*
-       data structure: 
-       [
-         {
-           "treatment_id": INT,
-           "date": String --> "DD/MM/YYYY",
-           "doctor_id": INT,
-           "patient_id": INT,
-           "prescription": [
-             {
-               "drug_code": INT,
-               "drug_name": String,  
-               "quantity": INT,
-               "unit": String,
-               "price_per_unit": DECIMAL(6, 2)
-             },
-           ],
-           "doctor_note": String
-         }
-       ],
-       */
+
+    return res.status(200).json(result);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error(error);
+    return res.status(500).json({ message: error.message });
   }
 }
 
 export async function createNewTreatment(req, res) {
   try {
-    const user_info = req.user
-    const {
-        patient_id,
-        diagnosis_id,
-        prescription_note,
-        medicines
-    } = req.body
+    const user_info = req.user;
+    const { patient_id, diagnosis_id, prescription_note, medicines } = req.body;
 
-    if (user_info.role === 'Doctor'){
-      const doctor_id = user_info.id
-      const medicines_string = medicines.map(medicine => `${medicine.drug_code}:${medicine.quantity}`).join(",")
-      await doctorRepo.AddNewPrescription(
-        doctor_id, patient_id, diagnosis_id, prescription_note, medicines_string
-      )
-      res.status(200).json({ message: "Treatment added successfully." })
-    }
-    else {
-      res.status(403).json({ message: error.message })
+    if (user_info.role === 'Doctor') {
+      const doctor_id = user_info.id;
+
+      // Create the medicines string in the format drug_code:quantity
+      const medicines_string = medicines
+        .map(medicine => `${medicine.drug_code}:${medicine.quantity}`)
+        .join(",");
+
+      // Call the repository method to add the new treatment
+      await doctorRepo.AddNewPrescription(doctor_id, patient_id, diagnosis_id, prescription_note, medicines_string);
+
+      return res.status(200).json({ message: "Treatment added successfully." });
+    } else {
+      return res.status(403).json({ message: "Incorrect role." });
     }
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error(error);
+    return res.status(500).json({ message: error.message });
   }
 }

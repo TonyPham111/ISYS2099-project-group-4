@@ -2,87 +2,58 @@ import businessOfficerRepo from "../Models/BusinessOfficerModel.js";
 
 export async function getAllBillings(req, res) {
   try {
-        const user_info = req.user
-        if (user_info === 'BusinessOfficers'){
-            businessOfficerRepo.GetAllBillings(
-                req.query.patentName,
-                req.query.from_amount,
-                req.query.to_amount,
-                req.query.from_date,
-                req.query.to_date,
-                req.query.sort_by,
-                req.query.order_by
-            )
+    const user_info = req.user;
 
-            /*
-                Kết quả trả về: {
-                    id,
-                    patient_id,
-                    billing_date
-                    total_amount
-                }
-            */
-        }
-        else {
-            res.status(403).json({message: error.message})
-        }
+    if (user_info.role === 'BusinessOfficer') {
+      const result = await businessOfficerRepo.GetAllBillings(
+        req.query.patientName,
+        req.query.from_amount,
+        req.query.to_amount,
+        req.query.from_date,
+        req.query.to_date,
+        req.query.sort_by,
+        req.query.order_by
+      );
+      return res.status(200).json(result);
+    } else {
+      return res.status(403).json({ message: "Incorrect role." });
+    }
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error(error);
+    return res.status(500).json({ message: error.message });
   }
 }
 
 export async function getBillingDetail(req, res) {
-    try {
-        const user_info = req.user
-        const billing_id = req.params.billing_id
-        if (user_info.role === 'BusinessOfficer'){
-            businessOfficerRepo.GetBillingDetail(billing_id)
-            /*
-                kết quả trả về {
-                    appointment: {
-                        appointment_charge
-                    },
-                    prescription:[{
-                        drug_code,
-                        drug_name,
-                        price,
-                        quantity
-                    }]
-                    test: [{
-                        test_type_id,
-                        test_name,
-                        price
-                    }]
-                
-                }
-            */
-        }
-        else {
-            res.status(403).json({message: error.message})
-        }
-    } catch (error) {
-      res.status(500).json({ message: error.message });
+  try {
+    const user_info = req.user;
+    const billing_id = req.params.billing_id;
+
+    if (user_info.role === 'BusinessOfficer') {
+      const result = await businessOfficerRepo.GetBillingDetail(billing_id);
+      return res.status(200).json(result);
+    } else {
+      return res.status(403).json({ message: "Incorrect role." });
     }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: error.message });
   }
-  
+}
 
 export async function createNewBilling(req, res) {
   try {
-    const user_info = req.user
-    const {
-        patient_id,
-        appointment_id,
-        prescription_id,
-        test_id
-    } = req.body
-    if (user_info.role === 'BusinessOfficer'){
-        businessOfficerRepo.CreateNewBilling(patient_id, appointment_id, prescription_id, test_id)
+    const user_info = req.user;
+    const { patient_id, appointment_id, prescription_id, test_id } = req.body;
+
+    if (user_info.role === 'BusinessOfficer') {
+      await businessOfficerRepo.CreateNewBilling(patient_id, appointment_id, prescription_id, test_id);
+      return res.status(200).json({ message: "Billing created successfully." });
+    } else {
+      return res.status(403).json({ message: "Incorrect role." });
     }
-    else {
-        res.status(403).json({message: error.message})
-    }
-   
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error(error);
+    return res.status(500).json({ message: error.message });
   }
 }

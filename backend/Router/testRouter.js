@@ -11,7 +11,7 @@ testRouter
   .post(verifyToken, testController.createNewTestOrders);//doctor
 
 testRouter
-  .route("/:testOrderid/:testTypeId/update")
+  .route("/:testOrderId/:testTypeId/:patientId/update")
   .put(verifyToken, upload.fields(
     [
       { name: 'lab_result_name', maxCount: 1 },

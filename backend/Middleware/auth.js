@@ -1,10 +1,10 @@
 import jwt from "jsonwebtoken";
 
 // Function to generate access and refresh tokens
-export const generateTokens = (id, email, role) => {
+export const generateTokens = (id, email, role, job_id, department_id) => {
   role = role.replace(" ", "");
-  const accessToken = jwt.sign({ id, email, role }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "15m" });
-  const refreshToken = jwt.sign({ id, email, role }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "7d" });
+  const accessToken = jwt.sign({ id, email, role, job_id, department_id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "15m" });
+  const refreshToken = jwt.sign({ id, email, role, job_id, department_id }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "7d" });
 
   return { accessToken, refreshToken };
 };

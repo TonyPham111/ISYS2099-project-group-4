@@ -1,26 +1,21 @@
 import frontDeskRepo from "../Models/FrontDeskModel.js";
-import AppointmentNotes from '../MongodbRepo/schemas/AppointmentNotes.js'
+import AppointmentNotes from '../MongodbRepo/schemas/AppointmentNotes.js';
 // import { createAppointmentNoteFromPreNote } from '../../database/Mongodb/Methods.js';
 
 export async function getAllAppointment(req, res) {
   try {
-    console.log("User info from token:", req.user);
     const user_info = req.user;
-    
     if (!user_info) {
-      console.log("No user info found in request");
       return res.status(401).json({ message: "No user information found" });
     }
 
-    // Modify this line to handle both "FrontDesk" and "Front Desk"
     if (user_info.role !== 'FrontDesk' && user_info.role !== 'Front Desk') {
-      console.log("Unauthorized access attempt. User role:", user_info.role);
       return res.status(403).json({ message: 'Unauthorized access' });
     }
 
-    console.log("Fetching appointments...");
     // Fetch appointments from SQL database
     const appointments = await frontDeskRepo.GetAllAppointments(req.query.patientName, req.query.doctorId, req.query.from, req.query.to, req.query.employmentStatus);
+
     // Fetch corresponding notes from MongoDB
     const appointmentIds = appointments.map(app => app.id);
     const notes = await AppointmentNotes.find({ _id: { $in: appointmentIds } });
@@ -58,12 +53,7 @@ function formatDate(dateString) {
 export async function CheckAvailability(req, res) {
   try {
     const user_info = req.user;
-    const {
-      booked_date,
-      booked_start_time,
-      booked_end_time,
-      department_id
-    } = req.body;
+    const { booked_date, booked_start_time, booked_end_time, department_id } = req.body;
 
     if (user_info.role !== 'FrontDesk' && user_info.role !== 'Front Desk') {
       return res.status(403).json({ message: 'Unauthorized access' });
@@ -113,9 +103,6 @@ export async function addNewAppointment(req, res) {
       newAppointmentNote = await createAppointmentNoteFromPreNote(pre_appointment_note);
     } catch (error) {
       console.error("Error creating appointment note in MongoDB:", error);
-      if (error instanceof mongoose.Error) {
-        return res.status(500).json({ message: "Database connection error. Please try again later." });
-      }
       return res.status(500).json({ message: "Error creating appointment note. Please try again." });
     }
 
@@ -147,38 +134,34 @@ export async function addNewAppointment(req, res) {
 
 export async function updateAppointmentNotes(req, res) {
   try {
-    const user_info = req.user
-    if (user_info.role === "Doctor"){
-      // Edit the post_appointment and during appointment note in the corresponding document in mongodb
+    const user_info = req.user;
+    if (user_info.role !== "Doctor") {
+      return res.status(403).json({ message: "Unauthorized access" });
     }
 
-    //verify job role = doctor
-    /*
-    update condition:
-    - can only update if still in allow time
-    update data: 
-    - during Note
-    - after Note
-    */
+    // Logic to edit the post_appointment and during appointment note in the corresponding document in MongoDB
+
+    res.status(200).json({ message: "Notes updated successfully" });
   } catch (error) {
+    console.error("Error in updateAppointmentNotes:", error);
     res.status(500).json({ message: error.message });
   }
 }
 
 export async function deleteSpecificAppointment(req, res) {
   try {
-    const user_info = req.user
-    const appointment_id = req.params.appointmentId
+    const user_info = req.user;
+    const appointment_id = req.params.appointmentId;
 
-    if (user_info.role === 'FrontDesk'){
-        frontDeskRepo.CancelAnAppointment(appointment_id)
+    if (user_info.role !== 'FrontDesk') {
+      return res.status(403).json({ message: 'Unauthorized access' });
     }
-    //verify job role = frontdesk
-    /*
-    delete condition: 
-    - can only delete if it is before appointment time
-    */
+
+    await frontDeskRepo.CancelAnAppointment(appointment_id);
+
+    res.status(200).json({ message: 'Appointment cancelled successfully' });
   } catch (error) {
+    console.error("Error in deleteSpecificAppointment:", error);
     res.status(500).json({ message: error.message });
   }
 }

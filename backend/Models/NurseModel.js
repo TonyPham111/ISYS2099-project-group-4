@@ -217,10 +217,10 @@ const nurseRepo = {
     }
   },
 
-    UpdateTestDetail: async (para_test_order_id, para_test_type_id, administer_staff_id, lab_result_document_id) => {
+    UpdateTestDetail: async (para_patient_id, para_test_order_id, para_test_type_id, administer_staff_id, lab_result_document_id) => {
         try {
-            const sql = `CALL UpdateTestDetail(?)`;
-            const [results] = await poolNurses.query(sql, [para_test_order_id, para_test_type_id, administer_staff_id, lab_result_document_id]);
+            const sql = `CALL UpdateTestDetail(?,?,?,?,?)`;
+            const [results] = await poolNurses.query(sql, [para_patient_id, para_test_order_id, para_test_type_id, administer_staff_id, lab_result_document_id]);
             return JSON.stringify(results, null, 2);
         } catch (error) {
             throw new Error(error.message);

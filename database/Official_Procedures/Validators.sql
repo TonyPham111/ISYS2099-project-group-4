@@ -270,7 +270,7 @@ GRANT EXECUTE ON FUNCTION hospital_management_system.CheckPrescriptionExists TO 
 
 
 DROP FUNCTION IF EXISTS CheckTestOrderExists$$
-CREATE FUNCTION CheckTestOrderExists(para_test_order_id INT, para_patient_id int) RETURNS bit(1)
+CREATE FUNCTION CheckTestOrderExists(para_test_order_id INT, para_patient_id int) RETURNS bit
     READS SQL DATA
     SQL SECURITY DEFINER
 BEGIN
@@ -300,7 +300,6 @@ BEGIN
     END IF;
     -- Check if the test type ID exists in the Test_Types table
     SELECT EXISTS(SELECT 1 FROM Test_Types WHERE id = para_test_type_id) INTO test_type_exists;
-
     RETURN test_type_exists;
 END$$
 GRANT EXECUTE ON FUNCTION hospital_management_system.CheckTestTypeExists TO 'Doctors'@'%'$$

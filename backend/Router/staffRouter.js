@@ -55,7 +55,7 @@ staffRouter
 staffRouter
   .route("/trainingmaterial")
   .get(verifyToken, staffController.getTrainingMaterials)
-  .post(verifyToken, upload.single('training_material'), staffController.NewTrainingMaterial)
+  .post(verifyToken, upload.single('training_material_name'), staffController.NewTrainingMaterial)
 
 staffRouter
   .route("/:staffId/qualifications")
