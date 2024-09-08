@@ -1,8 +1,8 @@
 import express from "express";
 import * as userController from "../Controller/userController.js";
+import { verifyToken, refreshToken } from "../Middleware/auth.js";
 
 const userRouter = express.Router();
-import { verifyToken } from "../Middleware/auth.js";
 
 userRouter
   .route("/")
@@ -20,5 +20,13 @@ userRouter
 userRouter
   .route("/logout")
   .post(userController.logout);
+
+userRouter
+  .route("/reset-password/:token")
+  .post(userController.resetPassword);
+
+userRouter
+  .route("/request-password-reset")
+  .post(userController.requestPasswordReset);
 
 export default userRouter;
