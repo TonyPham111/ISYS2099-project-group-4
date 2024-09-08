@@ -22,15 +22,11 @@ userRouter
   .post(userController.logout);
 
 userRouter
-  .route("/request-email-verification")
-  .post(userController.requestEmailVerification);
-
-userRouter
-  .route("/verify-email/:token")
-  .get(userController.verifyEmailToken);
-
-userRouter
   .route("/reset-password")
   .post(userController.resetPassword);
+
+userRouter
+  .route("/request-password-reset")
+  .post(userController.requestPasswordReset);
 
 export default userRouter;

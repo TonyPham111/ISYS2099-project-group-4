@@ -328,7 +328,7 @@ const hrRepo = {
       throw new Error(error.message);
     }
   },
-cd
+
 };
 
 export default hrRepo;
