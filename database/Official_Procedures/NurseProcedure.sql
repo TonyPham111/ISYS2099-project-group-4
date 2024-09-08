@@ -37,7 +37,8 @@ GRANT EXECUTE ON PROCEDURE hospital_management_system.GetPatientsInfoForNurse TO
 
 DROP PROCEDURE IF EXISTS GetPatientsInfoForNurseByName$$
 CREATE PROCEDURE GetPatientsInfoForNurseByName(
-	patient_name VARCHAR(50)
+	patient_name VARCHAR(50),
+    patient_id INT
 )
 SQL SECURITY DEFINER
 BEGIN
@@ -60,14 +61,25 @@ BEGIN
 			
 			END IF;
 		END;
-    -- Select various fields from the Patients and Allergies tables
+	SET @select_statement ='
     SELECT
-        Patients.id,                      -- The ID of the patient
-        Patients.full_name,               -- The full name of the patient
-        Patients.gender,                  -- The gender of the patient
-        DATE_FORMAT(Patients.birth_date, '%d/%m/%Y') AS birth_date -- The birth date of the patient
-    FROM Patients
-    WHERE MATCH(Patients.full_name) AGAINST(patient_name IN NATURAL LANGUAGE MODE);
+        Patients.id,                      
+        Patients.full_name,               
+        Patients.gender,                 
+        DATE_FORMAT(Patients.birth_date, \'%d/%m/%Y\') AS birth_date 
+    FROM Patients WHERE 1 = 1';
+    SET @by_name = CONCAT('MATCH(Patients.full_name) AGAINST(\'',patient_name,'\' IN NATURAL LANGUAGE MODE)');
+    SET @by_id = CONCAT('id = ', patient_id);
+    IF patient_id IS NOT NULL THEN
+		SET @select_statement = CONCAT(@select_statement, ' AND ', @by_id);
+    END IF;
+    IF patient_name IS NOT NULL THEN
+		SET @select_statement = CONCAT(@select_statement, ' AND ', @by_name);
+    END IF;
+    
+    PREPARE stmt FROM @select_statement;
+    EXECUTE stmt;
+    DEALLOCATE PREPARE stmt;
 END$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.GetPatientsInfoForNurseByName TO 'Nurses'@'%'$$
 

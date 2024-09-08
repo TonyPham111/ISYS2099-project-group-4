@@ -9,13 +9,37 @@ export async function getAllPatientInfo(req, res) {
     let result;
 
     if (user_info.role === 'Doctor') {
-      result = await doctorRepo.GetPatientsInfo(user_info.id, req.query.patientName);
+      result = await doctorRepo.GetPatientsInfo(user_info.id, req.query.patientName, req.query.patientId);
     } else if (user_info.role === 'Nurse') {
-      result = await nurseRepo.GetPatientsInfo(req.query.patientName);
+      result = await nurseRepo.GetPatientsInfo(req.query.patientName, req.query.patientId);
     } else if (user_info.role === 'FrontDesk') {
-      result = await frontDeskRepo.GetPatientsInfo(req.query.patientName);
+      result = await frontDeskRepo.GetPatientsInfo(req.query.patientName, req.query.patientId);
     } else if (user_info.role === 'BusinessOfficer') {
-      result = await businessOfficerRepo.GetPatientsInfo(req.query.patientName);
+      result = await businessOfficerRepo.GetPatientsInfo(req.query.patientName, req.query.patientId);
+    } else {
+      return res.status(403).json({ message: "Incorrect role" });
+    }
+
+    return res.status(200).json(result[0]);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: error.message });
+  }
+}
+
+export async function getSpecificPatient(req, res) {
+  try {
+    const user_info = req.user;
+    let result;
+
+    if (user_info.role === 'Doctor') {
+      result = await doctorRepo.GetPatientsInfo(user_info.id, null, req.params.patientId);
+    } else if (user_info.role === 'Nurse') {
+      result = await nurseRepo.GetPatientsInfo(null, req.params.patientId);
+    } else if (user_info.role === 'FrontDesk') {
+      result = await frontDeskRepo.GetPatientsInfo(null, req.params.patientId);
+    } else if (user_info.role === 'BusinessOfficer') {
+      result = await businessOfficerRepo.GetPatientsInfo(null, req.params.patientId);
     } else {
       return res.status(403).json({ message: "Incorrect role" });
     }

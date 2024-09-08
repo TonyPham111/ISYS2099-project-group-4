@@ -1,7 +1,8 @@
 DELIMITER $$
 DROP PROCEDURE IF EXISTS GetPatientsInfoForDoctor$$
 CREATE PROCEDURE GetPatientsInfoForDoctor(
-    para_doctor_id INT
+    para_doctor_id INT,
+    testing INT
 )
 SQL SECURITY DEFINER
 BEGIN
@@ -26,19 +27,29 @@ BEGIN
 		END IF;
 	END;
     
-    -- Select various fields from the Patients and Allergies tables
+    SET @select_statement = '
     SELECT
-        Patients.id,                      -- The ID of the patient
-        Patients.full_name,               -- The full name of the patient
-        Patients.gender,                  -- The gender of the patient
-        Patients.birth_date              -- The birth date of the patient
-    FROM Appointments
+        Patients.id,                      
+        Patients.full_name,               
+        Patients.gender,                  
+        Patients.birth_date              
+    FROM Patients ';
+    SET @join_clause = '
     INNER JOIN
-        Patients                          -- The Patients table
+        Patients                         
     ON
         Appointments.patient_id = Patients.id
     WHERE doctor_id = para_doctor_id
-      AND appointment_date = CURDATE();
+      AND appointment_date = CURDATE();';
+	
+    IF testing = 1 THEN 
+		SET @select_statement = CONCAT(@select_statement, @join_clause);
+    END IF;
+    PREPARE statement FROM @select_statement;
+    EXECUTE statement;
+    DEALLOCATE PREPARE statement;
+    
+    
 
 END$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.GetPatientsInfoForDoctor TO 'Doctors'@'%'$$
@@ -46,7 +57,8 @@ GRANT EXECUTE ON PROCEDURE hospital_management_system.GetPatientsInfoForDoctor T
 DROP PROCEDURE IF EXISTS GetPatientsInfoForDoctorByName$$
 CREATE PROCEDURE GetPatientsInfoForDoctorByName(
     para_doctor_id INT,
-    patient_name VARCHAR(50)
+    patient_name VARCHAR(50),
+    patient_id INT
 )
 SQL SECURITY DEFINER
 BEGIN
@@ -71,16 +83,26 @@ BEGIN
 		END IF;
 	END;
     
-    -- Select various fields from the Patients and Allergies tables
+		SET @select_statement ='
     SELECT
-        Patients.id,                      -- The ID of the patient
-        Patients.full_name,               -- The full name of the patient
-        Patients.gender,                  -- The gender of the patient
-        Patients.birth_date             -- The birth date of the patient
-    FROM Appointments
-    WHERE MATCH(Patients.full_name) AGAINST(patient_name IN NATURAL LANGUAGE MODE)
-		AND doctor_id = para_doctor_id
-		AND appointment_date = CURDATE();
+        Patients.id,                      
+        Patients.full_name,               
+        Patients.gender,                 
+        DATE_FORMAT(Patients.birth_date, \'%d/%m/%Y\') AS birth_date 
+    FROM Patients WHERE 1 = 1';
+    SET @by_name = CONCAT('MATCH(Patients.full_name) AGAINST(\'',patient_name,'\' IN NATURAL LANGUAGE MODE)');
+    SET @by_id = CONCAT('id = ', patient_id);
+    IF patient_id IS NOT NULL THEN
+		SET @select_statement = CONCAT(@select_statement, ' AND ', @by_id);
+    END IF;
+    IF patient_name IS NOT NULL THEN
+		SET @select_statement = CONCAT(@select_statement, ' AND ', @by_name);
+    END IF;
+    
+    PREPARE stmt FROM @select_statement;
+    EXECUTE stmt;
+    DEALLOCATE PREPARE stmt;
+   
 END$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.GetPatientsInfoForDoctorByName TO 'Doctors'@'%'$$
 

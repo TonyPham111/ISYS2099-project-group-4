@@ -72,7 +72,8 @@ GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchPatientsPersonalInfo 
 
 DROP PROCEDURE IF EXISTS FetchPatientsPersonalInfoByName$$
 CREATE PROCEDURE FetchPatientsPersonalInfoByName(
-	para_full_name VARCHAR(50)
+	para_full_name VARCHAR(50),
+    patient_id INT
 )
 SQL SECURITY DEFINER
 BEGIN
@@ -82,7 +83,7 @@ BEGIN
 		-- Retrieve the SQLSTATE of the current exception
 		GET STACKED DIAGNOSTICS CONDITION 1
 			returned_sqlstate = RETURNED_SQLSTATE;
-
+		RESIGNAL;
 		-- Check if the SQLSTATE is '45000'
 		IF returned_sqlstate = '45000' THEN
 			-- Resignal with the original message
@@ -95,15 +96,27 @@ BEGIN
 	END;
 
     -- Select various fields related to the patient's personal information
+    SET @select_statement = '
     SELECT
-        id,                                   -- Patient ID
-        full_name,                            -- Full name of the patient
-		DATE_FORMAT(Patients.birth_date, '%d/%m/%Y') AS birth_date, -- Formatted birth date
-        gender,                               -- Gender of the patient
-        phone_number AS contact_phone_number, -- Contact phone number
-        home_address                          -- Home address of the patient
-    FROM Patients
-     WHERE MATCH(Patients.full_name) AGAINST(para_full_name IN NATURAL LANGUAGE MODE);
+        id,                                   
+        full_name,                            
+		DATE_FORMAT(Patients.birth_date, \'%d/%m/%Y\') AS birth_date, 
+        gender,                               
+        phone_number AS contact_phone_number, 
+        home_address                          
+    FROM Patients WHERE 1 = 1';
+	
+    SET @by_name = CONCAT('MATCH(Patients.full_name) AGAINST(\'',para_full_name,'\' IN NATURAL LANGUAGE MODE)');
+    SET @by_id = CONCAT('id = ', patient_id);
+    IF patient_id IS NOT NULL THEN
+		SET @select_statement = CONCAT(@select_statement, ' AND ', @by_id);
+    END IF;
+    IF para_full_name IS NOT NULL THEN
+		SET @select_statement = CONCAT(@select_statement, ' AND ', @by_name);
+    END IF;
+    PREPARE stmt FROM @select_statement;
+    EXECUTE stmt;
+    DEALLOCATE PREPARE stmt;
 END$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchPatientsPersonalInfoByName TO 'FrontDesk'@'%'$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchPatientsPersonalInfoByName TO 'BusinessOfficers'@'%'$$

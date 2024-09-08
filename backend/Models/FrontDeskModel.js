@@ -31,11 +31,11 @@ const frontDeskRepo = {
     }
   },
 
-  GetPatientsInfo: async (patient_name) => {
+  GetPatientsInfo: async (patient_name, patient_id) => {
     try {
-      const sql = `CALL FetchPatientsPersonalInfoByName(?)`;
-      const [results] = await poolFrontDesk.query(sql, [patient_name]);
-      return JSON.stringify(results, null, 2);
+      const sql = `CALL FetchPatientsPersonalInfoByName(?, ?)`;
+      const [results] = await poolFrontDesk.query(sql, [patient_name, patient_id]);
+      return results
     } catch (error) {
       throw new Error(error.message);
     }

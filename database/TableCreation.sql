@@ -132,7 +132,6 @@ CREATE TABLE TreatmentHistory (
     doctor_id INT,
     diagnosis_id INT,
     treatment_start_date DATE NOT NULL,
-    treatment_end_date DATE NOT NULL,
     prescription_note TEXT,
     FOREIGN kEY (diagnosis_id) REFERENCES Diagnoses (id),
     FOREIGN KEY (patient_id) REFERENCES Patients (id),

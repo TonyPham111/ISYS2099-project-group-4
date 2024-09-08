@@ -141,10 +141,10 @@ const doctorRepo = {
   */
 
 
-  GetPatientsInfo: async (doctor_id, patient_name) => {
+  GetPatientsInfo: async (doctor_id, patient_name, patient_id) => {
     try {
-        const sql = `CALL GetPatientsInfoForDoctorByName(?, ?)`;
-        const [results] = await poolDoctors.query(sql, [doctor_id, patient_name]);
+        const sql = `CALL GetPatientsInfoForDoctorByName(?, ?, ?)`;
+        const [results] = await poolDoctors.query(sql, [doctor_id, patient_name, patient_id]);
         return Object.values(results);
     } catch (error) {
       throw new Error(error.message);

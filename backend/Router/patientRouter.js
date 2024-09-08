@@ -11,7 +11,8 @@ patientRouter
   
 patientRouter
   .route("/:patientId")
-  .put(verifyToken, patientController.updateSpecificPatientInfo); //frontdesk
+  .put(verifyToken, patientController.updateSpecificPatientInfo) //frontdesk
+  .get(verifyToken, patientController.getSpecificPatient); 
 
 patientRouter
   .route("/:patientId/diagnosis")

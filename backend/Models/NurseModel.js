@@ -40,10 +40,10 @@ const nurseRepo = {
   },
   */
 
-  GetPatientsInfo: async (patient_name) => {
+  GetPatientsInfo: async (patient_name, patient_id) => {
     try {
-      const sql = `CALL GetPatientsInfoForNurseByName(?)`;
-      const [results] = await poolNurses.query(sql, [patient_name]);
+      const sql = `CALL GetPatientsInfoForNurseByName(?,?)`;
+      const [results] = await poolNurses.query(sql, [patient_name, patient_id]);
       return Object.values(results);
 
     } catch (error) {
