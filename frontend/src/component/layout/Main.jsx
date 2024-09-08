@@ -40,7 +40,7 @@ const Main = () => {
           </Route>
 
           <Route
-            path="/working-schedule/*"
+            path="/working-schedule"
             element={
               <ScheduleContextProvider>
                 <WorkingSchedule />
@@ -56,7 +56,7 @@ const Main = () => {
           <Route path="/report/*" element={<ReportRouter />} />
         </Route>
         <Route element={<ProtectedRoute condition={false} />}>
-          <Route path="*" element={<ErrorPage />} />
+          <Route path="*"/>
         </Route>
       </Routes>
     </section>

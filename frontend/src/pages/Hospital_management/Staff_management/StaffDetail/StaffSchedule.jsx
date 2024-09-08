@@ -130,7 +130,7 @@ export default function StaffSchedule() {
           updateSchedules: updateEventList,
           deleteSchedules: deletedEventList,
         };
-        // console.log(`check sendData: ${JSON.stringify(sendData)}`);
+        console.log(`check sendData: ${JSON.stringify(sendData)}`);
       } else {
         // console.log(
         //   `check not cover Array: ${JSON.stringify(notFullyCoverEventArray)}`
@@ -174,7 +174,7 @@ export default function StaffSchedule() {
           />
         </PopupContextProvider>
       </div>
-      {/*----when click appointment, it need to popup to show detail, show we need this context provider----*/}
+      {/*----when click appointment, it need to popup to show detail, so we need this context provider----*/}
       <div className="h-[80%]">
         <PopupContextProvider>
           <Schedule auditable={true} />

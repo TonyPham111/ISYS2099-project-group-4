@@ -36,6 +36,13 @@ export default function ReportRouter() {
           >
             <Route path="staff/*" element={<ReportStaffRouter />} />
           </Route>
+          <Route
+            element={
+              <ProtectedRoute condition={false} redirectTo={"/report"} />
+            }
+          >
+            <Route path="*" />
+          </Route>
         </Route>
       </Routes>
     </section>
@@ -74,7 +81,7 @@ function ReportPatientRouter() {
               />
             }
           >
-              <Route path="/billing" element={<ReportPatientBilling/>}/>
+            <Route path="/billing" element={<ReportPatientBilling />} />
           </Route>
         </Routes>
       </section>
@@ -95,10 +102,19 @@ function ReportStaffRouter() {
       <section className="w-full h-[90%] py-3">
         <Routes>
           <Route>
-          <Route path="/job-change-history" element={<ReportJobChangeHistory/>}/>
-                <Route path="/wage-change-history" element={<ReportWageChangeHistory/>}/>
-                <Route path="/department-change-history" element={<ReportDepartmentChangeHistory/>}/>
-                <Route path="/doctor-work" element={<ReportDoctorWork/>}/> 
+            <Route
+              path="/job-change-history"
+              element={<ReportJobChangeHistory />}
+            />
+            <Route
+              path="/wage-change-history"
+              element={<ReportWageChangeHistory />}
+            />
+            <Route
+              path="/department-change-history"
+              element={<ReportDepartmentChangeHistory />}
+            />
+            <Route path="/doctor-work" element={<ReportDoctorWork />} />
           </Route>
         </Routes>
       </section>

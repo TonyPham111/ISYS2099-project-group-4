@@ -60,7 +60,8 @@ export default function PatientInfo() {
     //still not consider gender and full name
     if (
       homeAddress == data.home_address &&
-      (new Date(birthDate)).toDateString()== (new Date(dayjs(data.birth_date, "DD-MM-YYYY"))).toDateString() &&
+      new Date(birthDate).toDateString() ==
+        new Date(dayjs(data.birth_date, "DD-MM-YYYY")).toDateString() &&
       contactPhoneNumber == data.contact_phone_number
     ) {
       toast.error("cannot save new data without changing it!");
@@ -126,25 +127,20 @@ export default function PatientInfo() {
             <div className="mt-[8px] w-[350px]">
               <CustomAutoComplete
                 value={gender}
-                options={[
-                  {
-                    key: "M",
-                    value: "Male",
-                  },
-                  {
-                    key: "F",
-                    value: "Female",
-                  },
-                ]}
+                options={["M", "F"]}
                 onChange={(event, value) => {
                   if (value) {
-                    setGender(value.key);
+                    setGender(value);
                   } else {
                     setGender(null);
                   }
                 }}
                 getOptionLabel={(option) => {
-                  return option.value;
+                  if (option == "M") {
+                    return "Male";
+                  } else if (option == "F") {
+                    return "Female";
+                  }
                 }}
                 label="choose gender"
                 size="full"

@@ -6,6 +6,9 @@ import Editor from "@/component/ui/Editor/Editor";
 import { PopupContext } from "@/contexts/popupContext";
 import useSWR from "swr";
 import fetcher from "@/utils/fetcher";
+import dayjs from "dayjs";
+import { json } from "react-router-dom";
+import toast from "react-hot-toast";
 export default function BookingForm() {
   const { setIsPopup } = useContext(PopupContext);
   const [date, setDate] = useState(null);
@@ -55,8 +58,19 @@ export default function BookingForm() {
       endTime &&
       patientId &&
       departmentId &&
-      doctorValue
+      doctorValue &&
+      beforeNoteValue
     ) {
+      const sendData = {
+        doctor_id: doctorValue.doctor_id,
+        patientId: patientId,
+        date: dayjs(date).format('YYYY-MM-DD'),
+        start: dayjs(startTime).format('HH:mm:ss'),
+        end: dayjs(endTime).format('HH:mm:ss'),
+        before_note: JSON.stringify(beforeNoteValue),
+      }
+      console.log(`check sendDATA: ${JSON.stringify(sendData)}`);
+      toast.success('booking new appointment success!');
       setIsPopup(false);
     }
   }

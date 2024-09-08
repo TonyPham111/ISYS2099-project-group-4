@@ -72,8 +72,14 @@ export default function ReportDoctorWork() {
             value={startTime}
             setValue={setStartTime}
             size={"sm"}
+            max={endTime}
           />
-          <CustomDatePicker value={endTime} setValue={setEndTime} size={"sm"} />
+          <CustomDatePicker
+            value={endTime}
+            setValue={setEndTime}
+            size={"sm"}
+            min={startTime}
+          />
           <button
             onClick={handleOnSearch}
             className="h-[40px] bg-custom-blue text-white"

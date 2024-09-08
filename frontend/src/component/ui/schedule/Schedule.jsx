@@ -91,8 +91,9 @@ export default function Schedule({ auditable }) {
             end: convertStringFormatToDate(item.date, item.end_time),
           };
         })}
+        dayLayoutAlgorithm={'no-overlap'}
         backgroundEvents={filterBackgroundEvents}
-        onSelectEvent={handleOnSelectEvent}
+        onSelectEvent={auditable && handleOnSelectEvent}
         startAccessor="start"
         endAccessor="end"
         views={["week", "day", "agenda"]}

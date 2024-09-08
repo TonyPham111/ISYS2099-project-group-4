@@ -300,6 +300,35 @@ const hrRepo = {
       throw new Error(error.message);
     }
   },
+
+  savePasswordResetToken: async (email, resetToken, resetTokenExpiry) => {
+    try {
+      const sql = `CALL SavePasswordResetToken(?, ?, ?)`;
+      await poolHR.query(sql, [email, resetToken, resetTokenExpiry]);
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  },
+
+  findUserByResetToken: async (token) => {
+    try {
+      const sql = `CALL FindUserByResetToken(?)`;
+      const [results] = await poolHR.query(sql, [token]);
+      return results[0];
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  },
+
+  updateUserPassword: async (email, hashedPassword) => {
+    try {
+      const sql = `CALL UpdateUserPassword(?, ?)`;
+      await poolHR.query(sql, [email, hashedPassword]);
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  },
+
 };
 
 export default hrRepo;

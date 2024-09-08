@@ -1,23 +1,23 @@
-
-
 # ISYS-2099 Database Application - Database Project - Group 4
-
 
 ---
 
 ## Project Structure
 
-
-
-
 ## Technology Stack
 
 - Database: MySQL and MongoDB.
 - Backend API Server: NodeJS, Express, and Mongoose.
-- Frontend: Tailwind, React, Bootstrap.
-
+- Frontend: React, Tailwind CSS, and Axios.
 
 ## Dependencies
+
+| Dependency                                                                 | Version  |
+|:---------------------------------------------------------------------------|:--------:|
+| [NodeJS](https://nodejs.org/)                                              | 18.\*.\* |
+| [MySQL Community Server](https://dev.mysql.com/downloads/mysql/)           |  8.0.33  |
+| [MySQL Shell](https://dev.mysql.com/downloads/shell/)                      |  8.0.33  |
+| [MongoDB Community Server](https://www.mongodb.com/try/download/community) |  6.0.\*  |
 
 ## Installation
 
@@ -25,29 +25,37 @@
 
 #### MySQL:
 
+
 #### MongoDB:
 
+### Backend API server in `backend`:
 
-### Backend API server in `server`:
+```bash
+cd backend
+npm install
+npm start
+ ```
 
+### Frontend client in `frontend`:
+
+```bash
+cd frontend
+npm install
+npm start
+```
 
 ## Usage
-
-
-## Video Demonstration:
-
-Demonstration Link [YouTube]().
 
 
 ## Contribution
 
 | SID      | Name                 | Score |
 |:---------|:---------------------|:-----:|
-|   |       |   5   |
-|   |       |   5   |
-|   |       |   5   |
-|   |       |   5   |
-
+| 3679813  | Luong Thanh Trung    |   5   |
+| 4019811  | Pham Nhat Minh       |   5   |
+| 3989037  | Ly Minh Khoi         |   5   |
+| 3877818  | Hoang Dinh Tri       |   5   |
+| 4118015  | Eduardo Salcedo Fuentes |   5   |
 
 ## Developer Tools
 

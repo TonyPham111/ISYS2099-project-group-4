@@ -36,7 +36,7 @@ const Appointment = () => {
         <div className="w-full h-[80%] bg-white rounded-2xl p-5 ">
           {/*--------------------popup appointment detail when click on appointment-------------------------*/}
           <PopupContextProvider>
-            <Schedule auditable={false} />
+            <Schedule auditable={true} />
           </PopupContextProvider>
         </div>
       </section>
