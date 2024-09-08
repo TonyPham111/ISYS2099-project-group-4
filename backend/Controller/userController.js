@@ -110,7 +110,11 @@ export const login = async (req, res) => {
     const tokens = generateTokens(user.id, user.email, user.job_name, user.job_id, user.department_id);
     setTokenCookie(res, tokens);
     
-    return res.status(200).json({ message: "Login successful.", tokens });
+    return res.status(200).json({ 
+      message: "Login successful.", 
+      credentials: user,
+      status: "verified" 
+    });
   } catch (err) {
     console.error("Error while logging in:", err);
     return res.status(500).json({ error: "An error occurred during login. Please try again later." });
