@@ -5,7 +5,7 @@ const frontDeskRepo = {
     try {
       const sql = `CALL FetchStaffInfoById(?)`;
       const [results] = await poolFrontDesk.query(sql, [staff_id]);
-      return JSON.stringify(results, null, 2);
+      return results;
     } catch (error) {
       throw new Error(error.message);
     }
@@ -15,7 +15,7 @@ const frontDeskRepo = {
     try {
       const sql = `CALL AddNewPatient(?, ?, ?, ?, ?, ?, ?)`;
       const [results] = await poolFrontDesk.query(sql, [full_name, gender, birth_date, phone_number, home_address]);
-      return JSON.stringify(results, null, 2);
+      return results;
     } catch (error) {
       throw new Error(error.message);
     }
@@ -25,7 +25,7 @@ const frontDeskRepo = {
     try {
       const sql = `CALL UpdatePatient(?, ?, ?, ?, ?, ?, ?)`;
       const [results] = await poolFrontDesk.query(sql, [full_name, gender, birth_date, phone_number, home_address]);
-      return JSON.stringify(results, null, 2);
+      return results;
     } catch (error) {
       throw new Error(error.message);
     }
@@ -65,7 +65,7 @@ const frontDeskRepo = {
     try {
       const sql = `CALL CancelAnAppointment(?)`;
       const [results] = await poolFrontDesk.query(sql, [appointment_id]);
-      return JSON.stringify(results, null, 2);
+      return results;
     } catch (error) {
       throw new Error(error.message);
     }
@@ -95,7 +95,7 @@ const frontDeskRepo = {
     try {
       const sql = `CALL GetStaffUnderManager(?)`;
       const [results] = await poolFrontDesk.query(sql, [manager_id]);
-      return JSON.stringify(results, null, 2);
+      return results;
     } catch (error) {
       throw new Error(error.message);
     }
