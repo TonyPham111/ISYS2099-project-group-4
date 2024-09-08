@@ -22,15 +22,11 @@ userRouter
   .post(userController.logout);
 
 userRouter
-  .route("/reset-password")
+  .route("/reset-password/:token")
   .post(userController.resetPassword);
 
 userRouter
   .route("/request-password-reset")
   .post(userController.requestPasswordReset);
-
-userRouter
-  .route("/protected-route")
-  .get(refreshToken, verifyToken, userController.protectedRoute);
 
 export default userRouter;
