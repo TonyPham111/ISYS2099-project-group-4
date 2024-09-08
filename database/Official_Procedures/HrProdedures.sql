@@ -313,6 +313,9 @@ BEGIN
                 SET MESSAGE_TEXT = 'Something is wrong. Please try again.';
         END IF;
     END;
+    IF order_by IS NULL THEN
+		SET order_by = "DESC";
+    END IF;
     SET @by_name = CONCAT('MATCH(Non_Manager.full_name) AGAINST(\'', para_full_name, '\' IN NATURAL LANGUAGE MODE)');
     SET @by_department = CONCAT('Departments.id = ',  para_department_id);
     SET @by_job = CONCAT('Jobs.id = ',  para_job_id);
@@ -461,11 +464,6 @@ CREATE  PROCEDURE ChangeDepartmentProcedure(
 )
 SQL SECURITY DEFINER
 BEGIN
-    DECLARE current_department_id INT;
-    SELECT Staff.department_id 
-    INTO current_department_id 
-    FROM Staff 
-    WHERE id = para_staff_id;
 	
     IF @parent_proc IS NULL THEN
 		SIGNAL SQLSTATE '45000'
@@ -475,7 +473,7 @@ BEGIN
     INSERT INTO Department_Change (
         staff_id, old_department_id, new_department_id, date_change
     ) VALUES (
-        para_staff_id, current_department_id, target_department_id, CURDATE()
+        para_staff_id, @current_department_id, target_department_id, CURDATE()
     );
 END$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.ChangeDepartmentProcedure TO 'HR'@'%'$$
@@ -511,14 +509,18 @@ BEGIN
     END;
     SET @parent_proc = TRUE;
     SET @aspect = 'Department';
-       
-
+	
     -- Retrieve the current job ID of the staff member and store it in local_old_job
     SELECT job_id INTO local_old_job FROM Staff WHERE id = para_staff_id;
 
     START TRANSACTION;
  -- Check if input staff id exists
-		IF NOT CheckStaffExists(para_staff_id) THEN
+
+		SELECT Staff.department_id 
+		INTO @current_department_id 
+		FROM Staff 
+		WHERE id = para_staff_id FOR UPDATE;
+		IF @current_department_id IS NULL THEN
 			SIGNAL SQLSTATE '45000'
 			SET MESSAGE_TEXT = 'Staff does not exist';
 		END IF;
@@ -530,7 +532,9 @@ BEGIN
             WHERE id = para_staff_id;
 
         IF local_old_job = 2 THEN
-            DELETE FROM Appointments WHERE doctor_id = para_staff_id  AND ( appointment_date > CURDATE() OR (appointment_date = CURDATE() AND start_time > CURRENT_TIME())  );
+            UPDATE Appointments
+            SET Appointments.appointment_status = 'Cancelled'
+            WHERE staff_id = para_staff_id  AND ( appointment_date > CURDATE() OR (appointment_date = CURDATE AND start_time > CURRENT_TIME()));
         END IF;
         SET @parent_proc = NULL;
 
@@ -554,11 +558,13 @@ BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
     BEGIN
         DECLARE returned_sqlstate CHAR(5) DEFAULT '';
+        DECLARE returned_message TEXT;
         ROLLBACK;
         -- Retrieve the SQLSTATE of the current exception
         GET STACKED DIAGNOSTICS CONDITION 1
-            returned_sqlstate = RETURNED_SQLSTATE;
-
+            returned_sqlstate = RETURNED_SQLSTATE,
+            returned_message = MESSAGE_TEXT;
+		SELECT returned_message;
         -- Check if the SQLSTATE is '45000'
         IF returned_sqlstate = '45000' THEN
             -- Resignal with the original message
@@ -572,13 +578,11 @@ BEGIN
     SET @parent_proc = TRUE;
     SET @aspect = 'Job';
 
-    -- Retrieve the current job ID of the staff member and store it in local_old_job
-    SELECT job_id INTO local_old_job FROM Staff WHERE id = para_staff_id;
-
     -- Start a transaction to ensure all operations succeed or fail together
     START TRANSACTION;
 		    -- Check if input staff id exists
-		IF NOT CheckStaffExists(para_staff_id) THEN
+		SELECT wage, job_id, department_id INTO @para_old_wage, @old_job_id, @current_department_id FROM Staff WHERE id = para_staff_id FOR UPDATE; 
+		IF @old_job_id IS NULL THEN
 			SIGNAL SQLSTATE '45000'
 			SET MESSAGE_TEXT = 'Staff does not exist';
 		END IF;
@@ -605,11 +609,13 @@ BEGIN
         INSERT INTO Job_Movement (
             staff_id, old_job, new_job, date_change
         ) VALUES (
-            para_staff_id, local_old_job, para_new_job_id, CURDATE()
+            para_staff_id, @old_job_id, para_new_job_id, CURDATE()
         );
 
         IF local_old_job = 2 THEN
-            DELETE FROM Appointments WHERE staff_id = para_staff_id  AND ( appointment_date > CURDATE() OR (appointment_date = CURDATE AND start_time > CURRENT_TIME()));
+            UPDATE Appointments
+            SET Appointments.appointment_status = 'Cancelled'
+            WHERE staff_id = para_staff_id  AND ( appointment_date > CURDATE() OR (appointment_date = CURDATE AND start_time > CURRENT_TIME()));
         END IF;
         SET @parent_proc = NULL;
     -- Commit the transaction to save all changes

@@ -409,10 +409,13 @@ BEGIN
  DECLARE EXIT HANDLER FOR SQLEXCEPTION
 	BEGIN
 		DECLARE returned_sqlstate CHAR(5) DEFAULT '';
+        DECLARE returned_message TEXT;
 		ROLLBACK;
 		-- Retrieve the SQLSTATE of the current exception
 		GET STACKED DIAGNOSTICS CONDITION 1
-			returned_sqlstate = RETURNED_SQLSTATE;
+			returned_sqlstate = RETURNED_SQLSTATE,
+            returned_message = MESSAGE_TEXT;
+		SELECT returned_message;
 
 		-- Check if the SQLSTATE is '45000'
 		IF returned_sqlstate = '45000' THEN

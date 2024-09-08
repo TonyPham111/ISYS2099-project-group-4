@@ -11,6 +11,7 @@ import drugRouter from "./Router/drugRouter.js";
 import allergyRouter from "./Router/allergyRouter.js";
 import userRouter from "./Router/userRouter.js"
 import treatmentHistoryRouter from "./Router/treatmentHistoryRouter.js"
+import billingRouter from "./Router/BillingRouter.js";
 import mongoose from 'mongoose';
 
 
@@ -32,21 +33,23 @@ app.use("/drugs", drugRouter);
 app.use("/allergies", allergyRouter);
 app.use("/user", userRouter);
 app.use("/prescription", treatmentHistoryRouter);
+app.use("/billing", billingRouter);
 
 const connectionUri = process.env.MONGO_URI;
+import {createAppointmentNoteFromPreNote} from "./MongodbRepo/Methods.js"
 
 try {
   await mongoose.connect(connectionUri, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       maxPoolSize: 10, // Configure the connection pool size
+
   });
   console.log('Connected to MongoDB with Mongoose connection pooling.');
 } catch (error) {
   console.error('Error connecting to MongoDB:', error);
   process.exit(1);  // Exit if connection fails
 }
-
  
 app.get("/", (req, res) => {
   res.send("Welcome to the API!");

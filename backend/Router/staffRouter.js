@@ -22,12 +22,12 @@ staffRouter
 staffRouter
   .route("/:staffId/wage_change")
   .get(verifyToken, staffController.getWageChangeHistory) // HR // Cái này để view lịch sử thay đổi lương
-  .put(verifyToken, staffController.updateStaffWage) //HR
+  .post(verifyToken, staffController.updateStaffWage) //HR
 
 staffRouter
   .route("/:staffId/job_change")
   .get(verifyToken, staffController.getJobChangeHistory) //HR //Cái này để view lịch sử thay đổi công việc
-  .put(verifyToken, staffController.updateStaffJob) //HR
+  .post(verifyToken, staffController.updateStaffJob) //HR
 
 staffRouter
   .route("/:staffId/department_change")

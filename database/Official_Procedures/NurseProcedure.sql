@@ -83,6 +83,7 @@ CREATE PROCEDURE UpdateTestDetail(
 )
 SQL SECURITY DEFINER
 BEGIN
+	DECLARE checked_test_order_id INT;
 	DECLARE EXIT HANDLER FOR SQLEXCEPTION
 		BEGIN
 			DECLARE returned_sqlstate CHAR(5) DEFAULT '';
@@ -110,6 +111,12 @@ BEGIN
     SET @test_order_id = para_test_order_id;
     SET @nurse_id = para_administering_staff_id;
     SET @test_type_id = para_test_type_id;
+    
+    SELECT test_id INTO checked_test_order_id FROM Test_Details WHERE test_type_id = para_test_type_id AND test_id = para_test_order_id LIMIT 1;
+    IF checked_test_order_id IS NULL THEN
+		SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'The doctor did not order this test';
+    END IF;
     
     -- Update the Test_Details table with the new administering staff ID and lab result document ID
     UPDATE Test_Details

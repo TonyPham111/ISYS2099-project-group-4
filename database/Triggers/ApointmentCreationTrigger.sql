@@ -8,7 +8,7 @@ BEGIN
     DECLARE clash_count INT;
     
     -- Check if the doctor still belongs to the department the patient is booking
-    IF NOT CheckDoctorExistsInDepartment(NEW.doctor_id, NEW.department_id) THEN
+    IF NOT CheckDoctorExistsInDepartment(NEW.doctor_id, @booking_department_id) THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Incorrect doctor id. Please check your input';
     END IF;

@@ -1,4 +1,3 @@
-import { getBillingDetail } from '../Controller/BillingController.js';
 import { poolBusinessOfficers, poolDoctors } from './dbConnectionConfiguration.js';
 
 const businessOfficerRepo = {
@@ -12,17 +11,6 @@ const businessOfficerRepo = {
     }
   },
 
-  /*
-  GetAllBillings: async () => {
-    try {
-      const sql = `CALL GetAllBillings()`;
-      const [results] = await poolBusinessOfficers.query(sql, []);
-      return results;
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  },
-  */
 
   GetAllBillings: async (patient_name, from_amount, to_amount, from_date, to_date, order_by, sort_by) => {
     try {
@@ -84,28 +72,6 @@ const businessOfficerRepo = {
     }
   },
 
-  /*
-  GetSubordinatesSchedule: async (manager_id, staff_id) => {
-    try {
-      const sql = `CALL GetAppointmentsAndSchedulesByStaff(?, ?)`;
-      const [results] = await poolBusinessOfficers.query(sql, [staff_id, manager_id]);
-      return results[0];
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  },
-
-  GetAllPerformanceEvaluation: async (manager_id, staff_id) => {
-    try {
-      const sql = `CALL GetAllPerformanceEvaluationByStaff(?, ?)`;
-      const [results] = await poolBusinessOfficers.query(sql, [manager_id, staff_id]);
-      return results;
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  },
-  */
-
   GetEvaluationDetails: async (manager_id, evaluation_id) => {
     try {
       const sql = `CALL GetEvaluationDetails(?, ?)`;
@@ -130,30 +96,10 @@ const businessOfficerRepo = {
     }
   },
 
-  GetAllBillings: async () => {
-    try {
-      const sql = `CALL GetAllBillings()`;
-      const [results] = await poolBusinessOfficers.query(sql, []);
-      return results;
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  },
-
-  GetBillingDetail: async (billing_id) => {
-    try {
-      const sql = `CALL GetBillingDetails(?)`;
-      const [results] = await poolBusinessOfficers.query(sql, [billing_id]);
-      return results;
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  },
-
   CreateNewBilling: async (patient_id, appointment_id, test_id, prescription_id) => {
     try {
       const sql = `CALL InsertNewBilling(?, ?, ?, ?)`;
-      const [results] = await poolDoctors.query(sql, [
+      const [results] = await poolBusinessOfficers.query(sql, [
         patient_id,
         appointment_id,
         test_id,

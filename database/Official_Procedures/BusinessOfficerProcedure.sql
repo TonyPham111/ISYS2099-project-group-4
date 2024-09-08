@@ -49,7 +49,6 @@ BEGIN
         GET STACKED DIAGNOSTICS CONDITION 1
             returned_sqlstate = RETURNED_SQLSTATE,
             returned_message = MESSAGE_TEXT;
-		SELECT returned_message;
 
         -- Check if the SQLSTATE is '45000'
         IF returned_sqlstate = '45000' THEN
@@ -61,6 +60,10 @@ BEGIN
                 SET MESSAGE_TEXT = 'Something is wrong. Please try again.';
         END IF;
     END;
+    
+    IF sort_order IS NULL THEN
+		SET sort_order = "DESC";
+    END IF;
     
     IF from_amount IS NULL THEN
 		SET from_amount = 0;
@@ -89,7 +92,7 @@ BEGIN
     SET @by_name = CONCAT('MATCH(Patients.full_name) AGAINST(\'', patient_name, '\' IN NATURAL LANGUAGE MODE)');
     SET @by_date = CONCAT('billing_date BETWEEN \'', from_date, '\' AND \'', to_date,'\'');
     SET @by_amount = CONCAT('total_amount BETWEEN ', from_amount, ' AND ', to_amount);
-    IF patient_name = NULL THEN
+    IF patient_name IS NOT NULL THEN
 		SET @select_statement = CONCAT(@select_statement, ' AND ', @by_name);
     END IF;
     SET @select_statement = CONCAT(@select_statement, ' AND ', @by_date);
@@ -100,7 +103,7 @@ BEGIN
     ELSE
 		SET @order_clause = CONCAT('Order BY billing_date DESC;'); 
     END IF;
-    SELECT @select_statement;
+    SET @select_statement = CONCAT(@select_statement, ' ', @order_clause);
 		-- Prepare and execute the final dynamic SQL statement
     PREPARE stmt FROM @select_statement;
     EXECUTE stmt;
@@ -124,7 +127,7 @@ BEGIN
         DECLARE returned_sqlstate CHAR(5) DEFAULT '';
         ROLLBACK;  -- Rollback the transaction in case of an error
         -- Retrieve the SQLSTATE of the current exception
-        GET DIAGNOSTICS CONDITION 1
+        GET STACKED DIAGNOSTICS CONDITION 1
             returned_sqlstate = RETURNED_SQLSTATE;
 
         -- Check if the SQLSTATE is '45000'
@@ -193,11 +196,13 @@ BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
     BEGIN
         DECLARE returned_sqlstate CHAR(5) DEFAULT '';
+        DECLARE returned_message TEXT;
         ROLLBACK;  -- Rollback the transaction in case of an error
         -- Retrieve the SQLSTATE of the current exception
-        GET DIAGNOSTICS CONDITION 1
-            returned_sqlstate = RETURNED_SQLSTATE;
-
+        GET STACKED DIAGNOSTICS CONDITION 1
+            returned_sqlstate = RETURNED_SQLSTATE,
+            returned_message = MESSAGE_TEXT;
+		
         -- Check if the SQLSTATE is '45000'
         IF returned_sqlstate = '45000' THEN
             -- Resignal with the original message

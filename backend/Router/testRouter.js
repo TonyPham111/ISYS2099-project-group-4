@@ -20,7 +20,7 @@ testRouter
   ),  testController.updateLabResult)//nurse
 
 testRouter
-  .route("/:labresultId/lab_results")
+  .route("/:labDocumentId/lab_results")
   .get(verifyToken, testController.getLabResults)//doctor, nurse
 
 export default testRouter;

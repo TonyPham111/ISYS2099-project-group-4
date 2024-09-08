@@ -1,6 +1,7 @@
 import frontDeskRepo from "../Models/FrontDeskModel.js";
 import AppointmentNotes from '../MongodbRepo/schemas/AppointmentNotes.js';
-// import { createAppointmentNoteFromPreNote } from '../../database/Mongodb/Methods.js';
+import mongoose from "mongoose";
+import { createAppointmentNoteFromPreNote } from '../MongodbRepo/Methods.js';
 
 export async function getAllAppointment(req, res) {
   try {
@@ -15,27 +16,28 @@ export async function getAllAppointment(req, res) {
 
     // Fetch appointments from SQL database
     const appointments = await frontDeskRepo.GetAllAppointments(req.query.patientName, req.query.doctorId, req.query.from, req.query.to, req.query.employmentStatus);
-
     // Fetch corresponding notes from MongoDB
-    const appointmentIds = appointments.map(app => app.id);
+    const appointmentIds = appointments[0].map(app => app.appointment_notes_document_id);
     const notes = await AppointmentNotes.find({ _id: { $in: appointmentIds } });
-
     // Combine SQL and MongoDB data
-    const combinedAppointments = appointments.map(appointment => {
-      const appointmentNotes = notes.find(note => note._id.toString() === appointment.id.toString());
+    const combinedAppointments = appointments[0].map(appointment => {
+
+      const appointmentNotes = notes.find(note => note._id.toString() === appointment.appointment_notes_document_id);
       return {
         id: appointment.id,
         purpose_of_appointment: appointment.purpose_of_appointment,
         patient_id: appointment.patient_id,
         doctor_id: appointment.doctor_id,
-        date: formatDate(appointment.date), 
+        date: appointment.date, 
         start_time: appointment.start_time,
         end_time: appointment.end_time,
+        status: appointment.appointment_status,
         before_note: appointmentNotes ? appointmentNotes.pre_appointment_note : {},
         during_note: appointmentNotes ? appointmentNotes.during_document_note : {},
         after_note: appointmentNotes ? appointmentNotes.post_appointment_note : {}
       };
     });
+    console.log(combinedAppointments)
 
     res.status(200).json(combinedAppointments);
   } catch (error) {
@@ -60,7 +62,7 @@ export async function CheckAvailability(req, res) {
     }
 
     const availability = await frontDeskRepo.CheckAvailability(booked_date, booked_start_time, booked_end_time, department_id);
-    return res.status(200).json({ available: availability });
+    return res.status(200).json(availability[0]);
   } catch (error) {
     console.error("Error in CheckAvailability:", error);
     res.status(500).json({ message: error.message });
@@ -68,7 +70,10 @@ export async function CheckAvailability(req, res) {
 }
 
 export async function addNewAppointment(req, res) {
+  const transaction = await mongoose.startSession()
   try {
+    transaction.startTransaction()
+    console.log(transaction.toString())
     const user_info = req.user;
     if (user_info.role !== 'FrontDesk' && user_info.role !== 'Front Desk') {
       return res.status(403).json({ message: 'Unauthorized access' });
@@ -85,25 +90,13 @@ export async function addNewAppointment(req, res) {
       pre_appointment_note
     } = req.body;
 
-    // Check availability first
-    const availability = await frontDeskRepo.CheckAvailability(
-      appointment_date,
-      appointment_start_time,
-      appointment_end_time,
-      department_id
-    );
-
-    if (!availability) {
-      return res.status(400).json({ message: 'The selected time slot is not available' });
-    }
-
     // Create a new document in MongoDB using the method from Methods.js
     let newAppointmentNote;
     try {
-      newAppointmentNote = await createAppointmentNoteFromPreNote(pre_appointment_note);
+      newAppointmentNote = await createAppointmentNoteFromPreNote(pre_appointment_note, {transaction});
     } catch (error) {
       console.error("Error creating appointment note in MongoDB:", error);
-      return res.status(500).json({ message: "Error creating appointment note. Please try again." });
+      return res.status(500).json({ message: error.message });
     }
 
     // Retrieve the document id from MongoDB
@@ -121,14 +114,18 @@ export async function addNewAppointment(req, res) {
       document_id
     );
 
+    await transaction.commitTransaction()
     res.status(201).json({
       message: 'Appointment created successfully',
-      appointmentId: result.insertId,
-      documentId: document_id
-    });
+    }
+  
+  );
   } catch (error) {
-    console.error("Error in addNewAppointment:", error);
+    await transaction.abortTransaction()
+    console.log("Operation Aborted");
     res.status(500).json({ message: error.message });
+  } finally {
+    transaction.endSession()
   }
 }
 

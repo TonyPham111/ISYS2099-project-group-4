@@ -3,6 +3,7 @@ import nurseRepo from "../Models/NurseModel.js";
 import frontDeskRepo from "../Models/FrontDeskModel.js";
 import businessOfficerRepo from "../Models/BusinessOfficerModel.js";
 import hrRepo from "../Models/HrModel.js";
+import mongoose from "mongoose";
 import { response } from "express";
 import path from "path";
 import fs from "fs";
@@ -29,9 +30,10 @@ export async function getAllStaffInfo(req, res) {
     }
     else if (user_info.role === "HR") {
       console.log(req.query.orderBy);
+      console.log(req.query.sortBy);
       const result = await hrRepo.FetchAllStaff(req.query.staffName, req.query.jobId, req.query.departmentId, req.query.employmentStatus,
         req.query.sortBy, req.query.orderBy)
-      res.status(200).json(result)
+      res.status(200).json(result[0])
     }
     else {
       res.status(403).json({ message: "Incorrect role." })
@@ -85,7 +87,7 @@ export async function getSubordinates(req, res) {
       return res.status(403).json({ message: "Incorrect role." });
     }
 
-    return res.status(200).json(result);
+    return res.status(200).json(result[0]);
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: error.message });
@@ -112,7 +114,7 @@ export async function getStaffPersonalInfo(req, res) {
       return res.status(403).json({ message: "Incorrect role." });
     }
 
-    return res.status(200).json(result);
+    return res.status(200).json(result[0]);
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: error.message });
@@ -164,7 +166,7 @@ export async function getWageChangeHistory(req, res) {
 
     if (user_info.role === 'HR') {
       const result = await hrRepo.FetchWageChangeByStaffId(staff_id);
-      return res.status(200).json(result);
+      return res.status(200).json(result[0]);
     } else {
       return res.status(403).json({ message: "Incorrect role." });
     }
@@ -198,8 +200,8 @@ export async function getJobChangeHistory(req, res) {
     const staff_id = req.params.staffId;
 
     if (user_info.role === 'HR') {
-      const result = await hrRepo.FetchJobChangeByStaffId(staff_id);
-      return res.status(200).json(result);
+      const result = await hrRepo.FetchJobChangeByStaffId(staff_id, req.query.from, req.query.to);
+      return res.status(200).json(result[0]);
     } else {
       return res.status(403).json({ message: "Incorrect role." });
     }
@@ -233,8 +235,9 @@ export async function getDepartmentChangeHistory(req, res) {
     const staff_id = req.params.staffId;
 
     if (user_info.role === 'HR') {
-      const result = await hrRepo.FetchJobChangeByStaffId(staff_id);
-      return res.status(200).json(result);
+      const result = await hrRepo.FetchDepartmentChangeByStaffId(staff_id, req.query.from, req.query.to);
+      console.log(result)
+      return res.status(200).json(result[0]);
     } else {
       return res.status(403).json({ message: "Incorrect role." });
     }
@@ -261,7 +264,6 @@ export async function evaluateStaff(req, res) {
         criteria_string = criteria_string + ','
       }
     }
-    console.log(criteria_string)
     if (user_info.role === 'Doctor') {
       await doctorRepo.CreateNewEvaluation(user_info.id, staff_id, criteria_string);
     } else if (user_info.role === 'Nurse') {
@@ -303,7 +305,7 @@ export async function getStaffEvaluations(req, res) {
       return res.status(403).json({ message: "Incorrect role." });
     }
 
-    return res.status(200).json(result);
+    return res.status(200).json(result[0]);
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: error.message });
@@ -330,7 +332,7 @@ export async function GetEvaluationDetails(req, res) {
       return res.status(403).json({ message: "Incorrect role." });
     }
 
-    return res.status(200).json(result);
+    return res.status(200).json(result[0]);
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: error.message });
@@ -354,7 +356,6 @@ export async function schedule(req, res) {
         schedule_string = schedule_string + ','
       }
     }
-    console.log(schedule_string)
     if (user_info.role === 'Doctor') {
       await doctorRepo.Scheduling(user_info.id, staff_id, schedule_string);
     } else if (user_info.role === 'Nurse') {
@@ -408,7 +409,6 @@ export async function deleteSchedule(req, res) {
 export async function getStaffSchedule(req, res) {
   try {
     const user_info = req.user;
-    console.log(user_info.id)
     const staff_id = req.params.staffId;
     let result;
 
@@ -425,7 +425,7 @@ export async function getStaffSchedule(req, res) {
     } else {
       return res.status(403).json({ message: "Incorrect role." });
     }
-
+    
     return res.status(200).json(result);
   } catch (error) {
     console.error(error);
@@ -476,9 +476,10 @@ export async function NewTrainingMaterial(req, res) {
   }
 
 export async function addNewQualifications(req, res) {
+    const transaction = await mongoose.startSession()
     try {
+      transaction.startTransaction()
       const user_info = req.user
-      console.log(user_info);
       const qualifications = req.body
       if (user_info.role === 'HR'){
           for (let i = 0; i < qualifications.length; i++){
@@ -502,8 +503,8 @@ export async function addNewQualifications(req, res) {
                 qualifications_string = qualifications_string + ","
               } 
           }
-          console.log(qualifications_string);
           await hrRepo.AddNewQualifications(req.params.staffId, qualifications_string);
+          await transaction.commitTransaction()
           res.status(200).json({message: 'Qualifications added sucessfully'})
 
       }
@@ -511,7 +512,10 @@ export async function addNewQualifications(req, res) {
         res.status(403).json({message: error.message})
       }
     } catch (error) {
+      await transaction.abortTransaction()
       res.status(500).json({ message: error.message });
+    } finally{
+        transaction.endSession()
     }
  }
 

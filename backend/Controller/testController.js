@@ -1,6 +1,7 @@
 import { getAllImagesWithLabResult, createNewLabResultDocument } from "../MongodbRepo/Methods.js";
 import doctorRepo from "../Models/DoctorModel.js";
 import nurseRepo from "../Models/NurseModel.js";
+import mongoose from "mongoose";
 
 export async function getAllTests(req, res) {
   try {
@@ -56,13 +57,16 @@ export async function createNewTestOrders(req, res) {
 }
 
 export async function updateLabResult(req, res) {
+  const transaction = await mongoose.startSession()
   try {
+    transaction.startTransaction();
     const user_info = req.user;
     const files = req.files;
 
     if (!files || !files.lab_result_name || !files.test_image_name) {
       return res.status(400).json({ message: "Missing required files" });
     }
+    
 
     const pdfFile = files.lab_result_name[0];
     const imageFiles = files.test_image_name;
@@ -80,8 +84,8 @@ export async function updateLabResult(req, res) {
       file: pdfFile.buffer
     };
 
-    const newLabDocument = await createNewLabResultDocument(pdfFileObject, sampleImages);
-
+    const newLabDocument = await createNewLabResultDocument(pdfFileObject, sampleImages, {transaction});
+    
     if (user_info.role === 'Nurse') {
       await nurseRepo.UpdateTestDetail(
         req.params.patientId,
@@ -90,13 +94,15 @@ export async function updateLabResult(req, res) {
         user_info.id,
         newLabDocument._id.toString()
       );
-
+      await transaction.commitTransaction()
       return res.status(200).json({ message: "Successful" });
     } else {
       return res.status(403).json({ message: "Incorrect role" });
     }
   } catch (error) {
-    console.error(error);
+    await transaction.abortTransaction()
     return res.status(500).json({ message: error.message });
+  } finally {
+    transaction.endSession()
   }
 }

@@ -31,6 +31,8 @@ const educationQualificationSchema = new mongoose.Schema({
     },
     level: {
       type: String,
+      enum: ["Highschool", "Tertiary", "College", "Bachelor", "Master", "Doctorate"],
+      default: "Highschool",
       require: false
     },
     qualification_grade: {

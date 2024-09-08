@@ -20,7 +20,7 @@ export async function getAllPatientInfo(req, res) {
       return res.status(403).json({ message: "Incorrect role" });
     }
 
-    return res.status(200).json(result);
+    return res.status(200).json(result[0]);
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: error.message });
@@ -90,7 +90,7 @@ export async function getSpecificPatientAllDiagnosis(req, res) {
       return res.status(403).json({ message: "Incorrect role." });
     }
 
-    return res.status(200).json(result);
+    return res.status(200).json(result[0]);
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: error.message });
@@ -132,7 +132,7 @@ export async function getSpecificPatientAllAllergies(req, res) {
       return res.status(403).json({ message: "Incorrect role." });
     }
 
-    return res.status(200).json(result);
+    return res.status(200).json(result[0]);
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: error.message });

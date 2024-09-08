@@ -287,12 +287,18 @@ BEGIN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Something is wrong. Please try again';
     END IF;
-
+    
+    SET para_test_type_id = CAST(current_string_code AS UNSIGNED);
 
     -- Fetch the price of the test type based on the test type ID
     SELECT price INTO current_price
     FROM Test_Types
     WHERE id = para_test_type_id LIMIT 1;
+    
+    IF current_price IS NULL THEN
+		SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Incorrect test type. Please try again';
+    END IF;
 
     -- If this is the last test type in the list, finalize the SQL statement with a closing parenthesis and semicolon
     IF last_string = 1 THEN

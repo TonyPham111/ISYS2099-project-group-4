@@ -154,11 +154,11 @@ BEGIN
         END IF;
     END;
     
-    IF from_date = NULL THEN
+    IF from_date IS NULL THEN
 		SET from_date = '1000-01-01';
 	END IF;
     
-    IF end_date = NULL THEN
+    IF to_date IS NULL THEN
 		SET to_date = '9999-12-31';
     END IF;
     
@@ -174,6 +174,7 @@ BEGIN
         Appointments.id,
         Appointments.appointment_purpose,
         DATE_FORMAT(appointment_date, \'%d/%m/%Y\' ) AS appointment_date,
+        Appointments.appointment_status,
         Appointments.start_time,
         Appointments.end_time,
         Appointments.appointment_notes_document_id
@@ -261,7 +262,7 @@ BEGIN
                ELSE 'Available'
            END AS 'Availability'
     FROM Staff
-    WHERE Staff.department_id = para_department_id;
+    WHERE Staff.department_id = para_department_id AND Staff.job_id = 2 ORDER BY Availability ASC;
     SET @parent_proc = NULL;
 END$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.CheckAvailability TO 'FrontDesk'@'%'$$
@@ -300,9 +301,7 @@ BEGIN
             returned_sqlstate = RETURNED_SQLSTATE,
             returned_message = MESSAGE_TEXT;
 		
-        SELECT returned_message;
-        -- Check if the SQLSTATE is '45000'
-        IF returned_sqlstate = '45000' THEN
+		IF returned_sqlstate = '45000' THEN
             -- Resignal with the original message
             RESIGNAL;
         ELSE
@@ -310,8 +309,10 @@ BEGIN
             SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'Something is wrong. Please try again.';
         END IF;
+      
     END;
     SET @parent_proc = TRUE;
+    SET @booking_department_id = para_department_id;
 
     -- Calculate the duration of the appointment in minutes
     SET appointment_duration = TIME_TO_SEC(TIMEDIFF(para_end_time, para_start_time)) / 60;
@@ -333,6 +334,7 @@ BEGIN
             appointment_date,                  -- The date of the appointment
             start_time,                        -- The start time of the appointment
             end_time,                          -- The end time of the appointment
+            schedule_id,
             appointment_charge,                -- The calculated charge for the appointment
             appointment_status,                -- The status of the appointment (e.g., 'Active')
             appointment_notes_document_id      -- The document ID for any appointment notes
@@ -344,6 +346,7 @@ BEGIN
             para_appointment_date,             -- The provided appointment date
             para_start_time,                   -- The provided start time
             para_end_time,                     -- The provided end time
+            para_schedule_id,
             para_appointment_charge,           -- The calculated appointment charge
             'Active',                          -- Setting the appointment status as 'Active'
             para_appointment_notes_document_id -- The provided document ID for appointment notes

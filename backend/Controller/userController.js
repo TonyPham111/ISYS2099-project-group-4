@@ -67,11 +67,6 @@ export const register = async (req, res) => {
       hashedPassword,
       wage
     );
-
-    if (result.error) {
-      return res.status(500).json({ error: result.error });
-    }
-
     return res.status(201).json({
       message: `User ${full_name} created successfully.`,
       full_name,
@@ -79,9 +74,8 @@ export const register = async (req, res) => {
       department_id,
       email,
     });
-  } catch (err) {
-    console.error("Error while registering a new user:", err);
-    return res.status(500).json({ error: "An error occurred while registering the new user. Please try again later." });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
   }
 };
 

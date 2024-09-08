@@ -20,7 +20,6 @@ export async function updateDuringAppointmentNote(documentId, duringNote) {
 
 export async function fetchQualifications(qualifications) {
     try {
-        console.log(qualifications)
         const educationQualifications = [];
         const experiences = []
         const licenses = []
@@ -148,13 +147,13 @@ export async function updatePostAppointmentNote(documentId, duringNote, postNote
 }
 
 // Create Appointment Note from Pre Note
-export async function createAppointmentNoteFromPreNote(preNote) {
+export async function createAppointmentNoteFromPreNote(preNote, {transaction}) {
     const newNote = new AppointmentNotes({
         pre_appointment_note: preNote,
         post_appointment_note: '',
         during_document_note: ''
     });
-    return await newNote.save();
+    return (await newNote.save({session: transaction}));
 }
 
 // Fetch All Lab Results with Images based on lab_result_document_id
@@ -162,7 +161,7 @@ export async function getAllImagesWithLabResult(testDocumentId) {
     try {
         // Find the test result document by its _id
         const testResult = await TestResult.findById(testDocumentId);
-
+        console.log(testResult);
         // If no document is found, return an error
         if (!testResult) {
             return { error: 'Test document not found' };
@@ -200,12 +199,12 @@ export async function getAllImagesWithLabResult(testDocumentId) {
 
 
 // Create new lab result Document
-export async function createNewLabResultDocument(labResultData, sampleImageData) {
+export async function createNewLabResultDocument(labResultData, sampleImageData, {transaction}) {
     const newLabResult = new TestResult({ 
         lab_result_document: labResultData,
         sample_image:sampleImageData
     });
-    return await newLabResult.save();
+    return await newLabResult.save({session: transaction});
 }
 
 // Create new Training Documents based on job, department and file

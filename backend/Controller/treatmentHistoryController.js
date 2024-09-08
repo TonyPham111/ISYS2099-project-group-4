@@ -16,7 +16,7 @@ export async function getAllTreatmentHistory(req, res) {
       return res.status(403).json({ message: "Incorrect role." });
     }
 
-    return res.status(200).json(result);
+    return res.status(200).json(result[0]);
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: error.message });
@@ -35,7 +35,6 @@ export async function createNewTreatment(req, res) {
       const medicines_string = medicines
         .map(medicine => `${medicine.drug_code}:${medicine.quantity}`)
         .join(",");
-      console.log(medicines_string)
       // Call the repository method to add the new treatment
       await doctorRepo.AddNewPrescription(doctor_id, req.params.patientId, diagnosis_id, prescription_note, medicines_string);
 

@@ -45,7 +45,7 @@ const frontDeskRepo = {
     try {
       const sql = `CALL CheckAvailability(?, ?, ?, ?)`;
       const [results] = await poolFrontDesk.query(sql, [booked_date, start_time, end_time, department_id]);
-      return JSON.stringify(results, null, 2);
+      return results;
     } catch (error) {
       throw new Error(error.message);
     }
@@ -123,10 +123,10 @@ const frontDeskRepo = {
   },
   */
 
-  GetAllAppointments: async (patient_name, doctor_id, from_date, to_date, employment_status) => {
+  GetAllAppointments: async (patient_name, doctor_id, from_date, to_date, appointment_status) => {
     try {
-      const sql = `CALL GetAllAppointments(?, ?, ?, ?)`;
-      const [results] = await poolFrontDesk.query(sql, [patient_name, doctor_id, from_date, to_date, employment_status]);
+      const sql = `CALL GetAllAppointmentsWithFilters(?, ?, ?, ?, ?)`;
+      const [results] = await poolFrontDesk.query(sql, [patient_name, doctor_id, from_date, to_date, appointment_status]);
       return results;
     } catch (error) {
       throw new Error(error.message);
@@ -186,17 +186,7 @@ const frontDeskRepo = {
       throw new Error(error.message);
     }
   },
-  /*
-  GetOwnSchedule: async (staff_id) => {
-    try {
-      const sql = `CALL GetOwnAppointmentsAndSchedules(?)`;
-      const [results] = await poolFrontDesk.query(sql, [staff_id, manager_id, from_date, to_date]);
-      return results[0];
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  },
-  */
+
 
   GetOwnSchedule: async (staff_id, from_date, to_date) => {
     try {
