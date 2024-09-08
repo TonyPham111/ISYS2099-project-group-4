@@ -13,7 +13,7 @@ export async function getAllPatientInfo(req, res) {
     } else if (user_info.role === 'Nurse') {
       result = await nurseRepo.GetPatientsInfo(req.query.patientName);
     } else if (user_info.role === 'FrontDesk') {
-      result = await frontDeskRepo.GetPatientsInfo(req.query.patientName);
+      result = await frontDeskRepo.GetPatientsInfo();
     } else if (user_info.role === 'BusinessOfficer') {
       result = await businessOfficerRepo.GetPatientsInfo(req.query.patientName);
     } else {
