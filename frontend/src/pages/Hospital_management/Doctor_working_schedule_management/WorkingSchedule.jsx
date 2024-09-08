@@ -40,7 +40,7 @@ export default function WorkingSchedule() {
     <section className="w-11/12 h-[90%] flex flex-col justify-between">
       {/*--------------------popup appointment detail when click on appointment-------------------------*/}
       <PopupContextProvider>
-        <Schedule auditable={false} />
+        <Schedule auditable={true} />
       </PopupContextProvider>
     </section>
   );

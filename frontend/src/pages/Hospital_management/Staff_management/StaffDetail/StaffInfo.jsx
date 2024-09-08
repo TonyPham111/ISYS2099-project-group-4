@@ -2,185 +2,437 @@ import dayjs from "dayjs";
 import CustomDatePicker from "@/component/ui/DateTime/CustomDatePicker";
 import * as staffService from "@/services/staffService";
 import { useParams } from "react-router-dom";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import DiscardAndSaveButton from "@/component/ui/Button/DiscardAndSaveButton";
 import useSWR from "swr";
 import fetcher from "@/utils/fetcher";
 import { UserContext } from "@/contexts/userContext";
+import CustomAutoComplete from "@/component/ui/DateTime/CustomAutoComplete";
+import UploadFileButton from "@/component/ui/Button/UploadFileButton";
+import ReviewPDF from "@/component/ui/PDF/ReviewPDF";
+import { IoEyeOff } from "react-icons/io5";
+
 export default function StaffInfo() {
   const { userData } = useContext(UserContext);
   const { id } = useParams();
+  const { data: jobData } = useSWR("http://localhost:8000/jobs", fetcher);
   const { data, error, isLoading } = useSWR(
     `http://localhost:8000/staffs/${id}`,
     fetcher
   );
-  const jobs = staffService.getJob();
-  const [firstName, setFirstName] = useState(null);
-  const [lastName, setLastName] = useState(null);
+  /*-----personal information----*/
+  const [fullName, setFullName] = useState(null);
   const [gender, setGender] = useState(null);
   const [homeAddress, setHomeAddress] = useState(null);
   const [contactPhoneNumber, setContactPhoneNumber] = useState(null);
   const [email, setEmail] = useState(null);
-  const [employmentType, setEmploymentType] = useState(null);
   const [wage, setWage] = useState(null);
   const [job, setJob] = useState(null);
   const [hireDate, setHireDate] = useState(null);
   const [birthDate, setBirthDate] = useState(null);
+  /*----- staff password --------*/
+  const [staffPassword, setStaffPassword] = useState(null);
+  /*----- staff education ------*/
+  const [qualificationName, setQualificationName] = useState(null);
+  const [institutionName, setInstitutionName] = useState(null);
+  const [level, setLevel] = useState(null);
+  const [qualificationGrade, setQualificationGrade] = useState(null);
+  const [qualificationDate, setQualificationDate] = useState(null);
+  const [certificateFile, setCertificateFile] = useState(null);
 
+  /*----- staff experience ------*/
+  const [jobTitle, setJobTitle] = useState(null);
+  const [hospitalName, setHospitalName] = useState(null);
+  const [jobDescription, setJobDescription] = useState(null);
+  const [letterOfReferenceFile, setLetterOfReferenceFile] = useState(null);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  /*----- staff license ------*/
+  const [licenseFile, setLicenseFile] = useState(null);
   useEffect(() => {
     if (data) {
-      setFirstName(data.first_name);
-      setLastName(data.last_name);
+      setFullName(data.first_name);
       setGender(data.gender);
       setHomeAddress(data.home_address);
       setContactPhoneNumber(data.contact_phone_number);
       setBirthDate(dayjs(data.birth_date, "DD/MM/YYYY"));
       setHireDate(dayjs(data.hire_date, "DD/MM/YYYY"));
-      setJob(data.job);
+      setJob({job_name:data.job_name});
       setWage(data.wage);
       setEmail(data.email);
-      setEmploymentType(data.employment_type);
     }
   }, [data]);
   function handleSaveInformation() {}
   function handleDiscardChange() {
     if (data) {
-      setFirstName(data.first_name);
-      setLastName(data.last_name);
+      setFullName(data.first_name);
       setGender(data.gender);
       setHomeAddress(data.home_address);
       setContactPhoneNumber(data.contact_phone_number);
       setBirthDate(dayjs(data.birth_date, "DD/MM/YYYY"));
       setHireDate(dayjs(data.hire_date, "DD/MM/YYYY"));
-      setJob(data.job);
+      setJob({job_name:data.job_name});
       setWage(data.wage);
       setEmail(data.email);
-      setEmploymentType(data.employment_type);
     }
   }
+  const handleUploadCertificateFile = (files) => {
+    setCertificateFile(files[0]);
+  };
+  const handleUploadLetterOfReferenceFile = (files) => {
+    setLetterOfReferenceFile(files[0]);
+  };
+  const handleUploadLicenseFile = (files) => {
+    setLicenseFile(files[0]);
+  };
   if (error) {
     return <div>error when loading data</div>;
   } else if (isLoading) {
     return <div>isLoading</div>;
   } else if (data) {
+    /*---------form data-----------*/
     return (
-      <>
-        <div className="w-full h-full flex flex-col justify-center">
-          <div className="h-5/6 w-full flex flex-wrap justify-between">
-            <div>
-              <h4>First name</h4>
-              <input
-                readOnly={userData.job_role !== "HR"}
-                onChange={(e) => {
-                  setFirstName(e.target.value);
-                }}
-                value={firstName}
-                className="mt-[8px] border-[1px]"
-              />
-            </div>
-            <div>
-              <h4>Last name</h4>
-              <input
-                readOnly={userData.job_role !== "HR"}
-                onChange={(e) => {
-                  setLastName(e.target.value);
-                }}
-                value={lastName}
-                className="mt-[8px] border-[1px]"
-              />
-            </div>
-            <div>
-              <h4>gender</h4>
-              <select
-                disabled={userData.job_role !== "HR"}
-                onChange={(e) => {
-                  setGender(e.target.value);
-                }}
-                value={gender}
-                name="Male"
-                className="mt-[8px] p-[3px] border-[1.1px]"
-              >
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Other">Other</option>
-              </select>
-            </div>
-            <div>
-              <h4>Date of Birth</h4>
-              <CustomDatePicker
-                readOnly={userData.job_role !== "HR"}
-                value={birthDate}
-                setValue={setBirthDate}
-                size={"lg"}
-              />
-            </div>
-            {userData.job_role == "HR" && (
-              <>
-                <div>
-                  <h4>Home Address</h4>
-                  <input
-                    onChange={(e) => {
-                      setHomeAddress(e.target.value);
+      <section className="w-full h-full flex flex-col justify-center">
+        <div className="h-full flex flex-col gap-[30px] overflow-scroll p-5">
+          <h2>Staff personal information</h2>
+          {/*-----staff personal information ---------*/}
+          <div className="w-full h-[90%] flex justify-center">
+            <div className="w-full flex flex-wrap justify-between">
+              <div>
+                <h6>Full name</h6>
+                <input className="mt-[8px] border-[1px]" 
+                onChange={(e=>{
+                  setFullName(e.target.value)
+                })}
+                value={fullName}
+                />
+              </div>
+              <div>
+                <h6>gender</h6>
+                <div className="mt-[8px] w-[350px]">
+                  <CustomAutoComplete
+                    value={gender}
+                    options={["M", "F"]}
+                    onChange={(event, value) => {
+                      if (value) {
+                        setGender(value);
+                      } else {
+                        setGender(null);
+                      }
                     }}
-                    value={homeAddress}
-                    className="mt-[8px] border-[1px]"
+                    getOptionLabel={(option) => {
+                      if (option == "M") {
+                        return "Male";
+                      } else if (option == "F") {
+                        return "Female";
+                      }
+                    }}
+                    label="choose gender"
+                    size="full"
                   />
                 </div>
-                <div>
-                  <h4>Contact phone number</h4>
-                  <input
-                    onChange={(e) => {
-                      setContactPhoneNumber(e.target.value);
+              </div>
+              <div>
+                <h6>Date of Birth</h6>
+                <CustomDatePicker
+                  value={birthDate}
+                  setValue={setBirthDate}
+                  size={"lg"}
+                />
+              </div>
+              <div>
+                <h6>Home Address</h6>
+                <input
+                  className="mt-[8px] border-[1px]"
+                  onChange={(e) => {
+                    setHomeAddress(e.target.value);
+                  }}
+                  value={homeAddress}
+                />
+              </div>
+              <div>
+                <h6>Contact phone number</h6>
+                <input
+                  className="mt-[8px] border-[1px]"
+                  onChange={(e) => {
+                    setContactPhoneNumber(e.target.value);
+                  }}
+                  value={contactPhoneNumber}
+                />
+              </div>
+              <div>
+                <h6>email</h6>
+                <input
+                  className="mt-[8px] border-[1px]"
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                  value={email}
+                />
+              </div>
+              <div>
+                <h6>wage</h6>
+                <input
+                  className="mt-[8px] border-[1px]"
+                  onChange={(e) => {
+                    setWage(e.target.value);
+                  }}
+                  value={wage}
+                  type="number"
+                  min={0}
+                  step={0.01}
+                />
+              </div>
+              <div>
+                <h6>hire date</h6>
+                <CustomDatePicker
+                  value={hireDate}
+                  setValue={setHireDate}
+                  size={"lg"}
+                />
+              </div>
+              <div>
+                <h6>job position</h6>
+                <div className="mt-[8px] w-[350px]">
+                  <CustomAutoComplete
+                    value={job}
+                    options={jobData ? jobData : []}
+                    onChange={(event, value) => {
+                      if (value) {
+                        setJob(value.job_id);
+                      } else {
+                        setGender(null);
+                      }
                     }}
-                    value={contactPhoneNumber}
-                    className="mt-[8px] border-[1px]"
+                    getOptionLabel={(option) => {
+                      return option.job_name;
+                    }}
+                    label="choose job"
+                    size="full"
                   />
                 </div>
-              </>
-            )}
-            <div>
-              <h4>wage</h4>
-              <input
-                onChange={(e) => {
-                  setWage(e.target.value);
-                }}
-                value={wage}
-                className="mt-[8px] border-[1px]"
-              />
-            </div>
-            <div>
-              <h4>hire date</h4>
-              <CustomDatePicker
-                readOnly={userData.job_role !== "HR"}
-                value={hireDate}
-                setValue={setHireDate}
-                size={"lg"}
-              />
-            </div>
-            <div>
-              <h4>job position</h4>
-              <select
-                readOnly={userData.job_role !== "HR"}
-                onChange={(e) => {
-                  setJob(e.target.value);
-                }}
-                className="mt-[8px] p-[3px] border-[1.1px]"
-              >
-                {jobs.map((item) => (
-                  <option value={item.id}>{item.job_name}</option>
-                ))}
-              </select>
+              </div>
             </div>
           </div>
-          {/*-------------------------------------- lower part --------------------------------*/}
-          {userData.job_role == "HR" && (
-            <DiscardAndSaveButton
-              handleDiscardChange={handleDiscardChange}
-              handleSaveInformation={handleSaveInformation}
+          {/*----- staff account password ------*/}
+          <h2>Staff Account Password</h2>
+          <div className="flex items-center">
+            <input
+              id="input-staff-password"
+              type="password"
+              onChange={(e) => {
+                setStaffPassword(e.target.value);
+              }}
+              value={staffPassword}
+            />
+            <IoEyeOff
+              onClick={() => {
+                let inputPasswordType = document.getElementById(
+                  "input-staff-password"
+                ).type;
+                if (inputPasswordType == "password") {
+                  document.getElementById("input-staff-password").type = "text";
+                } else {
+                  document.getElementById("input-staff-password").type =
+                    "password";
+                }
+              }}
+              className="text-custom-dark-200 w-[25px] h-[25px] relative right-[35px] cursor-pointer"
+            />
+          </div>
+          {/*---- staff education ---*/}
+          <h2>Staff Education</h2>
+          <div className="w-full flex flex-col gap-[15px] ">
+            <div>
+              <h6>Institution Name</h6>
+              <input
+                className="mt-[8px] border-[1px]"
+                onChange={(event, value) => {
+                  setInstitutionName(value);
+                }}
+                value={institutionName}
+              />
+            </div>
+            <div>
+              <h6>Level</h6>
+              <div className="mt-[8px] w-[350px]">
+                <CustomAutoComplete
+                  options={[
+                    "HighSchool",
+                    "College",
+                    "Bachelor",
+                    "Master",
+                    "Doctorate",
+                  ]}
+                  onChange={(event, value) => {
+                    setLevel(value);
+                  }}
+                  getOptionLabel={(option) => {
+                    return option;
+                  }}
+                  label="choose level"
+                  size="full"
+                />
+              </div>
+            </div>
+            {/*----------- qualification ------------*/}
+            <div className="w-full flex justify-between">
+              <div>
+                <h6>Qualification name</h6>
+                <input
+                  onChange={(e) => {
+                    setQualificationName(e.target.value);
+                  }}
+                  value={qualificationName}
+                  className="mt-[8px] border-[1px]"
+                />
+              </div>
+              <div>
+                <h6>Qualification grade</h6>
+                <input
+                  className="mt-[8px] border-[1px]"
+                  onChange={(event, value) => {
+                    setQualificationGrade(value);
+                  }}
+                  value={qualificationGrade}
+                />
+              </div>
+              <div>
+                <h6>Qualification date</h6>
+                <CustomDatePicker setValue={setQualificationDate} size={"lg"} />
+              </div>
+            </div>{" "}
+            <div>
+              <h6>Certificate</h6>
+              {certificateFile && (
+                <div className="w-full  bg-neutral-200 p-5">
+                  <ReviewPDF
+                    fileData={certificateFile}
+                    data={certificateFile}
+                    setData={setCertificateFile}
+                    allowDelete={true}
+                    pageHeight={400}
+                  />
+                </div>
+              )}
+              {!certificateFile && (
+                <UploadFileButton
+                  handleOnChange={handleUploadCertificateFile}
+                  textContent="upload pdf"
+                  acceptTypes=".pdf"
+                />
+              )}
+            </div>
+          </div>
+          {/*------- staff experience -------*/}
+          <h2>Staff Experience</h2>
+          <div>
+            <h6>Hospital name</h6>
+            <input
+              onChange={(e) => {
+                setHospitalName(e.target.value);
+              }}
+              value={hospitalName}
+              className="mt-[8px] border-[1px]"
+            />
+          </div>
+          {/*---- row for job title and job description -----*/}
+          <div className="w-full flex gap-[50px]">
+            <div>
+              <h6>job title</h6>
+              <input
+                onChange={(e) => {
+                  setJobTitle(e.target.value);
+                }}
+                value={jobTitle}
+                className="mt-[8px] border-[1px]"
+              />
+            </div>
+            <div>
+              <h6>job description</h6>
+              <textarea
+                className="w-[350px] h-[100px] border-[1px] border-custom-dark-200 rounded-md"
+                onChange={(e) => {
+                  setJobDescription(e.target.value);
+                }}
+                value={jobDescription}
+              />
+            </div>
+          </div>{" "}
+          {/*---- row for start time and end time -----*/}
+          <div className="w-full flex gap-[50px]">
+            <div>
+              <h6>Start date</h6>
+              <div className="mt-[8px] w-[350px]">
+                <CustomDatePicker
+                  value={startDate}
+                  setValue={setStartDate}
+                  size={"full"}
+                  max={endDate}
+                />
+              </div>
+            </div>
+            <div>
+              <h6>End date</h6>
+              <div className="mt-[8px] w-[350px]">
+                <CustomDatePicker
+                  value={endDate}
+                  setValue={setEndDate}
+                  size={"full"}
+                  min={startDate}
+                />
+              </div>
+            </div>
+          </div>
+          <div>
+            <h6>Letter Of Reference</h6>
+            {letterOfReferenceFile && (
+              <div className="w-full  bg-neutral-200 p-5">
+                <ReviewPDF
+                  fileData={letterOfReferenceFile}
+                  data={letterOfReferenceFile}
+                  setData={setLetterOfReferenceFile}
+                  allowDelete={true}
+                  pageHeight={400}
+                />
+              </div>
+            )}
+            {!letterOfReferenceFile && (
+              <UploadFileButton
+                handleOnChange={handleUploadLetterOfReferenceFile}
+                textContent="upload pdf"
+                acceptTypes=".pdf"
+              />
+            )}
+          </div>
+          <h2>Staff license</h2>
+          {licenseFile && (
+            <div className="w-full  bg-neutral-200 p-5">
+              <ReviewPDF
+                fileData={licenseFile}
+                data={licenseFile}
+                setData={setLicenseFile}
+                allowDelete={true}
+                pageHeight={400}
+              />
+            </div>
+          )}
+          {!licenseFile && (
+            <UploadFileButton
+              handleOnChange={handleUploadLicenseFile}
+              textContent="upload pdf"
+              acceptTypes=".pdf"
             />
           )}
         </div>
-      </>
+        {/*-------------------------------------- lower part --------------------------------*/}
+        {userData.job_role == "HR" && (
+          <DiscardAndSaveButton
+            handleDiscardChange={handleDiscardChange}
+            handleSaveInformation={handleSaveInformation}
+          />
+        )}
+      </section>
     );
   }
 }

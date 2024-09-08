@@ -26,6 +26,7 @@ export default function LoginPage() {
             setUserData({
                 id: tokens.id,
                 email: tokens.email,
+            
                 job_role: tokens.role,
             });
 

@@ -8,6 +8,8 @@ import { PopupContext } from "@/contexts/popupContext";
 import { useLocation } from "react-router-dom";
 import useSWR from "swr";
 import fetcher from "@/utils/fetcher";
+import { ScheduleContext } from "@/contexts/scheduleContext";
+import filterEventArray from "@/utils/eventFunction";
 export default function AppointmentPopup({
   appointmentData,
   ableToCancel,
@@ -22,6 +24,7 @@ export default function AppointmentPopup({
     `http://localhost:8000/patients/${appointmentData.patient_id}`,
     fetcher
   ); //data in here is patient data
+  const { events, setEvents } = useContext(ScheduleContext);
   const location = useLocation();
   const { setIsPopup } = useContext(PopupContext);
   const [durningNote, setDuringNote] = useState(appointmentData.during_note);
@@ -122,28 +125,31 @@ export default function AppointmentPopup({
         {(location.pathname == "/appointment" ||
           location.pathname == "/working-schedule") && (
           <div className="w-full flex justify-center h-[7%] border-solid border-t-[1px] border-custom-dark-200 py-[5px]">
-            {intTime && ableToUpdate && (
-              //return update button if role can able to update
-              <button
-                onClick={handleUpdateAppointmentNote}
-                className="bg-custom-blue text-white h-[40px] px-[40px]"
-              >
-                update
-              </button>
-            )}
-            {Date.now() <= appointmentData.start && ableToCancel && (
+            {Date.now() >= appointmentData.end ? (
+              <h4 className="text-custom-dark-200">
+                {" "}
+                appointment already done{" "}
+              </h4>
+            ) : Date.now() < appointmentData.start && ableToCancel ? (
               <button
                 onClick={handleCancelAppointment}
                 className="bg-red-700 text-white h-[40px] px-[40px]"
               >
                 Cancel
               </button>
-            )}
-            {Date.now() >= appointmentData.end && (
-              <h4 className="text-custom-dark-200">
-                {" "}
-                appointment already done{" "}
-              </h4>
+            ) : (
+              ableToUpdate && (
+                //return update button if role can able to update
+                <button
+                  disabled={!intTime}
+                  onClick={handleUpdateAppointmentNote}
+                  className={`bg-custom-blue ${
+                    !intTime && "opacity-40"
+                  } text-white h-[40px] px-[40px]`}
+                >
+                  update
+                </button>
+              )
             )}
           </div>
         )}

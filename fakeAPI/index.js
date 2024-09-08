@@ -53,6 +53,17 @@ app.get("/test_types",(req, res)=>{
 app.get("/allergies",(req, res)=>{
   res.status(200).json(allergiesData);
 })
+app.get("/jobs",(req, res)=>{
+  res.status(200).json(
+    [
+      { "job_id": 1, "job_name": "Nurse" },
+      { "job_id": 2, "job_name": "Doctor" },
+      { "job_id": 3, "job_name": "HR" },
+      { "job_id": 4, "job_name": "Front Desk" },
+      { "job_id": 5, "job_name": "Business Officer" }
+    ]
+  );
+})
 app.listen(8000, () => {
   console.log(`SERVER IS RUNNING ON http://localhost:${8000}`);
 });

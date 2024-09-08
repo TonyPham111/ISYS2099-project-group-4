@@ -34,6 +34,15 @@ patientRouter
 
 patientRouter
   .route("/:patientId")
+  .get((req,res)=>{
+    const patientId = req.params.patientId;
+    let result;
+    result = patientData.filter((item)=>{
+      return item.id == patientId;
+    })
+    res.status(200).json(result[0]);
+
+  })
   .put((req, res) => {
     //update specific patient's personal information
   });
