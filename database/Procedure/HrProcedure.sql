@@ -713,6 +713,10 @@ BEGIN
 END$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.UpdateUserPassword TO 'HR'@'%'$$
 
+
+GRANT EXECUTE ON PROCEDURE hospital_management_system.SavePasswordResetToken TO 'HR'@'%';
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FindUserByResetToken TO 'HR'@'%';
+GRANT EXECUTE ON PROCEDURE hospital_management_system.UpdateUserPassword TO 'HR'@'%';
 DELIMITER ;
 
 

@@ -1,8 +1,8 @@
 import express from "express";
 import * as userController from "../Controller/userController.js";
+import { verifyToken, refreshToken } from "../Middleware/auth.js";
 
 const userRouter = express.Router();
-import { verifyToken } from "../Middleware/auth.js";
 
 userRouter
   .route("/")
@@ -28,5 +28,9 @@ userRouter
 userRouter
   .route("/request-password-reset")
   .post(userController.requestPasswordReset);
+
+userRouter
+  .route("/protected-route")
+  .get(refreshToken, verifyToken, userController.protectedRoute);
 
 export default userRouter;

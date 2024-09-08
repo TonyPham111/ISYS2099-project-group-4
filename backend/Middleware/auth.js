@@ -26,7 +26,7 @@ export const setTokenCookie = (res, tokens) => {
 
 export const verifyToken = async (req, res, next) => {
   try {
-    const token = await req.cookies.accessToken;
+    const token = req.cookies.accessToken;
     console.log(token);
     if (!token) {
       console.log("Token is not provided");
@@ -36,11 +36,35 @@ export const verifyToken = async (req, res, next) => {
       const verified = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
       req.user = verified;
       console.log("Verified user:", verified);
+      next();
     } catch (err) {
-      res.status(401).json({ error: "Unauthorized - Invalid Token" });
+      if (err.name === 'TokenExpiredError') {
+        // Handle expired token
+        return res.status(401).json({ error: "Token expired. Please log in again." });
+      }
+      // Handle other token errors
+      return res.status(401).json({ error: "Unauthorized - Invalid Token" });
     }
+  } catch (err) {
+    console.error("Error in verifyToken middleware:", err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+export const refreshToken = async (req, res, next) => {
+  const refreshToken = req.cookies.refreshToken;
+  if (!refreshToken) {
+    return res.status(401).json({ error: "Refresh Token not found" });
+  }
+
+  try {
+    const verified = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+    const { id, email, role, job_id, department_id } = verified;
+    const tokens = generateTokens(id, email, role, job_id, department_id);
+    setTokenCookie(res, tokens);
     next();
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error("Error refreshing token:", err);
+    res.status(401).json({ error: "Invalid Refresh Token" });
   }
 };
