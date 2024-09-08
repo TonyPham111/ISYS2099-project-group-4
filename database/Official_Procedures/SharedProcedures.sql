@@ -622,19 +622,24 @@ END$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchTestDetailsByPatientIdByDates TO 'Doctors'@'%'$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchTestDetailsByPatientIdByDates TO 'Nurses'@'%'$$
 
-DROP PROCEDURE IF EXISTS GetStaffUnderManager;
+DROP PROCEDURE IF EXISTS GetStaffUnderManager$$
 CREATE PROCEDURE GetStaffUnderManager(
-    IN managerId INT  -- Parameter for the ID of the manager whose staff members are to be fetched
+    IN managerId INT,  -- Parameter for the ID of the manager whose staff members are to be fetched
+    staff_name VARCHAR(50),
+    staff_id INT
 )
 SQL SECURITY DEFINER
 BEGIN
 	DECLARE EXIT HANDLER FOR SQLEXCEPTION
 	BEGIN
 		DECLARE returned_sqlstate CHAR(5) DEFAULT '';
+        DECLARE returned_message TEXT;
 		-- Retrieve the SQLSTATE of the current exception
 		GET STACKED DIAGNOSTICS CONDITION 1
-			returned_sqlstate = RETURNED_SQLSTATE;
-
+			returned_sqlstate = RETURNED_SQLSTATE,
+            returned_message = MESSAGE_TEXT;
+		
+        SELECT returned_message;
 		-- Check if the SQLSTATE is '45000'
 		IF returned_sqlstate = '45000' THEN
 			-- Resignal with the original message
@@ -646,24 +651,34 @@ BEGIN
 		END IF;
 	END;
 
-    -- Select various fields related to the staff members under the specified manager
+    SET @select_statement = '
     SELECT 
-        s.id AS staff_id,                    -- The ID of the staff member
-        s.full_name,                         -- The full name of the staff member
-        j.job_name,                          -- The job title of the staff member
-        s.gender,                            -- The gender of the staff member
-        s.birth_date,                        -- The birth date of the staff member
-        s.email,                             -- The email address of the staff member
-        s.phone_number                       -- The phone number of the staff member
+        s.id AS staff_id,                    
+        s.full_name,                         
+        j.job_name,                          
+        s.gender,                            
+        s.birth_date,                        
+        s.email,                             
+        s.phone_number                       
     FROM 
         Staff s
     INNER JOIN 
-        Jobs j ON s.job_id = j.id            -- Join with the Jobs table to get job titles
+        Jobs j ON s.job_id = j.id            
     INNER JOIN 
-        Departments d ON s.department_id = d.id -- Join with the Departments table to get department names
-    WHERE 
-        s.manager_id = managerId             -- Filter to include only staff members under the specified manager
-        AND s.employment_status = 'Active';  -- Only include staff members with 'Active' employment status
+        Departments d ON s.department_id = d.id
+    WHERE 1 = 1';
+    SET @select_statement = CONCAT(@select_statement, ' AND ', 's.manager_id = ', managerId, ' AND ', 's.employment_status = \'Active\' ');
+	SET @by_name = CONCAT('MATCH(s.full_name) AGAINST(\'',staff_name,'\' IN NATURAL LANGUAGE MODE)');
+    SET @by_id = CONCAT('s.id = ', staff_id);
+    IF staff_id IS NOT NULL THEN
+		SET @select_statement = CONCAT(@select_statement, ' AND ', @by_id);
+    END IF;
+    IF staff_name IS NOT NULL THEN
+		SET @select_statement = CONCAT(@select_statement, ' AND ', @by_name);
+    END IF;
+	PREPARE stmt FROM @select_statement;
+    EXECUTE stmt;
+    DEALLOCATE PREPARE stmt;
 END$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.GetStaffUnderManager TO 'HR'@'%'$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.GetStaffUnderManager TO 'BusinessOfficers'@'%'$$

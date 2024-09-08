@@ -140,10 +140,10 @@ const hrRepo = {
     }
   },
 
-  GetSubordinates: async (manager_id) => {
+  GetSubordinates: async (manager_id, staff_name, staff_id) => {
     try {
-      const sql = `CALL GetStaffUnderManager(?)`;
-      const [results] = await poolHR.query(sql, [manager_id]);
+      const sql = `CALL GetStaffUnderManager(?,?,?)`;
+      const [results] = await poolHR.query(sql, [manager_id, staff_name, staff_id]);
       return results;
     } catch (error) {
       throw new Error(error.message);
@@ -281,10 +281,10 @@ const hrRepo = {
       throw new Error(error.message);
     }
   },
-  FetchAllStaff: async (staff_name, job_id, department_id, employment_status, sort_by, order_by) => {
+  FetchAllStaff: async (staff_id, staff_name, job_id, department_id, employment_status, sort_by, order_by) => {
     try {
-      const sql = `CALL FetchAllStaffWithFilters(?, ?, ?, ?, ?, ?)`;
-      const [results] = await poolHR.query(sql, [staff_name, job_id, department_id, employment_status, sort_by, order_by]);
+      const sql = `CALL FetchAllStaffWithFilters(?,?, ?, ?, ?, ?, ?)`;
+      const [results] = await poolHR.query(sql, [staff_id, staff_name, job_id, department_id, employment_status, sort_by, order_by]);
       return results[1];
     } catch (error) {
       throw new Error(error.message);

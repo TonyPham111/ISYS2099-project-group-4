@@ -368,6 +368,7 @@ GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchAllStaff TO 'HR'@'%'$
 
 DROP PROCEDURE IF EXISTS FetchAllStaffWithFilters$$
 CREATE PROCEDURE FetchAllStaffWithFilters(
+	staff_id INT,
 	para_full_name VARCHAR(50),
     para_job_id INT,
     para_department_id INT,
@@ -400,6 +401,7 @@ BEGIN
     IF order_by IS NULL THEN
 		SET order_by = "DESC";
     END IF;
+    SET @by_id = CONCAT('Non_Manager.id = ', staff_id);
     SET @by_name = CONCAT('MATCH(Non_Manager.full_name) AGAINST(\'', para_full_name, '\' IN NATURAL LANGUAGE MODE)');
     SET @by_department = CONCAT('Departments.id = ',  para_department_id);
     SET @by_job = CONCAT('Jobs.id = ',  para_job_id);
@@ -428,6 +430,9 @@ BEGIN
     ON
         Departments.id = Non_Manager.department_id
 	WHERE 1 = 1';
+    IF staff_id IS NOT NULL THEN
+		SET @select_statement = CONCAT(@select_statement, ' AND ', @by_id);
+    END IF;
     
     IF para_full_name IS NOT NULL THEN
 		SET @select_statement = CONCAT(@select_statement, ' AND ', @by_name);
