@@ -131,11 +131,11 @@ export const logout = (req, res) => {
 
 // Reset Password
 export const resetPassword = async (req, res) => {
-  const { token, newPassword } = req.body;
+  const { email, newPassword } = req.body;
   try {
-    const user = await hrRepo.findUserByResetToken(token);
-    if (!user || user.resetTokenExpiry < Date.now()) {
-      return res.status(400).json({ error: "Invalid or expired token." });
+    const user = await hrRepo.AuthenticateUser(email);
+    if (!user || !user.isEmailVerified) {
+      return res.status(400).json({ error: "Email not verified or user not found." });
     }
 
     const salt = await bcrypt.genSalt(10);

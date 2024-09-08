@@ -303,8 +303,8 @@ const hrRepo = {
 
   savePasswordResetToken: async (email, resetToken, resetTokenExpiry) => {
     try {
-      const sql = `UPDATE users SET reset_token = ?, reset_token_expiry = ? WHERE email = ?`;
-      await poolHR.query(sql, [resetToken, resetTokenExpiry, email]);
+      const sql = `CALL SavePasswordResetToken(?, ?, ?)`;
+      await poolHR.query(sql, [email, resetToken, resetTokenExpiry]);
     } catch (error) {
       throw new Error(error.message);
     }
@@ -312,7 +312,7 @@ const hrRepo = {
 
   findUserByResetToken: async (token) => {
     try {
-      const sql = `SELECT * FROM users WHERE reset_token = ?`;
+      const sql = `CALL FindUserByResetToken(?)`;
       const [results] = await poolHR.query(sql, [token]);
       return results[0];
     } catch (error) {
@@ -322,46 +322,13 @@ const hrRepo = {
 
   updateUserPassword: async (email, hashedPassword) => {
     try {
-      const sql = `UPDATE users SET password = ?, reset_token = NULL, reset_token_expiry = NULL WHERE email = ?`;
-      await poolHR.query(sql, [hashedPassword, email]);
+      const sql = `CALL UpdateUserPassword(?, ?)`;
+      await poolHR.query(sql, [email, hashedPassword]);
     } catch (error) {
       throw new Error(error.message);
     }
   },
-
-
-
-
-
-
-  
-  saveEmailVerificationToken: async (email, verificationToken, verificationTokenExpiry) => {
-    try {
-      const sql = `UPDATE users SET verification_token = ?, verification_token_expiry = ? WHERE email = ?`;
-      await poolHR.query(sql, [verificationToken, verificationTokenExpiry, email]);
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  },
-
-  findUserByEmailVerificationToken: async (token) => {
-    try {
-      const sql = `SELECT * FROM users WHERE verification_token = ?`;
-      const [results] = await poolHR.query(sql, [token]);
-      return results[0];
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  },
-
-  markEmailAsVerified: async (email) => {
-    try {
-      const sql = `UPDATE users SET is_email_verified = 1, verification_token = NULL, verification_token_expiry = NULL WHERE email = ?`;
-      await poolHR.query(sql, [email]);
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  },
+cd
 };
 
 export default hrRepo;

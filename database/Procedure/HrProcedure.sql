@@ -631,7 +631,87 @@ END$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchJobChangeByStaffId TO 'HR'@'IP'$$
 
 
+DROP PROCEDURE IF EXISTS SavePasswordResetToken$$
+CREATE PROCEDURE SavePasswordResetToken(
+    IN para_email VARCHAR(50),
+    IN reset_token VARCHAR(64),
+    IN reset_token_expiry BIGINT
+)
+SQL SECURITY DEFINER
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        DECLARE returned_sqlstate CHAR(5) DEFAULT '';
+        GET STACKED DIAGNOSTICS CONDITION 1
+            returned_sqlstate = RETURNED_SQLSTATE;
+        IF returned_sqlstate = '45000' THEN
+            RESIGNAL;
+        ELSE
+            SIGNAL SQLSTATE '45000'
+                SET MESSAGE_TEXT = 'Something is wrong. Please try again.';
+        END IF;
+    END;
 
+    UPDATE users
+    SET reset_token = reset_token,
+        reset_token_expiry = reset_token_expiry
+    WHERE email = para_email;
+END$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.SavePasswordResetToken TO 'HR'@'%'$$
+
+
+
+DROP PROCEDURE IF EXISTS FindUserByResetToken$$
+CREATE PROCEDURE FindUserByResetToken(
+    IN para_reset_token VARCHAR(64)
+)
+SQL SECURITY DEFINER
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        DECLARE returned_sqlstate CHAR(5) DEFAULT '';
+        GET STACKED DIAGNOSTICS CONDITION 1
+            returned_sqlstate = RETURNED_SQLSTATE;
+        IF returned_sqlstate = '45000' THEN
+            RESIGNAL;
+        ELSE
+            SIGNAL SQLSTATE '45000'
+                SET MESSAGE_TEXT = 'Something is wrong. Please try again.';
+        END IF;
+    END;
+
+    SELECT * FROM users WHERE reset_token = para_reset_token;
+END$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.FindUserByResetToken TO 'HR'@'%'$$
+
+
+DROP PROCEDURE IF EXISTS UpdateUserPassword$$
+CREATE PROCEDURE UpdateUserPassword(
+    IN para_email VARCHAR(50),
+    IN hashed_password VARCHAR(72)
+)
+SQL SECURITY DEFINER
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        DECLARE returned_sqlstate CHAR(5) DEFAULT '';
+        GET STACKED DIAGNOSTICS CONDITION 1
+            returned_sqlstate = RETURNED_SQLSTATE;
+        IF returned_sqlstate = '45000' THEN
+            RESIGNAL;
+        ELSE
+            SIGNAL SQLSTATE '45000'
+                SET MESSAGE_TEXT = 'Something is wrong. Please try again.';
+        END IF;
+    END;
+
+    UPDATE users
+    SET password = hashed_password,
+        reset_token = NULL,
+        reset_token_expiry = NULL
+    WHERE email = para_email;
+END$$
+GRANT EXECUTE ON PROCEDURE hospital_management_system.UpdateUserPassword TO 'HR'@'%'$$
 
 DELIMITER ;
 
