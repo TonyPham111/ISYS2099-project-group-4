@@ -59,7 +59,7 @@ CREATE TABLE Qualifications(
 
 
 CREATE TABLE Staff(
-	id INT AUTO_INCREMENT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     manager_id INT,
     department_id INT,
     job_id INT,
@@ -68,14 +68,16 @@ CREATE TABLE Staff(
     birth_date DATE NOT NULL,
     home_address VARCHAR(255) NOT NULL,
     phone_number VARCHAR(15) NOT NULL,
-    email VARCHAR(50) NOT NULL,
-    staff_password VARCHAR(12) NOT NULL,
+    email VARCHAR(50) NOT NULL UNIQUE,
+    staff_password VARCHAR(72) NOT NULL,
     wage DECIMAL(6,2),
     hire_date DATE NOT NULL,
     employment_status ENUM ('Active', 'Terminated') NOT NULL,
+    reset_token VARCHAR(64),
+    reset_token_expiry BIGINT,
     FOREIGN KEY (manager_id) REFERENCES Staff(id) ON DELETE SET NULL,
-    FOREIGN KEY (department_id) REFERENCES Departments (id) ON DELETE SET NULL,
-    FOREIGN KEY (job_id) REFERENCES Jobs (id) ON DELETE SET NULL
+    FOREIGN KEY (department_id) REFERENCES Departments(id) ON DELETE SET NULL,
+    FOREIGN KEY (job_id) REFERENCES Jobs(id) ON DELETE SET NULL
 );
 
 
