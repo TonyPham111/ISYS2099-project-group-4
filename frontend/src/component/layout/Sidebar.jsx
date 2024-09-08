@@ -60,7 +60,7 @@ const Sidebar = ({}) => {
         </button>
         <button
           onClick={() => {
-            handleOnClick("staff");
+            handleOnClick("staff/staff-list");
           }}
           className={`flex justify-center items-center p-3 ${
             activeItem == "staff" ? "bg-custom-blue" : ""

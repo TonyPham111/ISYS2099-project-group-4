@@ -89,7 +89,7 @@ export const login = async (req, res) => {
     if (!email || !password) {
       return res.status(400).json({ error: "Please provide both email and password." });
     }
-
+    console.log(`check req.body: ${JSON.stringify(req.body)}`);
     const user = await hrRepo.AuthenticateUser(email); 
     console.log(user);
     if (!user) {

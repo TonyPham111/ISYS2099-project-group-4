@@ -51,7 +51,7 @@ export default function StaffInfo() {
   const [licenseFile, setLicenseFile] = useState(null);
   useEffect(() => {
     if (data) {
-      setFullName(data.first_name);
+      setFullName(data.full_name);
       setGender(data.gender);
       setHomeAddress(data.home_address);
       setContactPhoneNumber(data.contact_phone_number);
@@ -65,7 +65,7 @@ export default function StaffInfo() {
   function handleSaveInformation() {}
   function handleDiscardChange() {
     if (data) {
-      setFullName(data.first_name);
+      setFullName(data.full_name);
       setGender(data.gender);
       setHomeAddress(data.home_address);
       setContactPhoneNumber(data.contact_phone_number);
@@ -214,32 +214,7 @@ export default function StaffInfo() {
               </div>
             </div>
           </div>
-          {/*----- staff account password ------*/}
-          <h2>Staff Account Password</h2>
-          <div className="flex items-center">
-            <input
-              id="input-staff-password"
-              type="password"
-              onChange={(e) => {
-                setStaffPassword(e.target.value);
-              }}
-              value={staffPassword}
-            />
-            <IoEyeOff
-              onClick={() => {
-                let inputPasswordType = document.getElementById(
-                  "input-staff-password"
-                ).type;
-                if (inputPasswordType == "password") {
-                  document.getElementById("input-staff-password").type = "text";
-                } else {
-                  document.getElementById("input-staff-password").type =
-                    "password";
-                }
-              }}
-              className="text-custom-dark-200 w-[25px] h-[25px] relative right-[35px] cursor-pointer"
-            />
-          </div>
+         
           {/*---- staff education ---*/}
           <h2>Staff Education</h2>
           <div className="w-full flex flex-col gap-[15px] ">

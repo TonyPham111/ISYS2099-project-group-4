@@ -9,12 +9,12 @@ import departmentData from "./data/department_data.json" with {type: 'json'};
 import testTypeData from "./data/test_type_data.json" with {type: 'json'};
 import allergiesData from "./data/allergies_data.json" with {type: 'json'};
 import doctorAvailableData from "./data/doctor_availability_data.json" with {type: 'json'};
-
+import staffData from "./data/staff_data.json" with {type: 'json'};
 import cors from "cors";``
 const app = express();
 
 app.use(cors());
-
+app.use(express.json());
 app.use("/patients", patientRouter);
 app.use("/treatment-histories", patientTreatmentHistoryRouter);
 app.use("/staffs", staffRouter);
@@ -53,6 +53,23 @@ app.get("/test_types",(req, res)=>{
 app.get("/allergies",(req, res)=>{
   res.status(200).json(allergiesData);
 })
+app.post('/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+  const userAccount= staffData.filter((item)=>{
+    return item.email === email && item.password === password
+  })
+  console.log( userAccount[0]);
+  if(userAccount.length === 0){
+    res.status(401).json({ message: 'Invalid credentials' });
+  }else{
+    console.log(`check `)
+    res.status(200).json(userAccount[0]);
+  }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 app.get("/jobs",(req, res)=>{
   res.status(200).json(
     [

@@ -256,7 +256,7 @@ staffRouter
       // delete staffSChedule[i].staff_id
     }
     for(let i = 0; i < staffAppointment.length; ++i){
-      delete staffAppointment[i].staff_id
+      // delete staffAppointment[i].staff_id
     }
     res.status(200).json(
       {

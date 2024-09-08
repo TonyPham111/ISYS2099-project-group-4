@@ -19,11 +19,11 @@ export default function Staff() {
     "http://localhost:8000/departments",
     fetcher
   );
-  const headerData = [
+  const [headerData, setHeaderData] = useState([
     "id",
-    "first_name",
-    "last_name",
-    "job",
+    "full_name",
+    "job_name",
+    "department_name",
     "gender",
     "birth_date",
     "home_address",
@@ -31,8 +31,7 @@ export default function Staff() {
     "email",
     "wage",
     "hire_date",
-    "employment_type",
-  ];
+  ]);
   const navigate = useNavigate();
   useEffect(() => {
     if (userData) {
@@ -52,8 +51,11 @@ export default function Staff() {
   useEffect(() => {
     console.log(`check department data: ${departmentData}`);
   }, [departmentData]);
+  useEffect(()=>{
+    console.log(`check staff data: ${staffData}`);
+  },[staffData])
   function handleNavigateOnDataRow(item, rowIndex) {
-    navigate(`${item.id}/personal-information`);
+    navigate(`../${item.id}/personal-information`);
   }
   function handleOnSearch(){
 
@@ -113,7 +115,7 @@ export default function Staff() {
         {/*-------- show data table -------------*/}
         <DataTable
           headerData={headerData}
-          data={staffData}
+          data={staffData?staffData:[]}
           hoverOnRow={true}
           handleOnClick={handleNavigateOnDataRow}
         />
