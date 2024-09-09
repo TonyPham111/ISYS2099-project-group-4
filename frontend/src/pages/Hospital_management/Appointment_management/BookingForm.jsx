@@ -64,13 +64,13 @@ export default function BookingForm() {
       const sendData = {
         doctor_id: doctorValue.doctor_id,
         patientId: patientId,
-        date: dayjs(date).format('YYYY-MM-DD'),
-        start: dayjs(startTime).format('HH:mm:ss'),
-        end: dayjs(endTime).format('HH:mm:ss'),
+        date: dayjs(date).format("YYYY-MM-DD"),
+        start: dayjs(startTime).format("HH:mm:ss"),
+        end: dayjs(endTime).format("HH:mm:ss"),
         before_note: JSON.stringify(beforeNoteValue),
-      }
+      };
       console.log(`check sendDATA: ${JSON.stringify(sendData)}`);
-      toast.success('booking new appointment success!');
+      toast.success("booking new appointment success!");
       setIsPopup(false);
     }
   }

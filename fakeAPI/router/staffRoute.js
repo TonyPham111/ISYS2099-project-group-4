@@ -6,6 +6,7 @@ import jobChangeHistoryData from "../data/job_change_history.json" with {type: '
 import wageChangeHistoryData from "../data/wage_change_history.json" with {type: 'json'};
 import departmentChangeHistoryData from "../data/department_change_history.json" with {type: 'json'};
 import doctorAvailableData from "../data/doctor_availability_data.json" with {type: 'json'};
+
 const staffRouter = express.Router();
 staffRouter
   .route("/")
@@ -32,23 +33,61 @@ staffRouter
       }
     ]
     */
-    const {manager_id, job_role} = req.query;
+    const {manager_id, job_role, department_id, naming_order} = req.query;
+    console.log(`req.query ${JSON.stringify(req.query)}`);
       let result = staffData;
       if(manager_id){
         result = staffData.filter((item)=>{
           return item.manager_id == Number(manager_id);
         })
       }
+      // console.log(`result after manager id ${JSON.stringify(result)}`);
       if(job_role){
         result = staffData.filter((item)=>{
-          return item.job== job_role;
+          return item.job_name== job_role;
         })
       }
+      // console.log(`result after job role ${JSON.stringify(result)}`);
+      if(department_id){
+        result = staffData.filter((item)=>{
+          // console.log(`item.department_id: ${item.department_id}, department_id: ${department_id}`);
+          return item.department_id == Number(department_id);
+        })
+      }
+      // console.log(`result after department id ${JSON.stringify(result)}`);
+      if(naming_order == "asc" || !naming_order) {
+        result = result.sort((a, b) => {
+          const conditionNamingOrder =  (a.full_name[0].toLowerCase()) > (b.full_name[0].toLowerCase())
+          console.log(`conditionNamingAscOrder: ${conditionNamingOrder}`);
+          return conditionNamingOrder ? 1 : -1;
+        })
+      }else if(naming_order == 'desc'){
+        result = result.sort((a, b) => {
+          const conditionNamingOrder =  (a.full_name[0].toLowerCase()) <= (b.full_name[0].toLowerCase())
+          console.log(`conditionNamingDescOrder: ${conditionNamingOrder}`);
+          return conditionNamingOrder ? 1 : -1;
+        })
+      }
+  
+
+      // console.log(`result after naming order ${JSON.stringify(result)}`);
    res.status(200).json(result);
-  })
+})
   .post((req, res) => {
     //add new staff
   });
+ staffRouter.route("training_material").get((req, res)=>{
+  const {department_id, job_id} = req.query;
+  let result;
+  if(department_id && job_id){
+    result = trainingMaterialData.filter((item)=>{
+      return item.department_id == Number(department_id) && item.job_id == Number(job_id);
+    })
+  res.status(200).json(result?result:[]);
+  }else {
+    res.status(400).json({error: "department_id and job_id are required"});
+  }
+ }) 
   staffRouter
   .route("/job_change_history")
   .get((req, res) => {

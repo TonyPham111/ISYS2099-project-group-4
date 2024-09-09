@@ -10,11 +10,17 @@ import testTypeData from "./data/test_type_data.json" with {type: 'json'};
 import allergiesData from "./data/allergies_data.json" with {type: 'json'};
 import doctorAvailableData from "./data/doctor_availability_data.json" with {type: 'json'};
 import staffData from "./data/staff_data.json" with {type: 'json'};
-import cors from "cors";``
+import trainingMaterialData from "./data/training_material_data.json" with {type: 'json'};
+import cors from "cors";
+import path from "path";
+import { fileURLToPath } from 'url';
 const app = express();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 app.use(cors());
 app.use(express.json());
+app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use("/patients", patientRouter);
 app.use("/treatment-histories", patientTreatmentHistoryRouter);
 app.use("/staffs", staffRouter);
@@ -22,6 +28,18 @@ app.use("/appointments", appointmentRouter);
 app.get("/conditions", (req, res)=>{
   res.status(200).json(conditionData);
 })
+ app.get('/training_material',(req, res)=>{
+  const {department_id, job_id} = req.query;
+  let result;
+  if(department_id && job_id){
+    result = trainingMaterialData.filter((item)=>{
+      return item.department_id == Number(department_id) && item.job_id == Number(job_id);
+    })
+  res.status(200).json(result?result[0]:[]);
+  }else {
+    res.status(400).json({error: "department_id and job_id are required"});
+  }
+ }) 
 app.get("/available_doctors",(req, res) => {
  
     let result;

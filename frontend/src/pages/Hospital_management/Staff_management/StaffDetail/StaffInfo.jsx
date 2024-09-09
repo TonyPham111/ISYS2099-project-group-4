@@ -57,9 +57,24 @@ export default function StaffInfo() {
       setContactPhoneNumber(data.contact_phone_number);
       setBirthDate(dayjs(data.birth_date, "DD/MM/YYYY"));
       setHireDate(dayjs(data.hire_date, "DD/MM/YYYY"));
-      setJob({job_name:data.job_name});
+      setJob({ job_name: data.job_name });
       setWage(data.wage);
       setEmail(data.email);
+      setQualificationName(data.qualification_name);
+      setInstitutionName(data.institution_name);
+      setLevel(data.level);
+      setQualificationGrade(data.qualification_grade);
+      setQualificationDate(dayjs(data.qualification_date, "DD/MM/YYYY"));
+      setCertificateFile(data.certificate_file);
+
+      setJobTitle(data.job_title);
+      setHospitalName(data.hospital_name);
+      setJobDescription(data.job_description);
+      setStartDate(dayjs(data.start_date, "DD/MM/YYYY"));
+      setEndDate(dayjs(data.end_date, "DD/MM/YYYY"));
+
+      setLetterOfReferenceFile(data.letter_of_reference_file);
+      setLicenseFile(data.license_file);
     }
   }, [data]);
   function handleSaveInformation() {}
@@ -71,7 +86,7 @@ export default function StaffInfo() {
       setContactPhoneNumber(data.contact_phone_number);
       setBirthDate(dayjs(data.birth_date, "DD/MM/YYYY"));
       setHireDate(dayjs(data.hire_date, "DD/MM/YYYY"));
-      setJob({job_name:data.job_name});
+      setJob({ job_name: data.job_name });
       setWage(data.wage);
       setEmail(data.email);
     }
@@ -97,14 +112,15 @@ export default function StaffInfo() {
           <h2>Staff personal information</h2>
           {/*-----staff personal information ---------*/}
           <div className="w-full h-[90%] flex justify-center">
-            <div className="w-full flex flex-wrap justify-between">
+            <div className="w-full flex flex-wrap justify-start gap-[100px]">
               <div>
                 <h6>Full name</h6>
-                <input className="mt-[8px] border-[1px]" 
-                onChange={(e=>{
-                  setFullName(e.target.value)
-                })}
-                value={fullName}
+                <input
+                  className="mt-[8px] border-[1px]"
+                  onChange={(e) => {
+                    setFullName(e.target.value);
+                  }}
+                  value={fullName}
                 />
               </div>
               <div>
@@ -205,7 +221,7 @@ export default function StaffInfo() {
                       }
                     }}
                     getOptionLabel={(option) => {
-                      return option.job_name;
+                      return option?.job_name;
                     }}
                     label="choose job"
                     size="full"
@@ -214,190 +230,203 @@ export default function StaffInfo() {
               </div>
             </div>
           </div>
-         
-          {/*---- staff education ---*/}
-          <h2>Staff Education</h2>
-          <div className="w-full flex flex-col gap-[15px] ">
-            <div>
-              <h6>Institution Name</h6>
-              <input
-                className="mt-[8px] border-[1px]"
-                onChange={(event, value) => {
-                  setInstitutionName(value);
-                }}
-                value={institutionName}
-              />
-            </div>
-            <div>
-              <h6>Level</h6>
-              <div className="mt-[8px] w-[350px]">
-                <CustomAutoComplete
-                  options={[
-                    "HighSchool",
-                    "College",
-                    "Bachelor",
-                    "Master",
-                    "Doctorate",
-                  ]}
-                  onChange={(event, value) => {
-                    setLevel(value);
-                  }}
-                  getOptionLabel={(option) => {
-                    return option;
-                  }}
-                  label="choose level"
-                  size="full"
-                />
-              </div>
-            </div>
-            {/*----------- qualification ------------*/}
-            <div className="w-full flex justify-between">
-              <div>
-                <h6>Qualification name</h6>
-                <input
-                  onChange={(e) => {
-                    setQualificationName(e.target.value);
-                  }}
-                  value={qualificationName}
-                  className="mt-[8px] border-[1px]"
-                />
-              </div>
-              <div>
-                <h6>Qualification grade</h6>
-                <input
-                  className="mt-[8px] border-[1px]"
-                  onChange={(event, value) => {
-                    setQualificationGrade(value);
-                  }}
-                  value={qualificationGrade}
-                />
-              </div>
-              <div>
-                <h6>Qualification date</h6>
-                <CustomDatePicker setValue={setQualificationDate} size={"lg"} />
-              </div>
-            </div>{" "}
-            <div>
-              <h6>Certificate</h6>
-              {certificateFile && (
-                <div className="w-full  bg-neutral-200 p-5">
-                  <ReviewPDF
-                    fileData={certificateFile}
-                    data={certificateFile}
-                    setData={setCertificateFile}
-                    allowDelete={true}
-                    pageHeight={400}
+          {userData.job_role == "HR" && (
+            <>
+              {/*---- staff education ---*/}
+              <h2>Staff Education</h2>
+              <div className="w-full flex flex-col gap-[15px] ">
+                <div>
+                  <h6>Institution Name</h6>
+                  <input
+                    className="mt-[8px] border-[1px]"
+                    onChange={(event, value) => {
+                      setInstitutionName(value);
+                    }}
+                    value={institutionName}
                   />
                 </div>
+                <div>
+                  <h6>Level</h6>
+                  <div className="mt-[8px] w-[350px]">
+                    <CustomAutoComplete
+                      options={[
+                        "HighSchool",
+                        "College",
+                        "Bachelor",
+                        "Master",
+                        "Doctorate",
+                      ]}
+                      onChange={(event, value) => {
+                        setLevel(value);
+                      }}
+                      getOptionLabel={(option) => {
+                        return option;
+                      }}
+                      value={level}
+                      label="choose level"
+                      size="full"
+                    />
+                  </div>
+                </div>
+                {job?.job_name == "HR" && <></>}
+                {/*----------- qualification ------------*/}
+                <div className="w-full flex justify-start gap-[100px]">
+                  <div>
+                    <h6>Qualification name</h6>
+                    <input
+                      onChange={(e) => {
+                        setQualificationName(e.target.value);
+                      }}
+                      value={qualificationName}
+                      className="mt-[8px] border-[1px]"
+                    />
+                  </div>
+                  <div>
+                    <h6>Qualification grade</h6>
+                    <input
+                      className="mt-[8px] border-[1px]"
+                      onChange={(event, value) => {
+                        setQualificationGrade(value);
+                      }}
+                      value={qualificationGrade}
+                    />
+                  </div>
+                  <div>
+                    <h6>Qualification date</h6>
+                    <CustomDatePicker
+                      value={qualificationDate}
+                      setValue={setQualificationDate}
+                      size={"lg"}
+                    />
+                  </div>
+                </div>
+                <div>
+                  <h6>Certificate</h6>
+                  {certificateFile && (
+                    <div className="w-full  bg-neutral-200 p-5">
+                      <ReviewPDF
+                        fileData={certificateFile}
+                        data={certificateFile}
+                        setData={setCertificateFile}
+                        allowDelete={true}
+                        pageWidth={800}
+                      />
+                    </div>
+                  )}
+                  {!certificateFile && (
+                    <UploadFileButton
+                      handleOnChange={handleUploadCertificateFile}
+                      textContent="upload pdf"
+                      acceptTypes=".pdf"
+                    />
+                  )}
+                </div>
+              </div>
+              {/*------- staff experience -------*/}
+              <h2>Staff Experience</h2>
+              <div>
+                <h6>Hospital name</h6>
+                <input
+                  onChange={(e) => {
+                    setHospitalName(e.target.value);
+                  }}
+                  value={hospitalName}
+                  className="mt-[8px] border-[1px]"
+                />
+              </div>
+              {/*---- row for job title and job description -----*/}
+              <div className="w-full flex gap-[100px]">
+                <div>
+                  <h6>job title</h6>
+                  <input
+                    onChange={(e) => {
+                      setJobTitle(e.target.value);
+                    }}
+                    value={jobTitle}
+                    className="mt-[8px] border-[1px]"
+                  />
+                </div>
+                <div>
+                  <h6>job description</h6>
+                  <textarea
+                    className="w-[350px] h-[100px] border-[1px] border-custom-dark-200 rounded-md"
+                    onChange={(e) => {
+                      setJobDescription(e.target.value);
+                    }}
+                    value={jobDescription}
+                  />
+                </div>
+              </div>
+              {/*---- row for start time and end time -----*/}
+              <div className="w-full flex gap-[100px]">
+                <div>
+                  <h6>Start date</h6>
+                  <div className="mt-[8px] w-[350px]">
+                    <CustomDatePicker
+                      value={startDate}
+                      setValue={setStartDate}
+                      size={"full"}
+                      max={endDate}
+                    />
+                  </div>
+                </div>
+                <div>
+                  <h6>End date</h6>
+                  <div className="mt-[8px] w-[350px]">
+                    <CustomDatePicker
+                      value={endDate}
+                      setValue={setEndDate}
+                      size={"full"}
+                      min={startDate}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div>
+                <h6>Letter Of Reference</h6>
+                {letterOfReferenceFile && (
+                  <div className="w-full  bg-neutral-200 p-5">
+                    <ReviewPDF
+                      fileData={letterOfReferenceFile}
+                      data={letterOfReferenceFile}
+                      setData={setLetterOfReferenceFile}
+                      allowDelete={true}
+                      pageHeight={800}
+                    />
+                  </div>
+                )}
+                {!letterOfReferenceFile && (
+                  <UploadFileButton
+                    handleOnChange={handleUploadLetterOfReferenceFile}
+                    textContent="upload pdf"
+                    acceptTypes=".pdf"
+                  />
+                )}
+              </div>
+              {(job?.job_name == "Doctor" || job?.job_name == "Nurse") && (
+                <>
+                  <h2>Staff license</h2>
+                  {licenseFile && (
+                    <div className="w-full  bg-neutral-200 p-5">
+                      <ReviewPDF
+                        fileData={licenseFile}
+                        data={licenseFile}
+                        setData={setLicenseFile}
+                        allowDelete={true}
+                        pageHeight={800}
+                      />
+                    </div>
+                  )}
+                  {!licenseFile && (
+                    <UploadFileButton
+                      handleOnChange={handleUploadLicenseFile}
+                      textContent="upload pdf"
+                      acceptTypes=".pdf"
+                    />
+                  )}
+                </>
               )}
-              {!certificateFile && (
-                <UploadFileButton
-                  handleOnChange={handleUploadCertificateFile}
-                  textContent="upload pdf"
-                  acceptTypes=".pdf"
-                />
-              )}
-            </div>
-          </div>
-          {/*------- staff experience -------*/}
-          <h2>Staff Experience</h2>
-          <div>
-            <h6>Hospital name</h6>
-            <input
-              onChange={(e) => {
-                setHospitalName(e.target.value);
-              }}
-              value={hospitalName}
-              className="mt-[8px] border-[1px]"
-            />
-          </div>
-          {/*---- row for job title and job description -----*/}
-          <div className="w-full flex gap-[50px]">
-            <div>
-              <h6>job title</h6>
-              <input
-                onChange={(e) => {
-                  setJobTitle(e.target.value);
-                }}
-                value={jobTitle}
-                className="mt-[8px] border-[1px]"
-              />
-            </div>
-            <div>
-              <h6>job description</h6>
-              <textarea
-                className="w-[350px] h-[100px] border-[1px] border-custom-dark-200 rounded-md"
-                onChange={(e) => {
-                  setJobDescription(e.target.value);
-                }}
-                value={jobDescription}
-              />
-            </div>
-          </div>{" "}
-          {/*---- row for start time and end time -----*/}
-          <div className="w-full flex gap-[50px]">
-            <div>
-              <h6>Start date</h6>
-              <div className="mt-[8px] w-[350px]">
-                <CustomDatePicker
-                  value={startDate}
-                  setValue={setStartDate}
-                  size={"full"}
-                  max={endDate}
-                />
-              </div>
-            </div>
-            <div>
-              <h6>End date</h6>
-              <div className="mt-[8px] w-[350px]">
-                <CustomDatePicker
-                  value={endDate}
-                  setValue={setEndDate}
-                  size={"full"}
-                  min={startDate}
-                />
-              </div>
-            </div>
-          </div>
-          <div>
-            <h6>Letter Of Reference</h6>
-            {letterOfReferenceFile && (
-              <div className="w-full  bg-neutral-200 p-5">
-                <ReviewPDF
-                  fileData={letterOfReferenceFile}
-                  data={letterOfReferenceFile}
-                  setData={setLetterOfReferenceFile}
-                  allowDelete={true}
-                  pageHeight={400}
-                />
-              </div>
-            )}
-            {!letterOfReferenceFile && (
-              <UploadFileButton
-                handleOnChange={handleUploadLetterOfReferenceFile}
-                textContent="upload pdf"
-                acceptTypes=".pdf"
-              />
-            )}
-          </div>
-          <h2>Staff license</h2>
-          {licenseFile && (
-            <div className="w-full  bg-neutral-200 p-5">
-              <ReviewPDF
-                fileData={licenseFile}
-                data={licenseFile}
-                setData={setLicenseFile}
-                allowDelete={true}
-                pageHeight={400}
-              />
-            </div>
-          )}
-          {!licenseFile && (
-            <UploadFileButton
-              handleOnChange={handleUploadLicenseFile}
-              textContent="upload pdf"
-              acceptTypes=".pdf"
-            />
+            </>
           )}
         </div>
         {/*-------------------------------------- lower part --------------------------------*/}

@@ -22,7 +22,7 @@ const AddStaffForm = () => {
   const [hireDate, setHireDate] = useState(null);
   const [birthDate, setBirthDate] = useState(null);
   /*----- staff password --------*/
-  const [staffPassword, setStaffPassword] = useState(null);
+  const [staffPassword, setStaffPassword] = useState("");
   /*----- staff education ------*/
   const [qualificationName, setQualificationName] = useState(null);
   const [institutionName, setInstitutionName] = useState(null);
@@ -70,7 +70,7 @@ const AddStaffForm = () => {
       <h2>Staff personal information</h2>
       {/*-----staff personal information ---------*/}
       <div className="w-full h-[90%] flex justify-center">
-        <div className="w-full flex flex-wrap justify-between">
+        <div className="w-full flex flex-wrap justify-start gap-[100px]">
           <div>
             <h6>Full name</h6>
             <input className="mt-[8px] border-[1px]" ref={fullName} />
@@ -145,13 +145,13 @@ const AddStaffForm = () => {
             <h6>job position</h6>
             <div className="mt-[8px] w-[350px]">
               <CustomAutoComplete
-                value={gender}
+                value={job?.job_name}
                 options={jobData ? jobData : []}
                 onChange={(event, value) => {
                   if (value) {
-                    setJob(value.job_id);
+                    setJob(value);
                   } else {
-                    setGender(null);
+                    setJob(null);
                   }
                 }}
                 getOptionLabel={(option) => {
@@ -168,21 +168,26 @@ const AddStaffForm = () => {
       <h2>Staff Account Password</h2>
       <div className="flex items-center">
         <input
-        id="input-staff-password"
+          id="input-staff-password"
           type="password"
+          autoComplete="new-password"
           onChange={(e) => {
             setStaffPassword(e.target.value);
           }}
-          value={staffPassword}
         />
-        <IoEyeOff onClick={()=>{
-          let inputPasswordType = document.getElementById('input-staff-password').type;
-          if(inputPasswordType == 'password'){
-            document.getElementById('input-staff-password').type = 'text';
-          }else{
-            document.getElementById('input-staff-password').type = 'password'
-          }
-        }} className="text-custom-dark-200 w-[25px] h-[25px] relative right-[35px] cursor-pointer"/>
+        <IoEyeOff
+          onClick={() => {
+            let inputPasswordType = document.getElementById(
+              "input-staff-password"
+            ).type;
+            if (inputPasswordType == "password") {
+              document.getElementById("input-staff-password").type = "text";
+            } else {
+              document.getElementById("input-staff-password").type = "password";
+            }
+          }}
+          className="text-custom-dark-200 w-[25px] h-[25px] relative right-[35px] cursor-pointer"
+        />
       </div>
       {/*---- staff education ---*/}
       <h2>Staff Education</h2>
@@ -220,7 +225,7 @@ const AddStaffForm = () => {
           </div>
         </div>
         {/*----------- qualification ------------*/}
-        <div className="w-full flex justify-between">
+        <div className="w-full flex justify-start gap-[100px]">
           <div>
             <h6>Qualification name</h6>
             <input
@@ -349,24 +354,28 @@ const AddStaffForm = () => {
           />
         )}
       </div>
-      <h2>Staff license</h2>
-      {licenseFile && (
-        <div className="w-full  bg-neutral-200 p-5">
-          <ReviewPDF
-            fileData={licenseFile}
-            data={licenseFile}
-            setData={setLicenseFile}
-            allowDelete={true}
-            pageHeight={400}
-          />
+      {job && (job.job_name == "Doctor" || job.job_name == "Nurse") && (
+        <div>
+          <h2>Staff license</h2>
+          {licenseFile && (
+            <div className="w-full  bg-neutral-200 p-5">
+              <ReviewPDF
+                fileData={licenseFile}
+                data={licenseFile}
+                setData={setLicenseFile}
+                allowDelete={true}
+                pageHeight={400}
+              />
+            </div>
+          )}
+          {!licenseFile && (
+            <UploadFileButton
+              handleOnChange={handleUploadLicenseFile}
+              textContent="upload pdf"
+              acceptTypes=".pdf"
+            />
+          )}
         </div>
-      )}
-      {!licenseFile && (
-        <UploadFileButton
-          handleOnChange={handleUploadLicenseFile}
-          textContent="upload pdf"
-          acceptTypes=".pdf"
-        />
       )}
       <div className="w-full mx-auto pt-5 border-t-2 border-custom-gray-200 flex justify-center">
         <button

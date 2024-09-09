@@ -26,7 +26,7 @@ const Sidebar = ({}) => {
   return (
     <section className="min-w-[70px] h-full bg-white ">
       <section className="w-full mt-[80px] flex items-center flex-col gap-[50px]">
-        <button
+        {/* <button
           onClick={() => {
             handleOnClick("dashboard");
           }}
@@ -41,7 +41,7 @@ const Sidebar = ({}) => {
               activeItem == "dashboard" ? "text-white" : "text-custom-blue"
             }`}
           />
-        </button>
+        </button> */}
         <button
           onClick={() => {
             handleOnClick("patient");

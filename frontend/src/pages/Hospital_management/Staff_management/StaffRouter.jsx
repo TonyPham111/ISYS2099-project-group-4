@@ -9,7 +9,7 @@ const StaffRouter = () => {
   const id = location.pathname.split("/")[2];
   console.log(`check id: ${id}`);
   return (
-    <section className="w-11/12 h-5/6 bg-white rounded-2xl p-5 flex flex-col gap-4">
+    <section className="w-11/12 h-[95%] bg-white rounded-2xl p-5 flex flex-col gap-4">
       {!Number(id) && (
         <div className="h-[70px] flex justify-between items-center border-b-2 border-solid border-custom-dark-100">
           <StaffNavbar />

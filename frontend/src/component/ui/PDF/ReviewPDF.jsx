@@ -3,6 +3,9 @@ import { Document, Page } from "react-pdf";
 import { useState, useEffect } from "react";
 import "react-pdf/dist/Page/TextLayer.css";
 import "react-pdf/dist/Page/AnnotationLayer.css";
+import useSWR from "swr";
+import fetcher from "@/utils/fetcher";
+import { type } from "@testing-library/user-event/dist/type";
 
 export default function ReviewPDF({
   fileData,
@@ -16,7 +19,6 @@ export default function ReviewPDF({
     "pdfjs-dist/build/pdf.worker.min.mjs",
     import.meta.url
   ).toString();
-  const [fileUrl, setFileUrl] = useState("");
   const [numPages, setNumPages] = useState();
   const [pageNumber, setPageNumber] = useState(1);
   function handleDelete() {
@@ -43,7 +45,6 @@ export default function ReviewPDF({
   function nextPage() {
     changePage(1);
   }
- 
   return (
     <div>
       <Document

@@ -10,8 +10,8 @@ import { UserContext } from "@/contexts/userContext";
 import CustomAutoComplete from "@/component/ui/DateTime/CustomAutoComplete";
 
 export default function Staff() {
-  const departmentRef = useRef(null);
-  const namingOrderRef = useRef(null);
+  const [departmentId, setDepartmentId] = useState(null);
+  const [namingOrder, setNamingOrder] = useState(null);
   const { userData } = useContext(UserContext);
   const [url, setUrl] = useState(`http://localhost:8000/staffs`);
   const { error, isLoading, data: staffData } = useSWR(url, fetcher);
@@ -51,14 +51,48 @@ export default function Staff() {
   useEffect(() => {
     console.log(`check department data: ${departmentData}`);
   }, [departmentData]);
-  useEffect(()=>{
+  useEffect(() => {
     console.log(`check staff data: ${staffData}`);
-  },[staffData])
+  }, [staffData]);
   function handleNavigateOnDataRow(item, rowIndex) {
     navigate(`../${item.id}/personal-information`);
   }
-  function handleOnSearch(){
-
+  function handleOnSearch() {
+    if (departmentId>=0 && namingOrder) {
+      if (departmentId == 0) {
+        const newUrl = `http://localhost:8000/staffs?naming_order=${namingOrder}`;
+        setUrl(newUrl);
+        setDepartmentId(departmentId);
+        setNamingOrder(namingOrder);
+        console.log('trigger 1');
+      } else {
+        const newUrl = `http://localhost:8000/staffs?department_id=${departmentId}&naming_order=${namingOrder}`;
+        setUrl(newUrl);
+        setDepartmentId(departmentId);
+        setNamingOrder(namingOrder);
+        console.log('trigger 2');
+      }
+    } else if (departmentId >= 0) {
+      if (departmentId == 0) {
+        const newUrl = `http://localhost:8000/staffs`;
+        setUrl(newUrl);
+        setDepartmentId(departmentId);
+        setNamingOrder(namingOrder);
+        console.log('trigger 3');
+      } else {
+        const newUrl = `http://localhost:8000/staffs?department_id=${departmentId}`;
+        setUrl(newUrl);
+        setDepartmentId(departmentId);
+        setNamingOrder(namingOrder);
+        console.log('trigger 4');
+      }
+    } else if (namingOrder) {
+      const newUrl = `http://localhost:8000/staffs?naming_order=${namingOrder}`;
+      setUrl(newUrl);
+      setDepartmentId(departmentId);
+      setNamingOrder(namingOrder);
+      console.log('trigger 5');
+    }
   }
   if (error) {
     return <div>error when loading data</div>;
@@ -83,10 +117,12 @@ export default function Staff() {
         <div className="flex gap-[30px]">
           {/*choose department*/}
           <CustomAutoComplete
-            options={departmentData ? departmentData : []}
-            // onChange={(event, value) => {
-            //   ()=>{}
-            // }}
+            options={
+              departmentData ? [{ id: 0, name: "All" }, ...departmentData] : []
+            }
+            onChange={(event, value) => {
+              setDepartmentId(value?.id);
+            }}
             getOptionLabel={(option) => {
               return `${option.name}`;
             }}
@@ -100,9 +136,9 @@ export default function Staff() {
                 { value: "asc", name: "ascending order" },
                 { value: "desc", name: "descending order" },
               ]}
-              // onChange={(event, value) => {
-              //   ()=>{}
-              // }}
+              onChange={(event, value) => {
+                setNamingOrder(value?.value);
+              }}
               getOptionLabel={(option) => {
                 return `${option.name}`;
               }}
@@ -110,12 +146,17 @@ export default function Staff() {
               size={"full"}
             />
           </div>
-          <button onClick={(handleOnSearch)} className="bg-custom-blue text-white">search</button>
+          <button
+            onClick={handleOnSearch}
+            className="bg-custom-blue text-white"
+          >
+            search
+          </button>
         </div>
         {/*-------- show data table -------------*/}
         <DataTable
           headerData={headerData}
-          data={staffData?staffData:[]}
+          data={staffData ? staffData : []}
           hoverOnRow={true}
           handleOnClick={handleNavigateOnDataRow}
         />

@@ -11,7 +11,6 @@ function UserContextProvider({ children }) {
   const [fetchedData, setFetchedData] = useState(null);
   const isFetched = useRef(false);
   const storedUserData = localStorage.getItem("userData");
-  console.log(`check storedUserData: ${storedUserData}`);
   useEffect(() => {
     if (localStorage.getItem("userData")) {
       if (storedUserData && !userData) {

@@ -10,7 +10,7 @@ const Navbar = () => {
           navigate("/login");
         }}
       >
-        <FiLogOut className="text-white w-[25px] h-[25px]" />
+        <FiLogOut  className="text-white w-[25px] h-[25px] cursor-pointer" />
       </div>
     </section>
   );

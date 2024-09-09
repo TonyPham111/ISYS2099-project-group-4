@@ -1,0 +1,588 @@
+[
+  {
+    "job_id": 1,
+    "department_id": 1,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialNurse.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 1,
+    "department_id": 2,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialNurse.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 1,
+    "department_id": 3,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialNurse.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 1,
+    "department_id": 4,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialNurse.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 1,
+    "department_id": 5,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialNurse.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 1,
+    "department_id": 6,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialNurse.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 1,
+    "department_id": 7,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialNurse.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 1,
+    "department_id": 8,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialNurse.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 1,
+    "department_id": 9,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialNurse.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 1,
+    "department_id": 10,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialNurse.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 1,
+    "department_id": 11,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialNurse.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 1,
+    "department_id": 12,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialNurse.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 1,
+    "department_id": 13,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialNurse.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 2,
+    "department_id": 1,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialDoctor.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 2,
+    "department_id": 2,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialDoctor.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 2,
+    "department_id": 3,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialDoctor.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 2,
+    "department_id": 4,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialDoctor.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 2,
+    "department_id": 5,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialDoctor.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 2,
+    "department_id": 6,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialDoctor.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 2,
+    "department_id": 7,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialDoctor.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 2,
+    "department_id": 8,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialDoctor.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 2,
+    "department_id": 9,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialDoctor.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 2,
+    "department_id": 10,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialDoctor.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 2,
+    "department_id": 11,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialDoctor.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 2,
+    "department_id": 12,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialDoctor.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 2,
+    "department_id": 13,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialDoctor.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 3,
+    "department_id": 1,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialHR.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 3,
+    "department_id": 2,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialHR.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 3,
+    "department_id": 3,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialHR.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 3,
+    "department_id": 4,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialHR.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 3,
+    "department_id": 5,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialHR.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 3,
+    "department_id": 6,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialHR.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 3,
+    "department_id": 7,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialHR.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 3,
+    "department_id": 8,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialHR.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 3,
+    "department_id": 9,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialHR.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 3,
+    "department_id": 10,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialHR.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 3,
+    "department_id": 11,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialHR.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 3,
+    "department_id": 12,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialHR.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 3,
+    "department_id": 13,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialHR.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 4,
+    "department_id": 1,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialFrontDesk.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 4,
+    "department_id": 2,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialFrontDesk.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 4,
+    "department_id": 3,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialFrontDesk.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 4,
+    "department_id": 4,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialFrontDesk.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 4,
+    "department_id": 5,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialFrontDesk.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 4,
+    "department_id": 6,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialFrontDesk.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 4,
+    "department_id": 7,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialFrontDesk.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 4,
+    "department_id": 8,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialFrontDesk.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 4,
+    "department_id": 9,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialFrontDesk.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 4,
+    "department_id": 10,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialFrontDesk.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 4,
+    "department_id": 11,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialFrontDesk.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 4,
+    "department_id": 12,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialFrontDesk.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 4,
+    "department_id": 13,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialFrontDesk.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+
+  {
+    "job_id": 5,
+    "department_id": 1,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialBusiness.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 5,
+    "department_id": 2,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialBusiness.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 5,
+    "department_id": 3,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialBusiness.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 5,
+    "department_id": 4,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialBusiness.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 5,
+    "department_id": 5,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialBusiness.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 5,
+    "department_id": 6,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialBusiness.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 5,
+    "department_id": 7,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialBusiness.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 5,
+    "department_id": 8,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialBusiness.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 5,
+    "department_id": 9,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialBusiness.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 5,
+    "department_id": 10,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialBusiness.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 5,
+    "department_id": 11,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialBusiness.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 5,
+    "department_id": 12,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialBusiness.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  },
+  {
+    "job_id": 5,
+    "department_id": 13,
+    "training_materials": [
+      "http://localhost:8000/public/TrainingMaterialBusiness.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment1.pdf",
+      "http://localhost:8000/public/TrainingMaterialDepartment2.pdf"
+    ]
+  }
+]
