@@ -101,27 +101,6 @@ const frontDeskRepo = {
     }
   },
 
-  /*
-  CreateNewEvaluation: async (manager_id, staff_id, evaluation_string) => {
-    try {
-      const sql = `CALL CreateNewEvaluation(?, ?, ?)`;
-      const [results] = await poolFrontDesk.query(sql, [manager_id, staff_id, evaluation_string]);
-      return JSON.stringify(results, null, 2);
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  },
-
-  GetSubordinatesSchedule: async (manager_id, staff_id) => {
-    try {
-      const sql = `CALL GetAppointmentsAndSchedulesByStaff(?, ?)`;
-      const [results] = await poolFrontDesk.query(sql, [staff_id, manager_id]);
-      return results[0];
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  },
-  */
 
   GetAllAppointments: async (patient_name, doctor_id, from_date, to_date, appointment_status) => {
     try {
