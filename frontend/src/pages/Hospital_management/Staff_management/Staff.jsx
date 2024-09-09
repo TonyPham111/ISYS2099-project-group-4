@@ -21,17 +21,18 @@ export default function Staff() {
   );
   const headerData = [
     "id",
-    "first_name",
-    "last_name",
-    "job",
+    "employment_status",
+    "full_name",
     "gender",
     "birth_date",
     "home_address",
-    "contact_phone_number",
+    "phone_number",
     "email",
-    "wage",
+    "manager_name",
+    "job_name",
+    "department_name",
     "hire_date",
-    "employment_type",
+    "wage",
   ];
   const navigate = useNavigate();
   // useEffect(() => {
@@ -50,13 +51,13 @@ export default function Staff() {
   //   }
   // }, [userData]);
   useEffect(() => {
-    console.log(`check department data: ${departmentData}`);
+    console.log(`check data: ${departmentData}`);
   }, [departmentData]);
   function handleNavigateOnDataRow(item, rowIndex) {
     navigate(`${item.id}/personal-information`);
   }
   useEffect(()=>{
-    console.log(staffData);
+    // console.log(staffData);
   },[staffData])
   function handleOnSearch(){
 
@@ -116,7 +117,7 @@ export default function Staff() {
         {/*-------- show data table -------------*/}
         <DataTable
           headerData={headerData}
-          data={Array.isArray(staffData) ? staffData : [staffData]}
+          data={Array.isArray(staffData[0]) ? staffData[0] : [staffData[0]]}
           hoverOnRow={true}
           handleOnClick={handleNavigateOnDataRow}
         />
