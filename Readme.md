@@ -86,6 +86,8 @@ cd backend
 npm i
 node index.js
 
+Due to the fact that the front end is incomplete, please test the API on Postman. We have already sent you an invitation to the Postman collection, which is Testing_API_Hospital_Management. Please email s3679813@student.rmit.edu.au if you have not received your invitation
+
 ## Guide to test the APIS in Postman:
 
 The list of accounts has been provided in the Login Folder
