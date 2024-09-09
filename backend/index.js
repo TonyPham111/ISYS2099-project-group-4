@@ -26,7 +26,7 @@ app.use(cors({
   credentials: true }));
 
 app.use("/patients", patientRouter);
-app.use("/staff", staffRouter);
+app.use("/staffs", staffRouter);
 app.use("/appointments", appointmentRouter);
 app.use("/tests", testRouter); 
 app.use("/conditions", conditionRouter);
@@ -34,8 +34,8 @@ app.use("/departments", departmentRouter);
 app.use("/drugs", drugRouter);
 app.use("/allergies", allergyRouter);
 app.use("/user", userRouter);
-app.use("/prescription", treatmentHistoryRouter);
-app.use("/billing", billingRouter);
+app.use("/prescriptions", treatmentHistoryRouter);
+app.use("/billings", billingRouter);
 
 const connectionUri = process.env.MONGO_URI;
 import {createAppointmentNoteFromPreNote} from "./MongodbRepo/Methods.js"

@@ -34,27 +34,30 @@ export default function Staff() {
     "employment_type",
   ];
   const navigate = useNavigate();
-  useEffect(() => {
-    if (userData) {
-      if (userData.job_role == "HR") {
-        const newUrl = `http://localhost:8000/staffs`;
-        if (newUrl !== url) {
-          setUrl(newUrl);
-        }
-      } else {
-        const newUrl = `http://localhost:8000/staffs?manager_id=${userData.id}`;
-        if (newUrl !== url) {
-          setUrl(newUrl);
-        }
-      }
-    }
-  }, [userData]);
+  // useEffect(() => {
+  //   if (userData) {
+  //     if (userData.job_role == "HR") {
+  //       const newUrl = `http://localhost:8000/staffs`;
+  //       if (newUrl !== url) {
+  //         setUrl(newUrl);
+  //       }
+  //     } else {
+  //       const newUrl = `http://localhost:8000/staffs?manager_id=${userData.id}`;
+  //       if (newUrl !== url) {
+  //         setUrl(newUrl);
+  //       }
+  //     }
+  //   }
+  // }, [userData]);
   useEffect(() => {
     console.log(`check department data: ${departmentData}`);
   }, [departmentData]);
   function handleNavigateOnDataRow(item, rowIndex) {
     navigate(`${item.id}/personal-information`);
   }
+  useEffect(()=>{
+    console.log(staffData);
+  },[staffData])
   function handleOnSearch(){
 
   }
@@ -68,7 +71,7 @@ export default function Staff() {
         {/*-------- headline and add staff button --------*/}
         <div className="w-full flex justify-between items-center">
           <h1>List of staff</h1>
-          {userData.job_role == "HR" && (
+          {userData?.job_role == "HR" && (
             <PopupContextProvider>
               <PopupButton
                 PopupComponent={<AddStaffForm />}
@@ -113,7 +116,7 @@ export default function Staff() {
         {/*-------- show data table -------------*/}
         <DataTable
           headerData={headerData}
-          data={staffData}
+          data={Array.isArray(staffData) ? staffData : [staffData]}
           hoverOnRow={true}
           handleOnClick={handleNavigateOnDataRow}
         />

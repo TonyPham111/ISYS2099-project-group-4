@@ -16,7 +16,7 @@ export default function TreatmentHistoryForm({ treatmentData }) {
     <div className="w-full h-full p-5 flex flex-col gap-[30px] relative">
       <h3>Prescription</h3>
       <div className="w-full  overflow-scroll rounded-xl">
-       <DataTable headerData={headerData} data={treatmentData.prescription} handleOnClick={handleOnClick} hoverOnRow={false}/> 
+       <DataTable headerData={headerData} data={treatmentData.drugs} handleOnClick={handleOnClick} hoverOnRow={false}/> 
       </div>
       <div>
         <h3>Doctor Note</h3>

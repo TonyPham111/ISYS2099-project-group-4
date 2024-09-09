@@ -16,34 +16,21 @@ export default function PatientInfo() {
     `http://localhost:8000/patients/${id}`,
     fetcher
   );
-  const [firstName, setFirstName] = useState(null);
-  const [lastName, setLastName] = useState(null);
+  const [fullName, setFullName] = useState(null);
   const [gender, setGender] = useState(null);
   const [homeAddress, setHomeAddress] = useState(null);
   const [contactPhoneNumber, setContactPhoneNumber] = useState(null);
   const [birthDate, setBirthDate] = useState(null);
 
   useEffect(() => {
-    if (data) {
-      setFirstName(data.first_name);
-      setLastName(data.last_name);
-      if (data.gender == "Male") {
-        setGender({
-          key: "M",
-          value: "Male",
-        });
-      }
-      if (data.gender == "Female") {
-        setGender({
-          key: "F",
-          value: "Female",
-        });
-      }
-      setHomeAddress(data.home_address);
-      setContactPhoneNumber(data.contact_phone_number);
-      setBirthDate(dayjs(data.birth_date, "DD-MM-YYYY"));
+    if (data[0]) {
+      setFullName(data[0].full_name);
+      setGender(data[0].gender);
+      setHomeAddress(data[0].home_address);
+      setContactPhoneNumber(data[0].contact_phone_number);
+      setBirthDate(dayjs(data[0].birth_date, "DD-MM-YYYY"));
     }
-  }, [data]);
+  }, [data[0]]);
   function handleSaveInformation() {
     if (!gender) {
       toast.error("cannot leave gender input blank!");
@@ -59,39 +46,27 @@ export default function PatientInfo() {
     }
     //still not consider gender and full name
     if (
-      homeAddress == data.home_address &&
+      homeAddress == data[0].home_address &&
       new Date(birthDate).toDateString() ==
-        new Date(dayjs(data.birth_date, "DD-MM-YYYY")).toDateString() &&
-      contactPhoneNumber == data.contact_phone_number
+        new Date(dayjs(data[0].birth_date, "DD-MM-YYYY")).toDateString() &&
+      contactPhoneNumber == data[0].contact_phone_number
     ) {
-      toast.error("cannot save new data without changing it!");
+      toast.error("cannot save new data[0] without changing it!");
     } else {
       toast.success("save patient information success!");
     }
   }
   function handleDiscardChange() {
-    if (data) {
-      setFirstName(data.first_name);
-      setLastName(data.last_name);
-      if (data.gender == "Male") {
-        setGender({
-          key: "M",
-          value: "Male",
-        });
-      }
-      if (data.gender == "Female") {
-        setGender({
-          key: "F",
-          value: "Female",
-        });
-      }
-      setHomeAddress(data.home_address);
-      setContactPhoneNumber(data.contact_phone_number);
-      setBirthDate(dayjs(data.birth_date, "DD-MM-YYYY"));
+    if (data[0]) {
+      setFullName(data[0].full_name);
+      setGender(data[0].gender);
+      setHomeAddress(data[0].home_address);
+      setContactPhoneNumber(data[0].contact_phone_number);
+      setBirthDate(dayjs(data[0].birth_date, "DD-MM-YYYY"));
     }
   }
   if (error) {
-    return <div>error when loading data</div>;
+    return <div>error when loading data[0]</div>;
   } else if (isLoading) {
     return <div>isLoading</div>;
   }
@@ -101,23 +76,12 @@ export default function PatientInfo() {
         {/*-------------------------------------- upper part --------------------------------*/}
         <div className="h-5/6 w-full flex flex-wrap justify-between">
           <div>
-            <h4>First name</h4>
+            <h4>Full name</h4>
             <input
               onChange={(e) => {
-                setFirstName(e.target.value);
+                setFullName(e.target.value);
               }}
-              value={firstName}
-              className="mt-[8px] border-[1px]"
-              readOnly={userData.job_role !== "FrontDesk"}
-            />
-          </div>
-          <div>
-            <h4>Last name</h4>
-            <input
-              onChange={(e) => {
-                setLastName(e.target.value);
-              }}
-              value={lastName}
+              value={fullName}
               className="mt-[8px] border-[1px]"
               readOnly={userData.job_role !== "FrontDesk"}
             />

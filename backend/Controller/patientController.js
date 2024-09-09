@@ -102,8 +102,14 @@ export async function getSpecificPatientAllDiagnosis(req, res) {
   try {
     const patient_id = req.params.patientId;
     const user_info = req.user;
-    const from_date = req.query.from;
-    const to_date = req.query.to;
+    let from_date = req.query.from;
+    let to_date = req.query.to;
+    if(!from_date){
+      from_date = null;
+    }
+    if(!to_date){
+      to_date = null;
+    }
 
     let result;
     if (user_info.role === 'Doctor') {

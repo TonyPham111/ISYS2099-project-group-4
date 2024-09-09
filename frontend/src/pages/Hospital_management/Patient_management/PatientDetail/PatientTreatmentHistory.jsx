@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import CustomDatePicker from "@/component/ui/DateTime/CustomDatePicker";
 import { PopupContext, PopupContextProvider } from "@/contexts/popupContext";
 import DataTable from "@/component/ui/Table/DataTable";
@@ -18,16 +18,19 @@ export default function PatientTreatmentHistory() {
   const [specificTreatmentData, setSpecificTreatmentData] = useState(null);
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
-  const headerData = ["treatment_id", "date", "doctor_id"];
+  const headerData = ["id", "start_date", "doctor_name"];
   const { id } = useParams();
   const { data, isLoading, error } = useSWR(
-    `http://localhost:8000/treatment-histories?patientId=${id}`,
+    `http://localhost:8000/prescriptions/${id}`,
     fetcher
   );
   function handleOnClickRowData(item, rowIndex) {
     setIsPopup(true);
     setSpecificTreatmentData(item);
   }
+  useEffect(() => {
+    console.log(`check data: ${JSON.stringify(data)}`);
+  }, [data]);
   function handleOnSearch() {
     if (startTime && endTime && startTime <= endTime) {
       let start = dayjs(startTime).format("YYYY-MM-DD");
@@ -39,7 +42,6 @@ export default function PatientTreatmentHistory() {
   } else if (isLoading) {
     return <div>is loading data</div>;
   }
-  if (data) {
     return (
       <section className="w-full h-full flex flex-col gap-[15px]">
         {/*searching treatmentHistory and trigger new treatment*/}
@@ -74,7 +76,7 @@ export default function PatientTreatmentHistory() {
         <PopupContext.Provider value={{ isPopup, setIsPopup }}>
           <DataTable
             headerData={headerData}
-            data={data}
+            data={Array.isArray(data) ? data : [data]}
             hoverOnRow={true}
             handleOnClick={handleOnClickRowData}
           />
@@ -84,5 +86,4 @@ export default function PatientTreatmentHistory() {
         </PopupContext.Provider>
       </section>
     );
-  }
 }

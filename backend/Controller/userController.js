@@ -100,7 +100,8 @@ export const login = async (req, res) => {
     if (!isMatch) {
       return res.status(401).json({ error: "Invalid credentials." });
     }
-
+     user.job_name = user.job_name.replaceAll(/\s/g,'');
+     console.log(user.job_name);
     const tokens = generateTokens(user.id, user.email, user.job_name, user.job_id, user.department_id);
     setTokenCookie(res, tokens);
     

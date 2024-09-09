@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function LoginPage() {
-    const { setUserData } = useContext(UserContext);
+    const {userData, setUserData} = useContext(UserContext);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
@@ -18,18 +18,16 @@ export default function LoginPage() {
             const response = await axios.post("http://localhost:8000/user/login", {
                 email,
                 password
-            }, { withCredentials: true });
-
-            const { tokens } = response.data;
-            
-            // Update user data in context
+            }, { withCredentials: true }).then(response=>response.data);
+            console.log( `check response data:${JSON.stringify(response)}`);
+            //set local storage for persist data
+            localStorage.setItem("userData", JSON.stringify(response.credentials));
             setUserData({
-                id: tokens.id,
-                email: tokens.email,
-            
-                job_role: tokens.role,
+                id: response.credentials.id,
+                job_role: response.credentials.job_name,
+                department_id: response.credentials.department_id,
+                job_id: response.credentials.job_id,
             });
-
             // Redirect to dashboard
             navigate("/dashboard");
             

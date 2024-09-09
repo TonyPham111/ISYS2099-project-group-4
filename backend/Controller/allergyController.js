@@ -5,8 +5,8 @@ export async function getAllAllergies(req, res){
     const user_info = req.user
 
     if (user_info.role === 'Doctor'){
-      const result = await doctorRepo.GetAllAllergies()
-      res.status(200).json(result)
+      const result = await doctorRepo.GetAllAllergies();
+      res.status(200).json(result);
     }
     else {
       res.status(403).json({ message: "Incorrect role." })

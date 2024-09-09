@@ -4,7 +4,8 @@ import { Navigate, Outlet } from "react-router-dom";
 
 export default function AuthComponent({ children }) {
   const { userData } = useContext(UserContext);
-  if (!userData) {
+  const condition = localStorage.getItem("userData");
+  if (!condition) {
     return <Navigate to={"/login"} replace={true} />;
   }
   return (

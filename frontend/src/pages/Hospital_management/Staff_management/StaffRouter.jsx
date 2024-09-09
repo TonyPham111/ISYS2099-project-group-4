@@ -14,14 +14,14 @@ const StaffRouter = () => {
       </div>
       <Routes>
         <Route path="/">
-          <Route index element={<Staff />} />
-          {/* <Route
+          <Route path="staff-list" element={<Staff />} />
+          <Route
             element={
               <ProtectedRoute condition={Number(id)} redirectTo={"/staff"} />
             }
-          > */}
+          >
             <Route path=":id/*" element={<StaffDetailRouter />} />
-          {/* </Route> */}
+          </Route>
           <Route path="/staff-training-material" element={<StaffTrainingMaterial/>} />
         </Route>
       </Routes>
@@ -44,11 +44,11 @@ function StaffNavbar() {
     <nav className="flex gap-[30px]">
       <Link
         className={`${
-          activeItem == "staff"
+          activeItem == "staff-list"
             ? "text-custom-blue border-b-2 border-solid border-custom-blue"
             : "text-custom-dark-300"
         }`}
-        to={"./personal-information"}
+        to={"staff-list"}
       >
         <h4>Staff List</h4>
       </Link>

@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { PopupContext, PopupContextProvider } from "@/contexts/popupContext";
 import DataTable from "@/component/ui/Table/DataTable";
 import Popup from "@/component/ui/Popup/Popup";
@@ -23,6 +23,9 @@ export default function PatientDiagnosis() {
     setIsPopup(true);
     setSpecificDiagnosisData(item);
   }
+  useEffect(()=>{
+    console.log(data);
+  },[data])
   if (error) {
     return <div>error when loading data</div>;
   } else if (isLoading) {
@@ -32,7 +35,7 @@ export default function PatientDiagnosis() {
     return (
       <section className="w-full h-full flex flex-col gap-[15px]">
         <div className="w-full flex justify-end">
-          {userData.job_role == "Doctor" && (
+          {userData?.job_role == "Doctor" && (
             <PopupContextProvider>
               <PopupButton
                 PopupComponent={<CreateDiagnosisForm />}
@@ -44,7 +47,7 @@ export default function PatientDiagnosis() {
         <PopupContext.Provider value={{ isPopup, setIsPopup }}>
           <DataTable
             headerData={headerData}
-            data={data}
+            data={Array.isArray(data) ? data : [data]}
             hoverOnRow={true}
             handleOnClick={handleOnClickRowData}
           />

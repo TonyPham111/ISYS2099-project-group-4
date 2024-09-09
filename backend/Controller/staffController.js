@@ -39,6 +39,7 @@ export async function getAllStaffInfo(req, res) {
       res.status(403).json({ message: "Incorrect role." })
     }
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: error.message });
   }
 }

@@ -18,16 +18,27 @@ export default function Patient() {
     fetcher
   );
   const navigate = useNavigate();
-  const headerData = [
-    "id",
-    "first_name",
-    "last_name",
-    "gender",
-    "birth_date",
-    "contact_phone_number",
-    "home_address",
-  ];
-
+  const [headerData, setHeaderData] = useState();
+  useEffect(()=>{
+    // console.log(`check patient data: ${JSON.stringify(data)}`);
+    if(userData.job_role == "FrontDesk"){
+      setHeaderData([
+        "id",
+        "full_name",
+        "gender",
+        "birth_date",
+        "contact_phone_number",
+        "home_address",
+      ]);
+    }else{
+      setHeaderData([
+        "id",
+        "full_name",
+        "gender",
+        "birth_date",
+      ]);
+    }
+  },[userData]);
   function handleNavigateOnDataRow(item, rowIndex) {
     navigate(`${item.id}/personal-information`);
   }
@@ -42,13 +53,13 @@ export default function Patient() {
   }
 
   if (error) {
-    console.error(`error: ${error}`);
+    // console.error(`error: ${error}`);
     return <div>error fetching data</div>;
   }
   if (isLoading) {
   }
 
-  if (data) {
+  if (data && headerData) {
     return (
       <>
         {/*-------- headline and register patient button --------*/}
@@ -74,7 +85,7 @@ export default function Patient() {
               if (option.id == 0) {
                 return option.name;
               } else {
-                return `#${option.id}: ${option.last_name} ${option.first_name}`;
+                return `#${option.id}: ${option.full_name} `;
               }
             }}
             label={"search by id or name..."}
@@ -83,6 +94,7 @@ export default function Patient() {
         </div>
         {/*-------- show data table -------------*/}
         {/*data that render can be array or just an object so need to double check*/}
+        
         <DataTable
           headerData={headerData}
           data={

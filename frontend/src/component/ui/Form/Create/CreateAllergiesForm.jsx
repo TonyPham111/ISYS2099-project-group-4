@@ -11,7 +11,7 @@ import dayjs from "dayjs";
 export default function CreateAllergiesForm({ createdAllergiesData }) {
   const [createdData, setCreatedData] = useState([]);
   const { setIsPopup } = useContext(PopupContext);
-  const headerData = ["name", "group", "allergen", "type", ""];
+  const headerData = ["name",""];
   const { id } = useParams();
   function handleCreateAllergies() {
     let readyToCreate = true;
@@ -78,10 +78,8 @@ function CreateDiagnosisTable({ headerData, data, setData }) {
   );
   /*-------------------------main function---------------------------*/
   function handleAutoCompleteOnChange(event, value, rowIndex) {
-    data[rowIndex].name = value.name;
-    data[rowIndex].group = value.group;
-    data[rowIndex].allergen = value.allergen;
-    data[rowIndex].type = value.type;
+    data[rowIndex].allergy_name = value?.allergy_name;
+    console.log(`check value: ${JSON.stringify(value)}`);
     setData([...data]);
   }
   function handleAddRowData() {
@@ -125,7 +123,7 @@ function CreateDiagnosisTable({ headerData, data, setData }) {
                           handleAutoCompleteOnChange(event, value, rowIndex);
                         }}
                         getOptionLabel={(option) => {
-                          return `${option.name}`;
+                          return `${option?.allergy_name}`;
                         }}
                         label={"search by allergies name ..."}
                         size={"full"}

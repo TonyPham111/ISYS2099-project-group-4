@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams} from "react-router-dom";
 import PatientInfo from "./PatientInfo";
 import { Routes, Route } from "react-router-dom";
 import PatientTreatmentHistory from "./PatientTreatmentHistory";
@@ -7,11 +7,12 @@ import PatientDiagnosis from "./PatientDiagnosis";
 import useSWR from "swr";
 import fetcher from "@/utils/fetcher";
 import ProtectedRoute from "@/component/auth/ProtectedRoute";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { UserContext } from "@/contexts/userContext";
 import BackButton from "@/component/ui/Button/BackButton";
 import PatientTest from "./PatientTest";
 import PatientAllergies from "./PatientAllergies";
+
 export default function PatientDetailRouter() {
   const { userData } = useContext(UserContext);
   const navigate = useNavigate();
@@ -20,6 +21,9 @@ export default function PatientDetailRouter() {
     `http://localhost:8000/patients/${id}`,
     fetcher
   );
+ useEffect(()=>{
+  // console.log(`check patient data: ${JSON.stringify(data)}`);
+ },[data])
   if (error) {
     return <div>error when loading data</div>;
   } else if (isLoading) {
@@ -31,7 +35,7 @@ export default function PatientDetailRouter() {
         <div className="h-[70px] flex justify-between items-center border-b-2 border-solid border-custom-dark-100">
           <PatientDetailNavbar />
           <h5 className="text-custom-dark-300">
-            {/*--user info----*/}#{data.id} {data.last_name} {data.first_name}
+            {/*--user info----*/}#{data[0].id} {data[0].full_name} 
           </h5>
         </div>
 

@@ -14,10 +14,11 @@ import { UserContext } from "@/contexts/userContext";
 import ReportRouter from "@/pages/Hospital_management/Report_management/ReportRouter";
 const Main = () => {
   const { userData } = useContext(UserContext);
+  console.log(!localStorage.getItem("userData"))
   return (
     <section className="mt-[50px] w-main h-main flex items-center justify-center">
       <Routes>
-        <Route element={<ProtectedRoute condition={!userData} />}>
+        <Route element={<ProtectedRoute condition={!localStorage.getItem("userData")} redirectTo="/dashboard"/>}>
           <Route path="/login" element={<LoginPage />} />
         </Route>
         <Route element={<AuthComponent />}>
