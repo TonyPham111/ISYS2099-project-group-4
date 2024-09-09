@@ -2,9 +2,12 @@ import hrRepo from "../Models/HrModel.js"
 
 export async function getAllDepartments(req, res) {
   try {
-    const user_info = req.user_info
-    if (user_info === 'HR'){
-      const result = await hrRepo.getAllDepartments()
+    const user_info = req.user;
+    // console.log(`check userinfo: ${JSON.stringify(user_info)}`)
+    if (user_info.role == 'HR'){
+      console.log(`check in userinfo = HR`);
+      const result = await hrRepo.getAllDepartments();
+      console.log(`check result: ${JSON.stringify(result)}`);
       res.status(200).json(result)
     }
     else {
