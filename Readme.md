@@ -84,7 +84,7 @@ In order to run the backend in your terminal:
 
 cd backend
 npm i
-npm start
+node index.js
 
 ## Guide to test the APIS in Postman:
 
