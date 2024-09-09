@@ -46,3 +46,28 @@ POST /login: Maps to login function in authenticateController.js.
 Testing the Register function
 Testing the Login function
 Testing the Logout function 
+
+## Guide to test the APIS in Postman:
+
+The list of accounts has been provided in the Login Folder
+
+## For the Get All Patients API: Please use the credential of the front desl
+
+## For the Retrieve and Filter and Sort a List of Staff API, please use the HR account. You can also use any other account, but the hr and doctor account is recommended
+
+## Wage Change - Department Change - Job Change APIS: Please use the provided HR credentials for these.
+
+## Scheduling API: Please use the provided doctor account
+
+## Training Material API: Please log in using the credential of the HR if you want to use the POST request. Otherwise, you can use any credential for the GET request, but it is recommended to use the doctor credential.
+
+## Qualifications API: Please log in using the credential of the HR if you want to use the POST request. Otherwise, you can use any credential for the GET request, but it is recommeded to use the doctor credential
+
+## Performance Evaluation API: You can log in using any credential, but it is recommended to log in using the provided doctor credential.
+
+## Prescription APIs - Diagnoses APIs - Allergies APIs - test APIS (Except the PUT request): Please log in using the doctor credential. The nurse account only allows the use of GET requests and the test folder's PUT request 
+
+## Billings API: Please log in using the credentials of the business officer
+
+## Appointments API: Please log in using the credentials of the front desk
+

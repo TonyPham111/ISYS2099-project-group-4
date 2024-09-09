@@ -520,7 +520,7 @@ BEGIN
 		END IF;
 		SET @sort_clause = CONCAT("ORDER BY ", sort_by, " ", order_by);
 	ELSE
-		SET @sort_clause = CONCAT("ORDER BY id DESC");
+		SET @sort_clause = CONCAT("ORDER BY s.id DESC");
 	END IF;
     SET @select_statement = CONCAT(@select_statement, ' ', @sort_clause);
 	PREPARE stmt FROM @select_statement;
