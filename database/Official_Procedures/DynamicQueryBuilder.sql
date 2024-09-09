@@ -68,7 +68,7 @@ BEGIN
 		IF clash_count <> 0 THEN
 			SIGNAL SQLSTATE '45000'
 			SET MESSAGE_TEXT = 'The new schedule clashes with an existing appointment.';
-    END IF;
+		END IF;
         SET update_case_clause_start_time = CONCAT('WHEN id = ', existing_schedule_id, ' THEN ', '\'', para_schedule_start_time, '\'');
         SET update_case_clause_end_time = CONCAT('WHEN id = ', existing_schedule_id, ' THEN ', '\'', para_schedule_end_time, '\'');
         SET update_where_clause = existing_schedule_id;

@@ -795,10 +795,6 @@ BEGIN
 		SET @update_statement_end_time = CONCAT(@update_statement_end_time, SUBSTRING_INDEX(SUBSTRING_INDEX(returned_statement, ';', -1), '-', -1), '\n', 'ELSE end_time \n END\n');
 		SET @update_statement = CONCAT(@update_statement, @update_statement_start_time, @update_statement_end_time, @update_where_statement);
     END IF;
-    SELECT returned_statement;
-    SELECT @update_statement_start_time;
-    SELECT @update_statement_end_time;
-    SELECT @update_where_statement;
 
     -- Execute insert statement if necessary
     IF original_insert_statement <> @insert_statement THEN
@@ -807,6 +803,7 @@ BEGIN
 		DEALLOCATE PREPARE insert_statement;
     END IF;
 	
+    
     SELECT @update_statement;
     -- Execute update statement if necessary
     IF original_update_statement <> @update_statement THEN

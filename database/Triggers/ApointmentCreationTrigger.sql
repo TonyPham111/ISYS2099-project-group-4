@@ -1,5 +1,5 @@
 DELIMITER $$
-
+DROP TRIGGER IF EXISTS ValidateAppointmentConstraints$$
 CREATE TRIGGER ValidateAppointmentConstraints
 BEFORE INSERT ON Appointments
 FOR EACH ROW
@@ -28,7 +28,7 @@ BEGIN
     -- Check if the input time is within the doctor's schedule
     SELECT CheckIfBookingTimeOutsideSchedule(NEW.doctor_id, NEW.appointment_date, NEW.start_time, NEW.end_time)
     INTO appointment_schedule_check;
-    IF appointment_schedule_check = 0 THEN
+    IF appointment_schedule_check <> 1 THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Appointment out of schedule range. Please try again';
     END IF;

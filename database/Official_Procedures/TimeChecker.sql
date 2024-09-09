@@ -100,15 +100,10 @@ BEGIN
     IF
 		shift_start IS NULL 
 			OR
-        (para_start_time > shift_start
-            AND
-        para_start_time > shift_end
-        )
-            OR
-        (para_start_time < shift_start
-            AND
-        para_end_time > shift_start
-        )
+        para_start_time < shift_start
+			OR
+		para_start_time > shift_end
+           
     THEN 
         RETURN 0;
     ELSE
@@ -195,7 +190,7 @@ END$$
 
 DROP FUNCTION IF EXISTS OptimizedCheckNewScheduleAndAppointmentConflict$$
 CREATE FUNCTION OptimizedCheckNewScheduleAndAppointmentConflict(
-    schedule_id INT
+    para_schedule_id INT
 ) RETURNS int
     READS SQL DATA
 BEGIN
@@ -212,9 +207,13 @@ BEGIN
     FROM Appointments 
     INNER JOIN Staff_Schedule 
     ON Appointments.schedule_id = Staff_Schedule.id 
-    WHERE Appointments.start_time < Staff_Schedule.start_time
-		OR
-        Appointments.end_time < Staff_Schedule.end_time;
+    WHERE Staff_Schedule.id = para_schedule_id
+		AND
+        (
+			Appointments.start_time < Staff_Schedule.start_time
+			OR
+			Appointments.end_time < Staff_Schedule.end_time
+            );
     -- Return the count of appointment clashes
     RETURN clash_count;
 END$$

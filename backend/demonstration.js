@@ -1,6 +1,7 @@
 import { poolAdmin } from "./Models/dbConnectionConfiguration.js";
 import doctorRepo from "./Models/DoctorModel.js";
 import frontDeskRepo from "./Models/FrontDeskModel.js";
+import hrRepo from "./Models/HrModel.js";
 
 //Test For Prescription Concurrency
 async function testPrescriptionConcurrency(){
@@ -80,19 +81,64 @@ async function testAppointmentSchedulingConcurrency(){
 
 async function appointmentReserving_frontdesk1(){
     console.log("Reserving")
-    const availability = await frontDeskRepo.CheckAvailability("2024-09-18", "10:30:00", "11:00:00", 2)
+    const availability = await frontDeskRepo.CheckAvailability("2024-09-21", "10:30:00", "11:00:00", 2)
     console.log("Availability of doctors in department 2: "+ JSON.stringify(availability[0]))
-    await frontDeskRepo.AddNewAppointment(2, 103, 1, "Routine Checkup", "2024-09-18", "10:30:00", "11:00:00", null)
+    await frontDeskRepo.AddNewAppointment(2, 103, 1, "Routine Checkup", "2024-09-21", "10:30:00", "11:00:00", null)
     console.log("Successfully reserve the appointment: Front Desk 1")
 
 }
 
 async function scheduling(){
     console.log("Rescheduling for doctor 103")
-    await doctorRepo.Scheduling(102, 103, '2024-09-19;10:30:00-17:00:00')
+    await doctorRepo.Scheduling(102, 103, '2024-09-21;11:00:00-17:00:00')
     console.log("Successfully reschedule for doctor 103")
 
 }
 
-scheduling();
+//scheduling();
 //testAppointmentSchedulingConcurrency();
+
+// Testing Update_Job_Aspects Trigger:
+async function testingUpdateJobAspectTrigger(){
+    const job = await poolAdmin.query(
+        "SELECT job_id FROM Staff WHERE id = 1"
+    )
+    console.log("Job of Staff 1: " + JSON.stringify(job[0]))
+    const doctor_wage = await poolAdmin.query(
+        "SELECT min_wage, max_wage FROM Jobs WHERE id = 2"
+    )
+    console.log(JSON.stringify("min_wage and max_wage: " + JSON.stringify(doctor_wage[0])));
+    await hrRepo.ChangeWage(1, 3999)
+    
+}
+//testingUpdateJobAspectTrigger()
+
+// Testing CheckManagementRelationshipTrigger
+async function testingManagementCheckTrigger() {
+    const manager_id = await poolAdmin.query(
+        "SELECT manager_id FROM Staff WHERE id = 4", []
+    )
+    console.log("Manager: ", JSON.stringify(manager_id[0]))
+    doctorRepo.Scheduling(102,4,'2024-09-20;12:00:00-17:00:00')
+}
+//testingManagementCheckTrigger()
+
+//Testing appointment reservation
+async function testAddNewAppointment(){
+    const availability = await frontDeskRepo.CheckAvailability("2024-09-16", "11:30:00", "12:30:00", 2);
+    console.log(availability[0])
+    await frontDeskRepo.AddNewAppointment(2, 103, 1, "Routine Checkup", "2024-09-16", "11:30:00", "12:30:00", null)
+}
+
+//testAddNewAppointment()
+
+//Testing doctor-patient trigger
+async function testDoctorPatientAppointmentMatch(){
+    const appointments = await poolAdmin.query(
+        "SELECT * FROM Appointments WHERE patient_id = 33 AND doctor_id = 103"
+    )
+    console.log("Appointments that patient 33 has with doctor 103: " + JSON.stringify(appointments[0]))
+    await doctorRepo.AddAllergyToPatient(103,33,'1,2,3');
+}
+
+//testDoctorPatientAppointmentMatch()
