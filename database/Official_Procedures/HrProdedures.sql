@@ -373,7 +373,7 @@ CREATE PROCEDURE FetchAllStaffWithFilters(
     para_job_id INT,
     para_department_id INT,
     para_employment_status ENUM('Active', 'Terminated'),
-    sort_by ENUM('Wage'),
+    sort_by ENUM('wage','full_name'),
     order_by ENUM('DESC','ASC')
 )
 SQL SECURITY DEFINER

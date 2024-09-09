@@ -17,18 +17,6 @@ const hrRepo = {
     }
   },
 
-  /*
-  FetchAllStaff: async () => {
-    try {
-      const sql = `CALL FetchAllStaff()`;
-      const [results] = await poolHR.query(sql, []);
-      return results;
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  },
-  */
-
   ChangeWage: async (staff_id, new_wage) => {
     try {
       const sql = `CALL ChangeWage(?, ?)`;
@@ -68,37 +56,6 @@ const hrRepo = {
       throw new Error(error.message);
     }
   },
-  /*
-  FetchJobChangeByStaffId: async (para_staff_id) => {
-    try {
-      const sql = `CALL FetchJobChangeByStaffId(?)`;
-      const [results] = await poolHR.query(sql, [para_staff_id]);
-      return results;
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  },
-
-  FetchWageChangeByStaffId: async (para_staff_id) => {
-    try {
-      const sql = `CALL FetchWageChangeByStaffId(?)`;
-      const [results] = await poolHR.query(sql, [para_staff_id]);
-      return results;
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  },
-
-  FetchDepartmentChangeByStaffId: async (para_staff_id) => {
-    try {
-      const sql = `CALL FetchDepartmentChangeByStaffId(?)`;
-      const [results] = await poolHR.query(sql, [para_staff_id]);
-      return results;
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  },
-  */
 
   FetchStaffInfoById: async (staff_id) => {
     try {
@@ -140,10 +97,10 @@ const hrRepo = {
     }
   },
 
-  GetSubordinates: async (manager_id, staff_name, staff_id) => {
+  GetSubordinates: async (manager_id, staff_name, staff_id, sort_by, order_by) => {
     try {
-      const sql = `CALL GetStaffUnderManager(?,?,?)`;
-      const [results] = await poolHR.query(sql, [manager_id, staff_name, staff_id]);
+      const sql = `CALL GetStaffUnderManager(?,?,?,?,?)`;
+      const [results] = await poolHR.query(sql, [manager_id, staff_name, staff_id, sort_by, order_by]);
       return results;
     } catch (error) {
       throw new Error(error.message);
@@ -160,26 +117,7 @@ const hrRepo = {
     }
   },
 
-  /*
-  GetSubordinatesSchedule: async (manager_id, staff_id) => {
-    try {
-      const sql = `CALL GetAppointmentsAndSchedulesByStaff(?, ?)`;
-      const [results] = await poolHR.query(sql, [staff_id, manager_id]);
-      return results[0];
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  },
-  GetAllPerformanceEvaluation: async (manager_id, staff_id) => {
-    try {
-      const sql = `CALL GetAllPerformanceEvaluationByStaff(?, ?)`;
-      const [results] = await poolHR.query(sql, [manager_id, staff_id]);
-      return results;
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  },
-  */
+
   GetEvaluationDetails: async (manager_id, staff_id, evaluation_id) => {
     try {
       const sql = `CALL GetEvaluationDetails(?, ?, ?)`;
@@ -220,17 +158,6 @@ const hrRepo = {
       throw new Error(error.message);
     }
   },
-  /*
-  GetOwnSchedule: async (staff_id) => {
-    try {
-      const sql = `CALL GetOwnAppointmentsAndSchedules(?)`;
-      const [results] = await poolHR.query(sql, [staff_id, manager_id, from_date, to_date]);
-      return results[0];
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  },
-  */
 
   GetOwnSchedule: async (staff_id, from_date, to_date) => {
     try {
@@ -283,7 +210,7 @@ const hrRepo = {
   },
   FetchAllStaff: async (staff_id, staff_name, job_id, department_id, employment_status, sort_by, order_by) => {
     try {
-      const sql = `CALL FetchAllStaffWithFilters(?,?, ?, ?, ?, ?, ?)`;
+      const sql = `CALL FetchAllStaffWithFilters(?, ?, ?, ?, ?, ?, ?)`;
       const [results] = await poolHR.query(sql, [staff_id, staff_name, job_id, department_id, employment_status, sort_by, order_by]);
       return results[1];
     } catch (error) {
@@ -324,6 +251,16 @@ const hrRepo = {
     try {
       const sql = `CALL UpdateUserPassword(?, ?)`;
       await poolHR.query(sql, [email, hashedPassword]);
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  },
+  GetAllDepartments: async () => {
+    try {
+      const sql = `CALL GetAllDepartments()`;
+      const [results] = await poolHR.query(sql, []);
+
+      return results[0];
     } catch (error) {
       throw new Error(error.message);
     }

@@ -9,13 +9,13 @@ export async function getAllPatientInfo(req, res) {
     let result;
 
     if (user_info.role === 'Doctor') {
-      result = await doctorRepo.GetPatientsInfo(user_info.id, req.query.patientName, req.query.patientId);
+      result = await doctorRepo.GetPatientsInfo(user_info.id, req.query.patientName, req.query.patientId, req.query.sortBy, req.query.orderBy);
     } else if (user_info.role === 'Nurse') {
-      result = await nurseRepo.GetPatientsInfo(req.query.patientName, req.query.patientId);
+      result = await nurseRepo.GetPatientsInfo(req.query.patientName, req.query.patientId, req.query.sortBy, req.query.orderBy);
     } else if (user_info.role === 'FrontDesk') {
-      result = await frontDeskRepo.GetPatientsInfo(req.query.patientName, req.query.patientId);
+      result = await frontDeskRepo.GetPatientsInfo(req.query.patientName, req.query.patientId, req.query.sortBy, req.query.orderBy);
     } else if (user_info.role === 'BusinessOfficer') {
-      result = await businessOfficerRepo.GetPatientsInfo(req.query.patientName, req.query.patientId);
+      result = await businessOfficerRepo.GetPatientsInfo(req.query.patientName, req.query.patientId, req.query.sortBy, req.query.orderBy);
     } else {
       return res.status(403).json({ message: "Incorrect role" });
     }

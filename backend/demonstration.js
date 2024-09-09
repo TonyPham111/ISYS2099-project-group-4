@@ -89,9 +89,10 @@ async function appointmentReserving_frontdesk1(){
 
 async function scheduling(){
     console.log("Rescheduling for doctor 103")
-    await doctorRepo.Scheduling(102, 103, '2024-09-18;12:30:00-17:00:00')
+    await doctorRepo.Scheduling(102, 103, '2024-09-19;10:30:00-17:00:00')
     console.log("Successfully reschedule for doctor 103")
 
 }
 
-testAppointmentSchedulingConcurrency();
+scheduling();
+//testAppointmentSchedulingConcurrency();

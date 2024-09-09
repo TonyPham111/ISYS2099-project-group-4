@@ -13,19 +13,19 @@ export async function getAllStaffInfo(req, res) {
   try {
     const user_info = req.user
     if (user_info.role === "Doctor"){
-      const result = await doctorRepo.GetSubordinates(user_info.id, req.query.staffName, req.query.staffId )
+      const result = await doctorRepo.GetSubordinates(user_info.id, req.query.staffName, req.query.staffId, req.query.sortBy, req.query.orderBy)
       res.status(200).json(result)
     }
     else if (user_info.role === "Nurse"){
-      const result = await nurseRepo.GetSubordinates(user_info.id, req.query.staffName, req.query.staffId)
+      const result = await nurseRepo.GetSubordinates(user_info.id, req.query.staffName, req.query.staffId, req.query.sortBy, req.query.orderBy)
       res.status(200).json(result)
     }
     else if (user_info.role === "FrontDesk"){
-      const result = await frontDeskRepo.GetSubordinates(user_info.id, req.query.staffName, req.query.staffId)
+      const result = await frontDeskRepo.GetSubordinates(user_info.id, req.query.staffName, req.query.staffId, req.query.sortBy, req.query.orderBy)
       res.status(200).json(result)
     }
     else if (user_info.role === "BusinessOfficer"){
-      const result = await businessOfficerRepo.GetSubordinates(user_info.id, req.query.staffName, req.query.staffId )
+      const result = await businessOfficerRepo.GetSubordinates(user_info.id, req.query.staffName, req.query.staffId, req.query.sortBy, req.query.orderBy)
       res.status(200).json(result)
     }
     else if (user_info.role === "HR") {

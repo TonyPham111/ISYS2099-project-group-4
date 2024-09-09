@@ -1,10 +1,10 @@
 import { poolBusinessOfficers, poolDoctors } from './dbConnectionConfiguration.js';
 
 const businessOfficerRepo = {
-  GetPatientsInfo: async (patient_name, patient_id) => {
+  GetPatientsInfo: async (patient_name, patient_id, sort_by, order_by) => {
     try {
-      const sql = `CALL FetchPatientsPersonalInfoByName(?, ?)`;
-      const [results] = await poolBusinessOfficers.query(sql, [patient_name, patient_id]);
+      const sql = `CALL FetchPatientsPersonalInfoByName(?, ?, ?, ?)`;
+      const [results] = await poolBusinessOfficers.query(sql, [patient_name, patient_id, sort_by, order_by]);
       return results;
     } catch (error) {
       throw new Error(error.message);
@@ -62,10 +62,10 @@ const businessOfficerRepo = {
     }
   },
 
-  GetSubordinates: async (manager_id, staff_name, staff_id) => {
+  GetSubordinates: async (manager_id, staff_name, staff_id, sort_by, order_by) => {
     try {
-      const sql = `CALL GetStaffUnderManager(?,?,?)`;
-      const [results] = await poolBusinessOfficers.query(sql, [manager_id, staff_name, staff_id]);
+      const sql = `CALL GetStaffUnderManager(?,?,?,?,?)`;
+      const [results] = await poolBusinessOfficers.query(sql, [manager_id, staff_name, staff_id, sort_by, order_by]);
       return results;
     } catch (error) {
       throw new Error(error.message);
@@ -128,18 +128,7 @@ const businessOfficerRepo = {
       throw new Error(error.message);
     }
   },
-  /*
-  GetOwnSchedule: async (staff_id) => {
-    try {
-      const sql = `CALL GetOwnAppointmentsAndSchedules(?)`;
-      const [results] = await poolBusinessOfficers.query(sql, [staff_id, manager_id, from_date, to_date]);
-      return results[0];
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  },
-  */
-
+ 
   GetOwnScheduleByDates: async (staff_id, from_date, to_date) => {
     try {
       const sql = `CALL GetOwnAppointmentsAndSchedulesByDates(?, ?, ?, ?)`;

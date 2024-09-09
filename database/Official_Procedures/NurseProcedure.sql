@@ -38,7 +38,9 @@ GRANT EXECUTE ON PROCEDURE hospital_management_system.GetPatientsInfoForNurse TO
 DROP PROCEDURE IF EXISTS GetPatientsInfoForNurseByName$$
 CREATE PROCEDURE GetPatientsInfoForNurseByName(
 	patient_name VARCHAR(50),
-    patient_id INT
+    patient_id INT,
+    sort_by ENUM('full_name'),
+    order_by ENUM("DESC", "ASC")
 )
 SQL SECURITY DEFINER
 BEGIN
@@ -76,6 +78,16 @@ BEGIN
     IF patient_name IS NOT NULL THEN
 		SET @select_statement = CONCAT(@select_statement, ' AND ', @by_name);
     END IF;
+   
+	IF sort_by IS NOT NULL THEN
+		IF order_by IS NULL THEN
+			SET order_by = "DESC";
+		END IF;
+		SET @sort_clause = CONCAT("ORDER BY ", sort_by, " ", order_by);
+	ELSE
+		SET @sort_clause = CONCAT("ORDER BY id DESC");
+	END IF;
+    SET @select_statement = CONCAT(@select_statement, ' ', @sort_clause);
     
     PREPARE stmt FROM @select_statement;
     EXECUTE stmt;

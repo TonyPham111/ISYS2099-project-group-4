@@ -257,10 +257,10 @@ const nurseRepo = {
     }
   },
 
-  GetSubordinates: async (manager_id, staff_name, staff_id) => {
+  GetSubordinates: async (manager_id, staff_name, staff_id, sort_by, order_by) => {
     try {
-      const sql = `CALL GetStaffUnderManager(?,?,?)`;
-      const [results] = await poolNurses.query(sql, [manager_id, staff_name, staff_id]);
+      const sql = `CALL GetStaffUnderManager(?,?,?,?,?)`;
+      const [results] = await poolNurses.query(sql, [manager_id, staff_name, staff_id, sort_by, order_by]);
       return JSON.stringify(results, null, 2);
     } catch (error) {
       throw new Error(error.message);

@@ -73,7 +73,9 @@ GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchPatientsPersonalInfo 
 DROP PROCEDURE IF EXISTS FetchPatientsPersonalInfoByName$$
 CREATE PROCEDURE FetchPatientsPersonalInfoByName(
 	para_full_name VARCHAR(50),
-    patient_id INT
+    patient_id INT,
+    sort_by ENUM('full_name'),
+    order_by ENUM("ASC", "DESC")
 )
 SQL SECURITY DEFINER
 BEGIN
@@ -114,6 +116,15 @@ BEGIN
     IF para_full_name IS NOT NULL THEN
 		SET @select_statement = CONCAT(@select_statement, ' AND ', @by_name);
     END IF;
+	IF sort_by IS NOT NULL THEN
+		IF order_by IS NULL THEN
+			SET order_by = "DESC";
+		END IF;
+		SET @sort_clause = CONCAT("ORDER BY ", sort_by, " ", order_by);
+	ELSE
+		SET @sort_clause = CONCAT("ORDER BY id DESC");
+	END IF;
+    SET @select_statement = CONCAT(@select_statement, ' ', @sort_clause);
     PREPARE stmt FROM @select_statement;
     EXECUTE stmt;
     DEALLOCATE PREPARE stmt;
@@ -451,7 +462,9 @@ DROP PROCEDURE IF EXISTS GetStaffUnderManager$$
 CREATE PROCEDURE GetStaffUnderManager(
     IN managerId INT,  -- Parameter for the ID of the manager whose staff members are to be fetched
     staff_name VARCHAR(50),
-    staff_id INT
+    staff_id INT,
+    sort_by ENUM('full_name'),
+    order_by ENUM("ASC", "DESC")
 )
 SQL SECURITY DEFINER
 BEGIN
@@ -501,8 +514,15 @@ BEGIN
     IF staff_name IS NOT NULL THEN
 		SET @select_statement = CONCAT(@select_statement, ' AND ', @by_name);
     END IF;
-    SET @sort_clause = ' ORDER BY hire_date DESC';
-    SET @select_statement = CONCAT(@select_statement, @sort_clause);
+	IF sort_by IS NOT NULL THEN
+		IF order_by IS NULL THEN
+			SET order_by = "DESC";
+		END IF;
+		SET @sort_clause = CONCAT("ORDER BY ", sort_by, " ", order_by);
+	ELSE
+		SET @sort_clause = CONCAT("ORDER BY id DESC");
+	END IF;
+    SET @select_statement = CONCAT(@select_statement, ' ', @sort_clause);
 	PREPARE stmt FROM @select_statement;
     EXECUTE stmt;
     DEALLOCATE PREPARE stmt;

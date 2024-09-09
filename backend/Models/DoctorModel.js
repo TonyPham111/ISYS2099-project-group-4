@@ -113,10 +113,10 @@ const doctorRepo = {
     }
   },
 
-  GetPatientsInfo: async (doctor_id, patient_name, patient_id) => {
+  GetPatientsInfo: async (doctor_id, patient_name, patient_id, sort_by, order_by) => {
     try {
-        const sql = `CALL GetPatientsInfoForDoctorByName(?, ?, ?)`;
-        const [results] = await poolDoctors.query(sql, [doctor_id, patient_name, patient_id]);
+        const sql = `CALL GetPatientsInfoForDoctorByName(?, ?, ?, ?, ?)`;
+        const [results] = await poolDoctors.query(sql, [doctor_id, patient_name, patient_id, sort_by, order_by]);
         return Object.values(results);
     } catch (error) {
       throw new Error(error.message);
@@ -236,10 +236,10 @@ const doctorRepo = {
     }
   },
 
-  GetSubordinates: async (manager_id, staff_name, staff_id) => {
+  GetSubordinates: async (manager_id, staff_name, staff_id, sort_by, order_by) => {
     try {
-      const sql = `CALL GetStaffUnderManager(?,?,?)`;
-      const [results] = await poolDoctors.query(sql, [manager_id, staff_name, staff_id]);
+      const sql = `CALL GetStaffUnderManager(?,?,?,?,?)`;
+      const [results] = await poolDoctors.query(sql, [manager_id, staff_name, staff_id,sort_by,order_by]);
       return results;
     } 
     catch (error) {
