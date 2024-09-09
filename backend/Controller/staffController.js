@@ -33,7 +33,7 @@ export async function getAllStaffInfo(req, res) {
       console.log(req.query.sortBy);
       const result = await hrRepo.FetchAllStaff(req.query.staffId,req.query.staffName, req.query.jobId, req.query.departmentId, req.query.employmentStatus,
         req.query.sortBy, req.query.orderBy)
-      res.status(200).json(result[0])
+      res.status(200).json(result)
     }
     else {
       res.status(403).json({ message: "Incorrect role." })

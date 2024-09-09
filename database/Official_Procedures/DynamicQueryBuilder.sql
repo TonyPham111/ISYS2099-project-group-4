@@ -208,7 +208,7 @@ BEGIN
     SELECT inventory, price_per_unit 
     INTO medicine_inventory, current_price
     FROM Drugs
-    WHERE drug_code = CAST(drug_code_string AS UNSIGNED);
+    WHERE drug_code = CAST(drug_code_string AS UNSIGNED) FOR UPDATE;
 
     -- Calculate the new inventory level by subtracting the prescribed quantity
     SET new_inventory = medicine_inventory - prescription_quantity;

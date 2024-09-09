@@ -231,59 +231,6 @@ END$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchPatientsAllergies TO 'Doctors'@'%'$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchPatientsAllergies TO 'Nurses'@'%'$$
 
-DROP PROCEDURE IF EXISTS FetchDiagnosesByPatientId$$
-CREATE PROCEDURE FetchDiagnosesByPatientId(
-    patient_id INT  -- Parameter for the ID of the patient whose diagnoses are to be fetched
-)
-SQL SECURITY DEFINER
-BEGIN
-	DECLARE EXIT HANDLER FOR SQLEXCEPTION
-	BEGIN
-		DECLARE returned_sqlstate CHAR(5) DEFAULT '';
-		-- Retrieve the SQLSTATE of the current exception
-		GET STACKED DIAGNOSTICS CONDITION 1
-			returned_sqlstate = RETURNED_SQLSTATE;
-
-		-- Check if the SQLSTATE is '45000'
-		IF returned_sqlstate = '45000' THEN
-			-- Resignal with the original message
-			RESIGNAL;
-		ELSE
-			-- Set a custom error message and resignal with SQLSTATE '45000'
-			SIGNAL SQLSTATE '45000'
-				SET MESSAGE_TEXT = 'Something is wrong. Please try again.';
-		END IF;
-	END;
-
-    -- Select various fields related to diagnoses for the specified patient
-    SELECT
-        Diagnoses.id AS diagnosis_id,         -- The ID of the diagnosis
-        Staff.full_name AS doctor_name,       -- The full name of the doctor who made the diagnosis
-        DATE_FORMAT(Diagnoses.diagnosis_date, '%d/%m/%Y') AS diagnosis_date, -- The date when the diagnosis was made
-        Diagnoses.diagnosis_note,             -- Any notes related to the diagnosis
-        Conditions.condition_code,            -- Code for the diagnosed condition
-        Conditions.condition_name,            -- The name of the diagnosed condition
-        Conditions.condition_description      -- Description of the diagnosed condition
-    FROM
-        Conditions                            -- The Conditions table, which contains information about medical conditions
-    INNER JOIN
-        DiagnosesDetails                      -- The DiagnosesDetails table, linking diagnoses with conditions
-    ON
-        Conditions.condition_code = DiagnosesDetails.condition_code -- Join on condition_code to link with DiagnosesDetails
-    INNER JOIN
-        Diagnoses                             -- The Diagnoses table, containing details about each diagnosis
-    ON
-        Diagnoses.id = DiagnosesDetails.diagnosis_id -- Join on diagnosis_id to link DiagnosesDetails with Diagnoses
-    INNER JOIN
-        Staff                                 -- The Staff table, to retrieve the name of the doctor who made the diagnosis
-    ON
-        Diagnoses.doctor_id = Staff.id        -- Join on doctor_id to link Diagnoses with Staff
-    WHERE
-        Diagnoses.patient_id = patient_id;    -- Filter to include only the diagnoses for the specified patient
-END$$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchDiagnosesByPatientId TO 'Doctors'@'%'$$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchDiagnosesByPatientId TO 'Nurses'@'%'$$
-
 
 DROP PROCEDURE IF EXISTS FetchDiagnosesByPatientIdAndDates$$
 CREATE PROCEDURE FetchDiagnosesByPatientIdAndDates(
@@ -317,92 +264,37 @@ BEGIN
     IF to_date IS NULL THEN
 		SET to_date = '9999-12-31';
     END IF;
-
-    -- Select various fields related to diagnoses for the specified patient
+	
     SELECT
-        Diagnoses.id AS diagnosis_id,         -- The ID of the diagnosis
-        Staff.full_name AS doctor_name,       -- The full name of the doctor who made the diagnosis
-        DATE_FORMAT(Diagnoses.diagnosis_date, '%d/%m/%Y') AS diagnosis_date, -- The date when the diagnosis was made
-        Diagnoses.diagnosis_note,             -- Any notes related to the diagnosis
-        Conditions.condition_code,            -- Code for the diagnosed condition
-        Conditions.condition_name,            -- The name of the diagnosed condition
-        Conditions.condition_description      -- Description of the diagnosed condition
+        Diagnoses.id AS diagnosis_id,        
+        Staff.full_name AS doctor_name,       
+        DATE_FORMAT(Diagnoses.diagnosis_date, '%d/%m/%Y') AS diagnosis_date,
+        Diagnoses.diagnosis_note,            
+        Conditions.condition_code,            
+        Conditions.condition_name,           
+        Conditions.condition_description      
     FROM
-        Conditions                            -- The Conditions table, which contains information about medical conditions
+        Conditions                            
     INNER JOIN
-        DiagnosesDetails                      -- The DiagnosesDetails table, linking diagnoses with conditions
+        DiagnosesDetails                      
     ON
-        Conditions.condition_code = DiagnosesDetails.condition_code -- Join on condition_code to link with DiagnosesDetails
+        Conditions.condition_code = DiagnosesDetails.condition_code 
     INNER JOIN
-        Diagnoses                             -- The Diagnoses table, containing details about each diagnosis
+        Diagnoses                            
     ON
-        Diagnoses.id = DiagnosesDetails.diagnosis_id -- Join on diagnosis_id to link DiagnosesDetails with Diagnoses
+        Diagnoses.id = DiagnosesDetails.diagnosis_id 
     INNER JOIN
-        Staff                                 -- The Staff table, to retrieve the name of the doctor who made the diagnosis
+        Staff                                 
     ON
-        Diagnoses.doctor_id = Staff.id        -- Join on doctor_id to link Diagnoses with Staff
+        Diagnoses.doctor_id = Staff.id        
     WHERE
-        Diagnoses.patient_id = patient_id    -- Filter to include only the diagnoses for the specified patient
+        Diagnoses.patient_id = patient_id    
 			AND
-		diagnosis_date BETWEEN from_date AND to_date;
+		diagnosis_date BETWEEN from_date AND to_date
+	ORDER BY diagnosis_date DESC;
 END$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchDiagnosesByPatientIdAndDates TO 'Doctors'@'%'$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchDiagnosesByPatientIdAndDates TO 'Nurses'@'%'$$
-
-
-
-DROP PROCEDURE IF EXISTS FetchPrescriptionsByPatientId$$
-CREATE PROCEDURE FetchPrescriptionsByPatientId(
-    para_patient_id INT  -- Parameter for the ID of the patient whose prescriptions are to be fetched
-)
-SQL SECURITY DEFINER
-BEGIN
-	DECLARE EXIT HANDLER FOR SQLEXCEPTION
-	BEGIN
-		DECLARE returned_sqlstate CHAR(5) DEFAULT '';
-		-- Retrieve the SQLSTATE of the current exception
-		GET STACKED DIAGNOSTICS CONDITION 1
-			returned_sqlstate = RETURNED_SQLSTATE;
-
-		-- Check if the SQLSTATE is '45000'
-		IF returned_sqlstate = '45000' THEN
-			-- Resignal with the original message
-			RESIGNAL;
-		ELSE
-			-- Set a custom error message and resignal with SQLSTATE '45000'
-			SIGNAL SQLSTATE '45000'
-				SET MESSAGE_TEXT = 'Something is wrong. Please try again.';
-		END IF;
-	END;
-
-    -- Select various fields related to the prescriptions for the specified patient
-    SELECT
-        TreatmentHistory.id,                 -- ID of the treatment history record
-        DATE_FORMAT(TreatmentHistory.treatment_start_date, '%d/%m/%Y') AS start_date, -- Start date of the treatment
-        Staff.full_name AS doctor_name,      -- The full name of the doctor who prescribed the drug
-        Drugs.drug_name,                     -- The name of the drug prescribed
-        Prescription_Details.quantity,       -- The quantity of the drug prescribed
-        Drugs.unit,                          -- The unit of the drug (e.g., capsule, tablet)
-        Prescription_Details.price           -- The price of the prescription
-    FROM
-        Drugs                                -- The Drugs table, which contains details about drugs
-    INNER JOIN
-        Prescription_Details                 -- The Prescription_Details table, linking prescriptions with drugs
-    ON
-        Drugs.drug_code = Prescription_Details.drug_code -- Join on drug_code to link with Prescription_Details
-    INNER JOIN
-        TreatmentHistory                     -- The TreatmentHistory table, which tracks treatments and prescriptions
-    ON
-        Prescription_Details.prescription_id = TreatmentHistory.id -- Join on prescription_id to link with TreatmentHistory
-    INNER JOIN
-        Staff                                -- The Staff table, to retrieve the name of the prescribing doctor
-    ON
-        TreatmentHistory.doctor_id = Staff.id -- Join on doctor_id to link TreatmentHistory with Staff
-    WHERE
-        TreatmentHistory.patient_id = para_patient_id; -- Filter to include only the prescriptions for the specified patient
-END$$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchPrescriptionsByPatientId TO 'Doctors'@'%'$$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchPrescriptionsByPatientId TO 'Nurses'@'%'$$
 
 
 DROP PROCEDURE IF EXISTS FetchPrescriptionsByPatientIdAndDates$$
@@ -465,80 +357,11 @@ BEGIN
     WHERE
         TreatmentHistory.patient_id = para_patient_id -- Filter to include only the prescriptions for the specified patient
 			AND
-		treatment_start_date BETWEEN from_date AND to_date;
+		treatment_start_date BETWEEN from_date AND to_date
+	ORDER BY treatment_start_date DESC;
 END$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchPrescriptionsByPatientIdAndDates TO 'Doctors'@'%'$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchPrescriptionsByPatientIdAndDates TO 'Nurses'@'%'$$
-
-DROP PROCEDURE IF EXISTS FetchTestDetailsByPatientId$$
-CREATE PROCEDURE FetchTestDetailsByPatientId(
-    patient_id INT    -- Parameter for the ID of the patient whose test details are to be fetched
-)
-SQL SECURITY DEFINER
-BEGIN
-	DECLARE EXIT HANDLER FOR SQLEXCEPTION
-	BEGIN
-		DECLARE returned_sqlstate CHAR(5) DEFAULT '';
-		-- Retrieve the SQLSTATE of the current exception
-		GET STACKED DIAGNOSTICS CONDITION 1
-			returned_sqlstate = RETURNED_SQLSTATE;
-
-		-- Check if the SQLSTATE is '45000'
-		IF returned_sqlstate = '45000' THEN
-			-- Resignal with the original message
-			RESIGNAL;
-		ELSE
-			-- Set a custom error message and resignal with SQLSTATE '45000'
-			SIGNAL SQLSTATE '45000'
-				SET MESSAGE_TEXT = 'Something is wrong. Please try again.';
-		END IF;
-	END;
-
-    -- Common Table Expression (CTE) to gather test order details along with the ordering doctor's name
-    WITH Test_Orders_Details AS (
-        SELECT
-            Test_Orders.id,                    -- The ID of the test order
-            Test_Orders.ordering_date,         -- The date the test was ordered
-            Test_Orders.patient_id,            -- The ID of the patient for whom the test was ordered
-            Staff.full_name AS ordering_doctor -- The full name of the doctor who ordered the test
-        FROM
-            Test_Orders                        -- The Test_Orders table, which contains test order details
-        INNER JOIN
-            Staff                              -- The Staff table to retrieve the ordering doctor's name
-        ON
-            Test_Orders.ordering_staff_id = Staff.id  -- Join on the staff ID to get the ordering doctor's name
-    )
-
-    -- Main SELECT query to retrieve test details for the specified patient
-    SELECT
-        Test_Orders_Details.id,                -- The ID of the test order
-        Test_Orders_Details.ordering_doctor,   -- The name of the doctor who ordered the test
-        DATE_FORMAT(Test_Orders_Details.ordering_date, '%d/%m/%Y') AS ordering_date,   -- The date the test was ordered
-        Test_Types.test_name,                  -- The name of the test
-        Staff.id AS administrating_nurse,      -- The ID of the nurse who administered the test
-		DATE_FORMAT(Test_Details.administering_date, '%d/%m/%Y') AS administering_date,       -- The date the test was administered
-        Test_Details.administering_time,       -- The time the test was administered
-        Test_Details.lab_result_document_id    -- The ID of the document containing the lab results
-    FROM
-        Test_Types                             -- The Test_Types table, which contains test type details
-    INNER JOIN
-        Test_Details                           -- The Test_Details table, which contains details about the tests administered
-    ON
-        Test_Details.test_type_id = Test_Types.id -- Join on the test type ID to get the test name
-    LEFT OUTER JOIN
-        Staff                                  -- The Staff table to retrieve the name of the nurse who administered the test
-    ON
-        Test_Details.administering_staff_id = Staff.id -- Join on the staff ID to get the administering nurse's name
-    INNER JOIN
-        Test_Orders_Details                    -- The CTE to link the test details with the test orders
-    ON
-        Test_Details.test_id = Test_Orders_Details.id -- Join on the test ID to get the order details
-    WHERE
-        Test_Orders_Details.patient_id = patient_id;  -- Filter to include only the tests for the specified patient
-END$$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchTestDetailsByPatientId TO 'Doctors'@'%'$$
-GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchTestDetailsByPatientId TO 'Nurses'@'%'$$
-
 
 
 DROP PROCEDURE IF EXISTS FetchTestDetailsByPatientIdByDates$$
@@ -617,10 +440,12 @@ BEGIN
     WHERE
         Test_Orders_Details.patient_id = patient_id  -- Filter to include only the tests for the specified patient
 			AND
-		administering_date BETWEEN from_date AND to_date;
+		administering_date BETWEEN from_date AND to_date
+	ORDER BY administering_date DESC;
 END$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchTestDetailsByPatientIdByDates TO 'Doctors'@'%'$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.FetchTestDetailsByPatientIdByDates TO 'Nurses'@'%'$$
+
 
 DROP PROCEDURE IF EXISTS GetStaffUnderManager$$
 CREATE PROCEDURE GetStaffUnderManager(
@@ -676,6 +501,8 @@ BEGIN
     IF staff_name IS NOT NULL THEN
 		SET @select_statement = CONCAT(@select_statement, ' AND ', @by_name);
     END IF;
+    SET @sort_clause = ' ORDER BY hire_date DESC';
+    SET @select_statement = CONCAT(@select_statement, @sort_clause);
 	PREPARE stmt FROM @select_statement;
     EXECUTE stmt;
     DEALLOCATE PREPARE stmt;
@@ -777,9 +604,6 @@ BEGIN
 		END IF;
 	END;
     
-
-
-
     -- Select the schedules for the specified staff member
     SELECT Staff_Schedule.id,
            Staff_Schedule.schedule_date,
@@ -853,7 +677,7 @@ BEGIN
            Appointments.start_time,
            Appointments.end_time
     FROM Appointments
-    WHERE doctor_id = para_staff_id AND appointment_date BETWEEN from_date AND to_date;
+    WHERE doctor_id = para_staff_id AND appointment_date BETWEEN from_date AND to_date ORDER BY appointment_date DESC;
 END$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.GetOwnAppointmentsAndSchedulesByDates TO 'Doctors'@'%'$$
 GRANT EXECUTE ON PROCEDURE hospital_management_system.GetOwnAppointmentsAndSchedulesByDates TO 'BusinessOfficers'@'%'$$
@@ -1244,7 +1068,7 @@ BEGIN
 		FROM PerformanceEvaluation
         INNER JOIN Staff
         ON PerformanceEvaluation.evaluator_staff_id = Staff.id
-        WHERE evaluated_staff_id = para_staff_id
+        WHERE evaluated_staff_id = para_staff_id ORDER BY  PerformanceEvaluation.evaluation_date
     )
     SELECT 
 		subquery.id, 
