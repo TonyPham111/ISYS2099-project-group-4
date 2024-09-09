@@ -60,7 +60,7 @@ const AddStaffForm = () => {
       emailRef.current;
     if (personalCondition) {
     }
-    if (personalCondition) {
+    if (true) {
       setIsPopup(false);
     }
   };

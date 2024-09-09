@@ -22,9 +22,9 @@ export default function ReportRouter() {
             element={
               <ProtectedRoute
                 condition={
-                  userData.job_role == "Doctor" ||
-                  userData.job_role == "Nurse" ||
-                  userData.job_role == "BusinessOfficer"
+                  userData?.job_role == "Doctor" ||
+                  userData?.job_role == "Nurse" ||
+                  userData?.job_role == "BusinessOfficer"
                 }
               />
             }
@@ -32,7 +32,7 @@ export default function ReportRouter() {
             <Route path="patient/*" element={<ReportPatientRouter />} />
           </Route>
           <Route
-            element={<ProtectedRoute condition={userData.job_role == "HR"} />}
+            element={<ProtectedRoute condition={userData?.job_role == "HR"} />}
           >
             <Route path="staff/*" element={<ReportStaffRouter />} />
           </Route>
@@ -64,7 +64,7 @@ function ReportPatientRouter() {
             element={
               <ProtectedRoute
                 condition={
-                  userData.job_role == "Doctor" || userData.job_role == "Nurse"
+                  userData?.job_role == "Doctor" || userData?.job_role == "Nurse"
                 }
               />
             }
@@ -77,7 +77,7 @@ function ReportPatientRouter() {
           <Route
             element={
               <ProtectedRoute
-                condition={userData.job_role == "BusinessOfficer"}
+                condition={userData?.job_role == "BusinessOfficer"}
               />
             }
           >

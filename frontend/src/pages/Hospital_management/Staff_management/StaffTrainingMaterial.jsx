@@ -17,7 +17,10 @@ export default function StaffTrainingMaterial() {
   const [job, setJob] = useState(null);
   const [department, setDepartment] = useState(null);
   const [url, setUrl] = useState(null);
-  const { data: trainingMaterialData } = useSWR(url ? url : null, fetcher);
+  const { data: trainingMaterialData } = useSWR(
+    `http://localhost:8000/training_material?department_id=${department?.id}&job_id=${job?.job_id}`,
+    fetcher
+  );
   const [trainingMaterial, setTrainingMaterial] = useState([]);
   function handleUploadMaterial(files) {
     setTrainingMaterial([files[0], ...trainingMaterial]);
@@ -30,13 +33,13 @@ export default function StaffTrainingMaterial() {
       toast.success("save successfully");
     }
   }
-  //   useEffect(() => {
-  //     console.log(
-  //       `check training material data: ${JSON.stringify(
-  //         trainingMaterialData.training_materials
-  //       )}`
-  //     );
-  //   }, [trainingMaterialData]);
+  useEffect(() => {
+    console.log(
+      `check training material data: ${JSON.stringify(
+        trainingMaterialData?.training_materials
+      )}`
+    );
+  }, [trainingMaterialData]);
   useEffect(() => {
     console.log(`check job data: ${JSON.stringify(job)}`);
     console.log(`check department data: ${JSON.stringify(department)}`);
@@ -118,7 +121,7 @@ export default function StaffTrainingMaterial() {
               )}
             </div>
             {trainingMaterialData && (
-              <div className="w-full flex gap-[30px] h-[470px] overflow-w-scroll p-5 bg-custom-dark-100">
+              <div className="w-full flex gap-[30px] h-[470px] overflow-scroll p-5 bg-custom-dark-100">
                 {[
                   ...trainingMaterialData?.training_materials,
                   ...trainingMaterial,
@@ -128,7 +131,7 @@ export default function StaffTrainingMaterial() {
                       key={item}
                       fileData={item}
                       data={trainingMaterial}
-                      StaffTrainingMaterial={setTrainingMaterial}
+                      setData={setTrainingMaterial}
                       allowDelete={userData.job_role == "HR"}
                       pageHeight={380}
                     />

@@ -27,18 +27,7 @@ export default function PatientInfo() {
     if (data) {
       setFirstName(data.first_name);
       setLastName(data.last_name);
-      if (data.gender == "Male") {
-        setGender({
-          key: "M",
-          value: "Male",
-        });
-      }
-      if (data.gender == "Female") {
-        setGender({
-          key: "F",
-          value: "Female",
-        });
-      }
+      setGender(data.gender);
       setHomeAddress(data.home_address);
       setContactPhoneNumber(data.contact_phone_number);
       setBirthDate(dayjs(data.birth_date, "DD-MM-YYYY"));
@@ -64,8 +53,6 @@ export default function PatientInfo() {
         new Date(dayjs(data.birth_date, "DD-MM-YYYY")).toDateString() &&
       contactPhoneNumber == data.contact_phone_number
     ) {
-      toast.error("cannot save new data without changing it!");
-    } else {
       toast.success("save patient information success!");
     }
   }
@@ -73,18 +60,7 @@ export default function PatientInfo() {
     if (data) {
       setFirstName(data.first_name);
       setLastName(data.last_name);
-      if (data.gender == "Male") {
-        setGender({
-          key: "M",
-          value: "Male",
-        });
-      }
-      if (data.gender == "Female") {
-        setGender({
-          key: "F",
-          value: "Female",
-        });
-      }
+      setGender(data.gender);
       setHomeAddress(data.home_address);
       setContactPhoneNumber(data.contact_phone_number);
       setBirthDate(dayjs(data.birth_date, "DD-MM-YYYY"));

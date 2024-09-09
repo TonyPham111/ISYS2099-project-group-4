@@ -3,7 +3,7 @@
     "id": 1,
     "first_name": "Trần",
     "last_name": "Hải",
-    "gender": "Female",
+    "gender": "F",
     "birth_date": "30/09/1959",
     "contact_phone_number": "8079393340x16667",
     "home_address": "98 Nguyen Trai, Hai Phong, Vietnam"
@@ -12,7 +12,7 @@
     "id": 2,
     "first_name": "Phan",
     "last_name": "Anh",
-    "gender": "Female",
+    "gender": "F",
     "birth_date": "19/11/1929",
     "contact_phone_number": "+11641402260x779",
     "home_address": "123 Le Loi, Ho Chi Minh City, Vietnam"
@@ -21,7 +21,7 @@
     "id": 3,
     "first_name": "Lê",
     "last_name": "Sơn",
-    "gender": "Female",
+    "gender": "F",
     "birth_date": "11/07/1953",
     "contact_phone_number": "5749076003",
     "home_address": "144 Nguyen Trai, Hai Phong, Vietnam"
@@ -30,7 +30,7 @@
     "id": 4,
     "first_name": "Vũ",
     "last_name": "Bảo",
-    "gender": "Female",
+    "gender": "F",
     "birth_date": "20/06/1963",
     "contact_phone_number": "9751377063x5321",
     "home_address": "210 Nguyen Trai, Hanoi, Vietnam"
@@ -39,7 +39,7 @@
     "id": 5,
     "first_name": "Trần",
     "last_name": "Quyên",
-    "gender": "Male",
+    "gender": "M",
     "birth_date": "12/04/1943",
     "contact_phone_number": "948.518.6864x276",
     "home_address": "282 Tran Hung Dao, Can Tho, Vietnam"
@@ -48,7 +48,7 @@
     "id": 6,
     "first_name": "Bùi",
     "last_name": "Trang",
-    "gender": "Female",
+    "gender": "F",
     "birth_date": "22/03/1952",
     "contact_phone_number": "945.852.9437",
     "home_address": "287 Hai Ba Trung, Hai Phong, Vietnam"
@@ -57,7 +57,7 @@
     "id": 7,
     "first_name": "Lê",
     "last_name": "Bảo",
-    "gender": "Male",
+    "gender": "M",
     "birth_date": "29/07/1978",
     "contact_phone_number": "1123360346x61344",
     "home_address": "251 Hai Ba Trung, Hanoi, Vietnam"
@@ -66,7 +66,7 @@
     "id": 8,
     "first_name": "Lê",
     "last_name": "Quyên",
-    "gender": "Female",
+    "gender": "F",
     "birth_date": "21/02/1963",
     "contact_phone_number": "928.038.1736x5159",
     "home_address": "118 Le Loi, Ho Chi Minh City, Vietnam"
@@ -75,7 +75,7 @@
     "id": 9,
     "first_name": "Phạm",
     "last_name": "Minh",
-    "gender": "Male",
+    "gender": "M",
     "birth_date": "26/08/2018",
     "contact_phone_number": "0017247282043x756",
     "home_address": "119 Tran Hung Dao, Can Tho, Vietnam"
@@ -84,7 +84,7 @@
     "id": 10,
     "first_name": "Hoàng",
     "last_name": "Giang",
-    "gender": "Male",
+    "gender": "M",
     "birth_date": "05/11/2023",
     "contact_phone_number": "1640507688x49355",
     "home_address": "260 Nguyen Trai, Hanoi, Vietnam"
@@ -93,7 +93,7 @@
     "id": 11,
     "first_name": "Hoàng",
     "last_name": "Giang",
-    "gender": "Male",
+    "gender": "M",
     "birth_date": "06/02/1957",
     "contact_phone_number": "7347613117",
     "home_address": "202 Tran Hung Dao, Hanoi, Vietnam"
@@ -102,7 +102,7 @@
     "id": 12,
     "first_name": "Đặng",
     "last_name": "Hải",
-    "gender": "Male",
+    "gender": "M",
     "birth_date": "16/10/1980",
     "contact_phone_number": "4866865626x287",
     "home_address": "152 Hai Ba Trung, Hanoi, Vietnam"
@@ -111,7 +111,7 @@
     "id": 13,
     "first_name": "Đỗ",
     "last_name": "Trang",
-    "gender": "Female",
+    "gender": "F",
     "birth_date": "25/06/1969",
     "contact_phone_number": "8971604758",
     "home_address": "95 Le Loi, Hai Phong, Vietnam"
@@ -120,7 +120,7 @@
     "id": 14,
     "first_name": "Hoàng",
     "last_name": "Quân",
-    "gender": "Female",
+    "gender": "F",
     "birth_date": "03/10/1929",
     "contact_phone_number": "9984295307",
     "home_address": "98 Le Loi, Can Tho, Vietnam"
@@ -129,7 +129,7 @@
     "id": 15,
     "first_name": "Phan",
     "last_name": "Duy",
-    "gender": "Male",
+    "gender": "M",
     "birth_date": "17/03/1981",
     "contact_phone_number": "0018780560290x142",
     "home_address": "201 Tran Hung Dao, Hai Phong, Vietnam"
@@ -138,7 +138,7 @@
     "id": 16,
     "first_name": "Trần",
     "last_name": "Yến",
-    "gender": "Female",
+    "gender": "F",
     "birth_date": "15/03/2017",
     "contact_phone_number": "4523849475",
     "home_address": "295 Tran Hung Dao, Hai Phong, Vietnam"
@@ -147,7 +147,7 @@
     "id": 17,
     "first_name": "Trần",
     "last_name": "Sơn",
-    "gender": "Female",
+    "gender": "F",
     "birth_date": "11/01/1934",
     "contact_phone_number": "+11913885590x977",
     "home_address": "71 Le Loi, Da Nang, Vietnam"
@@ -156,7 +156,7 @@
     "id": 18,
     "first_name": "Bùi",
     "last_name": "Anh",
-    "gender": "Female",
+    "gender": "F",
     "birth_date": "03/12/1992",
     "contact_phone_number": "0016193811051x1137",
     "home_address": "14 Tran Hung Dao, Hai Phong, Vietnam"
@@ -165,7 +165,7 @@
     "id": 19,
     "first_name": "Bùi",
     "last_name": "Khanh",
-    "gender": "Male",
+    "gender": "M",
     "birth_date": "28/12/2004",
     "contact_phone_number": "+16364078432",
     "home_address": "167 Le Loi, Hanoi, Vietnam"
@@ -174,7 +174,7 @@
     "id": 20,
     "first_name": "Nguyễn",
     "last_name": "Sơn",
-    "gender": "Male",
+    "gender": "M",
     "birth_date": "20/02/1968",
     "contact_phone_number": "4605709910",
     "home_address": "152 Hai Ba Trung, Can Tho, Vietnam"
@@ -183,7 +183,7 @@
     "id": 21,
     "first_name": "Lê",
     "last_name": "Giang",
-    "gender": "Female",
+    "gender": "F",
     "birth_date": "23/04/2001",
     "contact_phone_number": "484.244.6197x42791",
     "home_address": "180 Tran Hung Dao, Hai Phong, Vietnam"
@@ -192,7 +192,7 @@
     "id": 22,
     "first_name": "Hoàng",
     "last_name": "Quyên",
-    "gender": "Male",
+    "gender": "M",
     "birth_date": "19/05/1985",
     "contact_phone_number": "1678113889",
     "home_address": "297 Hai Ba Trung, Hai Phong, Vietnam"
@@ -201,7 +201,7 @@
     "id": 23,
     "first_name": "Phạm",
     "last_name": "Khanh",
-    "gender": "Male",
+    "gender": "M",
     "birth_date": "16/10/1928",
     "contact_phone_number": "0792075783x889",
     "home_address": "107 Hai Ba Trung, Da Nang, Vietnam"
@@ -210,7 +210,7 @@
     "id": 24,
     "first_name": "Đỗ",
     "last_name": "Yến",
-    "gender": "Female",
+    "gender": "F",
     "birth_date": "30/10/1977",
     "contact_phone_number": "0010836327810x90792",
     "home_address": "256 Tran Hung Dao, Ho Chi Minh City, Vietnam"
@@ -219,7 +219,7 @@
     "id": 25,
     "first_name": "Đặng",
     "last_name": "Việt",
-    "gender": "Male",
+    "gender": "M",
     "birth_date": "09/08/1943",
     "contact_phone_number": "+14296127803x956",
     "home_address": "134 Le Loi, Can Tho, Vietnam"
@@ -228,7 +228,7 @@
     "id": 26,
     "first_name": "Đặng",
     "last_name": "Minh",
-    "gender": "Male",
+    "gender": "M",
     "birth_date": "30/12/1929",
     "contact_phone_number": "0018583687185x79802",
     "home_address": "31 Hai Ba Trung, Hai Phong, Vietnam"
@@ -237,7 +237,7 @@
     "id": 27,
     "first_name": "Phạm",
     "last_name": "Khanh",
-    "gender": "Male",
+    "gender": "M",
     "birth_date": "07/05/2017",
     "contact_phone_number": "0010946734138x931",
     "home_address": "251 Le Loi, Can Tho, Vietnam"
@@ -246,7 +246,7 @@
     "id": 28,
     "first_name": "Phạm",
     "last_name": "Quyên",
-    "gender": "Female",
+    "gender": "F",
     "birth_date": "15/10/1984",
     "contact_phone_number": "6495004252x45812",
     "home_address": "15 Hai Ba Trung, Hai Phong, Vietnam"
@@ -255,7 +255,7 @@
     "id": 29,
     "first_name": "Lê",
     "last_name": "Khanh",
-    "gender": "Male",
+    "gender": "M",
     "birth_date": "28/05/1929",
     "contact_phone_number": "618.968.4428",
     "home_address": "83 Nguyen Trai, Can Tho, Vietnam"
@@ -264,7 +264,7 @@
     "id": 30,
     "first_name": "Đặng",
     "last_name": "Quyên",
-    "gender": "Male",
+    "gender": "M",
     "birth_date": "02/03/1985",
     "contact_phone_number": "0010117181997x712",
     "home_address": "94 Hai Ba Trung, Hanoi, Vietnam"
@@ -273,7 +273,7 @@
     "id": 31,
     "first_name": "Đặng",
     "last_name": "Tuấn",
-    "gender": "Male",
+    "gender": "M",
     "birth_date": "27/05/1944",
     "contact_phone_number": "+19762291697",
     "home_address": "1 Nguyen Trai, Can Tho, Vietnam"
@@ -282,7 +282,7 @@
     "id": 32,
     "first_name": "Nguyễn",
     "last_name": "Khanh",
-    "gender": "Male",
+    "gender": "M",
     "birth_date": "03/03/1998",
     "contact_phone_number": "0012093649245",
     "home_address": "69 Le Loi, Can Tho, Vietnam"
@@ -291,7 +291,7 @@
     "id": 33,
     "first_name": "Đỗ",
     "last_name": "Bảo",
-    "gender": "Male",
+    "gender": "M",
     "birth_date": "20/09/1989",
     "contact_phone_number": "+13372549244",
     "home_address": "213 Nguyen Trai, Da Nang, Vietnam"
@@ -300,7 +300,7 @@
     "id": 34,
     "first_name": "Phan",
     "last_name": "Yến",
-    "gender": "Female",
+    "gender": "F",
     "birth_date": "25/04/1970",
     "contact_phone_number": "1394926527",
     "home_address": "84 Le Loi, Ho Chi Minh City, Vietnam"
@@ -309,7 +309,7 @@
     "id": 35,
     "first_name": "Phan",
     "last_name": "Trang",
-    "gender": "Male",
+    "gender": "M",
     "birth_date": "08/11/1982",
     "contact_phone_number": "0482038921",
     "home_address": "138 Nguyen Trai, Ho Chi Minh City, Vietnam"
@@ -318,7 +318,7 @@
     "id": 36,
     "first_name": "Đỗ",
     "last_name": "Tuấn",
-    "gender": "Female",
+    "gender": "F",
     "birth_date": "19/08/1940",
     "contact_phone_number": "5920383846x501",
     "home_address": "41 Nguyen Trai, Can Tho, Vietnam"
@@ -327,7 +327,7 @@
     "id": 37,
     "first_name": "Nguyễn",
     "last_name": "Quân",
-    "gender": "Male",
+    "gender": "M",
     "birth_date": "16/03/1939",
     "contact_phone_number": "0390616849",
     "home_address": "196 Le Loi, Hai Phong, Vietnam"
@@ -336,7 +336,7 @@
     "id": 38,
     "first_name": "Vũ",
     "last_name": "Yến",
-    "gender": "Male",
+    "gender": "M",
     "birth_date": "15/10/1989",
     "contact_phone_number": "7916943478",
     "home_address": "24 Le Loi, Ho Chi Minh City, Vietnam"
@@ -345,7 +345,7 @@
     "id": 39,
     "first_name": "Lê",
     "last_name": "Yến",
-    "gender": "Male",
+    "gender": "M",
     "birth_date": "17/09/1999",
     "contact_phone_number": "+10058337253",
     "home_address": "247 Hai Ba Trung, Da Nang, Vietnam"
@@ -354,7 +354,7 @@
     "id": 40,
     "first_name": "Trần",
     "last_name": "Sơn",
-    "gender": "Male",
+    "gender": "M",
     "birth_date": "08/03/1979",
     "contact_phone_number": "3679265232",
     "home_address": "73 Tran Hung Dao, Da Nang, Vietnam"
@@ -363,7 +363,7 @@
     "id": 41,
     "first_name": "Trần",
     "last_name": "Quyên",
-    "gender": "Male",
+    "gender": "M",
     "birth_date": "05/07/1987",
     "contact_phone_number": "117.341.5357",
     "home_address": "144 Hai Ba Trung, Can Tho, Vietnam"
@@ -372,7 +372,7 @@
     "id": 42,
     "first_name": "Lê",
     "last_name": "Linh",
-    "gender": "Female",
+    "gender": "F",
     "birth_date": "12/10/2000",
     "contact_phone_number": "0133671473",
     "home_address": "242 Nguyen Trai, Da Nang, Vietnam"
@@ -381,7 +381,7 @@
     "id": 43,
     "first_name": "Đỗ",
     "last_name": "Anh",
-    "gender": "Female",
+    "gender": "F",
     "birth_date": "18/09/2009",
     "contact_phone_number": "0012630135362x63656",
     "home_address": "84 Hai Ba Trung, Ho Chi Minh City, Vietnam"
@@ -390,7 +390,7 @@
     "id": 44,
     "first_name": "Phạm",
     "last_name": "Linh",
-    "gender": "Female",
+    "gender": "F",
     "birth_date": "03/08/2015",
     "contact_phone_number": "2229913806",
     "home_address": "134 Nguyen Trai, Da Nang, Vietnam"
@@ -399,7 +399,7 @@
     "id": 45,
     "first_name": "Hoàng",
     "last_name": "Duy",
-    "gender": "Male",
+    "gender": "M",
     "birth_date": "01/06/2011",
     "contact_phone_number": "650.539.1545x09534",
     "home_address": "27 Hai Ba Trung, Ho Chi Minh City, Vietnam"
@@ -408,7 +408,7 @@
     "id": 46,
     "first_name": "Trần",
     "last_name": "Minh",
-    "gender": "Male",
+    "gender": "M",
     "birth_date": "27/07/1992",
     "contact_phone_number": "5159990994x6056",
     "home_address": "119 Nguyen Trai, Can Tho, Vietnam"
@@ -417,7 +417,7 @@
     "id": 47,
     "first_name": "Nguyễn",
     "last_name": "Bảo",
-    "gender": "Female",
+    "gender": "F",
     "birth_date": "06/12/1985",
     "contact_phone_number": "272.140.0162",
     "home_address": "270 Tran Hung Dao, Hanoi, Vietnam"
@@ -426,7 +426,7 @@
     "id": 48,
     "first_name": "Bùi",
     "last_name": "Yến",
-    "gender": "Female",
+    "gender": "F",
     "birth_date": "21/01/2010",
     "contact_phone_number": "4014072717",
     "home_address": "290 Nguyen Trai, Ho Chi Minh City, Vietnam"
@@ -435,7 +435,7 @@
     "id": 49,
     "first_name": "Lê",
     "last_name": "Thảo",
-    "gender": "Female",
+    "gender": "F",
     "birth_date": "14/10/1932",
     "contact_phone_number": "+15311476632",
     "home_address": "65 Tran Hung Dao, Can Tho, Vietnam"
@@ -444,7 +444,7 @@
     "id": 50,
     "first_name": "Bùi",
     "last_name": "Bảo",
-    "gender": "Female",
+    "gender": "F",
     "birth_date": "14/03/2016",
     "contact_phone_number": "8821860960",
     "home_address": "29 Nguyen Trai, Ho Chi Minh City, Vietnam"

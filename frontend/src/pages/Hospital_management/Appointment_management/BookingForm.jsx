@@ -72,6 +72,8 @@ export default function BookingForm() {
       console.log(`check sendDATA: ${JSON.stringify(sendData)}`);
       toast.success("booking new appointment success!");
       setIsPopup(false);
+    }else{
+      toast.error('cannot booking, please fill all fields')
     }
   }
   return (

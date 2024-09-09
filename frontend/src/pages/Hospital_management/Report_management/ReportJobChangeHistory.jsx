@@ -34,14 +34,14 @@ export default function ReportJobChangeHistory() {
           <CustomAutoComplete
             value={chosenStaff}
             options={[
-              { id: 0, first_name: "ALL", last_name: "" },
+              { id: 0, full_name: "ALL"},
               ...staffData,
             ]}
             onChange={(event, value) => {
               setChosenStaff(value);
             }}
             getOptionLabel={(option) => {
-              return `#${option.id}: ${option.first_name} ${option.last_name} `;
+              return `#${option.id}: ${option.full_name}`;
             }}
             label={"choose staff"}
             size={"md"}

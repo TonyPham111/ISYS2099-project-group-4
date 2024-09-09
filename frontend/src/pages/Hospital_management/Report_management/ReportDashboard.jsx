@@ -17,7 +17,7 @@ export default function ReportDashboard() {
     } else if (userData.job_role == "BusinessOfficer" && !patientNavigation) {
       setPatientNavigation("patient/billing");
     } else if (userData.job_role == "HR" && !staffNavigation) {
-      setStaffNavigation("staff/job_change_history");
+      setStaffNavigation("staff/job-change-history");
     }
   }, [userData]);
   return (
